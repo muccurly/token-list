@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jurta/providers/providers.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
     final notch = MediaQuery.of(context).viewPadding.top;
+    final advert = ADVERTS[0];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
@@ -28,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             /// background image
             Positioned.fill(
-              child: Image.asset(
-                'assets/images/bg.png',
+              child: Image.network(
+                advert['images'][1],
                 fit: BoxFit.cover,
               ),
             ),
@@ -40,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
               left: 0,
               right: 0,
               child: Container(
-                height: 80,
+                height: 100,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.black.withOpacity(0.7),
+                      Colors.black.withOpacity(0.8),
                       Colors.black.withOpacity(0)
                     ],
                     begin: Alignment.topCenter,
@@ -60,11 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
               left: 0,
               right: 0,
               child: Container(
-                height: 120,
+                height: 150,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.black.withOpacity(0.7),
+                      Colors.black.withOpacity(0.8),
                       Colors.black.withOpacity(0)
                     ],
                     begin: Alignment.bottomCenter,
@@ -203,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'ЖК Bi City Seoul, 29 500 000 T',
+                    '${advert['title']}, ${advert['price']}',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -211,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '4-комнатная квартира • 4 из 9 • 127 м',
+                    '${advert['rooms']}-комнатная квартира • ${advert['flat']} • ${advert['area']}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -219,12 +222,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Нур-Султан, Есильский район\nул. Сауран, 18',
+                    advert['address'],
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                     ),
                   ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -257,15 +261,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       /// call
                       GestureDetector(
                         onTap: () {},
-                        child: Icon(
-                          Icons.call,
+                        child: ImageIcon(
+                          AssetImage('assets/images/phone_round.png'),
+                          size: 30,
                           color: Colors.white,
                         ),
-                        // ImageIcon(
-                        //   AssetImage('assets/images/like_filled.png'),
-                        //   size: 30,
-                        //   color: Colors.white,
-                        // ),
                       ),
                       const SizedBox(height: 12),
 
@@ -308,7 +308,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     height: 28,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        pushNewScreenWithRouteSettings(
+                          context,
+                          screen: AdvertDetailsScreen(),
+                          settings: RouteSettings(
+                            name: AdvertDetailsScreen.route,
+                            arguments: advert,
+                          ),
+                        );
+                      },
                       child: Text(
                         'Подробнее',
                         style: TextStyle(

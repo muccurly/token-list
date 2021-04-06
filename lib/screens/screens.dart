@@ -7,3 +7,4 @@ export 'book.dart';
 export 'favorite.dart';
 export 'advert_comment.dart';
 export 'my_application.dart';
+export 'profile.dart';

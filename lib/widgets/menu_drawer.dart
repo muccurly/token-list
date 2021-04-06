@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MenuDrawer extends StatelessWidget {
@@ -18,7 +19,7 @@ class MenuDrawer extends StatelessWidget {
           SizedBox(height: notch),
 
           /// user info
-          UserInfoWidget(),
+          UserInfoWidget(rootContext: rootContext),
           const SizedBox(height: 16),
           const Divider(),
 
@@ -29,31 +30,36 @@ class MenuDrawer extends StatelessWidget {
 
           /// my applications
           MenuTile(
-            icon: Icons.list,
+            icon: 'assets/images/list.png',
             title: 'Мои заявки',
             screen: MyApplicationScreen(),
             rootContext: rootContext,
           ),
 
-          /// my applications
+          /// payment history
           MenuTile(
-              icon: Icons.account_balance_wallet_outlined,
+              icon: 'assets/images/payment_history.png',
               title: 'История платежа'),
 
-          /// my applications
-          MenuTile(icon: Icons.notifications_none, title: 'Уведомления'),
+          /// notification
+          MenuTile(
+              icon: 'assets/images/notification.png', title: 'Уведомления'),
 
-          /// my applications
-          MenuTile(icon: Icons.info_outlined, title: 'Информация'),
+          /// info
+          MenuTile(icon: 'assets/images/info.png', title: 'Информация'),
 
-          /// my applications
-          MenuTile(icon: Icons.chat_outlined, title: 'Чат с разработчиками'),
+          /// chat with developers
+          MenuTile(
+              icon: 'assets/images/chat_double.png',
+              title: 'Чат с разработчиками'),
 
-          /// my applications
-          MenuTile(icon: Icons.person_pin_outlined, title: 'Найти специалиста'),
+          /// find master
+          MenuTile(
+              icon: 'assets/images/find_master.png',
+              title: 'Найти специалиста'),
 
-          /// my applications
-          MenuTile(icon: Icons.settings_outlined, title: 'Настройки'),
+          /// settings
+          MenuTile(icon: 'assets/images/settings.png', title: 'Настройки'),
 
           const SizedBox(height: 12),
         ],
@@ -63,7 +69,7 @@ class MenuDrawer extends StatelessWidget {
 }
 
 class MenuTile extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String title;
   final Widget screen;
   final BuildContext rootContext;
@@ -88,7 +94,11 @@ class MenuTile extends StatelessWidget {
                 screen: screen,
               );
             },
-      leading: Icon(icon),
+      leading: ImageIcon(
+        AssetImage(icon),
+        color: Colors.black,
+        size: 20,
+      ),
       title: Text(
         title ?? '',
         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
@@ -130,52 +140,65 @@ class LocationWidget extends StatelessWidget {
 }
 
 class UserInfoWidget extends StatelessWidget {
+  final BuildContext rootContext;
+
   const UserInfoWidget({
     Key key,
+    this.rootContext,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          radius: 35,
-          backgroundImage: NetworkImage(
-              'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80'),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Умурзаков Темирлан',
-                style: TextStyle(fontWeight: FontWeight.w700),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.teal.shade300,
-                  borderRadius: BorderRadius.circular(4),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+        pushNewScreen(
+          rootContext,
+          screen: ProfileScreen(),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 35,
+            backgroundImage: NetworkImage(
+                'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80'),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Умурзаков Темирлан',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                margin: const EdgeInsets.only(top: 8),
-                child: Text(
-                  'Эксперт',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Style.blue2,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Эксперт',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -272,16 +272,7 @@ class BookWidget extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              showBookDialog(context);
-              // pushNewScreenWithRouteSettings(
-              //   context,
-              //   screen: BookScreen(),
-              //   settings: RouteSettings(
-              //     name: BookScreen.route,
-              //     arguments: advert,
-              //   ),
-              //   withNavBar: false,
-              // );
+              showBookConfirmationDialog(context);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),
@@ -1087,7 +1078,18 @@ class CallBookButtonsWidget extends StatelessWidget {
             child: Container(
               height: 30,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showBookDialog(context);
+                  // pushNewScreenWithRouteSettings(
+                  //   context,
+                  //   screen: BookScreen(),
+                  //   settings: RouteSettings(
+                  //     name: BookScreen.route,
+                  //     arguments: advert,
+                  //   ),
+                  //   withNavBar: false,
+                  // );
+                },
                 child: FittedBox(
                   child: Text(
                     'Записаться на показ',
@@ -1492,6 +1494,7 @@ Future<void> showBookDialog(BuildContext context) async {
   );
 
   if (res != null && res is DateTime) {
+    /// show confirmation dialog
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -1813,4 +1816,63 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
       ),
     );
   }
+}
+
+void showBookConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 250,
+                  maxWidth: 250,
+                ),
+                child: Image.asset(
+                  'assets/images/enthusiastic_pana.png',
+                  height: Global.getSize(c).width / 2,
+                  width: Global.getSize(c).width / 2,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Поздравляем, Вы забронировали объект\nВ ближайшее время наши менеджеры свяжутся с вами\nСпасибо за обращение',
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: Global.getSize(c).width / 2,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(top: 2.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
 }

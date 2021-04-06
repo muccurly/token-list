@@ -80,8 +80,7 @@ class _AdvertListWidgetState extends State<AdvertListWidget> {
         crossAxisSpacing: 8,
         mainAxisSpacing: 0,
       ),
-      itemCount:
-          ADVERTS.where((advert) => advert['is_fav']).toList().length,
+      itemCount: ADVERTS.where((advert) => advert['is_fav']).toList().length,
       itemBuilder: (context, index) {
         final advert =
             ADVERTS.where((advert) => advert['is_fav']).toList()[index];

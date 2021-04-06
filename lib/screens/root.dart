@@ -34,7 +34,7 @@ class _RootScreenState extends State<RootScreen> {
 
     return Scaffold(
       key: _sKey,
-      endDrawer: DrawerWrapper(type: DrawerType.menu),
+      endDrawer: DrawerWrapper(type: DrawerType.menu, rootContext: context),
       body: Consumer<TabProvider>(
         builder: (c, tab, w) => PersistentTabView.custom(
           context,

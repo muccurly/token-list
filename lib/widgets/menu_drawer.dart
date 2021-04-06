@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/screens.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class MenuDrawer extends StatefulWidget {
-  @override
-  _MenuDrawerState createState() => _MenuDrawerState();
-}
+class MenuDrawer extends StatelessWidget {
+  final BuildContext rootContext;
 
-class _MenuDrawerState extends State<MenuDrawer> {
+  const MenuDrawer({Key key, this.rootContext}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final notch = MediaQuery.of(context).viewPadding.top;
@@ -27,7 +28,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
           const SizedBox(height: 8),
 
           /// my applications
-          MenuTile(icon: Icons.list, title: 'Мои заявки'),
+          MenuTile(
+            icon: Icons.list,
+            title: 'Мои заявки',
+            screen: MyApplicationScreen(),
+            rootContext: rootContext,
+          ),
 
           /// my applications
           MenuTile(
@@ -59,16 +65,29 @@ class _MenuDrawerState extends State<MenuDrawer> {
 class MenuTile extends StatelessWidget {
   final IconData icon;
   final String title;
+  final Widget screen;
+  final BuildContext rootContext;
 
   const MenuTile({
     Key key,
     @required this.icon,
     @required this.title,
+    this.screen,
+    this.rootContext,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: screen == null
+          ? null
+          : () {
+              Navigator.pop(context);
+              pushNewScreen(
+                rootContext,
+                screen: screen,
+              );
+            },
       leading: Icon(icon),
       title: Text(
         title ?? '',

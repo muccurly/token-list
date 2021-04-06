@@ -13,6 +13,7 @@ class SearchResultScreen extends StatefulWidget {
 class _SearchResultScreenState extends State<SearchResultScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  String _selectedSort;
 
   @override
   void initState() {
@@ -63,33 +64,9 @@ class _SearchResultScreenState extends State<SearchResultScreen>
               titleSpacing: 0,
               centerTitle: false,
               actions: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2.0),
-                            child: Text(
-                              'СОРТИРОВКА',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          ImageIcon(
-                            AssetImage('assets/images/sort.png'),
-                            size: 16,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                SortAction(
+                  selectedSort: _selectedSort,
+                  setSelectedSort: (text) => setState(() => _selectedSort = text),
                 ),
               ],
               snap: true,
@@ -571,19 +548,20 @@ class AdvertCardNew extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  if (favorite) Align(
-                    // right: 8,
-                    // bottom: 8,
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        'assets/images/like_filled.png',
-                        height: 18,
-                        width: 18,
+                  if (favorite)
+                    Align(
+                      // right: 8,
+                      // bottom: 8,
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/images/like_filled.png',
+                          height: 18,
+                          width: 18,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -618,6 +596,196 @@ class AdvertCardNew extends StatelessWidget {
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SortAction extends StatelessWidget {
+  final String selectedSort;
+  final Function(String text) setSelectedSort;
+
+  const SortAction({
+    Key key,
+    this.selectedSort,
+    this.setSelectedSort,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print(selectedSort);
+    return GestureDetector(
+      onTap: () {
+        _showSortDialog(
+          context,
+          selectedSort,
+          setSelectedSort,
+        );
+      },
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 2.0),
+                child: Text(
+                  'СОРТИРОВКА',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 4),
+              ImageIcon(
+                AssetImage('assets/images/sort.png'),
+                size: 16,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+void _showSortDialog(
+  BuildContext context,
+  String selectedSort,
+  Function(String text) setSelectedSort,
+) {
+  showGeneralDialog(
+    context: context,
+    pageBuilder: (c, _, __) {
+      return SortWidget(
+        selectedSort: selectedSort,
+        setSelectedSort: setSelectedSort,
+      );
+    },
+    barrierColor: Colors.grey.shade100.withOpacity(0.75),
+  );
+}
+
+class SortWidget extends StatelessWidget {
+  final String selectedSort;
+  final Function(String text) setSelectedSort;
+
+  const SortWidget({this.selectedSort, this.setSelectedSort});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+            ),
+          ),
+          Center(
+            child: Container(
+              margin: const EdgeInsets.all(16),
+              // height: Global.getSize(context).width * 1.2,
+              constraints: BoxConstraints(
+                  maxHeight: Global.getSize(context).width * 1.2),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                  ),
+                ],
+              ),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  /// close button
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: ImageIcon(
+                          AssetImage('assets/images/close.png'),
+                          size: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  /// title
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 46.0),
+                    child: Text(
+                      'Сортировать по',
+                      style: TextStyle(
+                        color: Style.orange,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  ...SORT_BY
+                      .map(
+                        (text) => GestureDetector(
+                          onTap: () {
+                            setSelectedSort(text);
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: selectedSort == text ? Style.orange : null,
+                              borderRadius:
+                                  SORT_BY.indexOf(text) == SORT_BY.length - 1
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(16),
+                                          bottomRight: Radius.circular(16))
+                                      : null,
+                            ),
+                            padding: const EdgeInsets.fromLTRB(32, 12, 16, 12),
+                            child: Row(
+                              children: [
+                                Icon(Icons.brightness_1,
+                                    size: 8,
+                                    color: selectedSort == text
+                                        ? Colors.white
+                                        : Colors.transparent),
+                                const SizedBox(width: 8),
+                                Text(
+                                  text,
+                                  style: TextStyle(
+                                    color: selectedSort == text
+                                        ? Colors.white
+                                        : null,
+                                    fontWeight: selectedSort == text
+                                        ? FontWeight.w700
+                                        : FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ],
+              ),
+            ),
           ),
         ],
       ),

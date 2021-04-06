@@ -102,10 +102,15 @@ const List<String> OBJECTS_AROUND_TAB_TITLES = [
   'ТРЦ',
 ];
 
-enum DrawerType {
-  filter,
-  menu
-}
+const SORT_BY = [
+  'Новизне',
+  'Цена (по убыванию)',
+  'Цена (по возрастанию)',
+  'По комнатам',
+  'По площади',
+];
+
+enum DrawerType { filter, menu }
 
 List<Map<String, dynamic>> ADVERTS = [
   {

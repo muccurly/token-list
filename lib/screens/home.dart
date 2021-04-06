@@ -16,14 +16,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _gKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
     final notch = MediaQuery.of(context).viewPadding.top;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        key: _gKey,
-        endDrawer: DrawerWrapper(type: DrawerType.menu),
+        key: _sKey,
+        endDrawer: DrawerWrapper(type: DrawerType.filter),
         body: Stack(
           children: [
             /// background image
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   /// filter new
                   GestureDetector(
                     onTap: () {
-                      _gKey.currentState.openEndDrawer();
+                      _sKey.currentState.openEndDrawer();
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       /// comments
                       GestureDetector(
                         onTap: () {
-                          _showCommentsBottomSheet(_gKey, context);
+                          _showCommentsBottomSheet(_sKey, context);
                         },
                         child: ImageIcon(
                           AssetImage('assets/images/comment.png'),
@@ -327,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            Positioned(top: 0, bottom: 0, right: 0, child: MenuDrawer()),
+            // Positioned(top: 0, bottom: 0, right: 0, child: MenuDrawer()),
           ],
         ),
       ),
@@ -399,7 +399,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 12.0),
+                      horizontal: 16.0, vertical: 12.0),
                   child: Icon(
                     LineIcons.circle,
                     color: Colors.transparent,
@@ -416,7 +416,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                   onTap: () => Navigator.pop(widget.c),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 12.0),
+                        horizontal: 16.0, vertical: 12.0),
                     child: ImageIcon(
                       AssetImage('assets/images/close.png'),
                       size: 16,

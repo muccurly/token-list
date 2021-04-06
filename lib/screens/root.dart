@@ -14,6 +14,8 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> {
+  final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -30,29 +32,37 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(BuildContext context) {
     Global.rootSetState = setState;
 
-    return Consumer<TabProvider>(
-      builder: (c, tab, w) => PersistentTabView.custom(
-        context,
-        controller: Global.getController(),
-        screens: _pageOptions,
-        itemCount: NAVBAR_ITEMS.length,
-        confineInSafeArea: true,
-        backgroundColor: Colors.transparent,
-        handleAndroidBackButtonPress: true,
-        // bottomScreenMargin: 0.0,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBar: tab.hideNavBar ?? false,
-        hideNavigationBarWhenKeyboardShows: true,
-        customWidget: CustomNavBar(
-          icons: NAVBAR_ICON_LIST,
-          titles: NAVBAR_TITLE_LIST,
-          activeColor: Style.orange,
-          inactiveColor: Colors.black,
-          activeIndex: Global.getController().index,
-          iconSize: 24,
-          onTap: (index) =>
-              setState(() => Global.getController().index = index),
+    return Scaffold(
+      key: _sKey,
+      endDrawer: DrawerWrapper(type: DrawerType.menu),
+      body: Consumer<TabProvider>(
+        builder: (c, tab, w) => PersistentTabView.custom(
+          context,
+          controller: Global.getController(),
+          screens: _pageOptions,
+          itemCount: NAVBAR_ITEMS.length,
+          confineInSafeArea: true,
+          backgroundColor: Colors.transparent,
+          handleAndroidBackButtonPress: true,
+          // bottomScreenMargin: 0.0,
+          resizeToAvoidBottomInset: true,
+          stateManagement: true,
+          hideNavigationBar: tab.hideNavBar ?? false,
+          hideNavigationBarWhenKeyboardShows: true,
+          customWidget: CustomNavBar(
+            icons: NAVBAR_ICON_LIST,
+            titles: NAVBAR_TITLE_LIST,
+            activeColor: Style.orange,
+            inactiveColor: Colors.black,
+            activeIndex: Global.getController().index,
+            iconSize: 24,
+            onTap: (index) {
+              if (index != 3)
+                setState(() => Global.getController().index = index);
+              else
+                _sKey.currentState.openEndDrawer();
+            },
+          ),
         ),
       ),
     );

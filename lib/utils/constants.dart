@@ -112,6 +112,39 @@ const SORT_BY = [
 
 enum DrawerType { filter, menu }
 
+List<Map<String, dynamic>> NOTIFICATIONS = [
+  {
+    'id': 1,
+    'imagePath': 'assets/images/star_ring.png',
+    'title': 'Новые объявления',
+    'datetime': 'Сегодня в 17:00',
+  },
+  {
+    'id': 2,
+    'imagePath': 'assets/images/price_down.png',
+    'title': 'Снижение цен',
+    'subtitle':
+        'Получать уведомления о снижении цен на объяления из Избранного',
+    'datetime': 'Сегодня в 13:00',
+  },
+  {
+    'id': 3,
+    'imagePath': 'assets/images/bubble_lines.png',
+    'title': 'Ответы на комментарии',
+    'subtitle':
+        'На ваш комментарий к объекту 1234567, ответили: \"Добрый день, да торг имеется. Оставьте нам ваши контакты и мы свяжемся с вами в ближайшее время\"',
+    'datetime': 'Вчера в 21:00',
+  },
+  {
+    'id': 4,
+    'imagePath': 'assets/images/calendar.png',
+    'title': 'Предстоящие события',
+    'subtitle':
+        'У вас назначена встреча в 15:00 15/05/2021 по адресу: Мангилик ел 17, ЖК \"Коркем\" по операции \"Ипотека за 3 дня\"',
+    'datetime': '05/04/2021 в 13:00',
+  },
+];
+
 List<Map<String, dynamic>> APPLICATIONS = [
   {
     'id': 1,

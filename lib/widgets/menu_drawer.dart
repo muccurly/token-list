@@ -41,7 +41,11 @@ class MenuDrawer extends StatelessWidget {
 
           /// notification
           MenuTile(
-              icon: 'assets/images/notification.png', title: 'Уведомления'),
+            icon: 'assets/images/notification.png',
+            title: 'Уведомления',
+            screen: NotificationScreen(),
+            rootContext: rootContext,
+          ),
 
           /// info
           MenuTile(icon: 'assets/images/info.png', title: 'Информация'),

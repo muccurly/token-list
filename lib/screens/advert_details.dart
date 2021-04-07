@@ -28,7 +28,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           title: GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Padding(

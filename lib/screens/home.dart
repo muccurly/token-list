@@ -5,6 +5,7 @@ import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
@@ -186,7 +187,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _showDialog(context);
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.5),
@@ -594,3 +597,214 @@ class CommentListTile extends StatelessWidget {
 }
 
 const List<String> _headerTexts = <String>['Горящие', 'Без комиссии', 'Новые'];
+
+void _showDialog(BuildContext context) {
+  /// bargain
+  /* showCustomDialog(
+    context,
+    imagePath: 'assets/images/trade_il.png',
+    buttonText: 'Запросить торг',
+    buttonColor: Style.blue,
+  ); */
+
+  /// bargain progress
+  /* showCustomDialog(
+    context,
+    contentWidget: (ctx) => ChangeNotifierProvider(
+      create: (_) => BargainProgressProvider(),
+      child: Consumer<BargainProgressProvider>(
+        builder: (_, progress, __) {
+          if (progress.done) Navigator.pop(ctx);
+
+          return CircularPercentIndicator(
+            radius: Global.getSize(context).width / 3,
+            lineWidth: 14.0,
+            animation: false,
+            percent: progress.value,
+            circularStrokeCap: CircularStrokeCap.round,
+            progressColor: Style.orange,
+            backgroundColor: Colors.white,
+            center: Text(
+              '${(progress.value * 100).toStringAsFixed(0)}%',
+              style: TextStyle(
+                color: Style.orange,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          );
+        },
+      ),
+    ),
+    content: RichText(
+      text: TextSpan(
+        text: 'Идет проверка данных\n\n',
+        style: TextStyle(
+          color: Colors.black87,
+          fontFamily: 'HelveticaNeueCyr',
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+        children: [
+          TextSpan(
+            text: 'Пожалуйста, подождите',
+            style: TextStyle(
+              color: Colors.black54,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    ),
+    buttonText: 'Запросить торг',
+    buttonTextColor: Colors.grey,
+    buttonColor: Style.blue,
+    buttonDisable: true,
+    barrierDismissible: false,
+  ); */
+
+  /// bargain success
+  /* showCustomDialog(
+    context,
+    imagePath: 'assets/images/trade_success.png',
+    title: RichText(
+      text: TextSpan(
+        text: 'По данному объекту вам предоставлена\n',
+        style: TextStyle(
+          color: Colors.black87,
+          fontFamily: 'HelveticaNeueCyr',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
+        children: [
+          TextSpan(
+            text: '3% скидка',
+            style: TextStyle(
+              color: Style.orange,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    ),
+    content: Row(
+      children: [
+        ImageIcon(AssetImage('assets/images/info_sms.png'), size: 30),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            'Еще 4 человека интересуются объектом, советуем купить сейчас',
+            style: TextStyle(fontSize: 14),
+          ),
+        ),
+      ],
+    ),
+    buttonText: 'Ипотека за 3 дня',
+    buttonText2: 'Купить сейчас',
+    buttonRound: true,
+  ); */
+
+  /// bargain reject
+  /* showCustomDialog(
+    context,
+    imagePath: 'assets/images/bargain_reject.png',
+    title: RichText(
+      text: TextSpan(
+        text: 'По данному объекту вам ',
+        style: TextStyle(
+          color: Colors.black87,
+          fontFamily: 'HelveticaNeueCyr',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
+        children: [
+          TextSpan(
+            text: 'не предоставлен ',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          TextSpan(
+            text: 'торг, так как цена по объекту низкая',
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    ),
+    content: Row(
+      children: [
+        ImageIcon(AssetImage('assets/images/info_sms.png'), size: 30),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            'Еще 4 человека интересуются объектом, советуем купить сейчас',
+            style: TextStyle(fontSize: 14),
+          ),
+        ),
+      ],
+    ),
+    buttonText: 'Ипотека за 3 дня',
+    buttonText2: 'Купить сейчас',
+    buttonRound: true,
+  ); */
+
+  /// checking data
+  final double _seconds = 5.0; // seconds
+  /* showCustomDialog(
+    context,
+    contentWidget: (ctx) => ChangeNotifierProvider(
+      create: (_) => BargainProgressProvider(reverse: true, value: _seconds),
+      child: Consumer<BargainProgressProvider>(
+        builder: (_, progress, __) {
+          if (progress.done) Navigator.pop(ctx);
+
+          return CircularPercentIndicator(
+            radius: Global.getSize(context).width / 3,
+            lineWidth: 14.0,
+            animation: false,
+            percent: progress.value / _seconds, // second
+            circularStrokeCap: CircularStrokeCap.round,
+            progressColor: Style.orange,
+            backgroundColor: Colors.white,
+            center: Text(
+              '${(progress.value).toStringAsFixed(0)} сек',
+              style: TextStyle(
+                color: Style.orange,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          );
+        },
+      ),
+    ),
+    content: RichText(
+      text: TextSpan(
+        text: 'Идет проверка данных\n\n',
+        style: TextStyle(
+          color: Colors.black87,
+          fontFamily: 'HelveticaNeueCyr',
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+        children: [
+          TextSpan(
+            text: 'Пожалуйста, подождите',
+            style: TextStyle(
+              color: Colors.black54,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    ),
+    buttonRemove: true,
+    barrierDismissible: true,
+  ); */
+}

@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
-    final notch = MediaQuery.of(context).viewPadding.top;
     final advert = ADVERTS[0];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -79,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             /// header
             Positioned(
-              top: notch + 16,
+              top: Global.getViewPadding(context).top + 16,
               left: 0,
               right: 16,
               child: Row(
@@ -453,48 +452,54 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
               thickness: 1,
               color: Colors.grey.shade300,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: _commentC,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                      hintText: 'Добавить комментарий...',
-                      hintStyle: TextStyle(
-                        color: Colors.grey.shade300,
-                        fontSize: 12,
+            Container(
+              padding: EdgeInsets.only(
+                  bottom: Global.getViewPadding(context).bottom),
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _commentC,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        hintText: 'Добавить комментарий...',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade300,
+                          fontSize: 12,
+                        ),
+                        // suffixIcon: InkWell(
+                        //   onTap: () => _sendComment(commentC, setState, context),
+                        //   child: Icon(
+                        //     LineIcons.paperPlaneAlt,
+                        //     color: Style.blue,
+                        //   ),
+                        // ),
+                        // suffix: SizedBox(width: 32),
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.all(16),
                       ),
-                      // suffixIcon: InkWell(
-                      //   onTap: () => _sendComment(commentC, setState, context),
-                      //   child: Icon(
-                      //     LineIcons.paperPlaneAlt,
-                      //     color: Style.blue,
-                      //   ),
-                      // ),
-                      // suffix: SizedBox(width: 32),
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.all(16),
                     ),
                   ),
-                ),
-                Material(
-                  color: Colors.white,
-                  child: IconButton(
-                    onPressed: () => _sendComment(_commentC, setState, context),
-                    icon: ImageIcon(
-                      AssetImage('assets/images/send_plane.png'),
-                      color: Style.blue,
+                  Material(
+                    color: Colors.white,
+                    child: IconButton(
+                      onPressed: () =>
+                          _sendComment(_commentC, setState, context),
+                      icon: ImageIcon(
+                        AssetImage('assets/images/send_plane.png'),
+                        color: Style.blue,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

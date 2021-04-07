@@ -26,6 +26,36 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.arrow_back_rounded, size: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0, left: 4.0),
+                    child: Text(
+                      'Назад',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          leading: null,
+          titleSpacing: 0,
+          centerTitle: false,
+        ),
         body: ListView(
           children: [
             /// images carousel
@@ -176,7 +206,9 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             const SizedBox(height: 56),
           ],
         ),
-        floatingActionButton: GestureDetector(
+
+        /// back button
+        /* floatingActionButton: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
             padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
@@ -186,7 +218,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop, */
         // bottomSheet: BuyNowBottomSheet(),
         bottomNavigationBar: BuyNowBottomSheet(),
       ),
@@ -210,7 +242,13 @@ class BuyNowBottomSheet extends StatelessWidget {
         ),
       ),
       width: Global.getSize(context).width,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(
+          16,
+          16,
+          16,
+          Global.getViewPadding(context).bottom > 0
+              ? Global.getViewPadding(context).bottom
+              : 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -1455,8 +1493,14 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 24),
-            color: Colors.black.withOpacity(0.1),
+            margin: EdgeInsets.only(
+                top: Global.getViewPadding(context).bottom > 0
+                    ? Global.getViewPadding(context).bottom
+                    : 24),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(50),
+            ),
             child: IconButton(
               onPressed: () {
                 Navigator.pop(context);

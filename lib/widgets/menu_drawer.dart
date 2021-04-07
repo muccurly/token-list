@@ -10,13 +10,11 @@ class MenuDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notch = MediaQuery.of(context).viewPadding.top;
-
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          SizedBox(height: notch),
+          SizedBox(height: Global.getViewPadding(context).top),
 
           /// user info
           UserInfoWidget(rootContext: rootContext),

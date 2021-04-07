@@ -14,6 +14,8 @@ class _FilterDrawerState extends State<FilterDrawer> {
   TextEditingController _areaToC;
   String _selectedHouseType;
   String _selectedRoom;
+  bool _hot = false;
+  bool _new = false;
 
   @override
   void initState() {
@@ -35,8 +37,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final notch = MediaQuery.of(context).viewPadding.top;
-
     return Theme(
       data:
           Theme.of(context).copyWith(canvasColor: Style.blue.withOpacity(0.5)),
@@ -44,7 +44,165 @@ class _FilterDrawerState extends State<FilterDrawer> {
         child: ListView(
           padding: const EdgeInsets.all(12.0),
           children: [
-            SizedBox(height: notch + 20),
+            SizedBox(height: Global.getViewPadding(context).top + 20),
+
+            /// hot, new switch
+            Row(
+              children: [
+                /// hot
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
+                    height: 36,
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() => _hot = !_hot);
+                      },
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: 'Горящие',
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 5,
+                          ),
+                          isDense: true,
+                          suffixIcon: Transform.scale(
+                            scale: 0.6,
+                            child: Switch(
+                              value: _hot,
+                              onChanged: (val) => setState(() => _hot = val),
+                              activeColor: Style.orange,
+                              inactiveThumbColor: Style.blue,
+                            ),
+                          ),
+                          enabled: false,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 4),
+
+                /// new
+                Expanded(
+                  child: Container(
+                    height: 36,
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() => _new = !_new);
+                      },
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 0.5,
+                            ),
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: 'Новые',
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 5,
+                          ),
+                          isDense: true,
+                          suffixIcon: Transform.scale(
+                            scale: 0.6,
+                            child: Switch(
+                              value: _new,
+                              onChanged: (val) => setState(() => _new = val),
+                              activeColor: Style.orange,
+                              inactiveThumbColor: Style.blue,
+                            ),
+                          ),
+                          enabled: false,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
 
             /// house type title
             Padding(
@@ -96,6 +254,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       style: TextStyle(
                         color: Style.blue,
                         // fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   );

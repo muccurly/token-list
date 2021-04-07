@@ -13,12 +13,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final notch = MediaQuery.of(context).viewPadding.top;
-    
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          /// background image
           Align(
             alignment: Alignment.topCenter,
             child: Container(
@@ -442,10 +441,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
-              padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
+              padding: const EdgeInsets.all(16),
+              margin: EdgeInsets.only(
+                  top: Global.getViewPadding(context).top > 0
+                      ? Global.getViewPadding(context).top
+                      : 24),
               child: Icon(
                 Icons.arrow_back_rounded,
-                // color: Colors.white,
+                color: Colors.white,
+                size: 20,
               ),
             ),
           ),

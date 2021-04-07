@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
-import 'package:line_icons/line_icons.dart';
 
 class AdvertCommentScreen extends StatefulWidget {
   static const String route = 'advert_comment_screen';
@@ -62,17 +61,17 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
             title: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
+                padding: const EdgeInsets.only(left: 16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(LineIcons.arrowLeft, size: 20),
+                    Icon(Icons.arrow_back_rounded, size: 20),
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0, left: 4.0),
                       child: Text(
                         'ОБЪЕКТ',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -88,11 +87,13 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
             snap: true,
             floating: true,
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(266),
+              preferredSize: const Size.fromHeight(288),
               child: Column(
                 children: [
                   /// image carousel
-                  ImageCarousel(advert: advert, height: Global.getSize(context).width / 1.8),
+                  ImageCarousel(
+                      advert: advert,
+                      height: Global.getSize(context).width / 1.8),
 
                   /// advert info
                   Container(
@@ -135,40 +136,45 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
             thickness: 1,
             color: Colors.grey.shade300,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _commentC,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    hintText: 'Добавить комментарий...',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade300,
-                      fontSize: 12,
+          Container(
+            color: Colors.white,
+            padding:
+                EdgeInsets.only(bottom: Global.getViewPadding(context).bottom),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _commentC,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      focusedErrorBorder: InputBorder.none,
+                      hintText: 'Добавить комментарий...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade300,
+                        fontSize: 12,
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      contentPadding: const EdgeInsets.all(16),
                     ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    contentPadding: const EdgeInsets.all(16),
                   ),
                 ),
-              ),
-              Material(
-                color: Colors.white,
-                child: IconButton(
-                  onPressed: () => _sendComment(_commentC, setState, context),
-                  icon: ImageIcon(
-                    AssetImage('assets/images/send_plane.png'),
-                    color: Style.blue,
+                Material(
+                  color: Colors.white,
+                  child: IconButton(
+                    onPressed: () => _sendComment(_commentC, setState, context),
+                    icon: ImageIcon(
+                      AssetImage('assets/images/send_plane.png'),
+                      color: Style.blue,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

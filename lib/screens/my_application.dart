@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jurta/utils/utils.dart';
-import 'package:line_icons/line_icons.dart';
 
 class MyApplicationScreen extends StatefulWidget {
   @override
@@ -35,17 +34,17 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
             title: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
+                padding: const EdgeInsets.only(left: 16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(LineIcons.arrowLeft, size: 20),
+                    Icon(Icons.arrow_back_rounded, size: 20),
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0, left: 4.0),
                       child: Text(
                         'МОИ ЗАЯВКИ',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -99,7 +98,7 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                /// list
+                /// active
                 ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
@@ -111,7 +110,7 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                   itemCount: APPLICATIONS.length,
                 ),
 
-                /// map
+                /// archive
                 Container(
                   child: Center(child: Text('archive')),
                 ),

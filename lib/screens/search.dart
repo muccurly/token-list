@@ -67,8 +67,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final notch = MediaQuery.of(context).viewPadding.top;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: GestureDetector(
@@ -76,7 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Scaffold(
           body: ListView(
             padding: EdgeInsets.symmetric(
-                horizontal: 12, vertical: notch > 0 ? notch : 16),
+                horizontal: 12, vertical: Global.getViewPadding(context).top > 0 ? Global.getViewPadding(context).top : 16),
             children: [
               /// house type
               const SizedBox(height: 20),

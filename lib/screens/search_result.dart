@@ -50,7 +50,7 @@ class _SearchResultScreenState extends State<SearchResultScreen>
                         child: Text(
                           'РЕЗУЛЬТАТ ПОИСКА',
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -66,7 +66,8 @@ class _SearchResultScreenState extends State<SearchResultScreen>
               actions: [
                 SortAction(
                   selectedSort: _selectedSort,
-                  setSelectedSort: (text) => setState(() => _selectedSort = text),
+                  setSelectedSort: (text) =>
+                      setState(() => _selectedSort = text),
                 ),
               ],
               snap: true,
@@ -615,7 +616,6 @@ class SortAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(selectedSort);
     return GestureDetector(
       onTap: () {
         _showSortDialog(
@@ -709,6 +709,7 @@ class SortWidget extends StatelessWidget {
               ),
               child: ListView(
                 shrinkWrap: true,
+                padding: EdgeInsets.zero,
                 children: [
                   /// close button
                   Align(
@@ -716,7 +717,7 @@ class SortWidget extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: ImageIcon(
                           AssetImage('assets/images/close.png'),
                           size: 16,

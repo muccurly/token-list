@@ -42,7 +42,7 @@ class _RootScreenState extends State<RootScreen> {
           screens: _pageOptions,
           itemCount: NAVBAR_ITEMS.length,
           confineInSafeArea: true,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           handleAndroidBackButtonPress: true,
           // bottomScreenMargin: 0.0,
           resizeToAvoidBottomInset: true,

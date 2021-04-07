@@ -9,6 +9,12 @@ class Global {
   static PersistentTabController _controller;
   static BuildContext c;
   static Function rootSetState;
+  static EdgeInsets _viewPadding;
+
+  static dynamic getViewPadding(context) {
+    _viewPadding = MediaQuery.of(context).viewPadding;
+    return _viewPadding;
+  }
 
   static Size getSize(context) {
     if (_kSize == null) _kSize = MediaQuery.of(context).size;

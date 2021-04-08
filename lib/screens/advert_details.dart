@@ -418,7 +418,9 @@ class MortgageWidget extends StatelessWidget {
               'Заполните ваши данные и запишитесь к нам на консультацию для подбора лучшей ипотечной программы'),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              pushNewScreen(context, screen: MortgageFormScreen());
+            },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: Text(

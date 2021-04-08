@@ -103,6 +103,7 @@ class NotificationSettingsTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool switchValue;
+  final double padding;
   final Function(bool val) onChanged;
 
   const NotificationSettingsTile({
@@ -110,6 +111,7 @@ class NotificationSettingsTile extends StatelessWidget {
     this.title,
     this.subtitle,
     this.switchValue,
+    this.padding,
     this.onChanged,
   }) : super(key: key);
 
@@ -120,7 +122,7 @@ class NotificationSettingsTile extends StatelessWidget {
         onChanged(!switchValue);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        padding: EdgeInsets.fromLTRB(padding ?? 8, 8, 8, 8),
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: Colors.white,

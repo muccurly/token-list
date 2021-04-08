@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -60,7 +62,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       floatingActionButton: Container(
         margin: const EdgeInsets.all(16),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            pushNewScreen(context, screen: NotificationSettingsScreen());
+          },
           child: Row(
             children: [
               ImageIcon(

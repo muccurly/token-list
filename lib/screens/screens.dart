@@ -9,3 +9,4 @@ export 'advert_comment.dart';
 export 'my_application.dart';
 export 'profile.dart';
 export 'notification.dart';
+export 'notification_settings.dart';

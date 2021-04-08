@@ -45,6 +45,7 @@ class MenuDrawer extends StatelessWidget {
             title: 'Уведомления',
             screen: NotificationScreen(),
             rootContext: rootContext,
+            trailing: true,
           ),
 
           /// info
@@ -75,6 +76,7 @@ class MenuTile extends StatelessWidget {
   final String title;
   final Widget screen;
   final BuildContext rootContext;
+  final bool trailing;
 
   const MenuTile({
     Key key,
@@ -82,6 +84,7 @@ class MenuTile extends StatelessWidget {
     @required this.title,
     this.screen,
     this.rootContext,
+    this.trailing = false,
   }) : super(key: key);
 
   @override
@@ -101,10 +104,39 @@ class MenuTile extends StatelessWidget {
         color: Colors.black,
         size: 20,
       ),
-      title: Text(
-        title ?? '',
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-      ),
+      title: trailing
+          ? Row(
+              children: [
+                Text(
+                  title ?? '',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(2),
+                  constraints: BoxConstraints(minWidth: 20, minHeight: 20),
+                  decoration: BoxDecoration(
+                    color: Style.orange,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      '${NOTIFICATIONS.length}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : Text(
+              title ?? '',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            ),
       horizontalTitleGap: -8,
     );
   }

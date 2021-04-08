@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CustomNavBar extends StatefulWidget {
   final int activeIndex;
@@ -57,39 +59,48 @@ class _CustomNavBarState extends State<CustomNavBar> {
           bottom: 0,
           left: Global.getSize(context).width * 2 / 5,
           right: Global.getSize(context).width * 2 / 5,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: 32,
-                  width: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Style.orange,
+          child: Hero(
+            tag: 'PLUS_BUTTON',
+            child: GestureDetector(
+              onTap: () {
+                pushNewScreen(context, screen: PlusScreen(), pageTransitionAnimation: 
+                PageTransitionAnimation.fade);
+              },
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 32,
+                      width: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Style.orange,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: 32,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Style.blue,
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 32,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Style.blue,
+                      ),
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              Align(
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.add,
-                  size: 30,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ],

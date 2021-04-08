@@ -60,10 +60,11 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
             backgroundColor: Colors.white,
             title: GestureDetector(
               onTap: () => Navigator.pop(context),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.arrow_back_rounded, size: 20),
                     Padding(
@@ -87,7 +88,7 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
             snap: true,
             floating: true,
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(288),
+              preferredSize: const Size.fromHeight(310),
               child: Column(
                 children: [
                   /// image carousel

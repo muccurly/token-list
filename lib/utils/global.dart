@@ -11,7 +11,7 @@ class Global {
   static Function rootSetState;
   static EdgeInsets _viewPadding;
 
-  static dynamic getViewPadding(context) {
+  static EdgeInsets getViewPadding(context) {
     _viewPadding = MediaQuery.of(context).viewPadding;
     return _viewPadding;
   }

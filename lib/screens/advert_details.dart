@@ -31,10 +31,11 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
           backgroundColor: Colors.transparent,
           title: GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16.0),
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.arrow_back_rounded, size: 20),
                   Padding(
@@ -1646,7 +1647,9 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
           Center(
             child: Container(
               margin: const EdgeInsets.all(16),
-              height: Global.getSize(context).width * 1.2,
+              // height: Global.getSize(context).width * 1.2,
+              constraints: BoxConstraints(
+                  maxHeight: Global.getSize(context).width * 1.2),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -1660,6 +1663,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
               ),
               child: ListView(
                 shrinkWrap: true,
+                padding: EdgeInsets.only(top: 32, bottom: 16),
                 children: [
                   Text(
                     DateFormat('d MMMM, yyyy • EEEE').format(_selectedDate),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/models/models.dart';
 import 'package:jurta/repositories/repositories.dart';
+import 'package:jurta/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RealPropertyCommentBloc {
@@ -69,9 +70,9 @@ class RealPropertyCommentBloc {
             var tempList = [..._allRealPropertyComments];
             tempList.addAll(result.content);
             _allRealPropertyComments = tempList;
-            print('>>>loaded more<<<');
-            print(_allRealPropertyComments.length);
-            print(_allRealPropertyComments.hashCode);
+            log('>>>loaded more<<<');
+            log(_allRealPropertyComments.length);
+            log(_allRealPropertyComments.hashCode);
 
             RealPropertyCommentResponse productResponse =
                 RealPropertyCommentResponse(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jurta/bloc/bloc.dart';
 import 'package:jurta/models/models.dart';
 import 'package:jurta/repositories/repositories.dart';
+import 'package:jurta/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RealPropertyVideoTourBloc {
@@ -68,9 +69,9 @@ class RealPropertyVideoTourBloc {
             var tempList = [..._allRealPropertyVideoTours];
             tempList.addAll(result.data.data.data);
             _allRealPropertyVideoTours = tempList;
-            print('>>>loaded more<<<');
-            print(_allRealPropertyVideoTours.length);
-            print(_allRealPropertyVideoTours.hashCode);
+            log('>>>loaded more<<<');
+            log(_allRealPropertyVideoTours.length);
+            log(_allRealPropertyVideoTours.hashCode);
 
             RealPropertyVideoTourResponse productResponse =
                 RealPropertyVideoTourResponse(

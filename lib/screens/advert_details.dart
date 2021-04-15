@@ -1194,7 +1194,7 @@ class AddressRatingWidget extends StatelessWidget {
               empty: Icon(LineIcons.star),
             ),
             onRatingUpdate: (rating) {
-              print(rating);
+              log(rating);
             },
             itemSize: 16,
             ignoreGestures: true,

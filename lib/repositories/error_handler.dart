@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:jurta/utils/utils.dart';
 
 List<String> handleError(dynamic error) {
   String errorDescription = '';
   if (error is DioError) {
     DioError dioError = error as DioError;
-    print('>>>Error status code: ${dioError?.response?.statusCode}');
+    log('>>>Error status code: ${dioError?.response?.statusCode}');
     switch (dioError.type) {
       case DioErrorType.cancel:
         errorDescription = 'Запрос на сервер был отменен';
@@ -14,11 +15,11 @@ List<String> handleError(dynamic error) {
         break;
       case DioErrorType.other:
         var errRes = dioError?.response;
-        print(errRes?.data);
-        print(errRes?.statusCode);
-        print(errRes?.statusMessage);
-        print(dioError?.error);
-        print(dioError?.message);
+        log(errRes?.data);
+        log(errRes?.statusCode);
+        log(errRes?.statusMessage);
+        log(dioError?.error);
+        log(dioError?.message);
         errorDescription =
             'Не удалось подключиться к серверу из-за интернет-соединения';
         break;
@@ -27,9 +28,9 @@ List<String> handleError(dynamic error) {
         break;
       case DioErrorType.response:
         var errRes = dioError.response;
-        print(errRes?.data);
-        print(errRes?.statusCode);
-        print(errRes?.statusMessage);
+        log(errRes?.data);
+        log(errRes?.statusCode);
+        log(errRes?.statusMessage);
 
         if (errRes?.statusCode == 401) {
           errorDescription = 'Вы не авторизованы';

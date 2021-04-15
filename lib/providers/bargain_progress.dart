@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:jurta/utils/utils.dart';
 
 class BargainProgressProvider with ChangeNotifier {
   double _value = 0.0;
@@ -18,14 +19,14 @@ class BargainProgressProvider with ChangeNotifier {
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
-      print('${timer.tick}');
+      log('${timer.tick}');
       value = timer.tick.toDouble() / 100; // +0.01%
     });
   }
 
   void _startTimerReverse() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      print('${timer.tick}');
+      log('${timer.tick}');
       valueReverse = _value - 1; // -1 sec
     });
   }

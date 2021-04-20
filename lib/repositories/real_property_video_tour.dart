@@ -37,18 +37,17 @@ class RealPropertyVideoTourRepository {
         //   subKey: '$page${json.encode(params)}',
         // ),
       );
-      print(response.data);
+      log(response.data);
       return RealPropertyVideoTourResponse.fromJson(response.data);
     } on SocketException {
-      print('RealPropertyVideoTourRepository Socket Exception');
+      log('RealPropertyVideoTourRepository Socket Exception');
       blocErrorRealPropertyVideoTour.subject.sink
           .add('Нет соединения с интернетом');
       return RealPropertyVideoTourResponse.withError(
           ['Нет соединения с интернетом']);
     } catch (error, stacktrace) {
-      print(
-          'RealPropertyVideoTourRepository Exception occured: $error stackTrace: $stacktrace');
-      print(handleError(error));
+      log('RealPropertyVideoTourRepository Exception occured: $error stackTrace: $stacktrace');
+      log(handleError(error));
       blocErrorRealPropertyVideoTour.subject.sink
           .add(handleError(error).join(', '));
       return RealPropertyVideoTourResponse.withError(handleError(error));

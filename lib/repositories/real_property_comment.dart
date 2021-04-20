@@ -37,18 +37,17 @@ class RealPropertyCommentRepository {
         //   subKey: '$page${json.encode(params)}',
         // ),
       );
-      print(response.data);
+      log(response.data);
       return RealPropertyCommentResponse.fromJson(response.data);
     } on SocketException {
-      print('RealPropertyCommentRepository Socket Exception');
+      log('RealPropertyCommentRepository Socket Exception');
       // blocErrorRealPropertyComment.subject.sink
       //     .add('Нет соединения с интернетом');
       return RealPropertyCommentResponse.withError(
           ['Нет соединения с интернетом']);
     } catch (error, stacktrace) {
-      print(
-          'RealPropertyCommentRepository Exception occured: $error stackTrace: $stacktrace');
-      print(handleError(error));
+      log('RealPropertyCommentRepository Exception occured: $error stackTrace: $stacktrace');
+      log(handleError(error));
       // blocErrorRealPropertyComment.subject.sink
       //     .add(handleError(error).join(', '));
       return RealPropertyCommentResponse.withError(handleError(error));

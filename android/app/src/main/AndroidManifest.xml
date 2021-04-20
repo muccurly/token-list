@@ -5,6 +5,7 @@
    <application
         android:label="Jurta"
         android:icon="@mipmap/ic_launcher"
+        android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules">
         <activity
             android:name=".MainActivity"

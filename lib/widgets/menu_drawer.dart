@@ -11,61 +11,91 @@ class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        children: [
-          SizedBox(height: Global.getViewPadding(context).top),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: Global.getViewPadding(context).top),
 
-          /// user info
-          UserInfoWidget(rootContext: rootContext),
-          const SizedBox(height: 16),
-          const Divider(),
+            /// user info
+            UserInfoWidget(rootContext: rootContext),
+            const SizedBox(height: 16),
+            const Divider(),
 
-          /// Location
-          LocationWidget(),
-          const Divider(),
-          const SizedBox(height: 8),
+            /// Location
+            LocationWidget(),
+            const Divider(),
+            const SizedBox(height: 8),
 
-          /// my applications
-          MenuTile(
-            icon: 'assets/images/list.png',
-            title: 'Мои заявки',
-            screen: MyApplicationScreen(),
-            rootContext: rootContext,
-          ),
+            /// my applications
+            MenuTile(
+              icon: 'assets/images/list.png',
+              title: 'Мои заявки',
+              screen: MyApplicationScreen(),
+              rootContext: rootContext,
+            ),
 
-          /// payment history
-          // MenuTile(
-          //     icon: 'assets/images/payment_history.png',
-          //     title: 'История платежа'),
+            /// payment history
+            // MenuTile(
+            //     icon: 'assets/images/payment_history.png',
+            //     title: 'История платежа'),
 
-          /// notification
-          MenuTile(
-            icon: 'assets/images/notification.png',
-            title: 'Уведомления',
-            screen: NotificationScreen(),
-            rootContext: rootContext,
-            trailing: true,
-          ),
+            /// notification
+            MenuTile(
+              icon: 'assets/images/notification.png',
+              title: 'Уведомления',
+              screen: NotificationScreen(),
+              rootContext: rootContext,
+              trailing: true,
+            ),
 
-          /// info
-          MenuTile(icon: 'assets/images/info.png', title: 'Информация'),
+            /// info
+            MenuTile(icon: 'assets/images/info.png', title: 'Информация'),
 
-          /// chat with developers
-          // MenuTile(
-          //     icon: 'assets/images/chat_double.png',
-          //     title: 'Чат с разработчиками'),
+            /// chat with developers
+            // MenuTile(
+            //     icon: 'assets/images/chat_double.png',
+            //     title: 'Чат с разработчиками'),
 
-          /// find master
-          MenuTile(
-              icon: 'assets/images/find_master.png',
-              title: 'Найти специалиста'),
+            /// find master
+            MenuTile(
+                icon: 'assets/images/find_master.png',
+                title: 'Найти специалиста'),
 
-          /// settings
-          // MenuTile(icon: 'assets/images/settings.png', title: 'Настройки'),
+            /// settings
+            // MenuTile(icon: 'assets/images/settings.png', title: 'Настройки'),
 
-          const SizedBox(height: 12),
-        ],
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: ElevatedButton(
+                onPressed: () {
+                  pushNewScreen(
+                    context,
+                    screen: LoginScreen(),
+                  );
+                },
+                child: Text(
+                  'ВЫЙТИ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Style.blue,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

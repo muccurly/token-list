@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+            padding: const EdgeInsets.all(16.0),
             child: Icon(
               Icons.arrow_back_rounded,
               // color: Colors.white,
@@ -49,145 +50,158 @@ class _LoginScreenState extends State<LoginScreen> {
         titleSpacing: 0,
         centerTitle: false,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: 250,
-              maxWidth: 250,
-            ),
-            child: Image.asset(
-              'assets/images/login_check.png',
-              height: Global.getSize(context).width / 2,
-              width: Global.getSize(context).width / 2,
-            ),
-          ),
-          const SizedBox(width: 16),
-          HeaderTextWidget(text: 'Контакты'),
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: TextFormField(
-              controller: _phoneC,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 300,
+                  maxWidth: 300,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
+                child: Image.asset(
+                  'assets/images/login_check.png',
+                  height: Global.getSize(context).height / 2,
+                  width: Global.getSize(context).width,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
-                ),
-                fillColor: Colors.white,
-                filled: true,
+              ),
+              const SizedBox(width: 16),
+              Row(children: [HeadersTextWidget(text: 'Контакты')]),
+              InputWidget(
+                controller: _phoneC,
+                inputType: TextInputType.phone,
                 hintText: '+7 (---) --- -- --',
                 hintStyle: TextStyle(
                   color: Colors.grey.shade300,
                   fontSize: 11,
                 ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 5,
-                ),
-                isDense: true,
               ),
-              keyboardType: TextInputType.number,
+              Row(children: [HeadersTextWidget(text: 'Пароль')]),
+              InputWidget(
+                  controller: _passwordC,
+                  inputType: TextInputType.visiblePassword,
+                  obscureText: true),
+              const SizedBox(width: 16),
+              Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'ВОЙТИ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Style.blue,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HeadersTextWidget extends StatelessWidget {
+  final String text;
+
+  const HeadersTextWidget({
+    Key key,
+    @required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+}
+
+class InputWidget extends StatelessWidget {
+  final TextEditingController controller;
+  final TextInputType inputType;
+  final String hintText;
+  final TextStyle hintStyle;
+  final bool obscureText;
+
+  const InputWidget(
+      {Key key,
+      @required this.controller,
+      @required this.inputType,
+      this.hintText = '',
+      this.hintStyle,
+      this.obscureText = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: TextFormField(
+        obscureText: obscureText,
+        controller: controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(
+              color: Colors.grey.shade300,
+              width: 0.5,
             ),
           ),
-          HeaderTextWidget(text: 'Пароль'),
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: TextFormField(
-              controller: _passwordC,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade300,
-                    width: 0.5,
-                  ),
-                ),
-                fillColor: Colors.white,
-                filled: true,
-                // hintText: 'Пароль',
-                // hintStyle: TextStyle(
-                //   color: Colors.grey.shade300,
-                //   fontSize: 11,
-                // ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 5,
-                ),
-                isDense: true,
-              ),
-              keyboardType: TextInputType.number,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(
+              color: Colors.grey.shade300,
+              width: 0.5,
             ),
           ),
-          const SizedBox(width: 16),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                'ВОЙТИ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Style.blue,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-              ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(
+              color: Colors.grey.shade300,
+              width: 0.5,
             ),
           ),
-        ],
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide(
+              color: Colors.grey.shade300,
+              width: 0.5,
+            ),
+          ),
+          fillColor: Colors.white,
+          filled: true,
+          hintText: hintText,
+          hintStyle: hintStyle,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 8,
+          ),
+          isDense: true,
+        ),
+        keyboardType: inputType,
       ),
     );
   }

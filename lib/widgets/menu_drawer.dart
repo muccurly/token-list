@@ -35,9 +35,9 @@ class MenuDrawer extends StatelessWidget {
           ),
 
           /// payment history
-          MenuTile(
-              icon: 'assets/images/payment_history.png',
-              title: 'История платежа'),
+          // MenuTile(
+          //     icon: 'assets/images/payment_history.png',
+          //     title: 'История платежа'),
 
           /// notification
           MenuTile(
@@ -52,9 +52,9 @@ class MenuDrawer extends StatelessWidget {
           MenuTile(icon: 'assets/images/info.png', title: 'Информация'),
 
           /// chat with developers
-          MenuTile(
-              icon: 'assets/images/chat_double.png',
-              title: 'Чат с разработчиками'),
+          // MenuTile(
+          //     icon: 'assets/images/chat_double.png',
+          //     title: 'Чат с разработчиками'),
 
           /// find master
           MenuTile(
@@ -62,7 +62,7 @@ class MenuDrawer extends StatelessWidget {
               title: 'Найти специалиста'),
 
           /// settings
-          MenuTile(icon: 'assets/images/settings.png', title: 'Настройки'),
+          // MenuTile(icon: 'assets/images/settings.png', title: 'Настройки'),
 
           const SizedBox(height: 12),
         ],

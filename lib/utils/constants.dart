@@ -112,6 +112,39 @@ const SORT_BY = [
 
 enum DrawerType { filter, menu }
 
+List<Map<String, dynamic>> SPECIALISTS = [
+  {
+    'id': 1,
+    'name': 'Умурзаков Темирлан Дарханович',
+    'imagePath': 'assets/images/specialist1.png',
+    'imageUrl':
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+    'position': 'Лидер месяца',
+    //'rating_star': 5,
+    'rating': 5.0,
+  },
+  {
+    'id': 2,
+    'name': 'Жанатова Сымбат Алимгерейкызы',
+    'imagePath': 'assets/images/specialist1.png',
+    'imageUrl':
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2134&q=80',
+    'position': 'Лидер по коммерции',
+    //'rating_star': 5,
+    'rating': 4.9,
+  },
+  {
+    'id': 3,
+    'name': 'Какен Есбол Муратулы',
+    'imagePath': 'assets/images/specialist1.png',
+    'imageUrl':
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80',
+    'position': 'Лидер по коммерции',
+    //'rating_star': 5,
+    'rating': 4.6,
+  },
+];
+
 List<Map<String, dynamic>> NOTIFICATIONS = [
   {
     'id': 1,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/our_specialists.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -30,7 +31,9 @@ class PlusScreen extends StatelessWidget {
                 image: 'assets/images/select_house_pana.png',
                 text: 'ПОМОЧЬ ПРОДАТЬ',
                 color: Style.blue,
-                onPressed: () {},
+                onPressed: () {
+                  pushNewScreen(context, screen: OurSpeicalistsScreen());
+                },
               ),
             ],
           ),

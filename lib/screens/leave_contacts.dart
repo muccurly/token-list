@@ -5,28 +5,28 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String route = 'login';
+class LeaveContactsScreen extends StatefulWidget {
+  static const String route = 'leave_contacts';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LeaveContactsScreenState createState() => _LeaveContactsScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
   TextEditingController _phoneC;
-  TextEditingController _passwordC;
+  TextEditingController _nameC;
 
   @override
   void initState() {
     super.initState();
     _phoneC = TextEditingController();
-    _passwordC = TextEditingController();
+    _nameC = TextEditingController();
   }
 
   @override
   void dispose() {
     _phoneC.dispose();
-    _passwordC.dispose();
+    _nameC.dispose();
     super.dispose();
   }
 
@@ -56,18 +56,28 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                'Как к Вам обращаться?',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(width: 16),
               ConstrainedBox(
                 constraints: BoxConstraints(
                   maxHeight: 300,
                   maxWidth: 300,
                 ),
                 child: Image.asset(
-                  'assets/images/login_check.png',
-                  // height: Global.getSize(context).height / 2,
-                  // width: Global.getSize(context).width / 2,
+                  'assets/images/secure_data_pana.png',
+                  // Global.getSize(context).height,
+                  //Global.getSize(context).width,
                 ),
               ),
               const SizedBox(width: 16),
+              Row(children: [HeadersTextWidget(text: 'Имя')]),
+              InputWidget(
+                controller: _nameC,
+                inputType: TextInputType.name,
+              ),
               Row(children: [HeadersTextWidget(text: 'Контакты')]),
               InputWidget(
                 controller: _phoneC,
@@ -89,11 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 //   fontSize: 11,
                 // ),
               ),
-              Row(children: [HeadersTextWidget(text: 'Пароль')]),
-              InputWidget(
-                  controller: _passwordC,
-                  inputType: TextInputType.visiblePassword,
-                  obscureText: true),
               const SizedBox(width: 16),
               Container(
                 width: double.infinity,
@@ -102,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Text(
-                      'ВОЙТИ',
+                      'СОХРАНИТЬ',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 13,
@@ -123,100 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class HeadersTextWidget extends StatelessWidget {
-  final String text;
-
-  const HeadersTextWidget({
-    Key key,
-    @required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-  }
-}
-
-class InputWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final TextInputType inputType;
-  final bool obscureText;
-  final String hintText;
-  final TextStyle hintStyle;
-  final List<TextInputFormatter> textInputFormatters;
-
-  const InputWidget(
-      {Key key,
-      @required this.controller,
-      @required this.inputType,
-      this.hintText,
-      this.hintStyle,
-      this.textInputFormatters,
-      this.obscureText = false})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: TextFormField(
-        inputFormatters: textInputFormatters,
-        obscureText: obscureText,
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: hintStyle,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          fillColor: Colors.white,
-          filled: true,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 8,
-          ),
-          isDense: true,
-        ),
-        keyboardType: inputType,
       ),
     );
   }

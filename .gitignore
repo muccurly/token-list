@@ -29,6 +29,7 @@
 .packages
 .pub-cache/
 .pub/
+.debug_info/
 /build/
 
 # Web related

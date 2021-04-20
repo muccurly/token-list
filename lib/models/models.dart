@@ -5,3 +5,4 @@ export 'object_type.dart';
 export 'house_condition.dart';
 export 'city_region.dart';
 export 'building.dart';
+export 'user.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 
@@ -70,12 +71,17 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(children: [HeadersTextWidget(text: 'Контакты')]),
               InputWidget(
                 controller: _phoneC,
+                textInputFormatters: [
+                  MaskTextInputFormatter(
+                      mask: '+# (###) ###-##-##',
+                      filter: {"#": RegExp(r'[0-9]')})
+                ],
                 inputType: TextInputType.phone,
-                hintText: '+7 (---) --- -- --',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade300,
-                  fontSize: 11,
-                ),
+                // hintText: '+7 (---) --- -- --',
+                // hintStyle: TextStyle(
+                //   color: Colors.grey.shade300,
+                //   fontSize: 11,
+                // ),
               ),
               Row(children: [HeadersTextWidget(text: 'Пароль')]),
               InputWidget(
@@ -142,16 +148,14 @@ class HeadersTextWidget extends StatelessWidget {
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType inputType;
-  final String hintText;
-  final TextStyle hintStyle;
   final bool obscureText;
+  final List<TextInputFormatter> textInputFormatters;
 
   const InputWidget(
       {Key key,
       @required this.controller,
       @required this.inputType,
-      this.hintText = '',
-      this.hintStyle,
+      this.textInputFormatters,
       this.obscureText = false})
       : super(key: key);
 
@@ -160,6 +164,7 @@ class InputWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextFormField(
+        inputFormatters: textInputFormatters,
         obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
@@ -193,8 +198,6 @@ class InputWidget extends StatelessWidget {
           ),
           fillColor: Colors.white,
           filled: true,
-          hintText: hintText,
-          hintStyle: hintStyle,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 8,
             vertical: 8,

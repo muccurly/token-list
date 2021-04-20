@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:jurta/screens/advert_details.dart';
+import 'package:jurta/screens/search_result.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -72,15 +75,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 radius: Global.getSize(context).width / 5,
                               ),
                             ),
-                            Positioned(
-                              right: 16,
-                              bottom: 0,
-                              child: Image.asset(
-                                'assets/images/plus_round.png',
-                                height: 30,
-                                width: 30,
-                              ),
-                            ),
+                            //Add Avatar
+                            // Positioned(
+                            //   right: 16,
+                            //   bottom: 0,
+                            //   child: Image.asset(
+                            //     'assets/images/plus_round.png',
+                            //     height: 30,
+                            //     width: 30,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -139,38 +143,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Рейтинг',
-                            style: TextStyle(fontSize: 12),
+                            'Лидер месяца ',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Style.orange,
+                            ),
                           ),
                           const SizedBox(width: 16),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/images/bubble_rect.png',
-                                  height: 26,
-                                  // width: 36,
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 1),
-                                  child: Text(
-                                    '4.2',
-                                    style: TextStyle(
-                                      color: Style.orange,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          Icon(
+                            Icons.circle,
+                            color: Style.orange2,
+                            size: 5,
                           ),
+                          const SizedBox(width: 16),
+                          RatingBar(
+                            initialRating: 5,
+                            direction: Axis.horizontal,
+                            allowHalfRating: false,
+                            itemCount: 5,
+                            ratingWidget: RatingWidget(
+                              full: Icon(
+                                LineIcons.starAlt,
+                                color: Style.orange,
+                              ),
+                              half: Icon(
+                                LineIcons.starAlt,
+                                color: Style.orange,
+                              ),
+                              empty: Icon(LineIcons.star),
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                            itemSize: 16,
+                            ignoreGestures: true,
+                          ),
+                          // Stack(
+                          //   alignment: Alignment.center,
+                          //   children: [
+                          //     Align(
+                          //       alignment: Alignment.center,
+                          //       child: Image.asset(
+                          //         'assets/images/bubble_rect.png',
+                          //         height: 26,
+                          //         // width: 36,
+                          //       ),
+                          //     ),
+                          //     Align(
+                          //       alignment: Alignment.center,
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.only(bottom: 1),
+                          //         child: Text(
+                          //           '4.2',
+                          //           style: TextStyle(
+                          //             color: Style.orange,
+                          //             fontSize: 12,
+                          //             fontWeight: FontWeight.w700,
+                          //           ),
+                          //           textAlign: TextAlign.center,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
 
@@ -304,70 +339,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
 
-                      /// birthday
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 36, vertical: 16),
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Дата рождения: ',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontFamily: 'HelveticaNeueCyr',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            children: [
-                              TextSpan(
-                                text:
-                                    '${DateFormat('dd.MM.yyyy').format(DateTime(1994, 8, 6))}',
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      /// About me
+                      Align(
+                        child: HeaderTextWidget(text: 'О СЕБЕ'),
+                        alignment: Alignment.topLeft,
                       ),
-
-                      /// email
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                            "Более 5 лет опыта в сфере купли-продажи недвижимости по всему Казахстану, более 1000 благодарных клиентов и 200 постоянных клиентов. Специализируюсь на продажах многокомнатных квартир и домов элит класса"),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // /// birthday
+                      // Container(
+                      //   width: double.infinity,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.grey.shade100,
+                      //     borderRadius: BorderRadius.circular(4),
+                      //   ),
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 36, vertical: 16),
+                      //   margin: const EdgeInsets.symmetric(horizontal: 16),
+                      //   child: RichText(
+                      //     text: TextSpan(
+                      //       text: 'Дата рождения: ',
+                      //       style: TextStyle(
+                      //         color: Colors.black54,
+                      //         fontFamily: 'HelveticaNeueCyr',
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w400,
+                      //       ),
+                      //       children: [
+                      //         TextSpan(
+                      //           text:
+                      //               '${DateFormat('dd.MM.yyyy').format(DateTime(1994, 8, 6))}',
+                      //           style: TextStyle(
+                      //             color: Colors.black87,
+                      //             fontWeight: FontWeight.w500,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+
+                      // /// email
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                      //   child: Container(
+                      //     width: double.infinity,
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.grey.shade100,
+                      //       borderRadius: BorderRadius.circular(4),
+                      //     ),
+                      //     padding: const EdgeInsets.symmetric(
+                      //         horizontal: 36, vertical: 16),
+                      //     margin: const EdgeInsets.symmetric(horizontal: 16),
+                      //     child: RichText(
+                      //       text: TextSpan(
+                      //         text: 'Email: ',
+                      //         style: TextStyle(
+                      //           color: Colors.black54,
+                      //           fontFamily: 'HelveticaNeueCyr',
+                      //           fontSize: 12,
+                      //           fontWeight: FontWeight.w400,
+                      //         ),
+                      //         children: [
+                      //           TextSpan(
+                      //             text: 'zamzagul@gmail.com',
+                      //             style: TextStyle(
+                      //               color: Colors.black87,
+                      //               fontWeight: FontWeight.w500,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
+                      Visibility(
+                        visible: _showAllAdverts,
+
+                        /// show 2 adverts
                         child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 36, vertical: 16),
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'Email: ',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontFamily: 'HelveticaNeueCyr',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'zamzagul@gmail.com',
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                          height: 310.0,
+                          child: GridView.builder(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 5 / 9,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 0,
                             ),
+                            itemBuilder: (context, index) {
+                              final advert = ADVERTS[index];
+                              return AdvertCardNew(
+                                  advert: advert, index: index);
+                              // return AdvertCard(advert: advert);
+                            },
+                            itemCount: 2,
+                          ),
+                        ),
+
+                        /// show all adverts list
+                        replacement: Container(
+                          height: 310.0,
+                          child: GridView.builder(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 5 / 9,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 0,
+                            ),
+                            itemBuilder: (context, index) {
+                              final advert = ADVERTS[index];
+                              return AdvertCardNew(
+                                  advert: advert, index: index);
+                              // return AdvertCard(advert: advert);
+                            },
+                            itemCount: ADVERTS.length,
                           ),
                         ),
                       ),
@@ -375,7 +470,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       /// show all adverts toggle
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
+                            horizontal: 16, vertical: 0),
                         child: InkWell(
                           onTap: () {
                             setState(() {
@@ -388,7 +483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Показать все объявления эксперта',
+                                  'Показать все заявки',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,

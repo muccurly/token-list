@@ -29,7 +29,7 @@ class PlusScreen extends StatelessWidget {
               /// help to sell
               OptionWidget(
                 image: 'assets/images/select_house_pana.png',
-                text: 'ПОМОЧЬ ПРОДАТЬ',
+                text: 'ПРОДАТЬ         ЧЕРЕЗ РИЭЛТОРА',
                 color: Style.blue,
                 onPressed: () {
                   pushNewScreen(context, screen: OurSpeicalistsScreen());

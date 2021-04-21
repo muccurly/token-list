@@ -537,10 +537,15 @@ class CommentListTile extends StatelessWidget {
   final Map<String, dynamic> comment;
   final bool reply;
   final bool padding;
+  final int depth;
+  final int userId = 2;
+
+  static const MAX_COMMENT_DEPTH = 3;
 
   const CommentListTile({
     Key key,
     this.comment,
+    this.depth = 0,
     this.reply = false,
     this.padding = false,
   }) : super(key: key);
@@ -563,7 +568,8 @@ class CommentListTile extends StatelessWidget {
                       offset: Offset(0.0, 4.0),
                       color: Color.fromRGBO(0, 0, 0, 0.1))
                 ]),
-            margin: EdgeInsets.only(left: reply ? 16 : 0, top: 4, bottom: 4),
+            margin: EdgeInsets.only(
+                left: reply ? (16 * depth).toDouble() : 0, top: 4, bottom: 4),
             padding: const EdgeInsets.all(8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -586,20 +592,23 @@ class CommentListTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(comment['comment']),
-                      const SizedBox(height: 12),
+                      if (depth < MAX_COMMENT_DEPTH) const SizedBox(height: 12),
                       Row(
                         children: [
                           Expanded(child: Container()),
-                          GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                "Ответить",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )),
-                          ...[
+                          if (depth < MAX_COMMENT_DEPTH) ...[
+                            GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  "Ответить",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ))
+                          ],
+                          if (comment['user_id'] != null &&
+                              comment['user_id'] == userId) ...[
                             const SizedBox(width: 15),
                             GestureDetector(
                                 onTap: () {},
@@ -619,9 +628,12 @@ class CommentListTile extends StatelessWidget {
               ],
             ),
           ),
-          if (comment['replies'] != null || comment['replies'].isNotEmpty)
+          if (depth < MAX_COMMENT_DEPTH &&
+              comment['replies'] != null &&
+              comment['replies'].isNotEmpty)
             ...comment['replies']
-                .map((reply) => CommentListTile(comment: reply, reply: true))
+                .map((reply) => CommentListTile(
+                    comment: reply, reply: true, depth: depth + 1))
                 .toList()
         ],
       ),

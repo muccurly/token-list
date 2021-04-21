@@ -78,10 +78,6 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             AddressRatingWidget(advert: advert),
             const SizedBox(height: 16),
 
-            /// call buttons
-            CallBookButtonsWidget(advert: advert),
-            const SizedBox(height: 16),
-
             /// info table
             TableWidget(advert: advert),
 
@@ -96,7 +92,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             // ),
 
             /// show on map
-            OptionListTile(text: 'Показать на карте', color: Colors.white),
+            // OptionListTile(text: 'Показать на карте', color: Colors.white),
 
             /// object plan
             OptionListTile(text: 'Посмотреть планировку объекта'),
@@ -104,6 +100,10 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             /// 3d tour
             // OptionListTile(text: 'Посмотреть 3D тур'),
             const SizedBox(height: 8),
+
+            /// call buttons
+            CallBookButtonsWidget(advert: advert),
+            const SizedBox(height: 16),
 
             /// description
             HeaderTextWidget(text: 'ОПИСАНИЕ'),
@@ -1093,7 +1093,7 @@ class CallBookButtonsWidget extends StatelessWidget {
           /// call
           Expanded(
             child: Container(
-              height: 30,
+              height: 35,
               child: ElevatedButton(
                 onPressed: () => launchUrl('tel:${advert['phone']}'),
                 child: FittedBox(
@@ -1117,7 +1117,7 @@ class CallBookButtonsWidget extends StatelessWidget {
           /// book
           Expanded(
             child: Container(
-              height: 30,
+              height: 35,
               child: ElevatedButton(
                 onPressed: () {
                   showBookDialog(context);
@@ -1167,8 +1167,10 @@ class AddressRatingWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          Flexible(
+            flex: 5,
             child: Text(
               advert['address'],
               style: TextStyle(
@@ -1177,28 +1179,45 @@ class AddressRatingWidget extends StatelessWidget {
               ),
             ),
           ),
-          RatingBar(
-            initialRating: advert['rating'].toDouble(),
-            direction: Axis.horizontal,
-            allowHalfRating: false,
-            itemCount: 5,
-            ratingWidget: RatingWidget(
-              full: Icon(
-                LineIcons.starAlt,
+          Flexible(
+              flex: 1,
+              child: SizedBox(
+                width: 10,
+              )),
+          Flexible(
+            flex: 3,
+            child: Text(
+              advert['adverts_type'],
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
                 color: Style.orange,
               ),
-              half: Icon(
-                LineIcons.starAlt,
-                color: Style.orange,
-              ),
-              empty: Icon(LineIcons.star),
             ),
-            onRatingUpdate: (rating) {
-              log(rating);
-            },
-            itemSize: 16,
-            ignoreGestures: true,
           ),
+
+          // RatingBar(
+          //   initialRating: advert['rating'].toDouble(),
+          //   direction: Axis.horizontal,
+          //   allowHalfRating: false,
+          //   itemCount: 5,
+          //   ratingWidget: RatingWidget(
+          //     full: Icon(
+          //       LineIcons.starAlt,
+          //       color: Style.orange,
+          //     ),
+          //     half: Icon(
+          //       LineIcons.starAlt,
+          //       color: Style.orange,
+          //     ),
+          //     empty: Icon(LineIcons.star),
+          //   ),
+          //   onRatingUpdate: (rating) {
+          //     log(rating);
+          //   },
+          //   itemSize: 16,
+          //   ignoreGestures: true,
+          // ),
         ],
       ),
     );

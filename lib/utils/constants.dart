@@ -231,6 +231,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
     'schools': [
@@ -315,6 +316,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
     'schools': [
@@ -399,6 +401,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
     'schools': [
@@ -483,6 +486,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
     'schools': [
@@ -567,6 +571,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
     'schools': [
@@ -651,6 +656,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
     'schools': [

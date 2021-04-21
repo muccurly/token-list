@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (c) => TabProvider(),
       builder: (c, w) => MaterialApp(
-        title: 'New Project',
+        title: 'Jurta',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.orange,

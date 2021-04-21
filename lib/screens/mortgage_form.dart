@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class MortgageFormScreen extends StatefulWidget {
   @override
@@ -8,15 +10,17 @@ class MortgageFormScreen extends StatefulWidget {
 }
 
 class _MortgageFormScreenState extends State<MortgageFormScreen> {
+  final TextEditingController _phoneC = TextEditingController();
   final TextEditingController _fullNameC = TextEditingController();
   final TextEditingController _creditAmountC = TextEditingController();
   final TextEditingController _durationC = TextEditingController();
   final TextEditingController _incomeC = TextEditingController();
   final TextEditingController _loanC = TextEditingController();
-  bool _income = false;
+  bool _existingCredits = false;
 
   @override
   void dispose() {
+    _phoneC.dispose();
     _fullNameC.dispose();
     _creditAmountC.dispose();
     _durationC.dispose();
@@ -64,25 +68,41 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            /// phone
+            FormTile(
+              controller: _phoneC,
+              title: 'Номер телефона',
+              hintText: '+7 (___) ___-__-__',
+              keyboardType: TextInputType.phone,
+              textInputFormatters: [
+                MaskTextInputFormatter(
+                    initialText: '+7',
+                    mask: '+7 (___) ___-__-__',
+                    filter: {'_': RegExp(r'[0-9]')})
+              ],
+            ),
+
             /// fullname
             FormTile(
               controller: _fullNameC,
               title: 'ФИО',
               hintText: 'ФИО',
+              keyboardType: TextInputType.name,
             ),
 
             /// credit amount
             FormTile(
               controller: _creditAmountC,
-              title: 'Сумма кредита, тг:',
+              title: 'Сумма кредита, тг',
               hintText: '25000000',
               keyboardType: TextInputType.number,
+              textInputFormatters: [MoneyMaskTextInputFormatter()],
             ),
 
             /// duration
             FormTile(
               controller: _durationC,
-              title: 'Срок, месяц:',
+              title: 'Срок, месяц',
               hintText: '60',
               keyboardType: TextInputType.number,
             ),
@@ -90,24 +110,26 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
             /// income
             FormTile(
               controller: _incomeC,
-              title: 'Общий доход, тг/мес:',
+              title: 'Общий доход, тг/мес',
               hintText: '250000',
               keyboardType: TextInputType.number,
+              textInputFormatters: [MoneyMaskTextInputFormatter()],
             ),
 
             /// income switch
             NotificationSettingsTile(
-              title: 'Общий доход, тг/мес:',
+              title: 'Действующие кредиты',
               padding: 16.0,
-              switchValue: _income,
-              onChanged: (val) => setState(() => _income = val),
+              switchValue: _existingCredits,
+              onChanged: (val) => setState(() => _existingCredits = val),
             ),
 
             /// loan
             FormTile(
               controller: _loanC,
-              title: 'Платеж по действующим займам, тг/мес:',
+              title: 'Платеж по действующим займам, тг/мес',
               hintText: '100000',
+              textInputFormatters: [MoneyMaskTextInputFormatter()],
             ),
             const SizedBox(height: 16),
 
@@ -142,7 +164,9 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               height: 46,
               width: Global.getSize(context).width,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  showFormConfirmationDialog(context);
+                },
                 child: Text(
                   'СОХРАНИТЬ',
                   style: TextStyle(
@@ -168,11 +192,94 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
   }
 }
 
+class MoneyMaskTextInputFormatter implements TextInputFormatter {
+  const MoneyMaskTextInputFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String filteredNonNums = newValue.text
+        ?.split('')
+        ?.where((element) => RegExp(r'[0-9]').hasMatch(element))
+        ?.join()
+        ?.replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => ' ');
+
+    return TextEditingValue(
+        text: filteredNonNums, selection: newValue.selection);
+  }
+}
+
+void showFormConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 250,
+                  maxWidth: 250,
+                ),
+                child: Image.asset(
+                  'assets/images/trade_success.png',
+                  height: Global.getSize(c).width / 2,
+                  width: Global.getSize(c).width / 2,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Ваша анкета принята',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Ваш персональный менеджер\nскоро свяжется с вами',
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: Global.getSize(c).width / 2,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(top: 2.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
+}
+
 class FormTile extends StatelessWidget {
   final TextEditingController controller;
   final String title;
   final String hintText;
   final TextInputType keyboardType;
+  final List<TextInputFormatter> textInputFormatters;
 
   const FormTile({
     Key key,
@@ -180,6 +287,7 @@ class FormTile extends StatelessWidget {
     this.title,
     this.hintText,
     this.keyboardType,
+    this.textInputFormatters,
   }) : super(key: key);
 
   @override
@@ -211,6 +319,7 @@ class FormTile extends StatelessWidget {
           /// form field
           TextFormField(
             controller: controller,
+            inputFormatters: textInputFormatters,
             decoration: InputDecoration(
               border: InputBorder.none,
               enabledBorder: InputBorder.none,

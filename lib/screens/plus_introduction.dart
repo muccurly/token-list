@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class PlusIntoductionScreen extends StatefulWidget {
   @override
@@ -113,7 +115,9 @@ class _PlusIntoductionScreenState extends State<PlusIntoductionScreen> {
                         width: double.infinity,
                         margin: const EdgeInsets.only(top: 16),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            pushNewScreen(context, screen: OwnerScreen());
+                          },
                           child: FittedBox(
                             child: Text(
                               'НАЧАТЬ',

@@ -520,6 +520,7 @@ void _sendComment(
     FocusScope.of(context).unfocus();
     final myComment = {
       'id': 10 + COMMENTS.length,
+      'user_id': 2,
       'image':
           'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'name': 'Jane Doe',
@@ -536,10 +537,15 @@ class CommentListTile extends StatelessWidget {
   final Map<String, dynamic> comment;
   final bool reply;
   final bool padding;
+  final int depth;
+  final int userId = 2;
+
+  static const MAX_COMMENT_DEPTH = 3;
 
   const CommentListTile({
     Key key,
     this.comment,
+    this.depth = 0,
     this.reply = false,
     this.padding = false,
   }) : super(key: key);
@@ -554,10 +560,16 @@ class CommentListTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-            ),
-            margin: EdgeInsets.only(left: reply ? 16 : 0, top: 4, bottom: 4),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 5.0,
+                      offset: Offset(0.0, 4.0),
+                      color: Color.fromRGBO(0, 0, 0, 0.1))
+                ]),
+            margin: EdgeInsets.only(
+                left: reply ? (16 * depth).toDouble() : 0, top: 4, bottom: 4),
             padding: const EdgeInsets.all(8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -580,15 +592,48 @@ class CommentListTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(comment['comment']),
+                      if (depth < MAX_COMMENT_DEPTH) const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(child: Container()),
+                          if (depth < MAX_COMMENT_DEPTH) ...[
+                            GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  "Ответить",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ))
+                          ],
+                          if (comment['user_id'] != null &&
+                              comment['user_id'] == userId) ...[
+                            const SizedBox(width: 15),
+                            GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  "Удалить",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ))
+                          ],
+                        ],
+                      )
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          if (comment['replies'] != null || comment['replies'].isNotEmpty)
+          if (depth < MAX_COMMENT_DEPTH &&
+              comment['replies'] != null &&
+              comment['replies'].isNotEmpty)
             ...comment['replies']
-                .map((reply) => CommentListTile(comment: reply, reply: true))
+                .map((reply) => CommentListTile(
+                    comment: reply, reply: true, depth: depth + 1))
                 .toList()
         ],
       ),

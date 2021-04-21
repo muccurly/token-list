@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: '+7 (___) ___-__-__',
                 hintStyle: TextStyle(
                   color: Colors.grey.shade500,
-                  fontSize: 11,
+                  fontSize: 13,
                 ),
                 textInputFormatters: [
                   MaskTextInputFormatter(
@@ -94,11 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordC,
                   inputType: TextInputType.visiblePassword,
                   obscureText: true),
-              const SizedBox(width: 16),
-              Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Container(
+                  height: 46,
+                  width: Global.getSize(context).width,
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Text(
@@ -173,51 +173,54 @@ class InputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: TextFormField(
-        inputFormatters: textInputFormatters,
-        obscureText: obscureText,
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: hintStyle,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
+      child: Container(
+          height: 46,
+          width: Global.getSize(context).width,
+          child: TextFormField(
+            inputFormatters: textInputFormatters,
+            obscureText: obscureText,
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: hintStyle,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
+                ),
+              ),
+              fillColor: Colors.white,
+              filled: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
+              isDense: true,
             ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 0.5,
-            ),
-          ),
-          fillColor: Colors.white,
-          filled: true,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 8,
-          ),
-          isDense: true,
-        ),
-        keyboardType: inputType,
-      ),
+            keyboardType: inputType,
+          )),
     );
   }
 }

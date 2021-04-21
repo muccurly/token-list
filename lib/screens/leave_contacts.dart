@@ -84,7 +84,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                 hintText: '+7 (___) ___-__-__',
                 hintStyle: TextStyle(
                   color: Colors.grey.shade500,
-                  fontSize: 11,
+                  fontSize: 13,
                 ),
                 textInputFormatters: [
                   MaskTextInputFormatter(
@@ -99,11 +99,11 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                 //   fontSize: 11,
                 // ),
               ),
-              const SizedBox(width: 16),
-              Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Container(
+                  height: 46,
+                  width: Global.getSize(context).width,
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Text(

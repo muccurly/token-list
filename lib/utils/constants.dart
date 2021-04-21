@@ -720,6 +720,7 @@ List<Map<String, dynamic>> ADVERTS = [
 List<Map<String, dynamic>> COMMENTS = [
   {
     'id': 1,
+    'user_id': 1,
     'image':
         'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
     'name': 'John Doe',
@@ -729,6 +730,7 @@ List<Map<String, dynamic>> COMMENTS = [
   },
   {
     'id': 2,
+    'user_id': 1,
     'image':
         'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
     'name': 'John Doe',
@@ -737,6 +739,7 @@ List<Map<String, dynamic>> COMMENTS = [
     'replies': [
       {
         'id': 4,
+        'user_id': 1,
         'image':
             'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
         'name': 'John Doe',
@@ -746,6 +749,7 @@ List<Map<String, dynamic>> COMMENTS = [
       },
       {
         'id': 5,
+        'user_id': 1,
         'image':
             'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
         'name': 'John Doe',
@@ -757,6 +761,7 @@ List<Map<String, dynamic>> COMMENTS = [
   },
   {
     'id': 3,
+    'user_id': 1,
     'image':
         'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
     'name': 'John Doe',

@@ -486,7 +486,7 @@ class _AdvertCardState extends State<AdvertCard> {
                     Container(
                       padding: const EdgeInsets.only(right: 16, left: 4),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () => share("Check it out!", subject: "Jurta"),
                         child: ImageIcon(
                           AssetImage('assets/images/share.png'),
                           size: 20,

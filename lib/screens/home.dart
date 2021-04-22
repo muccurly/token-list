@@ -5,6 +5,7 @@ import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:share/share.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -297,7 +298,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       /// share
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          try {
+                            Share.share("Check it out!", subject: "Jurta");
+                          } on PlatformException {
+                            log('share Exception occured: PlatformException');
+                          } on FormatException {
+                            log('share Exception occured: FormatException');
+                          } catch (error, stacktrace) {
+                            log('share Exception occured: $error stackTrace: $stacktrace');
+                          }
+                        },
                         child: ImageIcon(
                           AssetImage('assets/images/share.png'),
                           size: 30,

@@ -221,7 +221,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop, */
         // bottomSheet: BuyNowBottomSheet(),
-        bottomNavigationBar: BuyNowBottomSheet(),
+        //bottomNavigationBar: BuyNowBottomSheet(),
       ),
     );
   }

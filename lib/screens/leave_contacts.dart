@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jurta/screens/screens.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 
@@ -87,10 +87,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                   fontSize: 13,
                 ),
                 textInputFormatters: [
-                  MaskTextInputFormatter(
-                      initialText: '+7',
-                      mask: '+7 (___) ___-__-__',
-                      filter: {'_': RegExp(r'[0-9]')})
+                  PhoneInputFormatter(),
                 ],
                 inputType: TextInputType.phone,
                 // hintText: '+7 (---) --- -- --',

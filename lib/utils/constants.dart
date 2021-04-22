@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 const String BASE_URL = '';
 const String REAL_PROPERTY_VIDEO_TOUR_LIST_URL =
@@ -111,6 +113,21 @@ const SORT_BY = [
 ];
 
 enum DrawerType { filter, menu }
+
+List<TextInputFormatter> MONEY_FORMATTER = [
+  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
+  MoneyInputFormatter(
+      mantissaLength: 0,
+      thousandSeparator: ThousandSeparator.SpaceAndCommaMantissa),
+];
+
+List<TextInputFormatter> PHONE_FORMATTER = [
+  PhoneInputFormatter(),
+];
+
+List<TextInputFormatter> NUMERIC_FORMATTER = [
+  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789")
+];
 
 List<Map<String, dynamic>> SPECIALISTS = [
   {

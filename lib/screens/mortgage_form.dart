@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 class MortgageFormScreen extends StatefulWidget {
   @override
@@ -17,6 +17,13 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
   final TextEditingController _incomeC = TextEditingController();
   final TextEditingController _loanC = TextEditingController();
   bool _existingCredits = false;
+
+  final List<TextInputFormatter> MONEY_FORMATTER = [
+    RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
+    MoneyInputFormatter(
+        mantissaLength: 0,
+        thousandSeparator: ThousandSeparator.SpaceAndCommaMantissa),
+  ];
 
   @override
   void dispose() {
@@ -75,10 +82,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               hintText: '+7 (___) ___-__-__',
               keyboardType: TextInputType.phone,
               textInputFormatters: [
-                MaskTextInputFormatter(
-                    initialText: '+7',
-                    mask: '+7 (___) ___-__-__',
-                    filter: {'_': RegExp(r'[0-9]')})
+                PhoneInputFormatter(),
               ],
             ),
 
@@ -96,7 +100,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               title: 'Сумма кредита, тг',
               hintText: '25000000',
               keyboardType: TextInputType.number,
-              textInputFormatters: [MoneyMaskTextInputFormatter()],
+              textInputFormatters: MONEY_FORMATTER,
             ),
 
             /// duration
@@ -105,6 +109,10 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               title: 'Срок, месяц',
               hintText: '60',
               keyboardType: TextInputType.number,
+              textInputFormatters: [
+                RestrictingInputFormatter.allowFromString(
+                    allowedChars: "0123456789")
+              ],
             ),
 
             /// income
@@ -113,7 +121,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               title: 'Общий доход, тг/мес',
               hintText: '250000',
               keyboardType: TextInputType.number,
-              textInputFormatters: [MoneyMaskTextInputFormatter()],
+              textInputFormatters: MONEY_FORMATTER,
             ),
 
             /// income switch
@@ -129,7 +137,8 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               controller: _loanC,
               title: 'Платеж по действующим займам, тг/мес',
               hintText: '100000',
-              textInputFormatters: [MoneyMaskTextInputFormatter()],
+              keyboardType: TextInputType.number,
+              textInputFormatters: MONEY_FORMATTER,
             ),
             const SizedBox(height: 16),
 
@@ -189,23 +198,6 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
         ),
       ),
     );
-  }
-}
-
-class MoneyMaskTextInputFormatter implements TextInputFormatter {
-  const MoneyMaskTextInputFormatter();
-
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    String filteredNonNums = newValue.text
-        ?.split('')
-        ?.where((element) => RegExp(r'[0-9]').hasMatch(element))
-        ?.join()
-        ?.replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => ' ');
-
-    return TextEditingValue(
-        text: filteredNonNums, selection: newValue.selection);
   }
 }
 

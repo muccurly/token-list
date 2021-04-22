@@ -263,7 +263,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       /// call
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          await launchUrl('tel:${advert['phone']}');
+                        },
                         child: ImageIcon(
                           AssetImage('assets/images/phone_round.png'),
                           size: 30,
@@ -274,11 +276,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       /// like
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            advert['is_fav'] = !advert['is_fav'];
+                          });
+                        },
                         child: ImageIcon(
                           AssetImage('assets/images/like_filled.png'),
                           size: 30,
-                          color: Colors.white,
+                          color: advert['is_fav']
+                              ? Color.fromRGBO(220, 79, 94, 1.0)
+                              : Colors.white,
                         ),
                       ),
                       const SizedBox(height: 12),

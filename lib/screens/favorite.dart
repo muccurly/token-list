@@ -142,6 +142,14 @@ class AdvertFavCard extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
+                            TextSpan(
+                              text: ' ₸',
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Montserrat'),
+                            ),
                           ],
                         ),
                         maxLines: 1,

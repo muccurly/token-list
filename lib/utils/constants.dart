@@ -231,7 +231,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 1,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -316,7 +316,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 2,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -401,7 +401,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 3,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -486,7 +486,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 4,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -571,7 +571,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 5,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -656,7 +656,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 6,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',

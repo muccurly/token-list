@@ -740,6 +740,8 @@ List<Map<String, dynamic>> ADVERTS = [
   },
 ];
 
+const MAX_COMMENT_DEPTH = 3;
+
 List<Map<String, dynamic>> COMMENTS = [
   {
     'id': 1,

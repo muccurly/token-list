@@ -462,7 +462,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                 itemCount: COMMENTS.length,
                 itemBuilder: (c, i) {
                   final comment = COMMENTS[i];
-                  return CommentListTile(comment: comment);
+                  return CommentListTile(comment: comment, setState: setState);
                 },
               ),
             ),
@@ -558,12 +558,12 @@ class CommentListTile extends StatelessWidget {
   final bool padding;
   final int depth;
   final int userId = 2;
-
-  static const MAX_COMMENT_DEPTH = 3;
+  final Function setState;
 
   const CommentListTile({
     Key key,
     this.comment,
+    this.setState,
     this.depth = 0,
     this.reply = false,
     this.padding = false,
@@ -616,7 +616,7 @@ class CommentListTile extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${DateFormat('dd.MM.yyyy HH:MM').format(comment['datetime'])}',
+                            '${DateFormat('dd.MM.yyyy HH:mm').format(comment['datetime'])}',
                             style: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w700,
@@ -638,7 +638,12 @@ class CommentListTile extends StatelessWidget {
                               comment['user_id'] == userId) ...[
                             const SizedBox(width: 15),
                             GestureDetector(
-                                onTap: () {},
+                                onTap: () async {
+                                  await _deleteComment(
+                                      COMMENTS as List<Map<String, dynamic>>,
+                                      comment['id']);
+                                  setState(() {});
+                                },
                                 child: Text(
                                   'Удалить',
                                   style: TextStyle(
@@ -666,6 +671,21 @@ class CommentListTile extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _deleteComment(List<Map<String, dynamic>> comments, int commentId,
+    {int depth = 0}) async {
+  /// recursive comment deletion
+
+  if (depth > MAX_COMMENT_DEPTH) {
+    return;
+  }
+
+  comments.removeWhere((element) => element['id'] == commentId);
+  comments.forEach((element) {
+    _deleteComment(element['replies'] as List<Map<String, dynamic>>, commentId,
+        depth: depth + 1);
+  });
 }
 
 const List<String> _headerTexts = <String>['Горящие', 'Без комиссии', 'Новые'];

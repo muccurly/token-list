@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:jurta/widgets/custom_tabbar.dart';
 
 class MyApplicationScreen extends StatefulWidget {
   @override
@@ -65,27 +66,37 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
               child: Column(
                 children: [
                   /// tab
-                  TabBar(
-                    controller: _tabController,
-                    tabs: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'АКТИВНЫЕ',
-                          style: TextStyle(fontSize: 12),
+                  DecoratedTabBar(
+                    tabBar: TabBar(
+                      controller: _tabController,
+                      tabs: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'АКТИВНЫЕ',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'АРХИВНЫЕ',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ],
+                      indicatorColor: Style.orange,
+                      labelColor: Style.orange,
+                      unselectedLabelColor: Style.blue,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Style.blue,
+                          width: 2.0,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'АРХИВНЫЕ',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ],
-                    indicatorColor: Style.orange,
-                    labelColor: Style.orange,
-                    unselectedLabelColor: Colors.grey,
+                    ),
                   ),
                 ],
               ),

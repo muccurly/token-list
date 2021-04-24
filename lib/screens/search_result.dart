@@ -512,7 +512,7 @@ class _AdvertCardState extends State<AdvertCard> {
   }
 }
 
-class AdvertCardNew extends StatelessWidget {
+class AdvertCardNew extends StatefulWidget {
   final Map<String, dynamic> advert;
   final int index;
   final bool favorite;
@@ -525,6 +525,11 @@ class AdvertCardNew extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _AdvertCardNewState createState() => _AdvertCardNewState();
+}
+
+class _AdvertCardNewState extends State<AdvertCardNew> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -533,7 +538,7 @@ class AdvertCardNew extends StatelessWidget {
           screen: AdvertDetailsScreen(),
           settings: RouteSettings(
             name: AdvertDetailsScreen.route,
-            arguments: advert,
+            arguments: widget.advert,
           ),
           withNavBar: false,
         );
@@ -551,23 +556,31 @@ class AdvertCardNew extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: Image.network(
-                      advert['images'][index % 3],
+                      widget.advert['images'][widget.index % 3],
                       height: (Global.getSize(context).width / 2 - 20) / 3 * 4,
                       width: Global.getSize(context).width / 2 - 20,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  if (favorite)
-                    Align(
-                      // right: 8,
-                      // bottom: 8,
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          'assets/images/like_filled.png',
-                          height: 18,
-                          width: 18,
+                  if (widget.favorite)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          widget.advert['is_fav'] = !widget.advert['is_fav'];
+                        });
+                      },
+                      child: Align(
+                        // right: 8,
+                        // bottom: 8,
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            widget.advert['is_fav']
+                                ? LineIcons.heartAlt
+                                : LineIcons.heart,
+                            color: widget.advert['is_fav'] ? Colors.red : null,
+                          ),
                         ),
                       ),
                     ),
@@ -577,7 +590,7 @@ class AdvertCardNew extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            advert['title'],
+            widget.advert['title'],
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w700,
@@ -587,7 +600,7 @@ class AdvertCardNew extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '${advert['rooms']} ком • ${advert['flat']} • ${advert['area']}',
+            '${widget.advert['rooms']} ком • ${widget.advert['flat']} • ${widget.advert['area']}',
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,

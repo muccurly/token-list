@@ -615,7 +615,7 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
             text: TextSpan(
               children: <TextSpan>[
                 TextSpan(
-                  text: '${advert['price']}',
+                  text: '${widget.advert['price']}',
                   style: TextStyle(
                     color: Style.orange,
                     fontSize: 12,

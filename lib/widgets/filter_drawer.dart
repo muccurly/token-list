@@ -101,7 +101,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           hintText: 'Горящие',
                           hintStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -177,7 +177,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           hintText: 'Новые',
                           hintStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -237,7 +237,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                 dropdownColor: Colors.white,
                 value: _selectedHouseType,
                 //elevation: 5,
-                style: TextStyle(color: Style.blue),
+                style: TextStyle(color: Style.blue, fontSize: 13),
                 isDense: true,
                 isExpanded: true,
                 underline: SizedBox.shrink(),
@@ -263,7 +263,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                   'Тип недвижимости',
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 11,
+                    fontSize: 13,
                   ),
                 ),
                 onChanged: (String value) {
@@ -323,13 +323,13 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                 child: Text(
                                   room,
                                   style: TextStyle(
-                                    color: _selectedRoom == room
-                                        ? Colors.white
-                                        : null,
-                                    fontWeight: _selectedRoom == room
-                                        ? FontWeight.w500
-                                        : FontWeight.w400,
-                                  ),
+                                      color: _selectedRoom == room
+                                          ? Colors.white
+                                          : null,
+                                      fontWeight: _selectedRoom == room
+                                          ? FontWeight.w500
+                                          : FontWeight.w400,
+                                      fontSize: 13),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -400,7 +400,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                         hintText: 'От',
                         hintStyle: TextStyle(
                           color: Colors.grey,
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -455,7 +455,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                         hintText: 'До',
                         hintStyle: TextStyle(
                           color: Colors.grey,
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -528,7 +528,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                         hintText: 'От',
                         hintStyle: TextStyle(
                           color: Colors.grey,
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -582,7 +582,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                         hintText: 'До',
                         hintStyle: TextStyle(
                           color: Colors.grey,
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8,

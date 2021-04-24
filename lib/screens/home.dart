@@ -187,9 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      _showDialog(context);
-                    },
+                    onTap: () => showBookDialog(context),
+                    //  _showDialog(context);
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.5),

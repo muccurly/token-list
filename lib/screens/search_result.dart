@@ -602,15 +602,29 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
-          Text(
-            widget.advert['price'],
-            style: TextStyle(
-              color: Style.orange,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
+          RichText(
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: '${widget.advert['price']}',
+                  style: TextStyle(
+                    color: Style.orange,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextSpan(
+                  text: ' ₸',
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

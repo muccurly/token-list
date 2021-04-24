@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:jurta/providers/providers.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
@@ -538,6 +539,7 @@ void _sendComment(
     final myComment = {
       'id': 10 + COMMENTS.length,
       'user_id': 2,
+      'datetime': DateTime.now(),
       'image':
           'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'name': 'Jane Doe',
@@ -609,15 +611,23 @@ class CommentListTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(comment['comment']),
-                      if (depth < MAX_COMMENT_DEPTH) const SizedBox(height: 12),
+                      if (depth <= MAX_COMMENT_DEPTH)
+                        const SizedBox(height: 12),
                       Row(
                         children: [
+                          Text(
+                            '${DateFormat('dd.MM.yyyy HH:MM').format(comment['datetime'])}',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           Expanded(child: Container()),
                           if (depth < MAX_COMMENT_DEPTH) ...[
                             GestureDetector(
                                 onTap: () {},
                                 child: Text(
-                                  "Ответить",
+                                  'Ответить',
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500,
@@ -630,7 +640,7 @@ class CommentListTile extends StatelessWidget {
                             GestureDetector(
                                 onTap: () {},
                                 child: Text(
-                                  "Удалить",
+                                  'Удалить',
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,

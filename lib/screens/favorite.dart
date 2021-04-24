@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:jurta/widgets/custom_tabbar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -234,27 +235,6 @@ class AdvertFavCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-///DecoratedTabBar
-class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
-  DecoratedTabBar({@required this.tabBar, @required this.decoration});
-
-  final TabBar tabBar;
-  final BoxDecoration decoration;
-
-  @override
-  Size get preferredSize => tabBar.preferredSize;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(child: Container(decoration: decoration)),
-        tabBar,
-      ],
     );
   }
 }

@@ -482,6 +482,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Text(
                                   'Показать все заявки',
                                   style: TextStyle(
@@ -501,30 +504,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
 
                       /// edit button
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 56),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Редактировать',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Style.blue,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 50),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(16, 16, 16, 56),
+                      //   child: ElevatedButton(
+                      //     onPressed: () {},
+                      //     child: Text(
+                      //       'Редактировать',
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //     ),
+                      //     style: ElevatedButton.styleFrom(
+                      //       primary: Style.blue,
+                      //       elevation: 0,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(4),
+                      //       ),
+                      //       padding: const EdgeInsets.symmetric(horizontal: 50),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

@@ -257,19 +257,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     children: [
                       /// avatar
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 20,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.network(
-                            'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80',
-                            height: 36,
-                            width: 36,
-                            fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: ProfileScreen(),
+                            withNavBar: false,
+                          );
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.network(
+                              'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80',
+                              height: 36,
+                              width: 36,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 20),
 
                       /// call

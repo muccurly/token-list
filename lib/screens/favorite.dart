@@ -259,10 +259,50 @@ class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
+//Empty Saved Search Page
+class EmptySavedSearch extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('У Вас нет сохраненных поисков,'),
+          Text('Выберите параметры для сохранения'),
+          SizedBox(height: 20),
+          Container(
+            width: Global.getSize(context).width / 2.7,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                'ПОИСК',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Style.orange,
+                elevation: 0,
+                padding: const EdgeInsets.only(top: 2.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 ///SavedSearchPage
 class SavedSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // return EmptySavedSearch();
     return ListView.builder(
         padding: const EdgeInsets.all(16),
         itemBuilder: (context, index) {
@@ -300,7 +340,7 @@ class SavedSearchCard extends StatelessWidget {
                 color: Style.orange,
               ),
               width: 4,
-              height: 120),
+              height: 110),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -349,7 +389,7 @@ class SavedSearchCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 8,
                       ),
                       Text(
                         savedSearch['flat'],
@@ -374,10 +414,12 @@ class SavedSearchCard extends StatelessWidget {
                           ///Button
                           Container(
                             alignment: Alignment.centerRight,
-                            height: 28,
+                            height: 24,
                             margin: const EdgeInsets.only(right: 16),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDeleteSavedSearchDialog(context);
+                              },
                               child: Text(
                                 'Выбрать',
                                 style: TextStyle(color: Colors.white),
@@ -440,4 +482,86 @@ class MySeparator extends StatelessWidget {
       },
     );
   }
+}
+
+///Delete Saved Search Dialog
+void showDeleteSavedSearchDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 24),
+              Text(
+                'Удалить Ваш сохраненный поиск?',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Style.blue,
+                    fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 36),
+
+              /// delete button
+              Container(
+                width: Global.getSize(c).width / 1.5,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'УДАЛИТЬ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+
+              ///Otmena Button
+              Container(
+                width: Global.getSize(c).width / 1.5,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: FittedBox(
+                    child: Text(
+                      'ОТМЕНА',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).canvasColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Style.blue,
+                        width: 1,
+                      ),
+                    ),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
 }

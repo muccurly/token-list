@@ -77,7 +77,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
         controller: _tabController,
         children: [
           AdvertListWidget(),
-          YandexMapWidget(),
+          SavedSearch(),
         ],
       ),
     );
@@ -238,6 +238,7 @@ class AdvertFavCard extends StatelessWidget {
   }
 }
 
+///DecoratedTabBar
 class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
   DecoratedTabBar({@required this.tabBar, @required this.decoration});
 
@@ -254,6 +255,189 @@ class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
         Positioned.fill(child: Container(decoration: decoration)),
         tabBar,
       ],
+    );
+  }
+}
+
+///SavedSearchPage
+class SavedSearch extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemBuilder: (context, index) {
+          final application = SAVED_SEARCH[index];
+          return SavedSearchCard(
+            savedSearch: application,
+          );
+        },
+        itemCount: APPLICATIONS.length);
+  }
+}
+
+///Saved Search Card
+class SavedSearchCard extends StatelessWidget {
+  final Map<String, dynamic> savedSearch;
+
+  const SavedSearchCard({Key key, this.savedSearch}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                color: Style.orange,
+              ),
+              width: 4,
+              height: 120),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// top section
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${savedSearch['name']}',
+                        style: TextStyle(
+                          color: Style.orange,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Icon(
+                        LineIcons.heartAlt,
+                        color: Colors.red,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+                  child: const MySeparator(),
+                ),
+
+                /// middle section
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        savedSearch['title'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        savedSearch['flat'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            savedSearch['area'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+
+                          ///Button
+                          Container(
+                            alignment: Alignment.centerRight,
+                            height: 28,
+                            margin: const EdgeInsets.only(right: 16),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Выбрать',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Style.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                elevation: 0,
+                                padding: EdgeInsets.symmetric(horizontal: 28),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+///Separator Design
+class MySeparator extends StatelessWidget {
+  final double height;
+  final Color color;
+
+  const MySeparator({
+    this.height = 1,
+    this.color = Colors.black26,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final boxWidth = constraints.constrainWidth();
+        final dashWidth = 2.0;
+        final dashHeight = height;
+        final dashCount = (boxWidth / (2 * dashWidth)).floor();
+        return Flex(
+          children: List.generate(dashCount, (_) {
+            return SizedBox(
+              width: dashWidth,
+              height: dashHeight,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: color),
+              ),
+            );
+          }),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
+        );
+      },
     );
   }
 }

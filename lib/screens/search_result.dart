@@ -443,6 +443,13 @@ class _AdvertCardState extends State<AdvertCard> {
                                   color: Style.orange,
                                 ),
                               ),
+                              TextSpan(
+                                text: ' ₸',
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'Montserrat'),
+                              ),
                             ],
                           ),
                           maxLines: 1,
@@ -589,15 +596,29 @@ class AdvertCardNew extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
-          Text(
-            advert['price'],
-            style: TextStyle(
-              color: Style.orange,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
+          RichText(
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: '${advert['price']}',
+                  style: TextStyle(
+                    color: Style.orange,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextSpan(
+                  text: ' ₸',
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

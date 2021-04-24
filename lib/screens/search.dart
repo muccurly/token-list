@@ -74,7 +74,10 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Scaffold(
           body: ListView(
             padding: EdgeInsets.symmetric(
-                horizontal: 12, vertical: Global.getViewPadding(context).top > 0 ? Global.getViewPadding(context).top : 16),
+                horizontal: 12,
+                vertical: Global.getViewPadding(context).top > 0
+                    ? Global.getViewPadding(context).top
+                    : 16),
             children: [
               /// house type
               const SizedBox(height: 20),
@@ -1668,14 +1671,29 @@ class OptionalAdvertsListView extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  advert['price'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
+                RichText(
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '${advert['price']}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' ₸',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Montserrat'),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

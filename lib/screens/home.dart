@@ -206,11 +206,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    '${advert['title']}, ${advert['price']}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: '${advert['title']}, ${advert['price']}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            )),
+                        TextSpan(
+                          text: ' ₸',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat'),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 8),

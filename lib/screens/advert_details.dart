@@ -1264,6 +1264,13 @@ class _MainInfoWidgetState extends State<MainInfoWidget> {
                           color: Style.orange,
                         ),
                       ),
+                      TextSpan(
+                        text: ' ₸',
+                        style: TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Montserrat'),
+                      ),
                     ],
                   ),
                   maxLines: 1,

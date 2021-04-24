@@ -87,7 +87,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     return Column(
       children: [
         Text(
-          DateFormat('d MMMM, yyyy | EEEE').format(_selectedDate),
+          DateFormat('d MMMM, yyyy • EEEE').format(_selectedDate),
           style: TextStyle(
             color: Colors.cyan,
             fontSize: 13,

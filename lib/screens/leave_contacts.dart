@@ -4,6 +4,7 @@ import 'package:jurta/screens/screens.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
+import 'package:jurta/utils/utils.dart';
 
 class LeaveContactsScreen extends StatefulWidget {
   static const String route = 'leave_contacts';
@@ -86,9 +87,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                   color: Colors.grey.shade500,
                   fontSize: 13,
                 ),
-                textInputFormatters: [
-                  PhoneInputFormatter(),
-                ],
+                textInputFormatters: PHONE_FORMATTER,
                 inputType: TextInputType.phone,
                 // hintText: '+7 (---) --- -- --',
                 // hintStyle: TextStyle(
@@ -102,7 +101,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                   height: 46,
                   width: Global.getSize(context).width,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => showBookConfirmationDialog(context),
                     child: Text(
                       'СОХРАНИТЬ',
                       style: TextStyle(

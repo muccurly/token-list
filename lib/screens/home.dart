@@ -5,7 +5,6 @@ import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:share/share.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
@@ -188,9 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      _showDialog(context);
-                    },
+                    onTap: () => showBookDialog(context),
+                    //  _showDialog(context);
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.5),
@@ -263,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       /// call
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => launchUrl('tel:${advert['phone']}'),
                         child: ImageIcon(
                           AssetImage('assets/images/phone_round.png'),
                           size: 30,
@@ -274,11 +272,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       /// like
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            advert['is_fav'] = !advert['is_fav'];
+                          });
+                        },
                         child: ImageIcon(
                           AssetImage('assets/images/like_filled.png'),
                           size: 30,
-                          color: Colors.white,
+                          color: advert['is_fav']
+                              ? Color.fromRGBO(220, 79, 94, 1.0)
+                              : Colors.white,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -298,17 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       /// share
                       GestureDetector(
-                        onTap: () {
-                          try {
-                            Share.share("Check it out!", subject: "Jurta");
-                          } on PlatformException {
-                            log('share Exception occured: PlatformException');
-                          } on FormatException {
-                            log('share Exception occured: FormatException');
-                          } catch (error, stacktrace) {
-                            log('share Exception occured: $error stackTrace: $stacktrace');
-                          }
-                        },
+                        onTap: () => share("Check it out!", subject: "Jurta"),
                         child: ImageIcon(
                           AssetImage('assets/images/share.png'),
                           size: 30,

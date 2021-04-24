@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 const String BASE_URL = '';
 const String REAL_PROPERTY_VIDEO_TOUR_LIST_URL =
@@ -112,6 +114,21 @@ const SORT_BY = [
 
 enum DrawerType { filter, menu }
 
+List<TextInputFormatter> MONEY_FORMATTER = [
+  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
+  MoneyInputFormatter(
+      mantissaLength: 0,
+      thousandSeparator: ThousandSeparator.SpaceAndCommaMantissa),
+];
+
+List<TextInputFormatter> PHONE_FORMATTER = [
+  PhoneInputFormatter(),
+];
+
+List<TextInputFormatter> NUMERIC_FORMATTER = [
+  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789")
+];
+
 List<Map<String, dynamic>> SPECIALISTS = [
   {
     'id': 1,
@@ -214,7 +231,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 1,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -299,7 +316,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 2,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -384,7 +401,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 3,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -469,7 +486,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 4,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -554,7 +571,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 5,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',
@@ -639,7 +656,7 @@ List<Map<String, dynamic>> ADVERTS = [
   {
     'id': 6,
     'title': 'JK Bi city Seoul',
-    'price': '29 500 000 T',
+    'price': '29 500 000 ₸',
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127.45 м\u00B2',

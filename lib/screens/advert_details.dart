@@ -221,7 +221,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop, */
         // bottomSheet: BuyNowBottomSheet(),
-        bottomNavigationBar: BuyNowBottomSheet(),
+        //bottomNavigationBar: BuyNowBottomSheet(),
       ),
     );
   }
@@ -311,7 +311,8 @@ class BookWidget extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              showBookConfirmationDialog(context);
+              pushNewScreen(context,
+                  screen: LeaveContactsScreen(), withNavBar: false);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),
@@ -1304,7 +1305,7 @@ class _MainInfoWidgetState extends State<MainInfoWidget> {
             Container(
               padding: const EdgeInsets.only(right: 16, left: 4),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () => share("Check it out!", subject: "Jurta"),
                 child: ImageIcon(
                   AssetImage('assets/images/share.png'),
                   size: 20,

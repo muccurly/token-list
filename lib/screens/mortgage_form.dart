@@ -18,13 +18,6 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
   final TextEditingController _loanC = TextEditingController();
   bool _existingCredits = false;
 
-  final List<TextInputFormatter> MONEY_FORMATTER = [
-    RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
-    MoneyInputFormatter(
-        mantissaLength: 0,
-        thousandSeparator: ThousandSeparator.SpaceAndCommaMantissa),
-  ];
-
   @override
   void dispose() {
     _phoneC.dispose();
@@ -81,9 +74,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               title: 'Номер телефона',
               hintText: '+7 (___) ___-__-__',
               keyboardType: TextInputType.phone,
-              textInputFormatters: [
-                PhoneInputFormatter(),
-              ],
+              textInputFormatters: PHONE_FORMATTER,
             ),
 
             /// fullname
@@ -109,10 +100,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               title: 'Срок, месяц',
               hintText: '60',
               keyboardType: TextInputType.number,
-              textInputFormatters: [
-                RestrictingInputFormatter.allowFromString(
-                    allowedChars: "0123456789")
-              ],
+              textInputFormatters: NUMERIC_FORMATTER,
             ),
 
             /// income

@@ -44,7 +44,6 @@ dependencies:
   rxdart: ^0.26.0
   smooth_page_indicator: ^0.2.3
   url_launcher: ^6.0.3
-  yandex_mapkit: ^0.5.1
 
 dev_dependencies:
   flutter_test:

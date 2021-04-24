@@ -36,21 +36,41 @@ class _FavoriteScreenState extends State<FavoriteScreen>
         automaticallyImplyLeading: false,
         toolbarHeight: kToolbarHeight,
         backgroundColor: Colors.transparent,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('СПИСОК'),
+        bottom: DecoratedTabBar(
+          tabBar: TabBar(
+            controller: _tabController,
+            tabs: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'ОБЪЕКТЫ',
+                  style: TextStyle(
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'СОХРАНЕННЫЕ ПОИСКИ',
+                  style: TextStyle(
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+            ],
+            indicatorColor: Style.orange,
+            labelColor: Style.orange,
+            unselectedLabelColor: Style.blue,
+          ),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Style.blue,
+                width: 2.0,
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('КАРТА'),
-            ),
-          ],
-          indicatorColor: Style.orange,
-          labelColor: Style.orange,
-          unselectedLabelColor: Colors.grey,
+          ),
         ),
       ),
       body: TabBarView(
@@ -214,6 +234,26 @@ class AdvertFavCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
+  DecoratedTabBar({@required this.tabBar, @required this.decoration});
+
+  final TabBar tabBar;
+  final BoxDecoration decoration;
+
+  @override
+  Size get preferredSize => tabBar.preferredSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(child: Container(decoration: decoration)),
+        tabBar,
+      ],
     );
   }
 }

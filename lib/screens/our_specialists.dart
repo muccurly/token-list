@@ -247,58 +247,64 @@ class SpecialistsTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ///Rating Star
-                    RatingBar(
-                      initialRating: rating,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      ratingWidget: RatingWidget(
-                        full: Icon(
-                          LineIcons.starAlt,
-                          color: Style.orange,
+                    Flexible(
+                      flex: 3,
+                      child: RatingBar(
+                        initialRating: rating,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        ratingWidget: RatingWidget(
+                          full: Icon(
+                            LineIcons.starAlt,
+                            color: Style.orange,
+                          ),
+                          half: Icon(
+                            LineIcons.starAlt,
+                            color: Style.orange,
+                          ),
+                          empty: Icon(LineIcons.star),
                         ),
-                        half: Icon(
-                          LineIcons.starAlt,
-                          color: Style.orange,
-                        ),
-                        empty: Icon(LineIcons.star),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                        itemSize: 16,
+                        ignoreGestures: true,
                       ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                      itemSize: 16,
-                      ignoreGestures: true,
                     ),
                     const SizedBox(width: 8),
 
                     ///Rating numbers
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/images/bubble_rect.png',
-                            height: 26,
-                            // width: 36,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 1),
-                            child: Text(
-                              rating.toString(),
-                              style: TextStyle(
-                                color: Style.orange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              textAlign: TextAlign.center,
+                    Flexible(
+                      flex: 1,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              'assets/images/bubble_rect.png',
+                              height: 26,
+                              // width: 36,
                             ),
                           ),
-                        ),
-                      ],
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 1),
+                              child: Text(
+                                rating.toString(),
+                                style: TextStyle(
+                                  color: Style.orange,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(width: 8),
 
@@ -310,11 +316,14 @@ class SpecialistsTile extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
 
-                    Text(
-                      position,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Style.orange,
+                    Flexible(
+                      flex: 3,
+                      child: Text(
+                        position,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Style.orange,
+                        ),
                       ),
                     ),
                   ],

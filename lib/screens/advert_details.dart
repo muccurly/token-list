@@ -311,7 +311,8 @@ class BookWidget extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              showBookConfirmationDialog(context);
+              pushNewScreen(context,
+                  screen: LeaveContactsScreen(), withNavBar: false);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),

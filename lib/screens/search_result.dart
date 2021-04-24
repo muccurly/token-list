@@ -3,7 +3,7 @@ import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
+//import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class SearchResultScreen extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _SearchResultScreenState extends State<SearchResultScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
   }
 
   @override
@@ -74,80 +74,80 @@ class _SearchResultScreenState extends State<SearchResultScreen>
               snap: true,
               floating: true,
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(74),
+                preferredSize: const Size.fromHeight(30),
                 child: Column(
                   children: [
                     /// search field
-                    Container(
-                      height: kToolbarHeight / 1.7,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      alignment: Alignment.center,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                          hintText: 'Поиск',
-                          hintStyle: TextStyle(
-                            color: Colors.grey.shade300,
-                            fontSize: 14,
-                          ),
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(top: 6.0),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: ImageIcon(
-                                    AssetImage('assets/images/search.png'),
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                    // Container(
+                    //   height: kToolbarHeight / 1.7,
+                    //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                    //   alignment: Alignment.center,
+                    //   child: TextFormField(
+                    //     decoration: InputDecoration(
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(50),
+                    //         borderSide: BorderSide(
+                    //           color: Colors.grey,
+                    //           width: 0.5,
+                    //         ),
+                    //       ),
+                    //       enabledBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(50),
+                    //         borderSide: BorderSide(
+                    //           color: Colors.grey,
+                    //           width: 0.5,
+                    //         ),
+                    //       ),
+                    //       focusedBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(50),
+                    //         borderSide: BorderSide(
+                    //           color: Colors.grey,
+                    //           width: 0.5,
+                    //         ),
+                    //       ),
+                    //       errorBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(50),
+                    //         borderSide: BorderSide(
+                    //           color: Colors.grey,
+                    //           width: 0.5,
+                    //         ),
+                    //       ),
+                    //       focusedErrorBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(50),
+                    //         borderSide: BorderSide(
+                    //           color: Colors.grey,
+                    //           width: 0.5,
+                    //         ),
+                    //       ),
+                    //       hintText: 'Поиск',
+                    //       hintStyle: TextStyle(
+                    //         color: Colors.grey.shade300,
+                    //         fontSize: 14,
+                    //       ),
+                    //       isDense: true,
+                    //       contentPadding: const EdgeInsets.symmetric(
+                    //         horizontal: 16,
+                    //         vertical: 8,
+                    //       ),
+                    //       suffixIcon: Padding(
+                    //         padding: const EdgeInsets.only(top: 6.0),
+                    //         child: Column(
+                    //           children: [
+                    //             SizedBox(
+                    //               height: 20,
+                    //               width: 20,
+                    //               child: ImageIcon(
+                    //                 AssetImage('assets/images/search.png'),
+                    //                 size: 20,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 8),
 
                     /// tab
                     TabBar(
@@ -160,13 +160,13 @@ class _SearchResultScreenState extends State<SearchResultScreen>
                             style: TextStyle(fontSize: 12),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'КАРТА',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Text(
+                        //     'КАРТА',
+                        //     style: TextStyle(fontSize: 12),
+                        //   ),
+                        // ),
                       ],
                       indicatorColor: Style.orange,
                       labelColor: Style.orange,
@@ -202,7 +202,7 @@ class _SearchResultScreenState extends State<SearchResultScreen>
                   ),
 
                   /// map
-                  YandexMapWidget(),
+                  //YandexMapWidget(),
                 ],
               ),
             ),
@@ -213,112 +213,112 @@ class _SearchResultScreenState extends State<SearchResultScreen>
   }
 }
 
-class YandexMapWidget extends StatefulWidget {
-  @override
-  _YandexMapWidgetState createState() => _YandexMapWidgetState();
-}
+// class YandexMapWidget extends StatefulWidget {
+//   @override
+//   _YandexMapWidgetState createState() => _YandexMapWidgetState();
+// }
 
-class _YandexMapWidgetState extends State<YandexMapWidget> {
-  YandexMapController _mapController;
+// class _YandexMapWidgetState extends State<YandexMapWidget> {
+//   YandexMapController _mapController;
 
-  @override
-  void dispose() {
-    _mapController.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     _mapController.dispose();
+//     super.dispose();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: YandexMap(
-            onMapCreated: (controller) {
-              _mapController = controller;
-              controller.move(
-                point: Point(latitude: 51.128507, longitude: 71.434613),
-                zoom: 15,
-              );
-            },
-          ),
-        ),
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         Positioned.fill(
+//           child: YandexMap(
+//             onMapCreated: (controller) {
+//               _mapController = controller;
+//               controller.move(
+//                 point: Point(latitude: 51.128507, longitude: 71.434613),
+//                 zoom: 15,
+//               );
+//             },
+//           ),
+//         ),
 
-        /// buttons on the right
-        Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                /// pen
-                Container(
-                    height: 36,
-                    width: 36,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400, width: 1),
-                      borderRadius: BorderRadius.circular(3),
-                      color: Colors.white,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(Icons.edit_outlined)),
-                const SizedBox(height: 16),
+//         /// buttons on the right
+//         Align(
+//           alignment: Alignment.centerRight,
+//           child: Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 /// pen
+//                 Container(
+//                     height: 36,
+//                     width: 36,
+//                     decoration: BoxDecoration(
+//                       border: Border.all(color: Colors.grey.shade400, width: 1),
+//                       borderRadius: BorderRadius.circular(3),
+//                       color: Colors.white,
+//                     ),
+//                     alignment: Alignment.center,
+//                     child: Icon(Icons.edit_outlined)),
+//                 const SizedBox(height: 16),
 
-                /// my location
-                Container(
-                    height: 36,
-                    width: 36,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400, width: 1),
-                      borderRadius: BorderRadius.circular(3),
-                      color: Colors.white,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(Icons.near_me_sharp)),
-                const SizedBox(height: 16),
+//                 /// my location
+//                 Container(
+//                     height: 36,
+//                     width: 36,
+//                     decoration: BoxDecoration(
+//                       border: Border.all(color: Colors.grey.shade400, width: 1),
+//                       borderRadius: BorderRadius.circular(3),
+//                       color: Colors.white,
+//                     ),
+//                     alignment: Alignment.center,
+//                     child: Icon(Icons.near_me_sharp)),
+//                 const SizedBox(height: 16),
 
-                /// zoom in
-                InkWell(
-                  onTap: () {
-                    _mapController?.zoomIn();
-                  },
-                  child: Container(
-                      height: 36,
-                      width: 36,
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Colors.grey.shade400, width: 1),
-                        borderRadius: BorderRadius.circular(3),
-                        color: Colors.white,
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(Icons.add)),
-                ),
+//                 /// zoom in
+//                 InkWell(
+//                   onTap: () {
+//                     _mapController?.zoomIn();
+//                   },
+//                   child: Container(
+//                       height: 36,
+//                       width: 36,
+//                       decoration: BoxDecoration(
+//                         border:
+//                             Border.all(color: Colors.grey.shade400, width: 1),
+//                         borderRadius: BorderRadius.circular(3),
+//                         color: Colors.white,
+//                       ),
+//                       alignment: Alignment.center,
+//                       child: Icon(Icons.add)),
+//                 ),
 
-                /// zoom out
-                InkWell(
-                  onTap: () {
-                    _mapController?.zoomOut();
-                  },
-                  child: Container(
-                      height: 36,
-                      width: 36,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 0.5),
-                        borderRadius: BorderRadius.circular(3),
-                        color: Colors.white,
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(Icons.horizontal_rule)),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//                 /// zoom out
+//                 InkWell(
+//                   onTap: () {
+//                     _mapController?.zoomOut();
+//                   },
+//                   child: Container(
+//                       height: 36,
+//                       width: 36,
+//                       decoration: BoxDecoration(
+//                         border: Border.all(color: Colors.grey, width: 0.5),
+//                         borderRadius: BorderRadius.circular(3),
+//                         color: Colors.white,
+//                       ),
+//                       alignment: Alignment.center,
+//                       child: Icon(Icons.horizontal_rule)),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class AdvertCard extends StatefulWidget {
   final Map<String, dynamic> advert;
@@ -600,7 +600,7 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
           ),
           const SizedBox(height: 4),
           Text(
-            '${widget.advert['rooms']} ком • ${widget.advert['flat']} • ${widget.advert['area']}',
+            '${widget.advert['rooms']} комнатная • ${widget.advert['flat']} • ${widget.advert['area']}',
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,

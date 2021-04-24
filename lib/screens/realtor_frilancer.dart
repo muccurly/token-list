@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/buyers.dart';
 
 import 'package:jurta/utils/utils.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class RealtorFrilancerScreen extends StatefulWidget {
   static const String route = 'realtor_frilancer';
@@ -52,7 +54,9 @@ class _RealtorFrilancerScreenState extends State<RealtorFrilancerScreen> {
                 Container(
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      pushNewScreen(context, screen: Buyers());
+                    },
                     child: Text(
                       '       ПОСМОТРЕТЬ      ',
                       style: TextStyle(

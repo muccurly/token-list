@@ -17,3 +17,4 @@ export 'login.dart';
 export 'leave_contacts.dart';
 export 'owner.dart';
 export 'realtor_frilancer.dart';
+export 'buyers.dart';

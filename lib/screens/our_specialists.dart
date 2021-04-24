@@ -317,12 +317,13 @@ class SpecialistsTile extends StatelessWidget {
                     const SizedBox(width: 8),
 
                     Flexible(
-                      flex: 3,
+                      flex: 4,
                       child: Text(
                         position,
                         style: TextStyle(
                           fontSize: 12,
                           color: Style.orange,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),

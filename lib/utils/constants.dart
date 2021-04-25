@@ -147,6 +147,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'position': 'Лидер месяца',
     //'rating_star': 5,
     'rating': 5.0,
+    'phone': '+77771234567',
   },
   {
     'id': 2,
@@ -157,6 +158,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'position': 'Лидер по коммерции',
     //'rating_star': 5,
     'rating': 4.9,
+    'phone': '+77771234567',
   },
   {
     'id': 3,
@@ -167,6 +169,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'position': 'Лидер по коммерции',
     //'rating_star': 5,
     'rating': 4.6,
+    'phone': '+77771234567',
   },
 ];
 

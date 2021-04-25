@@ -115,8 +115,11 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                   padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
                     final application = APPLICATIONS[index];
+                    final specialist = SPECIALISTS[index];
+
                     return ApplicationCard(
                       application: application,
+                      specialist: specialist,
                     );
                   },
                   itemCount: APPLICATIONS.length,
@@ -127,8 +130,10 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                   padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
                     final application = APPLICATIONS[index];
+                    final specialist = SPECIALISTS[index];
                     return ApplicationCard(
                       application: application,
+                      specialist: specialist,
                     );
                   },
                   itemCount: APPLICATIONS.length,
@@ -144,8 +149,10 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
 
 class ApplicationCard extends StatefulWidget {
   final Map<String, dynamic> application;
+  final Map<String, dynamic> specialist;
 
-  const ApplicationCard({Key key, this.application}) : super(key: key);
+  const ApplicationCard({Key key, this.application, this.specialist})
+      : super(key: key);
 
   @override
   _ApplicationCardState createState() => _ApplicationCardState();
@@ -236,25 +243,139 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ),
           const Divider(height: 0),
 
+          /// specialist
+          Visibility(
+            visible: isExpanded,
+            child: PhoneSpecialistTile(
+              imagePath: widget.specialist['imagePath'],
+              imageUrl: widget.specialist['imageUrl'],
+              name: widget.specialist['name'],
+              phone: widget.specialist['phone'],
+            ),
+          ),
+
           /// bottom section
-          Container(
-            alignment: Alignment.centerRight,
-            height: 28,
-            margin: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                'Подробнее',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Style.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+          Visibility(
+            visible: !isExpanded,
+            child: Container(
+              alignment: Alignment.centerRight,
+              height: 28,
+              margin: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Text(
+                  'Подробнее',
+                  style: TextStyle(color: Colors.white),
                 ),
-                elevation: 0,
-                padding: EdgeInsets.symmetric(horizontal: 36),
+                style: ElevatedButton.styleFrom(
+                  primary: Style.orange,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  elevation: 0,
+                  padding: EdgeInsets.symmetric(horizontal: 36),
+                ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PhoneSpecialistTile extends StatelessWidget {
+  final String imagePath;
+  final String imageUrl;
+  final String phone;
+  final String name;
+
+  const PhoneSpecialistTile({
+    Key key,
+    this.imagePath,
+    this.imageUrl,
+    this.phone,
+    this.name,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: Colors.grey.shade300, width: 0.5),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 28,
+            backgroundImage: imageUrl != null
+                ? NetworkImage(imageUrl)
+                : AssetImage(imagePath),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// name
+                Text(
+                  name ?? '--',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 5.0),
+
+                /// Rating
+                GestureDetector(
+                  onTap: () => launchUrl('tel:$phone'),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      /// phone button
+                      ImageIcon(
+                        AssetImage('assets/images/phone_round.png'),
+                        size: 30,
+                        color: Style.blue,
+                      ),
+
+                      const SizedBox(width: 8),
+
+                      /// phone itself
+                      Container(
+                        alignment: Alignment.centerRight,
+                        height: 28,
+                        child: ElevatedButton(
+                          onPressed: null,
+                          child: Text(
+                            '$phone',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            // TODO: doesn't work
+                            primary: Style.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            elevation: 0,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],

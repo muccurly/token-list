@@ -116,7 +116,8 @@ class _PlusIntoductionScreenState extends State<PlusIntoductionScreen> {
                         margin: const EdgeInsets.only(top: 16),
                         child: ElevatedButton(
                           onPressed: () {
-                            pushNewScreen(context, screen: OwnerScreen());
+                            pushNewScreen(context,
+                                screen: VideoRecordingScreen());
                           },
                           child: FittedBox(
                             child: Text(

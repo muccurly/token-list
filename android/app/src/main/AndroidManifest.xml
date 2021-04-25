@@ -3,9 +3,13 @@
     <!-- General connection -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Maps -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
     <!-- Calls -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <!-- Video recoding -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.CAMERA" />
    <application
         android:label="Jurta"
         android:icon="@mipmap/ic_launcher"

@@ -115,16 +115,28 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                   padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
                     final application = APPLICATIONS[index];
+                    final specialist = SPECIALISTS[index];
+
                     return ApplicationCard(
                       application: application,
+                      specialist: specialist,
                     );
                   },
                   itemCount: APPLICATIONS.length,
                 ),
 
                 /// archive
-                Container(
-                  child: Center(child: Text('archive')),
+                ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemBuilder: (context, index) {
+                    final application = APPLICATIONS[index];
+                    final specialist = SPECIALISTS[index];
+                    return ApplicationCard(
+                      application: application,
+                      specialist: specialist,
+                    );
+                  },
+                  itemCount: APPLICATIONS.length,
                 ),
               ],
             ),
@@ -135,10 +147,19 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
   }
 }
 
-class ApplicationCard extends StatelessWidget {
+class ApplicationCard extends StatefulWidget {
   final Map<String, dynamic> application;
+  final Map<String, dynamic> specialist;
 
-  const ApplicationCard({Key key, this.application}) : super(key: key);
+  const ApplicationCard({Key key, this.application, this.specialist})
+      : super(key: key);
+
+  @override
+  _ApplicationCardState createState() => _ApplicationCardState();
+}
+
+class _ApplicationCardState extends State<ApplicationCard> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +185,7 @@ class ApplicationCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Заявка на ${application['type'] == 'buy' ? 'покупку' : 'продажу'}',
+                  'Заявка на ${widget.application['type'] == 'buy' ? 'покупку' : 'продажу'}',
                   style: TextStyle(
                     color: Style.orange,
                     fontSize: 12,
@@ -176,7 +197,7 @@ class ApplicationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        'ID - ${application['application_id']}',
+                        'ID - ${widget.application['application_id']}',
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w300,
@@ -184,7 +205,7 @@ class ApplicationCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${DateFormat('kk:mm, dd.MM.yyyy').format(application['datetime'])}',
+                        '${DateFormat('kk:mm, dd.MM.yyyy').format(widget.application['datetime'])}',
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w300,
@@ -199,48 +220,262 @@ class ApplicationCard extends StatelessWidget {
           const Divider(height: 16),
 
           /// middle section
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              'Краткое описание:',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.w300,
+          Visibility(
+            visible: !isExpanded,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              child: Text(
+                'Краткое описание:',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Text(
-              application['short_description'],
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
+          Visibility(
+            visible: !isExpanded,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Text(
+                widget.application['short_description'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
+
+          /// extended middle section
+          ExtendedApplicationDescription(
+              fieldName: 'Цена',
+              fieldValue: '${widget.application['advert']['price']} тг',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Город',
+              fieldValue: '${widget.application['advert']['address_city']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Район',
+              fieldValue: '${widget.application['advert']['address_district']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Улица',
+              fieldValue: '${widget.application['advert']['address_street']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Дом',
+              fieldValue: '${widget.application['advert']['address_house']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'ЖК',
+              fieldValue: '${widget.application['advert']['title']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Количество комнат',
+              fieldValue: '${widget.application['advert']['rooms']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Площадь',
+              fieldValue: '${widget.application['advert']['area']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Комментарий',
+              fieldValue: '${widget.application['short_description']}',
+              isExpanded: isExpanded,
+              widget: widget),
           const Divider(height: 0),
 
+          /// specialist
+          Visibility(
+            visible: isExpanded,
+            child: PhoneSpecialistTile(
+              imagePath: widget.specialist['imagePath'],
+              imageUrl: widget.specialist['imageUrl'],
+              name: widget.specialist['name'],
+              phone: widget.specialist['phone'],
+            ),
+          ),
+
           /// bottom section
-          Container(
-            alignment: Alignment.centerRight,
-            height: 28,
-            margin: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                'Подробнее',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Style.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+          Visibility(
+            visible: !isExpanded,
+            child: Container(
+              alignment: Alignment.centerRight,
+              height: 28,
+              margin: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Text(
+                  'Подробнее',
+                  style: TextStyle(color: Colors.white),
                 ),
-                elevation: 0,
-                padding: EdgeInsets.symmetric(horizontal: 36),
+                style: ElevatedButton.styleFrom(
+                  primary: Style.orange,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  elevation: 0,
+                  padding: EdgeInsets.symmetric(horizontal: 36),
+                ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ExtendedApplicationDescription extends StatelessWidget {
+  final String fieldName;
+  final String fieldValue;
+  final bool isExpanded;
+  final ApplicationCard widget;
+
+  const ExtendedApplicationDescription({
+    Key key,
+    @required this.fieldName,
+    @required this.fieldValue,
+    @required this.isExpanded,
+    @required this.widget,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: isExpanded,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: RichText(
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                  text: '$fieldName: ',
+                  style: TextStyle(
+                    color: Style.blue,
+                    fontWeight: FontWeight.w700,
+                  )),
+              TextSpan(
+                text: fieldValue,
+                style: TextStyle(
+                  color: Style.blue,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PhoneSpecialistTile extends StatelessWidget {
+  final String imagePath;
+  final String imageUrl;
+  final String phone;
+  final String name;
+
+  const PhoneSpecialistTile({
+    Key key,
+    this.imagePath,
+    this.imageUrl,
+    this.phone,
+    this.name,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: Colors.grey.shade300, width: 0.5),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 28,
+            backgroundImage: imageUrl != null
+                ? NetworkImage(imageUrl)
+                : AssetImage(imagePath),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// name
+                Text(
+                  name ?? '--',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 5.0),
+
+                /// Rating
+                GestureDetector(
+                  onTap: () => launchUrl('tel:$phone'),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      /// phone button
+                      ImageIcon(
+                        AssetImage('assets/images/phone_round.png'),
+                        size: 30,
+                        color: Style.blue,
+                      ),
+
+                      const SizedBox(width: 8),
+
+                      /// phone itself
+                      Container(
+                        alignment: Alignment.centerRight,
+                        height: 28,
+                        child: ElevatedButton(
+                          onPressed: null,
+                          child: Text(
+                            '$phone',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            // TODO: doesn't work
+                            primary: Style.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            elevation: 0,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],

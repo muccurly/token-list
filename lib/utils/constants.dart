@@ -147,6 +147,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'position': 'Лидер месяца',
     //'rating_star': 5,
     'rating': 5.0,
+    'phone': '+77771234567',
   },
   {
     'id': 2,
@@ -157,6 +158,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'position': 'Лидер по коммерции',
     //'rating_star': 5,
     'rating': 4.9,
+    'phone': '+77771234567',
   },
   {
     'id': 3,
@@ -167,6 +169,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'position': 'Лидер по коммерции',
     //'rating_star': 5,
     'rating': 4.6,
+    'phone': '+77771234567',
   },
 ];
 
@@ -249,6 +252,10 @@ List<Map<String, dynamic>> ADVERTS = [
       'https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
     ],
     'address': 'Нур-Султан, Есильский район, ул. Сауран, 18',
+    'address_city': 'Нур-Султан',
+    'address_district': 'Есильский',
+    'address_street': 'Сауран',
+    'address_house': '18',
     'phone': '+77771234567',
     'state': 'Евроремонт',
     'ceiling': '3 м',

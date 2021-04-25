@@ -123,7 +123,7 @@ class NotificationSettingsTile extends StatelessWidget {
         onChanged(!switchValue);
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(padding ?? 8, 8, 8, 8),
+        padding: EdgeInsets.fromLTRB(padding ?? 15, 8, 8, 8),
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: Colors.white,

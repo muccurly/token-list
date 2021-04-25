@@ -41,8 +41,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "kz.dpax.jurta"
 
-        // secure storage requirement
-        minSdkVersion 18
+        // secure storage requirement - 18
+        // camera requirement - 21
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -70,5 +71,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.yandex.android:maps.mobile:4.0.0-full'
+    //implementation 'com.yandex.android:maps.mobile:4.0.0-full'
 }

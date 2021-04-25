@@ -18,7 +18,7 @@ class PlusScreen extends StatelessWidget {
               /// owner
               OptionWidget(
                 image: 'assets/images/relaxing_at_home_pana.png',
-                text: 'СОБСТВЕННИК',
+                text: 'ПРОДАТЬ САМОМУ',
                 color: Style.orange,
                 onPressed: () {
                   pushNewScreen(context, screen: PlusIntoductionScreen());

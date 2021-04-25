@@ -865,3 +865,34 @@ List<Map<String, dynamic>> SAVED_SEARCH = [
     'area': 'Площадь 70 - 85 м^2',
   },
 ];
+
+List<Map<String, dynamic>> BUYERS = [
+  {
+    'id': 1,
+    'name': 'Акниет',
+    'address': 'Есиль рн, 3-комнатная квартира,',
+    'date': DateTime.now().subtract(Duration(days: 2, hours: 2, minutes: 15)),
+    'price': '35 000 000 тг',
+  },
+  {
+    'id': 2,
+    'name': 'Рамазан',
+    'address': 'Сарыарка рн, 2-комнатная квартира,',
+    'date': DateTime.now().subtract(Duration(days: 1, hours: 2, minutes: 30)),
+    'price': '25 000 000 тг',
+  },
+  {
+    'id': 3,
+    'name': 'Темирлан',
+    'address': 'Есиль рн, 1-комнатная квартира,',
+    'date': DateTime.now().subtract(Duration(days: 4, hours: 2, minutes: 25)),
+    'price': '17 000 000 тг',
+  },
+  {
+    'id': 4,
+    'name': 'Жамиля',
+    'address': 'Есиль рн, 3-4 комнатная квартира,',
+    'date': DateTime.now().subtract(Duration(days: 4, hours: 2, minutes: 25)),
+    'price': '50 000 000 - 70 000 000 тг',
+  },
+];

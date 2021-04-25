@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:jurta/providers/providers.dart';
 import 'package:jurta/screens/screens.dart';
@@ -18,96 +20,154 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // String _headerSelected = _headerTexts[0];
 
+  int currentPage = 0;
+  // Map<String, dynamic> advert = ADVERTS[0];
+
+  final PagingController<int, Map<String, dynamic>> _pageController =
+      PagingController(firstPageKey: 0);
+
+  @override
+  void initState() {
+    _pageController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      // final newItems = await RemoteApi.getCharacterList(pageKey, _pageSize);
+      // final isLastPage = newItems.length < _pageSize;
+
+      final isLastPage = pageKey == ADVERTS.length;
+      if (isLastPage) {
+        _pageController.appendLastPage([ADVERTS[ADVERTS.length - 1]]);
+      } else {
+        final nextPageKey = pageKey + 1; // newItems.length;
+        _pageController.appendPage([ADVERTS[pageKey]], nextPageKey);
+      }
+    } catch (error) {
+      log(error);
+      _pageController.error = error;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
-    final advert = ADVERTS[0];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         key: _sKey,
         endDrawer: DrawerWrapper(type: DrawerType.filter),
-        body: Stack(
-          children: [
-            /// background image
-            Positioned.fill(
-              child: Image.network(
-                advert['images'][1],
-                fit: BoxFit.cover,
-              ),
-            ),
+        body: PagedListView<int, Map<String, dynamic>>(
+          pagingController: _pageController,
+          physics: const PageScrollPhysics(),
+          builderDelegate: PagedChildBuilderDelegate<Map<String, dynamic>>(
+              itemBuilder: (context, advert, index) {
+            // return Text(index.toString());
 
-            /// header fade
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0)
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
-            ),
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   setState(() {
+            //     currentPage = index;
+            //   });
+            // });
 
-            /// bottom fade
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0)
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-              ),
-            ),
-
-            /// header
-            Positioned(
-              top: Global.getViewPadding(context).top + 16,
-              left: 0,
-              right: 16,
-              child: Row(
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width,
+                  maxHeight: MediaQuery.of(context).size.height - 80),
+              child: Stack(
                 children: [
-                  /// jurta image
-                  Container(
-                    height: 34,
-                    // width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
+                  /// background image
+                  // Positioned.fill(
+                  //   child: Image.network(
+                  //     advert['images'][0],
+                  //     filterQuality: FilterQuality.high,
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
+
+                  Positioned.fill(
+                      child: MainPhotoViewer(advertImages: advert['images'])),
+
+                  /// header fade
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0)
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                       ),
-                      color: Style.blue,
-                    ),
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      color: Colors.white,
-                      height: 26,
                     ),
                   ),
-                  Spacer(),
 
-                  /// filter old
-                  /* Expanded(
+                  /// bottom fade
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 150,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  /// header
+                  Positioned(
+                    top: Global.getViewPadding(context).top + 16,
+                    left: 0,
+                    right: 16,
+                    child: Row(
+                      children: [
+                        /// jurta image
+                        Container(
+                          height: 34,
+                          // width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(50),
+                              bottomRight: Radius.circular(50),
+                            ),
+                            color: Style.blue,
+                          ),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            color: Colors.white,
+                            height: 26,
+                          ),
+                        ),
+                        Spacer(),
+
+                        /// filter old
+                        /* Expanded(
                     child: Container(
                       alignment: Alignment.centerRight,
                       height: 30,
@@ -150,226 +210,278 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ), */
 
-                  /// filter new
-                  GestureDetector(
-                    onTap: () {
-                      _sKey.currentState.openEndDrawer();
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Фильтр',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
+                        /// filter new
+                        GestureDetector(
+                          onTap: () {
+                            _sKey.currentState.openEndDrawer();
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Фильтр',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              ImageIcon(
+                                AssetImage('assets/images/sort.png'),
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 4),
-                        ImageIcon(
-                          AssetImage('assets/images/sort.png'),
-                          color: Colors.white,
-                          size: 24,
-                        ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
 
-            /// bottom
-            Positioned(
-              left: 16,
-              right: 16,
-              bottom: 32,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () => showBookDialog(context),
-                    //  _showDialog(context);
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 6),
-                      child: Text(
-                        'Записаться на показ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: '${advert['title']}, ${advert['price']}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            )),
-                        TextSpan(
-                          text: ' ₸',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${advert['rooms']}-комнатная квартира • ${advert['flat']} • ${advert['area']}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    advert['address'],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
-            ),
-
-            /// right
-            Positioned(
-              right: 16,
-              bottom: 16,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    children: [
-                      /// avatar
-                      GestureDetector(
-                        onTap: () {
-                          pushNewScreen(
-                            context,
-                            screen: ProfileScreen(),
-                            withNavBar: false,
-                          );
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 20,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.network(
-                              'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80',
-                              height: 36,
-                              width: 36,
-                              fit: BoxFit.cover,
+                  /// bottom
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 32,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () => showBookDialog(context),
+                          //  _showDialog(context);
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 6),
+                            child: Text(
+                              'Записаться на показ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      /// call
-                      GestureDetector(
-                        onTap: () => launchUrl('tel:${advert['phone']}'),
-                        child: ImageIcon(
-                          AssetImage('assets/images/phone_round.png'),
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      /// like
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            advert['is_fav'] = !advert['is_fav'];
-                          });
-                        },
-                        child: ImageIcon(
-                          AssetImage('assets/images/like_filled.png'),
-                          size: 30,
-                          color: advert['is_fav']
-                              ? Color.fromRGBO(220, 79, 94, 1.0)
-                              : Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      /// comments
-                      GestureDetector(
-                        onTap: () {
-                          _showCommentsBottomSheet(_sKey, context);
-                        },
-                        child: ImageIcon(
-                          AssetImage('assets/images/comment.png'),
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      /// share
-                      GestureDetector(
-                        onTap: () => share("Check it out!", subject: "Jurta"),
-                        child: ImageIcon(
-                          AssetImage('assets/images/share.png'),
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 36),
-                    ],
-                  ),
-                  Container(
-                    height: 28,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        pushNewScreenWithRouteSettings(
-                          context,
-                          screen: AdvertDetailsScreen(),
-                          settings: RouteSettings(
-                            name: AdvertDetailsScreen.route,
-                            arguments: advert,
+                        const SizedBox(height: 16),
+                        RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text:
+                                      '${advert['title']}, ${advert['price']}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              TextSpan(
+                                text: ' ₸',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                      child: Text(
-                        'Подробнее',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                        const SizedBox(height: 8),
+                        Text(
+                          '${advert['rooms']}-комнатная квартира • ${advert['flat']} • ${advert['area']}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          advert['address'],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                     ),
                   ),
+
+                  /// right
+                  Positioned(
+                    right: 16,
+                    bottom: 16,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Column(
+                          children: [
+                            /// avatar
+                            GestureDetector(
+                              onTap: () {
+                                pushNewScreen(
+                                  context,
+                                  screen: ProfileScreen(),
+                                  withNavBar: false,
+                                );
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 20,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80',
+                                    height: 36,
+                                    width: 36,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            /// call
+                            GestureDetector(
+                              onTap: () => launchUrl('tel:${advert['phone']}'),
+                              child: ImageIcon(
+                                AssetImage('assets/images/phone_round.png'),
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+
+                            /// like
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  advert['is_fav'] = !advert['is_fav'];
+                                });
+                              },
+                              child: ImageIcon(
+                                AssetImage('assets/images/like_filled.png'),
+                                size: 30,
+                                color: advert['is_fav']
+                                    ? Color.fromRGBO(220, 79, 94, 1.0)
+                                    : Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+
+                            /// comments
+                            GestureDetector(
+                              onTap: () {
+                                _showCommentsBottomSheet(_sKey, context);
+                              },
+                              child: ImageIcon(
+                                AssetImage('assets/images/comment.png'),
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+
+                            /// share
+                            GestureDetector(
+                              onTap: () =>
+                                  share("Check it out!", subject: "Jurta"),
+                              child: ImageIcon(
+                                AssetImage('assets/images/share.png'),
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 36),
+                          ],
+                        ),
+                        Container(
+                          height: 28,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              pushNewScreenWithRouteSettings(
+                                context,
+                                screen: AdvertDetailsScreen(),
+                                settings: RouteSettings(
+                                  name: AdvertDetailsScreen.route,
+                                  arguments: advert,
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Подробнее',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Positioned(top: 0, bottom: 0, right: 0, child: MenuDrawer()),
                 ],
               ),
-            ),
-
-            // Positioned(top: 0, bottom: 0, right: 0, child: MenuDrawer()),
-          ],
+            );
+          }),
         ),
       ),
+    );
+  }
+}
+
+class MainPhotoViewer extends StatefulWidget {
+  final List<String> advertImages;
+
+  const MainPhotoViewer({
+    Key key,
+    @required this.advertImages,
+  }) : super(key: key);
+
+  @override
+  _MainPhotoViewerState createState() => _MainPhotoViewerState();
+}
+
+class _MainPhotoViewerState extends State<MainPhotoViewer> {
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      controller: _pageController,
+      children: [
+        ...widget.advertImages.map(
+          (String imageUrl) {
+            return GestureDetector(
+              onTap: () => viewImage(
+                context,
+                widget.advertImages.indexOf(imageUrl),
+                widget.advertImages,
+              ),
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+            );
+          },
+        ).toList(),
+      ],
     );
   }
 }

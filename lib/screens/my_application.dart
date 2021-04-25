@@ -220,27 +220,81 @@ class _ApplicationCardState extends State<ApplicationCard> {
           const Divider(height: 16),
 
           /// middle section
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              'Краткое описание:',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.w300,
+          Visibility(
+            visible: !isExpanded,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              child: Text(
+                'Краткое описание:',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Text(
-              widget.application['short_description'],
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
+          Visibility(
+            visible: !isExpanded,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Text(
+                widget.application['short_description'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
+
+          /// extended middle section
+          ExtendedApplicationDescription(
+              fieldName: 'Цена',
+              fieldValue: '${widget.application['advert']['price']} тг',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Город',
+              fieldValue: '${widget.application['advert']['address_city']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Район',
+              fieldValue: '${widget.application['advert']['address_district']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Улица',
+              fieldValue: '${widget.application['advert']['address_street']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Дом',
+              fieldValue: '${widget.application['advert']['address_house']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'ЖК',
+              fieldValue: '${widget.application['advert']['title']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Количество комнат',
+              fieldValue: '${widget.application['advert']['rooms']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Площадь',
+              fieldValue: '${widget.application['advert']['area']}',
+              isExpanded: isExpanded,
+              widget: widget),
+          ExtendedApplicationDescription(
+              fieldName: 'Комментарий',
+              fieldValue: '${widget.application['short_description']}',
+              isExpanded: isExpanded,
+              widget: widget),
           const Divider(height: 0),
 
           /// specialist
@@ -283,6 +337,52 @@ class _ApplicationCardState extends State<ApplicationCard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ExtendedApplicationDescription extends StatelessWidget {
+  final String fieldName;
+  final String fieldValue;
+  final bool isExpanded;
+  final ApplicationCard widget;
+
+  const ExtendedApplicationDescription({
+    Key key,
+    @required this.fieldName,
+    @required this.fieldValue,
+    @required this.isExpanded,
+    @required this.widget,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: isExpanded,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: RichText(
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                  text: '$fieldName: ',
+                  style: TextStyle(
+                    color: Style.blue,
+                    fontWeight: FontWeight.w700,
+                  )),
+              TextSpan(
+                text: fieldValue,
+                style: TextStyle(
+                  color: Style.blue,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

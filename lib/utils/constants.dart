@@ -89,6 +89,14 @@ const List<String> CREDIT_PROGRAMS = [
   'Программа 5',
 ];
 
+const List<String> STREETS = [
+  'улица 1',
+  'улица 2',
+  'улица 3',
+  'улица 4',
+  'улица 5',
+];
+
 const List<String> COMPLEXES = [
   'жилой комплекс 1',
   'жилой комплекс 2',

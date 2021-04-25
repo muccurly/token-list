@@ -20,3 +20,4 @@ export 'realtor_frilancer.dart';
 export 'buyers.dart';
 export 'rate_agent.dart';
 export 'rate_call_center.dart';
+export 'video_recording.dart';

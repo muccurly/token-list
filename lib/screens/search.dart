@@ -126,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
                 child: Container(
-                  height: 28,
+                  height: 35,
                   width: double.infinity,
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -545,7 +545,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Padding(
                           padding: const EdgeInsets.only(right: 12.0),
                           child: Container(
-                            height: 28,
+                            height: 35,
                             width: double.infinity,
                             alignment: Alignment.center,
                             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -658,7 +658,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               // ),
                               Expanded(
                                 child: Container(
-                                  height: 28,
+                                  height: 35,
                                   width: double.infinity,
                                   alignment: Alignment.center,
                                   margin: const EdgeInsets.only(left: 4),
@@ -720,7 +720,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               /// complex
                               Expanded(
                                 child: Container(
-                                  height: 28,
+                                  height: 35,
                                   width: double.infinity,
                                   alignment: Alignment.center,
                                   margin:
@@ -867,7 +867,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Padding(
                           padding: const EdgeInsets.only(right: 12.0),
                           child: Container(
-                            height: 28,
+                            height: 35,
                             width: double.infinity,
                             alignment: Alignment.center,
                             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -1535,7 +1535,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 4.0, right: 16.0),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => showSaveSearchDialog(context),
                         child: FittedBox(
                           child: Text(
                             'Сохранить',
@@ -1608,7 +1608,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        pushNewScreen(
+                          context,
+                          screen: SearchResultScreen(),
+                          withNavBar: true,
+                        );
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Style.orange,
@@ -1662,7 +1668,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        pushNewScreen(
+                          context,
+                          screen: SearchResultScreen(),
+                          withNavBar: true,
+                        );
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Style.orange,
@@ -1731,6 +1743,194 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 }
 
+void showSaveSearchDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 24),
+              Text(
+                'Укажите наименование поиска',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Style.blue,
+                    fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              Row(children: [
+                /// named search
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: TextFormField(
+                      //controller: _yearFromC,
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 0.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 0.5,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 0.5,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 0.5,
+                          ),
+                        ),
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Наименование',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade300,
+                          fontSize: 12,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 16,
+                        ),
+                        isDense: true,
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                ),
+              ]),
+
+              const SizedBox(height: 20),
+
+              /// delete button
+              Container(
+                width: Global.getSize(c).width / 1.5,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'ОТМЕНА',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+
+              ///Otmena Button
+              Container(
+                width: Global.getSize(c).width / 1.5,
+                child: ElevatedButton(
+                  onPressed: () => showSaveSearchSuccessDialog(context),
+                  child: FittedBox(
+                    child: Text(
+                      'СОХРАНИТЬ',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
+}
+
+void showSaveSearchSuccessDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Поиск сохранен',
+                style: TextStyle(fontSize: 14, color: Style.orange),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Вы можете управлять сохраненными поисками\nв Избранных',
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: Global.getSize(c).width / 2,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(top: 2.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
+}
+
 class OptionalAdvertsListView extends StatelessWidget {
   final EdgeInsets padding;
 
@@ -1746,68 +1946,80 @@ class OptionalAdvertsListView extends StatelessWidget {
         itemCount: ADVERTS.length,
         itemBuilder: (c, index) {
           final advert = ADVERTS[index];
-          return Container(
-            height: double.infinity,
-            width: 130,
-            margin: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Image.network(
-                    advert['images'][index % 3],
-                    fit: BoxFit.cover,
-                    height: 130 / 3 * 4,
-                    width: double.infinity,
-                  ),
+          return GestureDetector(
+            onTap: () {
+              pushNewScreenWithRouteSettings(
+                context,
+                screen: AdvertDetailsScreen(),
+                settings: RouteSettings(
+                  name: AdvertDetailsScreen.route,
+                  arguments: advert,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  advert['title'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+              );
+            },
+            child: Container(
+              height: double.infinity,
+              width: 130,
+              margin: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.network(
+                      advert['images'][index % 3],
+                      fit: BoxFit.cover,
+                      height: 130 / 3 * 4,
+                      width: double.infinity,
+                    ),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${advert['rooms']} комнатная • ${advert['area']}',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w400,
+                  const SizedBox(height: 8),
+                  Text(
+                    advert['title'],
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                RichText(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '${advert['price']}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' ₸',
-                        style: TextStyle(
+                  const SizedBox(height: 4),
+                  Text(
+                    '${advert['rooms']} комнатная • ${advert['area']}',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  RichText(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: '${advert['price']}',
+                          style: TextStyle(
                             fontSize: 12,
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'Montserrat'),
-                      ),
-                    ],
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' ₸',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat'),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

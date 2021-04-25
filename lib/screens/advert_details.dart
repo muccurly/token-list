@@ -9,6 +9,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class AdvertDetailsScreen extends StatefulWidget {
   static const String route = 'advert_details_screen';
@@ -136,7 +137,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             MortgageWidget(),
 
             /// trade
-            TradeWidget(),
+            // TradeWidget(),
             Divider(height: 0, endIndent: 16, indent: 16),
 
             /// book
@@ -477,6 +478,14 @@ class _CreditCalculatorWidgetState extends State<CreditCalculatorWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// loan terms
+        CreditCalculatorProgram(
+          text: 'Программа кредитования:',
+          hint: 'Программа кредитования',
+          selectedProgram: _selectedProgram,
+          onChanged: (option) => setState(() => _selectedProgram = option),
+        ),
+
         /// an initial fee
         CreditCalculatorTile(
           text: 'Первоначальный взнос (тг):',
@@ -496,14 +505,6 @@ class _CreditCalculatorWidgetState extends State<CreditCalculatorWidget> {
           text: 'Средний доход в месяц (тг):',
           hint: '450000',
           controller: _avgIncomeMosC,
-        ),
-
-        /// loan terms
-        CreditCalculatorProgram(
-          text: 'Программа кредитования:',
-          hint: 'Программа кредитования',
-          selectedProgram: _selectedProgram,
-          onChanged: (option) => setState(() => _selectedProgram = option),
         ),
 
         /// rate of remuneration
@@ -980,48 +981,49 @@ class TableWidget extends StatelessWidget {
       child: Table(
         children: [
           TableRow(children: [
-            TableFirstColumnWidget(text: 'Количество комнат'),
+            TableFirstColumnWidget(
+                text: 'Количество комнат ............................'),
             TableSecondColumnWidget(text: advert['rooms']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Площадь',
+              text: 'Площадь .............................................',
             ),
             TableSecondColumnWidget(text: advert['area']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Этаж',
+              text: 'Этаж ...................................................',
             ),
             TableSecondColumnWidget(text: advert['flat']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Состояние',
+              text: 'Состояние ..........................................',
             ),
             TableSecondColumnWidget(text: advert['state']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Потолки',
+              text: 'Потолки ..............................................',
             ),
             TableSecondColumnWidget(text: advert['ceiling']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Санузел',
+              text: 'Санузел ..............................................',
             ),
             TableSecondColumnWidget(text: advert['bathroom']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Паркинг',
+              text: 'Паркинг ..............................................',
             ),
             TableSecondColumnWidget(text: advert['parking']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Год постройки',
+              text: 'Год постройки ....................................',
             ),
             TableSecondColumnWidget(text: advert['year']),
           ]),
@@ -1592,22 +1594,31 @@ Future<void> showBookDialog(BuildContext context) async {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Бронирование показа недвижимости на',
+                  'Для подтверждения времени показа',
                   style: TextStyle(fontSize: 12),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
+                // Text(
+                //   '${DateFormat('dd/MM/yyyy').format(res)} в ${DateFormat('kk:mm').format(res)}',
+                //   style: TextStyle(
+                //     color: Style.orange,
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w500,
+                //   ),
+                // ),
                 Text(
-                  '${DateFormat('dd/MM/yyyy').format(res)} в ${DateFormat('kk:mm').format(res)}',
-                  style: TextStyle(
-                    color: Style.orange,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'успешно произведено!',
+                  'в ближайшее время наши менеджеры',
                   style: TextStyle(fontSize: 12),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'свяжутся с Вами',
+                  style: TextStyle(fontSize: 12),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Спасибо за обращение!',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -1648,6 +1659,14 @@ class BookDateTimeSelectWidget extends StatefulWidget {
 }
 
 class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
+  DateFormat dateFormat;
+  DateFormat timeFormat;
+
+  void initState() {
+    super.initState();
+    initializeDateFormatting();
+  }
+
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedTime;
   DateTime _startTime = DateTime(
@@ -1693,9 +1712,10 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                 padding: EdgeInsets.only(top: 32, bottom: 16),
                 children: [
                   Text(
-                    DateFormat('d MMMM, yyyy • EEEE').format(_selectedDate),
+                    DateFormat('d MMMM, yyyy • EEEE', 'RU')
+                        .format(_selectedDate),
                     style: TextStyle(
-                      color: Colors.cyan,
+                      color: Color(0xFF00CABF),
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
@@ -1720,7 +1740,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                                   DateTime.now().add(Duration(days: index)).day
                               ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
-                                  color: Colors.cyan,
+                                  color: Color(0xFF00CABF),
                                 )
                               : null,
                           padding: const EdgeInsets.all(8),
@@ -1730,7 +1750,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 2.0),
                                   child: Text(
-                                    DateFormat('dd').format(DateTime.now()
+                                    DateFormat('dd', 'RU').format(DateTime.now()
                                         .add(Duration(days: index))),
                                     style: TextStyle(
                                       color: _selectedDate.day ==
@@ -1746,7 +1766,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                               ),
                               FittedBox(
                                 child: Text(
-                                  DateFormat('EE').format(DateTime.now()
+                                  DateFormat('EE', 'RU').format(DateTime.now()
                                       .add(Duration(days: index))),
                                   style: TextStyle(
                                     color: _selectedDate.day ==

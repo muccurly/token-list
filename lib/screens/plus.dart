@@ -17,7 +17,7 @@ class PlusScreen extends StatelessWidget {
             children: [
               /// owner
               OptionWidget(
-                image: 'assets/images/relaxing_at_home_pana.png',
+                image: 'assets/images/select_house_pana.png',
                 text: 'ПРОДАТЬ САМОМУ',
                 color: Style.orange,
                 onPressed: () {
@@ -28,8 +28,8 @@ class PlusScreen extends StatelessWidget {
 
               /// help to sell
               OptionWidget(
-                image: 'assets/images/select_house_pana.png',
-                text: 'ПРОДАТЬ         ЧЕРЕЗ РИЭЛТОРА',
+                image: 'assets/images/relaxing_at_home_pana.png',
+                text: 'ПРОДАТЬ\nЧЕРЕЗ РИЭЛТОРА',
                 color: Style.blue,
                 onPressed: () {
                   pushNewScreen(context, screen: OurSpeicalistsScreen());

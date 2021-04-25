@@ -6,6 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 void main() {
+  /// Ensure that plugin services are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+
   /// add font licenses
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('assets/OFL.txt');

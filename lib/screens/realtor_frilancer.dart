@@ -4,13 +4,8 @@ import 'package:jurta/screens/buyers.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class RealtorFrilancerScreen extends StatefulWidget {
+class RealtorFrilancerScreen extends StatelessWidget {
   static const String route = 'realtor_frilancer';
-  @override
-  _RealtorFrilancerScreenState createState() => _RealtorFrilancerScreenState();
-}
-
-class _RealtorFrilancerScreenState extends State<RealtorFrilancerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

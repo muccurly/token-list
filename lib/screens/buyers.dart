@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jurta/screens/rate_agent.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class Buyers extends StatelessWidget {
   @override
@@ -44,7 +46,10 @@ class Buyers extends StatelessWidget {
               height: 55,
               width: Global.getSize(context).width,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  pushNewScreen(context,
+                      screen: RateAgentScreen(), withNavBar: false);
+                },
                 child: Text(
                   'ПРОДАМ САМ',
                   style: TextStyle(

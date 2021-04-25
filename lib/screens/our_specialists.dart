@@ -334,7 +334,6 @@ class SpecialistsTile extends StatelessWidget {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                      showBookDialog(context);
                       // pushNewScreenWithRouteSettings(
                       //   context,
                       //   screen: BookScreen(),

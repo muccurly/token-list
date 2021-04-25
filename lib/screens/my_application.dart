@@ -123,8 +123,15 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                 ),
 
                 /// archive
-                Container(
-                  child: Center(child: Text('archive')),
+                ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemBuilder: (context, index) {
+                    final application = APPLICATIONS[index];
+                    return ApplicationCard(
+                      application: application,
+                    );
+                  },
+                  itemCount: APPLICATIONS.length,
                 ),
               ],
             ),
@@ -135,10 +142,17 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
   }
 }
 
-class ApplicationCard extends StatelessWidget {
+class ApplicationCard extends StatefulWidget {
   final Map<String, dynamic> application;
 
   const ApplicationCard({Key key, this.application}) : super(key: key);
+
+  @override
+  _ApplicationCardState createState() => _ApplicationCardState();
+}
+
+class _ApplicationCardState extends State<ApplicationCard> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +178,7 @@ class ApplicationCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Заявка на ${application['type'] == 'buy' ? 'покупку' : 'продажу'}',
+                  'Заявка на ${widget.application['type'] == 'buy' ? 'покупку' : 'продажу'}',
                   style: TextStyle(
                     color: Style.orange,
                     fontSize: 12,
@@ -176,7 +190,7 @@ class ApplicationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        'ID - ${application['application_id']}',
+                        'ID - ${widget.application['application_id']}',
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w300,
@@ -184,7 +198,7 @@ class ApplicationCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${DateFormat('kk:mm, dd.MM.yyyy').format(application['datetime'])}',
+                        '${DateFormat('kk:mm, dd.MM.yyyy').format(widget.application['datetime'])}',
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w300,
@@ -212,7 +226,7 @@ class ApplicationCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Text(
-              application['short_description'],
+              widget.application['short_description'],
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),

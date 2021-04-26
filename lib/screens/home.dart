@@ -90,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Positioned.fill(
                   //   child: Image.network(
                   //     advert['images'][0],
-                  //     filterQuality: FilterQuality.high,
                   //     fit: BoxFit.cover,
                   //   ),
                   // ),
@@ -476,7 +475,9 @@ class _MainPhotoViewerState extends State<MainPhotoViewer> {
               child: Image.network(
                 imageUrl,
                 fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
+
+                /// disable buggy filter for now
+                //     filterQuality: FilterQuality.high,
               ),
             );
           },

@@ -372,12 +372,14 @@ class ExtendedApplicationDescription extends StatelessWidget {
                   style: TextStyle(
                     color: Style.blue,
                     fontWeight: FontWeight.w700,
+                    fontSize: 12.0,
                   )),
               TextSpan(
                 text: fieldValue,
                 style: TextStyle(
                   color: Style.blue,
                   fontWeight: FontWeight.w400,
+                  fontSize: 12.0,
                 ),
               ),
             ],

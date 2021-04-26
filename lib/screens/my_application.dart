@@ -457,6 +457,10 @@ class PhoneSpecialistTile extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerRight,
                         height: 28,
+                        decoration: BoxDecoration(
+                          color: Style.blue,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                         child: ElevatedButton(
                           onPressed: null,
                           child: Text(
@@ -464,13 +468,12 @@ class PhoneSpecialistTile extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(
-                            // TODO: doesn't work
                             primary: Style.blue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
                             elevation: 0,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            // padding: EdgeInsets.symmetric(horizontal: 16),
                           ),
                         ),
                       ),

@@ -122,6 +122,8 @@ const SORT_BY = [
 
 enum DrawerType { filter, menu }
 
+enum VideoLength { short, medium, long }
+
 List<TextInputFormatter> MONEY_FORMATTER = [
   RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
   MoneyInputFormatter(

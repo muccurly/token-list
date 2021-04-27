@@ -309,30 +309,27 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ),
 
           /// bottom section
-          Visibility(
-            visible: !isExpanded,
-            child: Container(
-              alignment: Alignment.centerRight,
-              height: 28,
-              margin: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-                child: Text(
-                  'Подробнее',
-                  style: TextStyle(color: Colors.white),
+          Container(
+            alignment: Alignment.centerRight,
+            height: 28,
+            margin: const EdgeInsets.all(16),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              child: Text(
+                isExpanded ? 'Свернуть' : 'Подробнее',
+                style: TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Style.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: Style.orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  elevation: 0,
-                  padding: EdgeInsets.symmetric(horizontal: 36),
-                ),
+                elevation: 0,
+                padding: EdgeInsets.symmetric(horizontal: 36),
               ),
             ),
           ),

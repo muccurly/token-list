@@ -348,10 +348,15 @@ class SavedSearchCard extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Icon(
-                        LineIcons.heartAlt,
-                        color: Colors.red,
-                        size: 20,
+                      InkWell(
+                        onTap: () {
+                          showDeleteSavedSearchDialog(context);
+                        },
+                        child: Icon(
+                          LineIcons.heartAlt,
+                          color: Colors.red,
+                          size: 20,
+                        ),
                       ),
                     ],
                   ),
@@ -406,7 +411,10 @@ class SavedSearchCard extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 16),
                             child: ElevatedButton(
                               onPressed: () {
-                                showDeleteSavedSearchDialog(context);
+                                //SearchResultScreen
+
+                                pushNewScreen(context,
+                                    screen: SearchResultScreen());
                               },
                               child: Text(
                                 'Выбрать',

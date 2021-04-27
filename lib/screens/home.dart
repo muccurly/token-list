@@ -373,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             /// comments
                             GestureDetector(
                               onTap: () {
-                                _showCommentsBottomSheet(_sKey, context);
+                                showCommentsBottomSheet(_sKey, context);
                               },
                               child: ImageIcon(
                                 AssetImage('assets/images/comment.png'),
@@ -487,7 +487,7 @@ class _MainPhotoViewerState extends State<MainPhotoViewer> {
   }
 }
 
-Future<void> _showCommentsBottomSheet(
+Future<void> showCommentsBottomSheet(
   GlobalKey<ScaffoldState> gKey,
   BuildContext context,
 ) async {

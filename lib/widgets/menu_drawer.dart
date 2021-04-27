@@ -127,6 +127,7 @@ class MenuTile extends StatelessWidget {
               pushNewScreen(
                 rootContext,
                 screen: screen,
+                withNavBar: true,
               );
             },
       leading: ImageIcon(

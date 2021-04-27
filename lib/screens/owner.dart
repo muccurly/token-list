@@ -16,8 +16,8 @@ class _OwnerScreenState extends State<OwnerScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-                bottom: 10, top: 100, left: 25, right: 25),
+            padding:
+                const EdgeInsets.only(bottom: 10, top: 50, left: 25, right: 25),
             child: Column(
               children: [
                 //text
@@ -38,7 +38,7 @@ class _OwnerScreenState extends State<OwnerScreen> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
 
                 ///review accept
@@ -52,11 +52,15 @@ class _OwnerScreenState extends State<OwnerScreen> {
                 ),
 
                 ///review accept 2
-                Image.asset(
-                  'assets/images/owner_accept_review.png',
+                Container(
+                  constraints: BoxConstraints.expand(
+                      height: MediaQuery.of(context).size.height / 3),
+                  child: Image.asset(
+                    'assets/images/owner_accept_review.png',
+                  ),
                 ),
                 SizedBox(
-                  height: 120,
+                  height: Global.getSize(context).height / 9,
                 ),
 
                 /// оставить заявку кнопка

@@ -988,48 +988,48 @@ class TableWidget extends StatelessWidget {
         children: [
           TableRow(children: [
             TableFirstColumnWidget(
-                text: 'Количество комнат ............................'),
+                text: 'Количество комнат .........................'),
             TableSecondColumnWidget(text: advert['rooms']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Площадь .............................................',
+              text: 'Площадь ..........................................',
             ),
             TableSecondColumnWidget(text: advert['area']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Этаж ...................................................',
+              text: 'Этаж ................................................',
             ),
             TableSecondColumnWidget(text: advert['flat']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Состояние ..........................................',
+              text: 'Состояние .......................................',
             ),
             TableSecondColumnWidget(text: advert['state']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Потолки ..............................................',
+              text: 'Потолки ...........................................',
             ),
             TableSecondColumnWidget(text: advert['ceiling']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Санузел ..............................................',
+              text: 'Санузел ...........................................',
             ),
             TableSecondColumnWidget(text: advert['bathroom']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Паркинг ..............................................',
+              text: 'Паркинг ...........................................',
             ),
             TableSecondColumnWidget(text: advert['parking']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Год постройки ....................................',
+              text: 'Год постройки .................................',
             ),
             TableSecondColumnWidget(text: advert['year']),
           ]),

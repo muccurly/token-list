@@ -38,11 +38,15 @@ class RealtorFrilancerScreen extends StatelessWidget {
                 ),
 
                 ///houses rieltor imag
-                Image.asset(
-                  'assets/images/houses_rieltor.png',
+                Container(
+                  constraints: BoxConstraints.expand(
+                      height: MediaQuery.of(context).size.height / 3),
+                  child: Image.asset(
+                    'assets/images/houses_rieltor.png',
+                  ),
                 ),
                 SizedBox(
-                  height: 140,
+                  height: Global.getSize(context).height / 9,
                 ),
 
                 /// оставить заявку кнопка

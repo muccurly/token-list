@@ -124,6 +124,8 @@ enum DrawerType { filter, menu }
 
 enum VideoLength { short, medium, long }
 
+enum ApplicationType { buy, sell }
+
 List<TextInputFormatter> MONEY_FORMATTER = [
   RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
   MoneyInputFormatter(

@@ -473,7 +473,7 @@ class _MainPhotoViewerState extends State<MainPhotoViewer> {
   }
 }
 
-Future<void> _showCommentsBottomSheet(
+Future<void> showCommentsBottomSheet(
   GlobalKey<ScaffoldState> gKey,
   BuildContext context,
 ) async {

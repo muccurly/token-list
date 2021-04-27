@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/our_specialists.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -60,8 +61,11 @@ class MenuDrawer extends StatelessWidget {
 
             /// find master
             MenuTile(
-                icon: 'assets/images/find_master.png',
-                title: 'Найти специалиста'),
+              icon: 'assets/images/find_master.png',
+              title: 'Найти специалиста',
+              screen: OurSpeicalistsScreen(),
+              rootContext: rootContext,
+            ),
 
             /// settings
             // MenuTile(icon: 'assets/images/settings.png', title: 'Настройки'),

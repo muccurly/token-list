@@ -365,7 +365,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                   /// comments
                   GestureDetector(
                     onTap: () {
-                      _showCommentsBottomSheet(_sKey, context);
+                      showCommentsBottomSheet(_sKey, context);
                     },
                     child: ImageIcon(
                       AssetImage('assets/images/comment.png'),

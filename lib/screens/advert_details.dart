@@ -19,6 +19,8 @@ class AdvertDetailsScreen extends StatefulWidget {
 }
 
 class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
+  final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final advert =
@@ -27,6 +29,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        key: _sKey,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -124,7 +127,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             const SizedBox(height: 16),
 
             /// show comments button
-            ShowCommentsButtonWidget(advert: advert),
+            ShowCommentsButtonWidget(scaffoldKey: _sKey, advert: advert),
             const SizedBox(height: 16),
 
             /// credit calculator
@@ -642,11 +645,13 @@ class CreditCalculatorTile extends StatelessWidget {
 }
 
 class ShowCommentsButtonWidget extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
   final Map<String, dynamic> advert;
 
   const ShowCommentsButtonWidget({
     Key key,
     this.advert,
+    this.scaffoldKey,
   }) : super(key: key);
 
   @override
@@ -654,14 +659,15 @@ class ShowCommentsButtonWidget extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          pushNewScreenWithRouteSettings(
-            context,
-            screen: AdvertCommentScreen(),
-            settings: RouteSettings(
-              name: AdvertCommentScreen.route,
-              arguments: advert,
-            ),
-          );
+          // pushNewScreenWithRouteSettings(
+          //   context,
+          //   screen: AdvertCommentScreen(),
+          //   settings: RouteSettings(
+          //     name: AdvertCommentScreen.route,
+          //     arguments: advert,
+          //   ),
+          // );
+          showCommentsBottomSheet(scaffoldKey, context);
         },
         child: Container(
           decoration: BoxDecoration(

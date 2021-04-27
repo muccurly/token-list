@@ -111,33 +111,10 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
               controller: _tabController,
               children: [
                 /// active
-                ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemBuilder: (context, index) {
-                    final application = APPLICATIONS[index];
-                    final specialist = SPECIALISTS[index];
-
-                    return ApplicationCard(
-                      application: application,
-                      specialist: specialist,
-                    );
-                  },
-                  itemCount: APPLICATIONS.length,
-                ),
+                ApplicationsListBuilder(),
 
                 /// archive
-                ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemBuilder: (context, index) {
-                    final application = APPLICATIONS[index];
-                    final specialist = SPECIALISTS[index];
-                    return ApplicationCard(
-                      application: application,
-                      specialist: specialist,
-                    );
-                  },
-                  itemCount: APPLICATIONS.length,
-                ),
+                ApplicationsListBuilder(),
               ],
             ),
           ),
@@ -147,11 +124,39 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
   }
 }
 
+class ApplicationsListBuilder extends StatelessWidget {
+  const ApplicationsListBuilder({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemBuilder: (context, index) {
+        final application = APPLICATIONS[index];
+        final specialist = SPECIALISTS[index];
+        final applicationType = APPLICATIONS[index]['type'] == 'buy'
+            ? ApplicationType.buy
+            : ApplicationType.sell;
+        return ApplicationCard(
+          application: application,
+          specialist: specialist,
+          applicationType: applicationType,
+        );
+      },
+      itemCount: APPLICATIONS.length,
+    );
+  }
+}
+
 class ApplicationCard extends StatefulWidget {
   final Map<String, dynamic> application;
   final Map<String, dynamic> specialist;
+  final ApplicationType applicationType;
 
-  const ApplicationCard({Key key, this.application, this.specialist})
+  const ApplicationCard(
+      {Key key, this.application, this.specialist, this.applicationType})
       : super(key: key);
 
   @override
@@ -185,7 +190,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Заявка на ${widget.application['type'] == 'buy' ? 'покупку' : 'продажу'}',
+                  'Заявка на ${widget.applicationType == ApplicationType.buy ? 'покупку' : 'продажу'}',
                   style: TextStyle(
                     color: Style.orange,
                     fontSize: 12,
@@ -265,21 +270,24 @@ class _ApplicationCardState extends State<ApplicationCard> {
               fieldValue: '${widget.application['advert']['address_district']}',
               isExpanded: isExpanded,
               widget: widget),
-          ExtendedApplicationDescription(
-              fieldName: 'Улица',
-              fieldValue: '${widget.application['advert']['address_street']}',
-              isExpanded: isExpanded,
-              widget: widget),
-          ExtendedApplicationDescription(
-              fieldName: 'Дом',
-              fieldValue: '${widget.application['advert']['address_house']}',
-              isExpanded: isExpanded,
-              widget: widget),
-          ExtendedApplicationDescription(
-              fieldName: 'ЖК',
-              fieldValue: '${widget.application['advert']['title']}',
-              isExpanded: isExpanded,
-              widget: widget),
+
+          if (widget.applicationType == ApplicationType.sell) ...[
+            ExtendedApplicationDescription(
+                fieldName: 'Улица',
+                fieldValue: '${widget.application['advert']['address_street']}',
+                isExpanded: isExpanded,
+                widget: widget),
+            ExtendedApplicationDescription(
+                fieldName: 'Дом',
+                fieldValue: '${widget.application['advert']['address_house']}',
+                isExpanded: isExpanded,
+                widget: widget),
+            ExtendedApplicationDescription(
+                fieldName: 'ЖК',
+                fieldValue: '${widget.application['advert']['title']}',
+                isExpanded: isExpanded,
+                widget: widget),
+          ],
           ExtendedApplicationDescription(
               fieldName: 'Количество комнат',
               fieldValue: '${widget.application['advert']['rooms']}',
@@ -309,30 +317,27 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ),
 
           /// bottom section
-          Visibility(
-            visible: !isExpanded,
-            child: Container(
-              alignment: Alignment.centerRight,
-              height: 28,
-              margin: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-                child: Text(
-                  'Подробнее',
-                  style: TextStyle(color: Colors.white),
+          Container(
+            alignment: Alignment.centerRight,
+            height: 28,
+            margin: const EdgeInsets.all(16),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              child: Text(
+                isExpanded ? 'Свернуть' : 'Подробнее',
+                style: TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Style.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: Style.orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  elevation: 0,
-                  padding: EdgeInsets.symmetric(horizontal: 36),
-                ),
+                elevation: 0,
+                padding: EdgeInsets.symmetric(horizontal: 36),
               ),
             ),
           ),

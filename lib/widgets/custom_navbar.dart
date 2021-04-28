@@ -63,8 +63,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
             tag: 'PLUS_BUTTON',
             child: GestureDetector(
               onTap: () {
-                pushNewScreen(context, screen: PlusScreen(), pageTransitionAnimation: 
-                PageTransitionAnimation.fade);
+                pushNewScreen(context,
+                    screen: PlusScreen(),
+                    pageTransitionAnimation: PageTransitionAnimation.fade);
               },
               child: Stack(
                 children: [

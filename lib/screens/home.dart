@@ -316,7 +316,6 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                       pushNewScreen(
                         context,
                         screen: ProfileScreen(),
-                        withNavBar: false,
                       );
                     },
                     child: CircleAvatar(

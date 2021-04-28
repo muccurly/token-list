@@ -540,7 +540,7 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
             name: AdvertDetailsScreen.route,
             arguments: widget.advert,
           ),
-          withNavBar: false,
+          withNavBar: true,
         );
       },
       child: Column(

@@ -11,20 +11,28 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+  final double _percentRecorded = 0.3;
   VideoLength _videoLength = VideoLength.medium;
   List<CameraDescription> _cameras;
   CameraController _cameraController;
   Future<void> _initializeControllerFuture;
 
+  TextEditingController _phoneC;
+  TextEditingController _nameC;
+
   @override
   void initState() {
     super.initState();
+    _phoneC = TextEditingController();
+    _nameC = TextEditingController();
     initializeCameras();
   }
 
   @override
   void dispose() {
     _cameraController?.dispose();
+    _phoneC.dispose();
+    _nameC.dispose();
     super.dispose();
   }
 
@@ -39,6 +47,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       }
       setState(() {});
     });
+  }
+
+  void switchVideoLength(VideoLength newLength) {
+    if (newLength != _videoLength)
+      setState(() {
+        _videoLength = newLength;
+      });
   }
 
   @override
@@ -57,11 +72,23 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      PressableTimeSelector(onTap: () => {}, text: '120c'),
-                      const SizedBox(width: 50),
-                      PressableTimeSelector(onTap: () => {}, text: '80c'),
-                      const SizedBox(width: 50),
-                      PressableTimeSelector(onTap: () => {}, text: '60c'),
+                      PressableTimeSelector(
+                        text: '120 c',
+                        onTap: () => switchVideoLength(VideoLength.long),
+                        active: _videoLength == VideoLength.long,
+                      ),
+                      const SizedBox(width: 65),
+                      PressableTimeSelector(
+                        text: '80 c',
+                        onTap: () => switchVideoLength(VideoLength.medium),
+                        active: _videoLength == VideoLength.medium,
+                      ),
+                      const SizedBox(width: 65),
+                      PressableTimeSelector(
+                        text: '60 c',
+                        onTap: () => switchVideoLength(VideoLength.short),
+                        active: _videoLength == VideoLength.short,
+                      ),
                     ],
                   )),
             ),
@@ -82,6 +109,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                   child: Container(
                     height: 5,
                     child: LinearProgressIndicator(
+                      value: _percentRecorded,
                       backgroundColor: Color.fromRGBO(255, 255, 255, 0.5),
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Color.fromRGBO(255, 0, 0, 0.5),
@@ -141,9 +169,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                         ),
                         const SizedBox(width: 50),
                         ClickableSideButton(
-                            onTap: () {
-                              pushNewScreen(context, screen: OwnerScreen());
-                            },
+                            onTap: () => showUploadConfirmNameDialog(
+                                context, _nameC, _phoneC),
                             imagePath: 'assets/images/download.png',
                             bottomText: 'Загрузить'),
                       ],
@@ -153,31 +180,120 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   }
 }
 
+void showUploadConfirmNameDialog(
+  BuildContext context,
+  TextEditingController _nameC,
+  TextEditingController _phoneC,
+) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(width: 30),
+              Row(children: [HeadersTextWidget(text: 'Имя')]),
+              InputWidget(
+                controller: _nameC,
+                inputType: TextInputType.name,
+              ),
+              Row(children: [HeadersTextWidget(text: 'Контакты')]),
+              InputWidget(
+                controller: _phoneC,
+                hintText: '+7 (___) ___-__-__',
+                hintStyle: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 13,
+                ),
+                textInputFormatters: PHONE_FORMATTER,
+                inputType: TextInputType.phone,
+                // hintText: '+7 (---) --- -- --',
+                // hintStyle: TextStyle(
+                //   color: Colors.grey.shade300,
+                //   fontSize: 11,
+                // ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Container(
+                  height: 46,
+                  width: Global.getSize(context).width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      pushNewScreen(context,
+                          screen: OwnerScreen(), withNavBar: true);
+                    },
+                    child: Text(
+                      'СОХРАНИТЬ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Style.blue,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
+}
+
 class PressableTimeSelector extends StatelessWidget {
   const PressableTimeSelector({
     Key key,
     @required this.onTap,
     @required this.text,
+    @required this.active,
   }) : super(key: key);
 
   final Function onTap;
   final String text;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(height: 25),
           Text(
             text,
             style: TextStyle(
-              color: Colors.white,
+              color: active ? Style.orange : Colors.white,
               fontSize: 14,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           ),
+          const SizedBox(height: 5),
+          Container(
+            height: 5,
+            width: 5,
+            decoration: BoxDecoration(
+              color: active ? Style.orange : Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.bottomCenter,
+          )
         ],
       ),
     );

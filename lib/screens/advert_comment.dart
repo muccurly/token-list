@@ -11,11 +11,16 @@ class AdvertCommentScreen extends StatefulWidget {
 
 class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
   final TextEditingController _commentC = TextEditingController();
+  int _parentCommentId;
 
   @override
   void dispose() {
     _commentC.dispose();
     super.dispose();
+  }
+
+  void setParentCommentId(int newParentCommentId) {
+    _parentCommentId = newParentCommentId;
   }
 
   @override
@@ -120,11 +125,18 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (c, index) {
-                final comment = COMMENTS[index];
+                final topComments =
+                    COMMENTS.where((e) => e['parent_id'] == null).toList();
+                final comment = topComments[index];
 
-                return CommentListTile(comment: comment, padding: true);
+                return CommentListTile(
+                  comment: comment,
+                  padding: true,
+                  setParentCommentId: setParentCommentId,
+                  setState: setState,
+                );
               },
-              childCount: COMMENTS.length,
+              childCount: COMMENTS.where((e) => e['parent_id'] == null).length,
             ),
           ),
         ],
@@ -167,7 +179,8 @@ class _AdvertCommentScreenState extends State<AdvertCommentScreen> {
                 Material(
                   color: Colors.white,
                   child: IconButton(
-                    onPressed: () => _sendComment(_commentC, setState, context),
+                    onPressed: () => _sendComment(
+                        _commentC, setState, context, _parentCommentId),
                     icon: ImageIcon(
                       AssetImage('assets/images/send_plane.png'),
                       color: Style.blue,
@@ -187,16 +200,19 @@ void _sendComment(
   TextEditingController commentC,
   Function setState,
   BuildContext context,
+  int parentId,
 ) {
   if (commentC.text != null && commentC.text.isNotEmpty) {
     FocusScope.of(context).unfocus();
     final myComment = {
       'id': 10 + COMMENTS.length,
+      'user_id': 2,
+      'parent_id': parentId,
+      'datetime': DateTime.now(),
       'image':
           'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'name': 'Jane Doe',
       'comment': commentC.text,
-      'replies': [],
     };
     COMMENTS.insert(0, myComment);
     commentC?.clear();

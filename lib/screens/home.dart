@@ -518,11 +518,16 @@ class CommentBottomSheet extends StatefulWidget {
 
 class _CommentBottomSheetState extends State<CommentBottomSheet> {
   final TextEditingController _commentC = TextEditingController();
+  int _parentCommentId;
 
   @override
   void dispose() {
     _commentC.dispose();
     super.dispose();
+  }
+
+  void setParentCommentId(int newParentCommentId) {
+    _parentCommentId = newParentCommentId;
   }
 
   @override
@@ -570,10 +575,16 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                itemCount: COMMENTS.length,
+                itemCount: COMMENTS.where((e) => e['parent_id'] == null).length,
                 itemBuilder: (c, i) {
-                  final comment = COMMENTS[i];
-                  return CommentListTile(comment: comment, setState: setState);
+                  final topComments =
+                      COMMENTS.where((e) => e['parent_id'] == null).toList();
+                  final comment = topComments[i];
+                  return CommentListTile(
+                    comment: comment,
+                    setState: setState,
+                    setParentCommentId: setParentCommentId,
+                  );
                 },
               ),
             ),
@@ -622,8 +633,8 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                   Material(
                     color: Colors.white,
                     child: IconButton(
-                      onPressed: () =>
-                          _sendComment(_commentC, setState, context),
+                      onPressed: () => _sendComment(
+                          _commentC, setState, context, _parentCommentId),
                       icon: ImageIcon(
                         AssetImage('assets/images/send_plane.png'),
                         color: Style.blue,
@@ -644,18 +655,19 @@ void _sendComment(
   TextEditingController commentC,
   Function setState,
   BuildContext context,
+  int parentId,
 ) {
   if (commentC.text != null && commentC.text.isNotEmpty) {
     FocusScope.of(context).unfocus();
     final myComment = {
       'id': 10 + COMMENTS.length,
       'user_id': 2,
+      'parent_id': parentId,
       'datetime': DateTime.now(),
       'image':
           'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'name': 'Jane Doe',
       'comment': commentC.text,
-      'replies': [],
     };
     COMMENTS.insert(0, myComment);
     commentC?.clear();
@@ -670,11 +682,13 @@ class CommentListTile extends StatelessWidget {
   final int depth;
   final int userId = 2;
   final Function setState;
+  final Function(int) setParentCommentId;
 
   const CommentListTile({
     Key key,
-    this.comment,
-    this.setState,
+    @required this.comment,
+    @required this.setState,
+    @required this.setParentCommentId,
     this.depth = 0,
     this.reply = false,
     this.padding = false,
@@ -731,7 +745,10 @@ class CommentListTile extends StatelessWidget {
                           Expanded(child: Container()),
                           if (depth < MAX_COMMENT_DEPTH) ...[
                             GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  //   FocusScope.of(context).previousFocus();
+                                  setParentCommentId(comment['id']);
+                                },
                                 child: Text(
                                   'Ответить',
                                   style: TextStyle(
@@ -744,10 +761,8 @@ class CommentListTile extends StatelessWidget {
                               comment['user_id'] == userId) ...[
                             const SizedBox(width: 15),
                             GestureDetector(
-                                onTap: () async {
-                                  await _deleteComment(
-                                      COMMENTS as List<Map<String, dynamic>>,
-                                      comment['id']);
+                                onTap: () {
+                                  _deleteComment(comment['id']);
                                   setState(() {});
                                 },
                                 child: Text(
@@ -766,12 +781,16 @@ class CommentListTile extends StatelessWidget {
               ],
             ),
           ),
-          if (depth < MAX_COMMENT_DEPTH &&
-              comment['replies'] != null &&
-              comment['replies'].isNotEmpty)
-            ...comment['replies']
+          if (depth < MAX_COMMENT_DEPTH)
+            ...COMMENTS
+                .where((element) => element['parent_id'] == comment['id'])
                 .map((reply) => CommentListTile(
-                    comment: reply, reply: true, depth: depth + 1))
+                      setState: setState,
+                      comment: reply,
+                      reply: true,
+                      depth: depth + 1,
+                      setParentCommentId: setParentCommentId,
+                    ))
                 .toList()
         ],
       ),
@@ -779,19 +798,9 @@ class CommentListTile extends StatelessWidget {
   }
 }
 
-Future<void> _deleteComment(List<Map<String, dynamic>> comments, int commentId,
-    {int depth = 0}) async {
-  /// recursive comment deletion
-
-  if (depth > MAX_COMMENT_DEPTH) {
-    return;
-  }
-
-  comments.removeWhere((element) => element['id'] == commentId);
-  comments.forEach((element) {
-    _deleteComment(element['replies'] as List<Map<String, dynamic>>, commentId,
-        depth: depth + 1);
-  });
+void _deleteComment(int commentId) {
+  // TODO: migrate to firstWhere
+  COMMENTS.removeWhere((element) => element['id'] == commentId);
 }
 
 const List<String> _headerTexts = <String>['Горящие', 'Без комиссии', 'Новые'];

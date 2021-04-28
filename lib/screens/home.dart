@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // String _headerSelected = _headerTexts[0];
-
+  final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -33,13 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final advert = ADVERTS;
-    final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         key: _sKey,
         endDrawer: DrawerWrapper(type: DrawerType.filter),
+        endDrawerEnableOpenDragGesture: false,
         body: SafeArea(
           child: PageView.builder(
             scrollDirection: Axis.vertical,
@@ -49,8 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
               viewportFraction: 1,
             ),
             itemBuilder: (context, index) {
-              final advert = ADVERTS[index];
-              return HomeScreenCard(advert: advert);
+              return HomeScreenCard(
+                advert: advert[index],
+                sKey: _sKey,
+              );
             },
           ),
         ),
@@ -66,7 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
 //                           index * 2),
 class HomeScreenCard extends StatefulWidget {
   Map<String, dynamic> advert;
-  HomeScreenCard({this.advert});
+  GlobalKey<ScaffoldState> sKey;
+  HomeScreenCard({this.advert, this.sKey});
 
   @override
   _HomeScreenCardState createState() => _HomeScreenCardState();
@@ -75,7 +78,6 @@ class HomeScreenCard extends StatefulWidget {
 class _HomeScreenCardState extends State<HomeScreenCard> {
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
     return Stack(
       children: [
         /// background image
@@ -204,7 +206,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
               /// filter new
               GestureDetector(
                 onTap: () {
-                  _sKey.currentState.openEndDrawer();
+                  widget.sKey.currentState.openEndDrawer();
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -365,7 +367,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                   /// comments
                   GestureDetector(
                     onTap: () {
-                      showCommentsBottomSheet(_sKey, context);
+                      showCommentsBottomSheet(widget.sKey, context);
                     },
                     child: ImageIcon(
                       AssetImage('assets/images/comment.png'),

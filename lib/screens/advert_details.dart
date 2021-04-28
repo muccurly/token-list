@@ -679,7 +679,8 @@ class ShowCommentsButtonWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(LineIcons.sms),
-              Text(' 15 • ', style: TextStyle(fontWeight: FontWeight.w500)),
+              Text(' ${COMMENTS.length} • ',
+                  style: TextStyle(fontWeight: FontWeight.w500)),
               Text('Показать комментарии', style: TextStyle(fontSize: 13)),
             ],
           ),

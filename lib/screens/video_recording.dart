@@ -11,6 +11,7 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+  final double _percentRecorded = 0.3;
   VideoLength _videoLength = VideoLength.medium;
   List<CameraDescription> _cameras;
   CameraController _cameraController;
@@ -41,6 +42,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     });
   }
 
+  void switchVideoLength(VideoLength newLength) {
+    if (newLength != _videoLength)
+      setState(() {
+        _videoLength = newLength;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -57,11 +65,23 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      PressableTimeSelector(onTap: () => {}, text: '120c'),
-                      const SizedBox(width: 50),
-                      PressableTimeSelector(onTap: () => {}, text: '80c'),
-                      const SizedBox(width: 50),
-                      PressableTimeSelector(onTap: () => {}, text: '60c'),
+                      PressableTimeSelector(
+                        text: '120 c',
+                        onTap: () => switchVideoLength(VideoLength.long),
+                        active: _videoLength == VideoLength.long,
+                      ),
+                      const SizedBox(width: 65),
+                      PressableTimeSelector(
+                        text: '80 c',
+                        onTap: () => switchVideoLength(VideoLength.medium),
+                        active: _videoLength == VideoLength.medium,
+                      ),
+                      const SizedBox(width: 65),
+                      PressableTimeSelector(
+                        text: '60 c',
+                        onTap: () => switchVideoLength(VideoLength.short),
+                        active: _videoLength == VideoLength.short,
+                      ),
                     ],
                   )),
             ),
@@ -82,6 +102,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                   child: Container(
                     height: 5,
                     child: LinearProgressIndicator(
+                      value: _percentRecorded,
                       backgroundColor: Color.fromRGBO(255, 255, 255, 0.5),
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Color.fromRGBO(255, 0, 0, 0.5),
@@ -158,26 +179,39 @@ class PressableTimeSelector extends StatelessWidget {
     Key key,
     @required this.onTap,
     @required this.text,
+    @required this.active,
   }) : super(key: key);
 
   final Function onTap;
   final String text;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(height: 25),
           Text(
             text,
             style: TextStyle(
-              color: Colors.white,
+              color: active ? Style.orange : Colors.white,
               fontSize: 14,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           ),
+          const SizedBox(height: 5),
+          Container(
+            height: 5,
+            width: 5,
+            decoration: BoxDecoration(
+              color: active ? Style.orange : Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.bottomCenter,
+          )
         ],
       ),
     );

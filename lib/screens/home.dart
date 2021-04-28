@@ -690,14 +690,9 @@ class CommentListTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 5.0,
-                      offset: Offset(0.0, 4.0),
-                      color: Color.fromRGBO(0, 0, 0, 0.1))
-                ]),
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
             margin: EdgeInsets.only(
                 left: reply ? (16 * depth).toDouble() : 0, top: 4, bottom: 4),
             padding: const EdgeInsets.all(8),

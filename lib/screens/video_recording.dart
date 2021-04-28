@@ -17,15 +17,22 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   CameraController _cameraController;
   Future<void> _initializeControllerFuture;
 
+  TextEditingController _phoneC;
+  TextEditingController _nameC;
+
   @override
   void initState() {
     super.initState();
+    _phoneC = TextEditingController();
+    _nameC = TextEditingController();
     initializeCameras();
   }
 
   @override
   void dispose() {
     _cameraController?.dispose();
+    _phoneC.dispose();
+    _nameC.dispose();
     super.dispose();
   }
 
@@ -162,9 +169,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                         ),
                         const SizedBox(width: 50),
                         ClickableSideButton(
-                            onTap: () {
-                              pushNewScreen(context, screen: OwnerScreen());
-                            },
+                            onTap: () => showUploadConfirmNameDialog(
+                                context, _nameC, _phoneC),
                             imagePath: 'assets/images/download.png',
                             bottomText: 'Загрузить'),
                       ],
@@ -172,6 +178,82 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
               ],
             ))));
   }
+}
+
+void showUploadConfirmNameDialog(
+  BuildContext context,
+  TextEditingController _nameC,
+  TextEditingController _phoneC,
+) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(width: 30),
+              Row(children: [HeadersTextWidget(text: 'Имя')]),
+              InputWidget(
+                controller: _nameC,
+                inputType: TextInputType.name,
+              ),
+              Row(children: [HeadersTextWidget(text: 'Контакты')]),
+              InputWidget(
+                controller: _phoneC,
+                hintText: '+7 (___) ___-__-__',
+                hintStyle: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 13,
+                ),
+                textInputFormatters: PHONE_FORMATTER,
+                inputType: TextInputType.phone,
+                // hintText: '+7 (---) --- -- --',
+                // hintStyle: TextStyle(
+                //   color: Colors.grey.shade300,
+                //   fontSize: 11,
+                // ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Container(
+                  height: 46,
+                  width: Global.getSize(context).width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      pushNewScreen(context,
+                          screen: OwnerScreen(), withNavBar: true);
+                    },
+                    child: Text(
+                      'СОХРАНИТЬ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Style.blue,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
 }
 
 class PressableTimeSelector extends StatelessWidget {

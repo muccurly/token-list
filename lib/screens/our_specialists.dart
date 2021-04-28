@@ -79,7 +79,7 @@ class _OurSpeicalistsScreenState extends State<OurSpeicalistsScreen> {
                       screen: LeaveContactsScreen(
                         isPage: 2,
                       ),
-                      withNavBar: false);
+                      withNavBar: true);
                 },
                 child: Text(
                   'Оставить заявку',
@@ -341,15 +341,11 @@ class SpecialistsTile extends StatelessWidget {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                      // pushNewScreenWithRouteSettings(
-                      //   context,
-                      //   screen: BookScreen(),
-                      //   settings: RouteSettings(
-                      //     name: BookScreen.route,
-                      //     arguments: advert,
-                      //   ),
-                      //   withNavBar: false,
-                      // );
+                      pushNewScreen(context,
+                          screen: LeaveContactsScreen(
+                            isPage: 2,
+                          ),
+                          withNavBar: true);
                     },
                     child: FittedBox(
                       child: Text(

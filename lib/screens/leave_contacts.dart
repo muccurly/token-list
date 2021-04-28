@@ -5,10 +5,13 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class LeaveContactsScreen extends StatefulWidget {
   static const String route = 'leave_contacts';
-
+  int isPage = 1;
+  //1 - Advert Details 2 - is Оставить заявку
+  LeaveContactsScreen({this.isPage});
   @override
   _LeaveContactsScreenState createState() => _LeaveContactsScreenState();
 }
@@ -101,7 +104,14 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                   height: 46,
                   width: Global.getSize(context).width,
                   child: ElevatedButton(
-                    onPressed: () => showBookConfirmationDialog(context),
+                    onPressed: () {
+                      if (widget.isPage == 1) {
+                        showBookConfirmationDialog(context);
+                      } else if (widget.isPage == 2) {
+                        pushNewScreen(context,
+                            screen: RieltorFrilancer7(), withNavBar: true);
+                      }
+                    },
                     child: Text(
                       'СОХРАНИТЬ',
                       style: TextStyle(

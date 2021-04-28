@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class OurSpeicalistsScreen extends StatefulWidget {
   static const String route = 'our_specialists';
@@ -73,7 +74,13 @@ class _OurSpeicalistsScreenState extends State<OurSpeicalistsScreen> {
             Container(
               height: 35,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  pushNewScreen(context,
+                      screen: LeaveContactsScreen(
+                        isPage: 2,
+                      ),
+                      withNavBar: false);
+                },
                 child: Text(
                   'Оставить заявку',
                   style: TextStyle(

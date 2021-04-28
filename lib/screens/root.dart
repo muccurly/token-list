@@ -35,6 +35,7 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       key: _sKey,
       endDrawer: DrawerWrapper(type: DrawerType.menu, rootContext: context),
+      endDrawerEnableOpenDragGesture: false,
       body: Consumer<TabProvider>(
         builder: (c, tab, w) => PersistentTabView.custom(
           context,
@@ -57,9 +58,9 @@ class _RootScreenState extends State<RootScreen> {
             activeIndex: Global.getController().index,
             iconSize: 24,
             onTap: (index) {
-              if (index != 3)
+              if (index != 3) {
                 setState(() => Global.getController().index = index);
-              else
+              } else
                 _sKey.currentState.openEndDrawer();
             },
           ),

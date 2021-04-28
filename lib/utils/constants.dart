@@ -764,6 +764,7 @@ const MAX_COMMENT_DEPTH = 3;
 List<Map<String, dynamic>> COMMENTS = [
   {
     'id': 1,
+    'parent_id': null,
     'user_id': 1,
     'datetime':
         DateTime.now().subtract(Duration(days: 2, hours: 3, minutes: 20)),
@@ -772,10 +773,10 @@ List<Map<String, dynamic>> COMMENTS = [
     'name': 'John Doe',
     'comment':
         'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
-    'replies': [],
   },
   {
     'id': 2,
+    'parent_id': null,
     'user_id': 1,
     'datetime':
         DateTime.now().subtract(Duration(days: 2, hours: 2, minutes: 10)),
@@ -784,72 +785,67 @@ List<Map<String, dynamic>> COMMENTS = [
     'name': 'John Doe',
     'comment':
         'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
-    'replies': [
-      {
-        'id': 4,
-        'user_id': 1,
-        'datetime':
-            DateTime.now().subtract(Duration(days: 2, hours: 1, minutes: 15)),
-        'image':
-            'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-        'name': 'John Doe',
-        'comment':
-            'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
-        'replies': [],
-      },
-      {
-        'id': 5,
-        'user_id': 1,
-        'datetime':
-            DateTime.now().subtract(Duration(days: 1, hours: 2, minutes: 15)),
-        'image':
-            'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-        'name': 'John Doe',
-        'comment':
-            'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
-        'replies': [
-          {
-            'id': 50,
-            'user_id': 2,
-            'datetime': DateTime.now()
-                .subtract(Duration(days: 1, hours: 1, minutes: 15)),
-            'image':
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-            'name': 'Jane Doe',
-            'comment': "commentC.text",
-            'replies': [
-              {
-                'id': 51,
-                'user_id': 2,
-                'datetime': DateTime.now()
-                    .subtract(Duration(days: 1, hours: 1, minutes: 5)),
-                'image':
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                'name': 'Jane Doe',
-                'comment': "top comment",
-                'replies': [
-                  {
-                    'id': 52,
-                    'user_id': 2,
-                    'datetime':
-                        DateTime.now().subtract(Duration(days: 1, minutes: 15)),
-                    'image':
-                        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-                    'name': 'Jane Doe',
-                    'comment': "test max depth comment",
-                    'replies': [],
-                  }
-                ],
-              }
-            ],
-          }
-        ],
-      },
-    ],
+  },
+  {
+    'id': 4,
+    'user_id': 1,
+    'parent_id': 2,
+    'datetime':
+        DateTime.now().subtract(Duration(days: 2, hours: 1, minutes: 15)),
+    'image':
+        'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    'name': 'John Doe',
+    'comment':
+        'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
+  },
+  {
+    'id': 5,
+    'user_id': 1,
+    'parent_id': 4,
+    'datetime':
+        DateTime.now().subtract(Duration(days: 1, hours: 2, minutes: 15)),
+    'image':
+        'https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    'name': 'John Doe',
+    'comment':
+        'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
+  },
+  {
+    'id': 50,
+    'user_id': 2,
+    'parent_id': 5,
+    'datetime':
+        DateTime.now().subtract(Duration(days: 1, hours: 1, minutes: 15)),
+    'image':
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    'name': 'Jane Doe',
+    'comment': "commentC.text",
+  },
+  {
+    'id': 51,
+    'user_id': 2,
+    'parent_id': 50,
+    'datetime':
+        DateTime.now().subtract(Duration(days: 1, hours: 1, minutes: 5)),
+    'image':
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    'name': 'Jane Doe',
+    'comment': "top comment",
+  },
+  {
+    'id': 52,
+    'user_id': 2,
+    'parent_id': 51,
+    'datetime': DateTime.now().subtract(Duration(days: 1, minutes: 15)),
+    'image':
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    'name': 'Jane Doe',
+    'comment': "test max depth comment",
   },
   {
     'id': 3,
     'user_id': 1,
+    'parent_id': null,
     'datetime':
         DateTime.now().subtract(Duration(days: 2, hours: 2, minutes: 5)),
     'image':
@@ -857,7 +853,6 @@ List<Map<String, dynamic>> COMMENTS = [
     'name': 'John Doe',
     'comment':
         'Shikarnaya kvartira, mestoraspolojenie idealno dlya semeinyh par. V ipotehu mojno li?',
-    'replies': [],
   },
 ];
 

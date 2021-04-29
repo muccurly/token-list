@@ -11,7 +11,7 @@ class LeaveContactsScreen extends StatefulWidget {
   static const String route = 'leave_contacts';
   int isPage = 1;
   //1 - Advert Details 2 - is Оставить заявку
-  LeaveContactsScreen({this.isPage});
+  LeaveContactsScreen({@required this.isPage});
   @override
   _LeaveContactsScreenState createState() => _LeaveContactsScreenState();
 }
@@ -104,8 +104,9 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                   width: Global.getSize(context).width,
                   child: ElevatedButton(
                     onPressed: () {
+                      log(widget.isPage);
                       if (widget.isPage == 1) {
-                        showBookConfirmationDialog(context);
+                        showRequestConfirmationDialog(context);
                       } else if (widget.isPage == 2) {
                         pushNewScreen(context,
                             screen: RieltorFrilancer7(), withNavBar: true);
@@ -136,4 +137,63 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
       ),
     );
   }
+}
+
+void showRequestConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 250,
+                  maxWidth: 250,
+                ),
+                child: Image.asset(
+                  'assets/images/enthusiastic_pana.png',
+                  height: Global.getSize(c).width / 2,
+                  width: Global.getSize(c).width / 2,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Ваша заявка на бронирование объекта принята,\nВ ближайшее время наши менеджеры свяжутся с вами\nСпасибо за обращение',
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: Global.getSize(c).width / 2,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(top: 2.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
 }

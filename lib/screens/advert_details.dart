@@ -131,7 +131,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             const SizedBox(height: 16),
 
             /// credit calculator
-            HeaderTextWidget(text: 'КРЕДИТНЫЙ КАЛЬКУЛЯТОР'),
+            HeaderTextWidget(text: 'КРЕДИТНЫЙ КАЛЬКУЛЯТОР (ИПОТЕКА)'),
             const SizedBox(height: 8),
             CreditCalculatorWidget(),
             // const SizedBox(height: 16),

@@ -575,11 +575,12 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
                         alignment: Alignment.bottomRight,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            widget.advert['is_fav']
-                                ? LineIcons.heartAlt
-                                : LineIcons.heart,
-                            color: widget.advert['is_fav'] ? Colors.red : null,
+                          child: ImageIcon(
+                            AssetImage('assets/images/like_filled.png'),
+                            size: 22,
+                            color: widget.advert['is_fav']
+                                ? Color.fromRGBO(220, 79, 94, 1.0)
+                                : Colors.white,
                           ),
                         ),
                       ),

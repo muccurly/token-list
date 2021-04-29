@@ -279,7 +279,7 @@ class SpecialistsTile extends StatelessWidget {
                         ignoreGestures: true,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 4),
 
                     ///Rating numbers
                     Flexible(
@@ -313,7 +313,7 @@ class SpecialistsTile extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 5),
 
                     ///Dot styled
                     Icon(
@@ -321,7 +321,7 @@ class SpecialistsTile extends StatelessWidget {
                       color: Style.orange2,
                       size: 5,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 5),
 
                     Flexible(
                       flex: 4,

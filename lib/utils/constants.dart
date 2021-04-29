@@ -216,7 +216,7 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'application_id': 134567,
     'datetime': DateTime.now(),
     'short_description':
-        'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м2, 18 000 000 тг',
+        'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
     'advert': ADVERTS[0],
     'type': 'buy',
   },
@@ -226,7 +226,7 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'datetime':
         DateTime.now().subtract(Duration(days: 2, hours: 2, minutes: 15)),
     'short_description':
-        'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м2, 18 000 000 тг',
+        'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
     'advert': ADVERTS[0],
     'type': 'sell',
   },
@@ -236,7 +236,7 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'datetime':
         DateTime.now().subtract(Duration(days: 5, hours: 6, minutes: 45)),
     'short_description':
-        'ул. Сауран 20, кв 15\n1 комнатная квартира, 41 м2, 15 000 000 тг',
+        'ул. Сауран 20, кв 15\n1 комнатная квартира, 41 м\u00B2, 15 000 000 тг',
     'advert': ADVERTS[0],
     'type': 'buy',
   },

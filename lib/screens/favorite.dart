@@ -46,7 +46,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                 child: Text(
                   'ОБЪЕКТЫ',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                   ),
                 ),
               ),
@@ -55,7 +55,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                 child: Text(
                   'СОХРАНЕННЫЕ ПОИСКИ',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                   ),
                 ),
               ),
@@ -183,15 +183,16 @@ class AdvertFavCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          advert['is_fav'] = !advert['is_fav'];
+                          advert['is_fav'] = advert['is_fav'];
                         });
                       },
-                      child: Icon(
-                        advert['is_fav'] ? LineIcons.heartAlt : LineIcons.heart,
-                        color: advert['is_fav'] ? Colors.red : null,
-                        size: 24,
+                      child: ImageIcon(
+                        AssetImage('assets/images/like_filled.png'),
+                        size: 30,
+                        color: advert['is_fav']
+                            ? Color.fromRGBO(220, 79, 94, 1.0)
+                            : Colors.white,
                       ),
-                      behavior: HitTestBehavior.opaque,
                     ),
                   ],
                 ),

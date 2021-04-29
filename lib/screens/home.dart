@@ -313,10 +313,10 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                   /// avatar
                   GestureDetector(
                     onTap: () {
-                      pushNewScreen(
-                        context,
-                        screen: ProfileScreen(),
-                      );
+                      // pushNewScreen(
+                      //   context,
+                      //   screen: ProfileScreen(),
+                      // );
                     },
                     child: CircleAvatar(
                       backgroundColor: Colors.white,

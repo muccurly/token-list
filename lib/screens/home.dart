@@ -313,10 +313,10 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                   /// avatar
                   GestureDetector(
                     onTap: () {
-                      pushNewScreen(
-                        context,
-                        screen: ProfileScreen(),
-                      );
+                      // pushNewScreen(
+                      //   context,
+                      //   screen: ProfileScreen(),
+                      // );
                     },
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
@@ -799,7 +799,13 @@ class CommentListTile extends StatelessWidget {
 
 void _deleteComment(int commentId) {
   // TODO: migrate to firstWhere
-  COMMENTS.removeWhere((element) => element['id'] == commentId);
+  COMMENTS.where((element) => element['id'] == commentId).forEach((element) {
+    element['user_id'] = null;
+    element['name'] = 'Deleted';
+    element['comment'] = 'Deleted comment';
+    element['image'] =
+        'https://images.unsplash.com/photo-1557774058-c9148bc6e481?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1320&q=80';
+  });
 }
 
 const List<String> _headerTexts = <String>['Горящие', 'Без комиссии', 'Новые'];

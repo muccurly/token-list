@@ -347,11 +347,23 @@ class _FilterDrawerState extends State<FilterDrawer> {
             /// price
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                'ДИАПАЗОН ЦЕН, Т',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
+              child: RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'ДИАПАЗОН ЦЕН,',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        )),
+                    TextSpan(
+                      text: ' ₸',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Montserrat'),
+                    ),
+                  ],
                 ),
               ),
             ),

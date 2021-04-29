@@ -316,7 +316,7 @@ class BookWidget extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               pushNewScreen(context,
-                  screen: LeaveContactsScreen(), withNavBar: false);
+                  screen: LeaveContactsScreen(isPage: 1), withNavBar: false);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),

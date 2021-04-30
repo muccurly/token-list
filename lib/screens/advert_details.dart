@@ -1365,9 +1365,40 @@ class _ImageCarouselState extends State<ImageCarousel> {
     return Container(
       height: widget.height ?? Global.getSize(context).width / 1.5,
       width: double.infinity,
-      child: Stack(
+      child: Row(
         children: [
-          Positioned.fill(
+          Flexible(
+            flex: 1,
+            child: ListView(
+              controller: controller,
+              children: [
+                ...widget.advert['images'].map(
+                  (String imageUrl) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 2),
+                      height: 138,
+                      child: GestureDetector(
+                        onTap: () => viewImage(
+                          context,
+                          widget.advert['images'].indexOf(imageUrl),
+                          widget.advert['images'],
+                        ),
+                        child: Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 2,
+          ),
+          Flexible(
+            flex: 1,
             child: PageView(
               controller: controller,
               onPageChanged: (i) {
@@ -1394,55 +1425,54 @@ class _ImageCarouselState extends State<ImageCarousel> {
               ],
             ),
           ),
-
-          /// SMOOTH PAGE INDICATOR
-          Positioned(
-            bottom: 8,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: SmoothPageIndicator(
-                controller: controller,
-                count: widget.advert['images'].length,
-                effect: WormEffect(
-                  radius: 7,
-                  spacing: 5,
-                  dotColor: Colors.grey.shade300.withOpacity(0.7),
-                  dotHeight: 7,
-                  dotWidth: 7,
-                  strokeWidth: 1,
-                  activeDotColor: Colors.white,
-                ),
-              ),
-            ),
-          ),
+          // /// SMOOTH PAGE INDICATOR
+          // Positioned(
+          //   bottom: 8,
+          //   left: 0,
+          //   right: 0,
+          //   child: Center(
+          //     child: SmoothPageIndicator(
+          //       controller: controller,
+          //       count: widget.advert['images'].length,
+          //       effect: WormEffect(
+          //         radius: 7,
+          //         spacing: 5,
+          //         dotColor: Colors.grey.shade300.withOpacity(0.7),
+          //         dotHeight: 7,
+          //         dotWidth: 7,
+          //         strokeWidth: 1,
+          //         activeDotColor: Colors.white,
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           /// page count
-          Positioned(
-            bottom: 8,
-            right: 16,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Style.blue.withOpacity(0.4),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 4,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 2.0),
-                child: Text(
-                  '$_currentIndex/${widget.advert['images'].length}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 8,
+          //   right: 16,
+          //   child: Container(
+          //     alignment: Alignment.center,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(4),
+          //       color: Style.blue.withOpacity(0.4),
+          //     ),
+          //     padding: const EdgeInsets.symmetric(
+          //       horizontal: 10,
+          //       vertical: 4,
+          //     ),
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(top: 2.0),
+          //       child: Text(
+          //         '$_currentIndex/${widget.advert['images'].length}',
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           fontSize: 11,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

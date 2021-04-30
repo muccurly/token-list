@@ -58,37 +58,30 @@ class CustomNavBar extends StatelessWidget {
               onTap: () => onTap(2),
               child: SizedBox(
                 height: 32,
+                width: 50,
                 child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 32,
-                        width: 48,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Style.orange,
-                        ),
+                    Container(
+                      height: 32,
+                      width: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Style.orange,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 32,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Style.blue,
-                        ),
+                    Container(
+                      height: 32,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Style.blue,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.add,
-                        size: 30,
-                        color: Colors.white,
-                      ),
+                    Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.white,
                     ),
                   ],
                 ),

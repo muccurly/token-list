@@ -56,7 +56,7 @@ class _RootScreenState extends State<RootScreen> {
             activeColor: Style.orange,
             inactiveColor: Colors.black,
             activeIndex: Global.getController().index,
-            iconSize: 24,
+            iconSize: 22,
             onTap: (index) {
               if (index != 3) {
                 setState(() => Global.getController().index = index);

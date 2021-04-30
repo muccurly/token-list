@@ -521,8 +521,8 @@ Future<void> showCommentsBottomSheet(
     ),
     elevation: 20,
     backgroundColor: Theme.of(context).canvasColor,
-    isDismissible: false,
-    enableDrag: false,
+    isDismissible: true,
+    enableDrag: true,
   );
 
   /// show navbar again
@@ -638,8 +638,8 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                         focusedErrorBorder: InputBorder.none,
                         hintText: 'Добавить комментарий...',
                         hintStyle: TextStyle(
-                          color: Colors.grey.shade300,
-                          fontSize: 12,
+                          color: const Color.fromRGBO(192, 192, 192, 1),
+                          fontSize: 13,
                         ),
                         // suffixIcon: InkWell(
                         //   onTap: () => _sendComment(commentC, setState, context),
@@ -651,7 +651,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                         // suffix: SizedBox(width: 32),
                         fillColor: Colors.white,
                         filled: true,
-                        contentPadding: const EdgeInsets.all(16),
+                        contentPadding: const EdgeInsets.all(22),
                       ),
                     ),
                   ),
@@ -729,12 +729,14 @@ class CommentListTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
+              border:
+                  Border.all(color: const Color.fromRGBO(219, 219, 219, 1.0)),
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
             ),
             margin: EdgeInsets.only(
                 left: reply ? (16 * depth).toDouble() : 0, top: 4, bottom: 4),
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -751,7 +753,7 @@ class CommentListTile extends StatelessWidget {
                         comment['name'],
                         style: TextStyle(
                           color: Colors.grey,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -761,10 +763,10 @@ class CommentListTile extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${DateFormat('dd.MM.yyyy HH:mm').format(comment['datetime'])}',
+                            '${DateFormat('dd.MM.yyyy | HH:mm').format(comment['datetime'])}',
                             style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
                             ),
                           ),
                           Expanded(child: Container()),

@@ -8,34 +8,37 @@ class PlusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            // padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 100),
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              /// owner
-              OptionWidget(
-                image: 'assets/images/select_house_pana.png',
-                text: 'ПРОДАТЬ САМОМУ',
-                color: Style.orange,
-                onPressed: () {
-                  pushNewScreen(context, screen: PlusIntoductionScreen());
-                },
-              ),
-              const SizedBox(height: 32),
+      body: Container(
+        color: Color(0xFFF0F0F0),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              // padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 100),
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// owner
+                OptionWidget(
+                  image: 'assets/images/select_house_pana.png',
+                  text: 'ПРОДАТЬ САМОМУ',
+                  color: Style.orange,
+                  onPressed: () {
+                    pushNewScreen(context, screen: PlusIntoductionScreen());
+                  },
+                ),
+                const SizedBox(height: 32),
 
-              /// help to sell
-              OptionWidget(
-                image: 'assets/images/relaxing_at_home_pana.png',
-                text: 'ПРОДАТЬ\nЧЕРЕЗ РИЭЛТОРА',
-                color: Style.blue,
-                onPressed: () {
-                  pushNewScreen(context, screen: OurSpeicalistsScreen());
-                },
-              ),
-            ],
+                /// help to sell
+                OptionWidget(
+                  image: 'assets/images/relaxing_at_home_pana.png',
+                  text: 'ПРОДАТЬ\nЧЕРЕЗ РИЭЛТОРА',
+                  color: Style.blue,
+                  onPressed: () {
+                    pushNewScreen(context, screen: OurSpeicalistsScreen());
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,49 +120,60 @@ class OptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      child: Row(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
+      child: Column(
         children: [
-          Expanded(
-            child: Image.asset(
-              image ?? '',
-              fit: BoxFit.contain,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              children: [
-                Text(
-                  text ?? '',
-                  style: TextStyle(
-                    color: color ?? Style.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+          const SizedBox(height: 15),
+          Row(
+            children: [
+              const SizedBox(width: 8),
+              Expanded(
+                child: Image.asset(
+                  image ?? '',
+                  fit: BoxFit.contain,
                 ),
-                Container(
-                  width: Global.getSize(context).width,
-                  margin: const EdgeInsets.only(top: 16),
-                  child: ElevatedButton(
-                    onPressed: onPressed ?? () {},
-                    child: Text(
-                      'Выбрать',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: color ?? Style.orange,
-                      elevation: 0,
-                      padding: const EdgeInsets.only(top: 2.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7),
+              ),
+              const SizedBox(width: 25),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      text ?? '',
+                      style: TextStyle(
+                        color: color ?? Style.orange,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
+                    Container(
+                      width: Global.getSize(context).width,
+                      margin: const EdgeInsets.only(top: 16),
+                      child: ElevatedButton(
+                        onPressed: onPressed ?? () {},
+                        child: Text(
+                          'Выбрать',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: color ?? Style.orange,
+                          elevation: 0,
+                          padding: const EdgeInsets.only(top: 2.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 30),
+            ],
           ),
+          const SizedBox(height: 25),
         ],
       ),
     );

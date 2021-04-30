@@ -593,7 +593,7 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
           Text(
             widget.advert['title'],
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 12.5,
               fontWeight: FontWeight.w700,
             ),
             maxLines: 1,
@@ -601,11 +601,11 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
           ),
           const SizedBox(height: 4),
           Text(
-            '${widget.advert['rooms']} комнатная • ${widget.advert['flat']} • ${widget.advert['area']}',
+            '${widget.advert['rooms']} комнатная ‧ ${widget.advert['flat']} ‧ ${widget.advert['area']}',
             style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-            ),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'HelveticaNeueCyr'),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -619,7 +619,7 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
                   text: '${widget.advert['price']}',
                   style: TextStyle(
                     color: Style.orange,
-                    fontSize: 12,
+                    fontSize: 12.5,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -627,7 +627,7 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
                   text: ' ₸',
                   style: TextStyle(
                       color: Colors.orange,
-                      fontSize: 12,
+                      fontSize: 12.5,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Montserrat'),
                 ),

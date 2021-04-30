@@ -103,7 +103,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
 
             /// 3d tour
             // OptionListTile(text: 'Посмотреть 3D тур'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
 
             /// call buttons
             CallBookButtonsWidget(advert: advert),
@@ -709,7 +709,7 @@ class RatingsWidget extends StatelessWidget {
                     child: Text(
                       rating['name'],
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -717,7 +717,7 @@ class RatingsWidget extends StatelessWidget {
                   Text(
                     '${rating['percent']}\%',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -749,7 +749,7 @@ class _ObjectsAroundTabsWidgetState extends State<ObjectsAroundTabsWidget> {
     return DefaultTabController(
       length: 4,
       child: Container(
-        height: Global.getSize(context).width / 2,
+        height: Global.getSize(context).width / 3,
         // color: Colors.pink,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -818,7 +818,7 @@ class ObjectAroundListView extends StatelessWidget {
                           child: Text(
                             object['name'],
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
@@ -826,7 +826,7 @@ class ObjectAroundListView extends StatelessWidget {
                         Text(
                           'рейтинг ${object['rating']} баллов',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -838,13 +838,13 @@ class ObjectAroundListView extends StatelessWidget {
                         Expanded(
                           child: Text(
                             object['address'],
-                            style: TextStyle(fontSize: 11),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ),
                         Text(
                           object['distance'],
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -984,53 +984,53 @@ class TableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.only(left: 16),
       child: Table(
         children: [
           TableRow(children: [
             TableFirstColumnWidget(
-                text: 'Количество комнат .........................'),
+                text: 'Количество комнат ..........................'),
             TableSecondColumnWidget(text: advert['rooms']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Площадь ..........................................',
+              text: 'Площадь ...........................................',
             ),
             TableSecondColumnWidget(text: advert['area']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Этаж ................................................',
+              text: 'Этаж .................................................',
             ),
             TableSecondColumnWidget(text: advert['flat']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Состояние .......................................',
+              text: 'Состояние ........................................',
             ),
             TableSecondColumnWidget(text: advert['state']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Потолки ...........................................',
+              text: 'Потолки ............................................',
             ),
             TableSecondColumnWidget(text: advert['ceiling']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Санузел ...........................................',
+              text: 'Санузел ............................................',
             ),
             TableSecondColumnWidget(text: advert['bathroom']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Паркинг ...........................................',
+              text: 'Паркинг ............................................',
             ),
             TableSecondColumnWidget(text: advert['parking']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Год постройки .................................',
+              text: 'Год постройки ..................................',
             ),
             TableSecondColumnWidget(text: advert['year']),
           ]),
@@ -1078,7 +1078,7 @@ class TableFirstColumnWidget extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: FontWeight.w300,
         ),
       ),
@@ -1185,7 +1185,7 @@ class AddressRatingWidget extends StatelessWidget {
               advert['address'],
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -1200,7 +1200,7 @@ class AddressRatingWidget extends StatelessWidget {
               advert['adverts_type'],
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
                 color: Style.orange,
               ),
             ),
@@ -1365,9 +1365,40 @@ class _ImageCarouselState extends State<ImageCarousel> {
     return Container(
       height: widget.height ?? Global.getSize(context).width / 1.5,
       width: double.infinity,
-      child: Stack(
+      child: Row(
         children: [
-          Positioned.fill(
+          Flexible(
+            flex: 1,
+            child: ListView(
+              controller: controller,
+              children: [
+                ...widget.advert['images'].map(
+                  (String imageUrl) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 2),
+                      height: 138,
+                      child: GestureDetector(
+                        onTap: () => viewImage(
+                          context,
+                          widget.advert['images'].indexOf(imageUrl),
+                          widget.advert['images'],
+                        ),
+                        child: Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 2,
+          ),
+          Flexible(
+            flex: 1,
             child: PageView(
               controller: controller,
               onPageChanged: (i) {
@@ -1394,55 +1425,54 @@ class _ImageCarouselState extends State<ImageCarousel> {
               ],
             ),
           ),
-
-          /// SMOOTH PAGE INDICATOR
-          Positioned(
-            bottom: 8,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: SmoothPageIndicator(
-                controller: controller,
-                count: widget.advert['images'].length,
-                effect: WormEffect(
-                  radius: 7,
-                  spacing: 5,
-                  dotColor: Colors.grey.shade300.withOpacity(0.7),
-                  dotHeight: 7,
-                  dotWidth: 7,
-                  strokeWidth: 1,
-                  activeDotColor: Colors.white,
-                ),
-              ),
-            ),
-          ),
+          // /// SMOOTH PAGE INDICATOR
+          // Positioned(
+          //   bottom: 8,
+          //   left: 0,
+          //   right: 0,
+          //   child: Center(
+          //     child: SmoothPageIndicator(
+          //       controller: controller,
+          //       count: widget.advert['images'].length,
+          //       effect: WormEffect(
+          //         radius: 7,
+          //         spacing: 5,
+          //         dotColor: Colors.grey.shade300.withOpacity(0.7),
+          //         dotHeight: 7,
+          //         dotWidth: 7,
+          //         strokeWidth: 1,
+          //         activeDotColor: Colors.white,
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           /// page count
-          Positioned(
-            bottom: 8,
-            right: 16,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Style.blue.withOpacity(0.4),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 4,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 2.0),
-                child: Text(
-                  '$_currentIndex/${widget.advert['images'].length}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 8,
+          //   right: 16,
+          //   child: Container(
+          //     alignment: Alignment.center,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(4),
+          //       color: Style.blue.withOpacity(0.4),
+          //     ),
+          //     padding: const EdgeInsets.symmetric(
+          //       horizontal: 10,
+          //       vertical: 4,
+          //     ),
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(top: 2.0),
+          //       child: Text(
+          //         '$_currentIndex/${widget.advert['images'].length}',
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           fontSize: 11,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

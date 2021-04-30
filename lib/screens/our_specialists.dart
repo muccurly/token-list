@@ -17,7 +17,7 @@ class _OurSpeicalistsScreenState extends State<OurSpeicalistsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color(0xFFF0F0F0),
         title: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
@@ -47,151 +47,157 @@ class _OurSpeicalistsScreenState extends State<OurSpeicalistsScreen> {
         centerTitle: false,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            //text
-            Column(
-              children: [
-                Text(
-                  'Выберите вашего риэлтора либо оставьте заявку',
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'мы подберем походящего риэлтора ',
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-
-            SizedBox(
-              height: 30,
-            ),
-
-            /// оставить заявку кнопка
-            Container(
-              height: 35,
-              child: ElevatedButton(
-                onPressed: () {
-                  pushNewScreen(context,
-                      screen: LeaveContactsScreen(
-                        isPage: 2,
-                      ),
-                      withNavBar: true);
-                },
-                child: Text(
-                  'Оставить заявку',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
+        child: Container(
+          color: Color(0xFFF0F0F0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30,
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-
-            /// search field
-            Container(
-              height: kToolbarHeight / 1.7,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.center,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                  hintText: 'Поиск',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade300,
-                    fontSize: 14,
-                  ),
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 6.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: ImageIcon(
-                            AssetImage('assets/images/search.png'),
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              height: 380,
-              child: ListView(
-                padding: const EdgeInsets.all(16),
+              //text
+              Column(
                 children: [
-                  ...SPECIALISTS
-                      .map(
-                        (specialist) => SpecialistsTile(
-                          imagePath: specialist['imagePath'],
-                          imageUrl: specialist['imageUrl'],
-                          name: specialist['name'],
-                          position: specialist['position'],
-                          rating: specialist['rating'],
-                        ),
-                      )
-                      .toList(),
+                  Text(
+                    'Выберите вашего риэлтора либо оставьте заявку',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'мы подберем походящего риэлтора ',
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
-            ),
-          ],
+
+              SizedBox(
+                height: 28,
+              ),
+
+              /// оставить заявку кнопка
+              Container(
+                height: 35,
+                child: ElevatedButton(
+                  onPressed: () {
+                    pushNewScreen(context,
+                        screen: LeaveContactsScreen(
+                          isPage: 2,
+                        ),
+                        withNavBar: true);
+                  },
+                  child: Text(
+                    'Оставить заявку',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+
+              /// search field
+              Container(
+                height: kToolbarHeight / 1.7,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                alignment: Alignment.center,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBDBDB).withOpacity(0.5),
+                        width: 0.5,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBDBDB).withOpacity(0.5),
+                        width: 0.5,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBDBDB).withOpacity(0.5),
+                        width: 0.5,
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBDBDB).withOpacity(0.5),
+                        width: 0.5,
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBDBDB).withOpacity(0.5),
+                        width: 0.5,
+                      ),
+                    ),
+                    hintText: 'Поиск',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade300,
+                      fontSize: 14,
+                    ),
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: ImageIcon(
+                              AssetImage('assets/images/search.png'),
+                              size: 20,
+                              color: Color(0xFFADADAD).withOpacity(0.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: 380,
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    ...SPECIALISTS
+                        .map(
+                          (specialist) => SpecialistsTile(
+                            imagePath: specialist['imagePath'],
+                            imageUrl: specialist['imageUrl'],
+                            name: specialist['name'],
+                            position: specialist['position'],
+                            rating: specialist['rating'],
+                          ),
+                        )
+                        .toList(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -219,14 +225,15 @@ class SpecialistsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: const EdgeInsets.fromLTRB(8, 15, 8, 12),
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.grey.shade300, width: 0.5),
+        border: Border.all(color: Colors.transparent, width: 0.5),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
             radius: 35,
@@ -239,12 +246,19 @@ class SpecialistsTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 10,
+                ),
+
                 /// name
-                Text(
-                  name ?? '--',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                Container(
+                  margin: EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    name ?? '--',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
 
@@ -335,6 +349,9 @@ class SpecialistsTile extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 3,
                 ),
                 Container(
                   alignment: Alignment.centerRight,

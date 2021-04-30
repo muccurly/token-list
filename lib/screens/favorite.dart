@@ -29,46 +29,55 @@ class _FavoriteScreenState extends State<FavoriteScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        titleSpacing: 0,
-        title: const SizedBox.shrink(),
-        leading: null,
-        automaticallyImplyLeading: false,
-        toolbarHeight: kToolbarHeight,
-        backgroundColor: Colors.transparent,
-        bottom: DecoratedTabBar(
-          tabBar: TabBar(
-            controller: _tabController,
-            tabs: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'ОБЪЕКТЫ',
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'СОХРАНЕННЫЕ ПОИСКИ',
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-            indicatorColor: Style.orange,
-            labelColor: Style.orange,
-            unselectedLabelColor: Style.blue,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: Theme(
+          data: ThemeData(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
           ),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Style.blue,
-                width: 2.0,
+          child: AppBar(
+            elevation: 0,
+            titleSpacing: 0,
+            title: const SizedBox.shrink(),
+            leading: null,
+            automaticallyImplyLeading: false,
+            toolbarHeight: kToolbarHeight,
+            backgroundColor: Colors.transparent,
+            bottom: DecoratedTabBar(
+              tabBar: TabBar(
+                controller: _tabController,
+                tabs: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'ОБЪЕКТЫ',
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'СОХРАНЕННЫЕ ПОИСКИ',
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+                indicatorColor: Style.orange,
+                labelColor: Style.orange,
+                unselectedLabelColor: Style.blue,
+              ),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Style.blue,
+                    width: 2.0,
+                  ),
+                ),
               ),
             ),
           ),

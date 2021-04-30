@@ -249,7 +249,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'price': '29 500 000',
     'rooms': '4',
     'flat': '4 из 9',
-    'area': '127.45 м\u00B2',
+    'area': '127 м\u00B2',
     'images': [
       'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
@@ -338,7 +338,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'price': '29 500 000',
     'rooms': '4',
     'flat': '4 из 9',
-    'area': '127.45 м\u00B2',
+    'area': '127 м\u00B2',
     'images': [
       'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
@@ -423,7 +423,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'price': '29 500 000',
     'rooms': '4',
     'flat': '4 из 9',
-    'area': '127.45 м\u00B2',
+    'area': '127 м\u00B2',
     'images': [
       'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
@@ -508,7 +508,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'price': '29 500 000',
     'rooms': '4',
     'flat': '4 из 9',
-    'area': '127.45 м\u00B2',
+    'area': '127 м\u00B2',
     'images': [
       'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
@@ -593,7 +593,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'price': '29 500 000',
     'rooms': '4',
     'flat': '4 из 9',
-    'area': '127.45 м\u00B2',
+    'area': '127 м\u00B2',
     'images': [
       'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
@@ -678,7 +678,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'price': '29 500 000',
     'rooms': '4',
     'flat': '4 из 9',
-    'area': '127.45 м\u00B2',
+    'area': '127 м\u00B2',
     'images': [
       'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       'https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',

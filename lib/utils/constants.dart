@@ -24,18 +24,11 @@ const String BUILDINGS_BY_STREET_URL =
     'https://gm.jurta.kz/open-api/address/getBuildingsByStreet/'; // <street_id>
 
 List<PersistentBottomNavBarItem> NAVBAR_ITEMS = List.generate(
-  4,
+  5,
   (index) => PersistentBottomNavBarItem(
     icon: Icon(Icons.brightness_1),
   ),
 );
-
-const List<String> NAVBAR_ICON_LIST = [
-  'assets/images/home.png',
-  'assets/images/search.png',
-  'assets/images/favorite.png',
-  'assets/images/menu.png',
-];
 
 const List<String> NAVBAR_TITLE_LIST = [
   'главная',

@@ -39,11 +39,11 @@ class PlusScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: Hero(
-        tag: 'PLUS_BUTTON',
-        child: PlusButton(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Hero(
+      //   tag: 'PLUS_BUTTON',
+      //   child: PlusButton(),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

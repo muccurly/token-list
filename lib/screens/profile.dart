@@ -211,7 +211,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       /// phone, location
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 20.0),
                         child: Row(
                           children: [
                             /// phone

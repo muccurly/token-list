@@ -103,7 +103,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
 
             /// 3d tour
             // OptionListTile(text: 'Посмотреть 3D тур'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
 
             /// call buttons
             CallBookButtonsWidget(advert: advert),
@@ -709,7 +709,7 @@ class RatingsWidget extends StatelessWidget {
                     child: Text(
                       rating['name'],
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -717,7 +717,7 @@ class RatingsWidget extends StatelessWidget {
                   Text(
                     '${rating['percent']}\%',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -749,7 +749,7 @@ class _ObjectsAroundTabsWidgetState extends State<ObjectsAroundTabsWidget> {
     return DefaultTabController(
       length: 4,
       child: Container(
-        height: Global.getSize(context).width / 2,
+        height: Global.getSize(context).width / 3,
         // color: Colors.pink,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -818,7 +818,7 @@ class ObjectAroundListView extends StatelessWidget {
                           child: Text(
                             object['name'],
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
@@ -826,7 +826,7 @@ class ObjectAroundListView extends StatelessWidget {
                         Text(
                           'рейтинг ${object['rating']} баллов',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -838,13 +838,13 @@ class ObjectAroundListView extends StatelessWidget {
                         Expanded(
                           child: Text(
                             object['address'],
-                            style: TextStyle(fontSize: 11),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ),
                         Text(
                           object['distance'],
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -984,53 +984,53 @@ class TableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.only(left: 16),
       child: Table(
         children: [
           TableRow(children: [
             TableFirstColumnWidget(
-                text: 'Количество комнат .........................'),
+                text: 'Количество комнат ..........................'),
             TableSecondColumnWidget(text: advert['rooms']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Площадь ..........................................',
+              text: 'Площадь ...........................................',
             ),
             TableSecondColumnWidget(text: advert['area']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Этаж ................................................',
+              text: 'Этаж .................................................',
             ),
             TableSecondColumnWidget(text: advert['flat']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Состояние .......................................',
+              text: 'Состояние ........................................',
             ),
             TableSecondColumnWidget(text: advert['state']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Потолки ...........................................',
+              text: 'Потолки ............................................',
             ),
             TableSecondColumnWidget(text: advert['ceiling']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Санузел ...........................................',
+              text: 'Санузел ............................................',
             ),
             TableSecondColumnWidget(text: advert['bathroom']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Паркинг ...........................................',
+              text: 'Паркинг ............................................',
             ),
             TableSecondColumnWidget(text: advert['parking']),
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Год постройки .................................',
+              text: 'Год постройки ..................................',
             ),
             TableSecondColumnWidget(text: advert['year']),
           ]),
@@ -1078,7 +1078,7 @@ class TableFirstColumnWidget extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: FontWeight.w300,
         ),
       ),
@@ -1185,7 +1185,7 @@ class AddressRatingWidget extends StatelessWidget {
               advert['address'],
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -1200,7 +1200,7 @@ class AddressRatingWidget extends StatelessWidget {
               advert['adverts_type'],
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
                 color: Style.orange,
               ),
             ),

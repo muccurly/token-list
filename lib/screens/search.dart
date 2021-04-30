@@ -281,6 +281,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: TextFormField(
+                        style: TextStyle(
+                          fontSize: 13,
+                          height: 1.5,
+                        ),
                         controller: _priceFromC,
                         inputFormatters: NUMERIC_FORMATTER,
                         decoration: InputDecoration(
@@ -321,7 +325,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 8,
+                            vertical: 6,
                           ),
                           isDense: true,
                         ),
@@ -336,6 +340,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: TextFormField(
+                        style: TextStyle(
+                          fontSize: 13,
+                          height: 1.5,
+                        ),
                         controller: _priceToC,
                         inputFormatters: NUMERIC_FORMATTER,
                         decoration: InputDecoration(
@@ -376,7 +384,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 8,
+                            vertical: 6,
                           ),
                           isDense: true,
                         ),
@@ -406,6 +414,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: TextFormField(
+                        style: TextStyle(
+                          fontSize: 13,
+                          height: 1.5,
+                        ),
                         controller: _areaFromC,
                         inputFormatters: NUMERIC_FORMATTER,
                         decoration: InputDecoration(
@@ -446,7 +458,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 8,
+                            vertical: 6,
                           ),
                           isDense: true,
                         ),
@@ -459,6 +471,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: TextFormField(
+                        style: TextStyle(
+                          fontSize: 13,
+                          height: 1.5,
+                        ),
                         controller: _areaToC,
                         inputFormatters: NUMERIC_FORMATTER,
                         decoration: InputDecoration(
@@ -499,7 +515,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 8,
+                            vertical: 6,
                           ),
                           isDense: true,
                         ),

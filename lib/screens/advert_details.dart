@@ -1376,7 +1376,8 @@ class _ImageCarouselState extends State<ImageCarousel> {
                   (String imageUrl) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 2),
-                      height: 138,
+                      height:
+                          widget.height ?? Global.getSize(context).width / 3,
                       child: GestureDetector(
                         onTap: () => viewImage(
                           context,

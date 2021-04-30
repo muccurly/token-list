@@ -269,31 +269,57 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
+                          fontSize: 16,
                         )),
                     TextSpan(
                       text: ' ₸',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
+                          fontSize: 16,
                           fontFamily: 'Montserrat'),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                '${widget.advert['rooms']}-комнатная квартира • ${widget.advert['flat']} • ${widget.advert['area']}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '${widget.advert['rooms']}-комнатная квартира',
+                    ),
+                    TextSpan(
+                      text: '   ∙   ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Montserrat'),
+                    ),
+                    TextSpan(
+                      text: '${widget.advert['flat']}',
+                    ),
+                    TextSpan(
+                      text: '   ∙   ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Montserrat'),
+                    ),
+                    TextSpan(
+                      text: '${widget.advert['area']}',
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
-                widget.advert['address'],
+                '${widget.advert['address_city']}, ${widget.advert['address_district']} район\n${widget.advert['address_street']}, ${widget.advert['address_house']}',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               const SizedBox(height: 16),
@@ -385,7 +411,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 36),
+                  const SizedBox(height: 50),
                 ],
               ),
               Container(

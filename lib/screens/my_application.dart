@@ -74,14 +74,22 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'АКТИВНЫЕ',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: _tabController.index == 0
+                                    ? FontWeight.w700
+                                    : FontWeight.w400),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'АРХИВНЫЕ',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: _tabController.index == 1
+                                    ? FontWeight.w700
+                                    : FontWeight.w400),
                           ),
                         ),
                       ],

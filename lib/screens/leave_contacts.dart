@@ -63,7 +63,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
               const SizedBox(height: 16),
               Text(
                 'Как к Вам обращаться?',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
@@ -81,6 +81,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                 controller: _nameC,
                 inputType: TextInputType.name,
               ),
+              const SizedBox(height: 24),
               Row(children: [HeadersTextWidget(text: 'Контакты')]),
               InputWidget(
                 controller: _phoneC,

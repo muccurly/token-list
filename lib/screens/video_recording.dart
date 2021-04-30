@@ -225,7 +225,7 @@ void showUploadConfirmNameDialog(
                   child: ElevatedButton(
                     onPressed: () {
                       pushNewScreen(context,
-                          screen: OwnerScreen(), withNavBar: true);
+                          screen: RieltorFrilancer3(), withNavBar: true);
                     },
                     child: Text(
                       'СОХРАНИТЬ',

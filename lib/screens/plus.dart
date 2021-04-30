@@ -23,7 +23,8 @@ class PlusScreen extends StatelessWidget {
                   text: 'ПРОДАТЬ САМОМУ',
                   color: Style.orange,
                   onPressed: () {
-                    pushNewScreen(context, screen: PlusIntoductionScreen());
+                    pushNewScreen(context,
+                        screen: PlusIntoductionScreen(), withNavBar: false);
                   },
                 ),
                 const SizedBox(height: 32),

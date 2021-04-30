@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/owner.dart';
 import 'package:jurta/utils/global.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class RieltorFrilancer3 extends StatelessWidget {
   @override
@@ -51,10 +53,16 @@ class RieltorFrilancer3 extends StatelessWidget {
                   maxHeight: 350,
                   maxWidth: 350,
                 ),
-                child: Image.asset(
-                  'assets/images/call_center_bro.png',
-                  height: Global.getSize(context).width / 1.15,
-                  width: Global.getSize(context).width / 1.15,
+                child: GestureDetector(
+                  onTap: () {
+                    pushNewScreen(context,
+                        screen: OwnerScreen(), withNavBar: true);
+                  },
+                  child: Image.asset(
+                    'assets/images/call_center_bro.png',
+                    height: Global.getSize(context).width / 1.15,
+                    width: Global.getSize(context).width / 1.15,
+                  ),
                 ),
               ),
             ],

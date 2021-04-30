@@ -23,7 +23,7 @@ class _RateCallCenterScreenState extends State<RateCallCenterScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(bottom: 10, top: 70, left: 25, right: 25),
+                const EdgeInsets.only(bottom: 10, top: 50, left: 25, right: 25),
             child: Column(
               children: [
                 //text
@@ -788,7 +788,7 @@ class _RateCallCenterScreenState extends State<RateCallCenterScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 30,
                 ),
 
                 /// Завершить заявку кнопка

@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 /// info
                 Container(
-                  padding: const EdgeInsets.only(top: 24),
+                  padding: const EdgeInsets.only(top: 12),
                   color: Colors.white,
                   child: Column(
                     children: [

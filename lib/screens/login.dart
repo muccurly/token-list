@@ -140,7 +140,7 @@ class HeadersTextWidget extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -208,7 +208,7 @@ class InputWidget extends StatelessWidget {
                   width: 0.5,
                 ),
               ),
-              fillColor: Colors.white,
+              fillColor: const Color.fromRGBO(238, 238, 238, 1.0),
               filled: true,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,

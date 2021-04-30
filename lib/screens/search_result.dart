@@ -744,6 +744,7 @@ class SortWidget extends StatelessWidget {
                 ],
               ),
               child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 children: [

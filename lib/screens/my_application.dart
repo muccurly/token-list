@@ -74,14 +74,22 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'АКТИВНЫЕ',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: _tabController.index == 0
+                                    ? FontWeight.w900
+                                    : FontWeight.w400),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'АРХИВНЫЕ',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: _tabController.index == 1
+                                    ? FontWeight.w900
+                                    : FontWeight.w900),
                           ),
                         ),
                       ],
@@ -255,6 +263,11 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ),
 
           /// extended middle section
+          Visibility(
+            visible: isExpanded,
+            child: const SizedBox(height: 8),
+          ),
+
           ExtendedApplicationDescription(
               fieldName: 'Цена',
               fieldValue: '${widget.application['advert']['price']} тг',
@@ -377,14 +390,14 @@ class ExtendedApplicationDescription extends StatelessWidget {
                   style: TextStyle(
                     color: Style.blue,
                     fontWeight: FontWeight.w700,
-                    fontSize: 12.0,
+                    fontSize: 13.0,
                   )),
               TextSpan(
                 text: fieldValue,
                 style: TextStyle(
                   color: Style.blue,
                   fontWeight: FontWeight.w400,
-                  fontSize: 12.0,
+                  fontSize: 13.0,
                 ),
               ),
             ],

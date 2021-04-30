@@ -162,7 +162,7 @@ class NotificationSettingsTile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Transform.scale(
-              scale: 0.6,
+              scale: 0.75,
               child: Switch(
                 value: switchValue,
                 onChanged: (val) => onChanged(val),

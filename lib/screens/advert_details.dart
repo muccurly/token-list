@@ -1746,6 +1746,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                 ],
               ),
               child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.only(top: 32, bottom: 16),
                 children: [
@@ -1759,7 +1760,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 28),
 
                   /// next 7 days
                   Row(
@@ -1798,14 +1799,22 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                                           ? Colors.white
                                           : null,
                                       fontSize: 14,
+                                      fontWeight: _selectedDate.day ==
+                                              DateTime.now()
+                                                  .add(Duration(days: index))
+                                                  .day
+                                          ? FontWeight.w700
+                                          : FontWeight.w400,
                                     ),
                                   ),
                                 ),
                               ),
                               FittedBox(
                                 child: Text(
-                                  DateFormat('EE', 'RU').format(DateTime.now()
-                                      .add(Duration(days: index))),
+                                  DateFormat('EE', 'RU')
+                                      .format(DateTime.now()
+                                          .add(Duration(days: index)))
+                                      .toUpperCase(),
                                   style: TextStyle(
                                     color: _selectedDate.day ==
                                             DateTime.now()
@@ -1814,6 +1823,12 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                                         ? Colors.white
                                         : null,
                                     fontSize: 12,
+                                    fontWeight: _selectedDate.day ==
+                                            DateTime.now()
+                                                .add(Duration(days: index))
+                                                .day
+                                        ? FontWeight.w700
+                                        : FontWeight.w400,
                                   ),
                                 ),
                               ),
@@ -1823,7 +1838,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   /// times
                   Wrap(
@@ -1844,7 +1859,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                                   .minute,
                             )),
                         child: Container(
-                          width: Global.getSize(context).width / 6,
+                          width: Global.getSize(context).width / 7,
                           decoration: _selectedTime ==
                                   DateTime(
                                     _selectedDate.year,
@@ -1862,49 +1877,46 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                                   color: Style.orange,
                                 )
                               : null,
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                           margin: const EdgeInsets.all(8),
                           child: FittedBox(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 2.0),
-                              child: Text(
-                                DateFormat('kk:mm').format(_startTime
-                                    .add(Duration(minutes: index * 30))),
-                                style: TextStyle(
-                                  color: _selectedTime ==
-                                          DateTime(
-                                            _selectedDate.year,
-                                            _selectedDate.month,
-                                            _selectedDate.day,
-                                            _startTime
-                                                .add(Duration(
-                                                    minutes: index * 30))
-                                                .hour,
-                                            _startTime
-                                                .add(Duration(
-                                                    minutes: index * 30))
-                                                .minute,
-                                          )
-                                      ? Colors.white
-                                      : null,
-                                  fontSize: 12,
-                                  fontWeight: _selectedTime ==
-                                          DateTime(
-                                            _selectedDate.year,
-                                            _selectedDate.month,
-                                            _selectedDate.day,
-                                            _startTime
-                                                .add(Duration(
-                                                    minutes: index * 30))
-                                                .hour,
-                                            _startTime
-                                                .add(Duration(
-                                                    minutes: index * 30))
-                                                .minute,
-                                          )
-                                      ? FontWeight.w700
-                                      : FontWeight.w400,
-                                ),
+                            child: Text(
+                              DateFormat('kk:mm').format(_startTime
+                                  .add(Duration(minutes: index * 30))),
+                              style: TextStyle(
+                                color: _selectedTime ==
+                                        DateTime(
+                                          _selectedDate.year,
+                                          _selectedDate.month,
+                                          _selectedDate.day,
+                                          _startTime
+                                              .add(
+                                                  Duration(minutes: index * 30))
+                                              .hour,
+                                          _startTime
+                                              .add(
+                                                  Duration(minutes: index * 30))
+                                              .minute,
+                                        )
+                                    ? Colors.white
+                                    : null,
+                                fontSize: 12,
+                                fontWeight: _selectedTime ==
+                                        DateTime(
+                                          _selectedDate.year,
+                                          _selectedDate.month,
+                                          _selectedDate.day,
+                                          _startTime
+                                              .add(
+                                                  Duration(minutes: index * 30))
+                                              .hour,
+                                          _startTime
+                                              .add(
+                                                  Duration(minutes: index * 30))
+                                              .minute,
+                                        )
+                                    ? FontWeight.w700
+                                    : FontWeight.w400,
                               ),
                             ),
                             fit: BoxFit.scaleDown,

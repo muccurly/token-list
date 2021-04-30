@@ -61,7 +61,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ],
       ),
       floatingActionButton: Container(
-        margin: const EdgeInsets.all(16),
+        margin: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         child: ElevatedButton(
           onPressed: () {
             pushNewScreen(context, screen: NotificationSettingsScreen());

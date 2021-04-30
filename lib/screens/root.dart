@@ -30,6 +30,7 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     Global.rootSetState = setState;
 
     return Scaffold(
@@ -51,14 +52,14 @@ class _RootScreenState extends State<RootScreen> {
           hideNavigationBar: tab.hideNavBar ?? false,
           hideNavigationBarWhenKeyboardShows: true,
           customWidget: CustomNavBar(
-            icons: NAVBAR_ICON_LIST,
+            width: width,
             titles: NAVBAR_TITLE_LIST,
             activeColor: Style.orange,
             inactiveColor: Colors.black,
             activeIndex: Global.getController().index,
-            iconSize: 24,
+            iconSize: 22,
             onTap: (index) {
-              if (index != 3) {
+              if (index != 4) {
                 setState(() => Global.getController().index = index);
               } else
                 _sKey.currentState.openEndDrawer();
@@ -73,6 +74,7 @@ class _RootScreenState extends State<RootScreen> {
 List<Widget> _pageOptions = [
   HomeScreen(),
   SearchScreen(),
+  PlusScreen(),
   FavoriteScreen(),
   Container(),
 ];

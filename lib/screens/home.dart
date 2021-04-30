@@ -101,7 +101,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.black.withOpacity(0.8),
+                  Colors.black.withOpacity(0.6),
                   Colors.black.withOpacity(0)
                 ],
                 begin: Alignment.topCenter,
@@ -121,7 +121,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.black.withOpacity(0.8),
+                  Colors.black.withOpacity(0.6),
                   Colors.black.withOpacity(0)
                 ],
                 begin: Alignment.bottomCenter,

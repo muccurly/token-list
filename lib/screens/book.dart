@@ -50,6 +50,7 @@ class _BookScreenState extends State<BookScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           /// advert
           AdvertCard(advert: advert),
@@ -87,7 +88,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     return Column(
       children: [
         Text(
-          DateFormat('d MMMM, yyyy • EEEE').format(_selectedDate),
+          DateFormat('d MMMM, yyyy • EEEE', 'RU').format(_selectedDate),
           style: TextStyle(
             color: Colors.cyan,
             fontSize: 13,
@@ -120,7 +121,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   children: [
                     FittedBox(
                       child: Text(
-                        DateFormat('dd')
+                        DateFormat('dd', 'RU')
                             .format(DateTime.now().add(Duration(days: index))),
                         style: TextStyle(
                           color: _selectedDate.day ==
@@ -133,7 +134,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     ),
                     FittedBox(
                       child: Text(
-                        DateFormat('EE')
+                        DateFormat('EE', 'RU')
                             .format(DateTime.now().add(Duration(days: index))),
                         style: TextStyle(
                           color: _selectedDate.day ==

@@ -77,7 +77,7 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: _tabController.index == 0
-                                    ? FontWeight.w700
+                                    ? FontWeight.w900
                                     : FontWeight.w400),
                           ),
                         ),
@@ -88,8 +88,8 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: _tabController.index == 1
-                                    ? FontWeight.w700
-                                    : FontWeight.w400),
+                                    ? FontWeight.w900
+                                    : FontWeight.w900),
                           ),
                         ),
                       ],
@@ -263,6 +263,11 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ),
 
           /// extended middle section
+          Visibility(
+            visible: isExpanded,
+            child: const SizedBox(height: 8),
+          ),
+
           ExtendedApplicationDescription(
               fieldName: 'Цена',
               fieldValue: '${widget.application['advert']['price']} тг',

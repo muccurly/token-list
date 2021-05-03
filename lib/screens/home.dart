@@ -316,12 +316,13 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
               ),
               const SizedBox(height: 12),
               Text(
-                '${widget.advert['address_city']}, ${widget.advert['address_district']} район\n${widget.advert['address_street']}, ${widget.advert['address_house']}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                ),
+                '${widget.advert['address_city']}, ${widget.advert['address_district']} район',
+                style: TextStyle(color: Colors.white, fontSize: 13),
               ),
+              const SizedBox(height: 2),
+              Text(
+                  '${widget.advert['address_street']}, ${widget.advert['address_house']}',
+                  style: TextStyle(color: Colors.white, fontSize: 13)),
               const SizedBox(height: 16),
             ],
           ),

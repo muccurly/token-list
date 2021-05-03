@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/our_specialists.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:jurta/utils/custom_icons_icons.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -31,7 +32,7 @@ class MenuDrawer extends StatelessWidget {
 
             /// my applications
             MenuTile(
-              icon: 'assets/images/list.png',
+              icon: CustomIcons.list,
               title: 'Мои заявки',
               screen: MyApplicationScreen(),
               rootContext: rootContext,
@@ -44,7 +45,7 @@ class MenuDrawer extends StatelessWidget {
 
             /// notification
             MenuTile(
-              icon: 'assets/images/notification.png',
+              icon: CustomIcons.notification,
               title: 'Уведомления',
               screen: NotificationScreen(),
               rootContext: rootContext,
@@ -52,7 +53,7 @@ class MenuDrawer extends StatelessWidget {
             ),
 
             /// info
-            MenuTile(icon: 'assets/images/info.png', title: 'Информация'),
+            MenuTile(icon: CustomIcons.info, title: 'Информация'),
 
             /// chat with developers
             // MenuTile(
@@ -61,7 +62,7 @@ class MenuDrawer extends StatelessWidget {
 
             /// find master
             MenuTile(
-              icon: 'assets/images/find_master.png',
+              icon: CustomIcons.find_master,
               title: 'Найти специалиста',
               screen: OurSpeicalistsScreen(),
               rootContext: rootContext,
@@ -106,7 +107,7 @@ class MenuDrawer extends StatelessWidget {
 }
 
 class MenuTile extends StatelessWidget {
-  final String icon;
+  final IconData icon;
   final String title;
   final Widget screen;
   final BuildContext rootContext;
@@ -134,11 +135,7 @@ class MenuTile extends StatelessWidget {
                 withNavBar: true,
               );
             },
-      leading: ImageIcon(
-        AssetImage(icon),
-        color: Colors.black,
-        size: 20,
-      ),
+      leading: Icon(icon, size: 20),
       title: trailing
           ? Row(
               children: [

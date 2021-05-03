@@ -20,15 +20,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // String _headerSelected = _headerTexts[0];
   final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
 //                       maxHeight: (MediaQuery.of(context).size.height - 110) +
 //                           index * 2),
 class HomeScreenCard extends StatefulWidget {
-  Map<String, dynamic> advert;
-  GlobalKey<ScaffoldState> sKey;
+  final Map<String, dynamic> advert;
+  final GlobalKey<ScaffoldState> sKey;
+
   HomeScreenCard({this.advert, this.sKey});
 
   @override

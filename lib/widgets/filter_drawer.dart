@@ -13,7 +13,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
   TextEditingController _areaFromC;
   TextEditingController _areaToC;
   String _selectedHouseType;
-  String _selectedRoom;
+  List<bool> _selectedRooms = List<bool>.generate(ROOMS.length, (_) => false);
   bool _hot = false;
   bool _new = false;
 
@@ -294,52 +294,47 @@ class _FilterDrawerState extends State<FilterDrawer> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ...ROOMS.map(
-                      (room) {
-                        return Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedRoom = room;
-                              });
-                            },
-                            child: Container(
-                              height: 36,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(7),
-                              decoration: BoxDecoration(
-                                color: _selectedRoom == room
-                                    ? Style.orange
-                                    : Colors.white,
-                                border: Border.all(
-                                  width: 0.5,
-                                  color: Colors.grey.shade300,
-                                ),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List<Widget>.generate(ROOMS.length, (index) {
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedRooms[index] = !_selectedRooms[index];
+                            });
+                          },
+                          child: Container(
+                            height: 36,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: _selectedRooms[index]
+                                  ? Style.orange
+                                  : Colors.white,
+                              border: Border.all(
+                                width: 0.5,
+                                color: Colors.grey.shade300,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 2.0),
-                                child: Text(
-                                  room,
-                                  style: TextStyle(
-                                      color: _selectedRoom == room
-                                          ? Colors.white
-                                          : null,
-                                      fontWeight: _selectedRoom == room
-                                          ? FontWeight.w500
-                                          : FontWeight.w400,
-                                      fontSize: 13),
-                                  textAlign: TextAlign.center,
-                                ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 2.0),
+                              child: Text(
+                                ROOMS[index],
+                                style: TextStyle(
+                                    color: _selectedRooms[index]
+                                        ? Colors.white
+                                        : null,
+                                    fontWeight: _selectedRooms[index]
+                                        ? FontWeight.w500
+                                        : FontWeight.w400,
+                                    fontSize: 13),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ).toList(),
-                  ],
-                ),
+                        ),
+                      );
+                    })),
               ),
             ),
             const SizedBox(height: 24),
@@ -361,6 +356,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
+                          fontSize: 11,
                           fontFamily: 'Montserrat'),
                     ),
                   ],

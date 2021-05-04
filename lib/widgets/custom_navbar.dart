@@ -148,14 +148,15 @@ class BottomBarItemWidget extends StatelessWidget {
               color: activeIndex == index ? activeColor : inactiveColor,
               size: iconSize,
             ),
+            const SizedBox(height: 4),
             FittedBox(
               child: Text(
-                title,
+                title.toUpperCase(),
                 style: TextStyle(
                   color: activeIndex == index ? activeColor : inactiveColor,
-                  fontSize: 12,
+                  fontSize: 10,
                   fontFamily: 'HelveticaNeueCyr',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

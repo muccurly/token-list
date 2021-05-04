@@ -23,7 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
   // TextEditingController _bargainFromC;
   TextEditingController _bargainToC;
   String _selectedHouseType = HOUSE_TYPE[0];
-  String _selectedRoom = ROOMS[0];
+  List<bool> _selectedRooms = List<bool>.generate(ROOMS.length, (_) => false);
   String _selectedHousePlan = HOUSE_PLANS[0];
   String _selectedHouseState = HOUSE_STATES[0];
   String _selectedRegion;
@@ -126,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
                 child: Container(
-                  height: 35,
+                  height: 32,
                   width: double.infinity,
                   alignment: Alignment.center,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -198,25 +198,28 @@ class _SearchScreenState extends State<SearchScreen> {
               const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.only(left: 4, right: 16),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ...ROOMS.map(
-                        (room) {
+                child: Container(
+                  height: 32,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List<Widget>.generate(ROOMS.length, (index) {
                           return Expanded(
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  _selectedRoom = room;
+                                  _selectedRooms[index] =
+                                      !_selectedRooms[index];
                                 });
                               },
                               child: Container(
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(7),
                                 decoration: BoxDecoration(
-                                  color: _selectedRoom == room
+                                  color: _selectedRooms[index]
                                       ? Style.orange
                                       : Colors.white,
                                   border: Border.all(
@@ -225,13 +228,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                 ),
                                 child: Text(
-                                  room,
+                                  ROOMS[index],
                                   style: TextStyle(
-                                    color: _selectedRoom == room
+                                    color: _selectedRooms[index]
                                         ? Colors.white
                                         : null,
                                     fontSize: 12,
-                                    fontWeight: _selectedRoom == room
+                                    fontWeight: _selectedRooms[index]
                                         ? FontWeight.w500
                                         : FontWeight.w400,
                                   ),
@@ -240,9 +243,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                           );
-                        },
-                      ).toList(),
-                    ],
+                        })),
                   ),
                 ),
               ),
@@ -253,21 +254,28 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 4.0),
                 child: RichText(
                   text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'ДИАПАЗОН ЦЕН,',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                          )),
+                        text: 'ДИАПАЗОН ЦЕН,',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       TextSpan(
                         text: ' ₸',
                         style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Montserrat'),
+                          fontFamily: 'Montserrat',
+                          fontSize: 11,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
@@ -281,9 +289,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: TextFormField(
+                        textAlignVertical: TextAlignVertical.center,
                         style: TextStyle(
-                          fontSize: 13,
-                          height: 1.5,
+                          fontSize: 12,
                         ),
                         controller: _priceFromC,
                         inputFormatters: NUMERIC_FORMATTER,
@@ -325,7 +333,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 6,
+                            vertical: 10,
                           ),
                           isDense: true,
                         ),
@@ -340,9 +348,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: TextFormField(
+                        textAlignVertical: TextAlignVertical.center,
                         style: TextStyle(
-                          fontSize: 13,
-                          height: 1.5,
+                          fontSize: 12,
                         ),
                         controller: _priceToC,
                         inputFormatters: NUMERIC_FORMATTER,
@@ -384,7 +392,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 6,
+                            vertical: 10,
                           ),
                           isDense: true,
                         ),
@@ -414,9 +422,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: TextFormField(
+                        textAlignVertical: TextAlignVertical.center,
                         style: TextStyle(
-                          fontSize: 13,
-                          height: 1.5,
+                          fontSize: 12,
                         ),
                         controller: _areaFromC,
                         inputFormatters: NUMERIC_FORMATTER,
@@ -458,7 +466,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 6,
+                            vertical: 10,
                           ),
                           isDense: true,
                         ),
@@ -471,9 +479,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: TextFormField(
+                        textAlignVertical: TextAlignVertical.center,
                         style: TextStyle(
-                          fontSize: 13,
-                          height: 1.5,
+                          fontSize: 12,
                         ),
                         controller: _areaToC,
                         inputFormatters: NUMERIC_FORMATTER,
@@ -515,7 +523,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8,
-                            vertical: 6,
+                            vertical: 10,
                           ),
                           isDense: true,
                         ),
@@ -561,7 +569,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Padding(
                           padding: const EdgeInsets.only(right: 12.0),
                           child: Container(
-                            height: 35,
+                            height: 32,
                             width: double.infinity,
                             alignment: Alignment.center,
                             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -674,7 +682,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               // ),
                               Expanded(
                                 child: Container(
-                                  height: 35,
+                                  height: 32,
                                   width: double.infinity,
                                   alignment: Alignment.center,
                                   margin: const EdgeInsets.only(left: 4),
@@ -720,7 +728,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       'Улица',
                                       style: TextStyle(
                                         color: Colors.grey.shade300,
-                                        fontSize: 11,
+                                        fontSize: 12,
                                       ),
                                     ),
                                     onChanged: (String value) {
@@ -736,7 +744,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               /// complex
                               Expanded(
                                 child: Container(
-                                  height: 35,
+                                  height: 32,
                                   width: double.infinity,
                                   alignment: Alignment.center,
                                   margin:
@@ -783,7 +791,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       'Жилой комплекс',
                                       style: TextStyle(
                                         color: Colors.grey.shade300,
-                                        fontSize: 11,
+                                        fontSize: 12,
                                       ),
                                     ),
                                     onChanged: (String value) {
@@ -826,7 +834,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         });
                                       },
                                       child: Container(
-                                        height: 28,
+                                        height: 32,
                                         alignment: Alignment.center,
                                         padding: const EdgeInsets.all(2),
                                         margin: const EdgeInsets.all(4),
@@ -883,7 +891,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Padding(
                           padding: const EdgeInsets.only(right: 12.0),
                           child: Container(
-                            height: 35,
+                            height: 32,
                             width: double.infinity,
                             alignment: Alignment.center,
                             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -1011,6 +1019,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 4.0),
                                 child: TextFormField(
+                                  textAlignVertical: TextAlignVertical.center,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
                                   controller: _yearFromC,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -1050,7 +1062,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 8,
-                                      vertical: 8,
+                                      vertical: 10,
                                     ),
                                     isDense: true,
                                   ),
@@ -1065,6 +1077,10 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 16.0),
                                 child: TextFormField(
+                                  textAlignVertical: TextAlignVertical.center,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
                                   controller: _yearToC,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -1104,7 +1120,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 8,
-                                      vertical: 8,
+                                      vertical: 10,
                                     ),
                                     isDense: true,
                                   ),
@@ -1258,13 +1274,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         /// show only bargain
                         Container(
-                          height: 35,
+                          height: 32,
                           padding: const EdgeInsets.only(left: 4, right: 16),
                           child: GestureDetector(
                             onTap: () {
                               setState(() => _bargain = !_bargain);
                             },
                             child: TextFormField(
+                              textAlignVertical: TextAlignVertical.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -1332,13 +1352,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         /// show only _encumbrance (obremenenie)
                         Container(
-                          height: 35,
+                          height: 32,
                           padding: const EdgeInsets.only(left: 4, right: 16),
                           child: GestureDetector(
                             onTap: () {
                               setState(() => _encumbrance = !_encumbrance);
                             },
                             child: TextFormField(
+                              textAlignVertical: TextAlignVertical.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -1406,13 +1430,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         /// exchange
                         Container(
-                          height: 35,
+                          height: 32,
                           padding: const EdgeInsets.only(left: 4, right: 16),
                           child: GestureDetector(
                             onTap: () {
                               setState(() => _exchange = !_exchange);
                             },
                             child: TextFormField(
+                              textAlignVertical: TextAlignVertical.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -1747,7 +1775,7 @@ class _SearchScreenState extends State<SearchScreen> {
       // _bargainFromC?.clear();
       _bargainToC?.clear();
       _selectedHouseType = HOUSE_TYPE[0];
-      _selectedRoom = ROOMS[0];
+      _selectedRooms = List<bool>.generate(ROOMS.length, (_) => false);
       _selectedHousePlan = HOUSE_PLANS[0];
       _selectedHouseState = HOUSE_STATES[0];
       _selectedRegion = null;
@@ -1786,6 +1814,10 @@ void showSaveSearchDialog(BuildContext context) {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: TextFormField(
+                      textAlignVertical: TextAlignVertical.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
                       //controller: _yearFromC,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(

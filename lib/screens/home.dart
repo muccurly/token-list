@@ -20,15 +20,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // String _headerSelected = _headerTexts[0];
   final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +41,127 @@ class _HomeScreenState extends State<HomeScreen> {
         endDrawer: DrawerWrapper(type: DrawerType.filter),
         endDrawerEnableOpenDragGesture: false,
         body: SafeArea(
-          child: PageView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: advert.length,
-            controller: PageController(
-              initialPage: 0,
-              viewportFraction: 1,
+            child: Stack(
+          children: [
+            Positioned.fill(
+              child: PageView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: advert.length,
+                controller: PageController(
+                  initialPage: 0,
+                  viewportFraction: 1,
+                ),
+                itemBuilder: (context, index) {
+                  return HomeScreenCard(
+                    advert: advert[index],
+                    sKey: _sKey,
+                  );
+                },
+              ),
             ),
-            itemBuilder: (context, index) {
-              return HomeScreenCard(
-                advert: advert[index],
-                sKey: _sKey,
-              );
-            },
-          ),
-        ),
+
+            /// header
+            Positioned(
+              top: Global.getViewPadding(context).top,
+              left: 0,
+              right: 16,
+              child: Row(
+                children: [
+                  /// jurta image
+                  Container(
+                    height: 34,
+                    // width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(50),
+                        bottomRight: Radius.circular(50),
+                      ),
+                      color: Style.blue,
+                    ),
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      color: Colors.white,
+                      height: 26,
+                    ),
+                  ),
+                  Spacer(),
+
+                  /// filter old
+                  /* Expanded(
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            height: 30,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              children: _headerTexts.map(
+                                (text) {
+                                  return Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _headerSelected = text;
+                                          });
+                                        },
+                                        child: Text(
+                                          text,
+                                          style: TextStyle(
+                                            color: _headerSelected == text
+                                                ? Colors.white
+                                                : Colors.grey.shade300,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                      if (text != _headerTexts[2])
+                                        Container(
+                                          width: 1,
+                                          height: 20,
+                                          color: Colors.white,
+                                          margin:
+                                              const EdgeInsets.symmetric(horizontal: 8),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                          ),
+                        ), */
+
+                  /// filter new
+                  GestureDetector(
+                    onTap: () {
+                      _sKey.currentState.openEndDrawer();
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Фильтр',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        ImageIcon(
+                          AssetImage('assets/images/sort.png'),
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        )),
       ),
     );
   }
@@ -67,8 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
 //                       maxHeight: (MediaQuery.of(context).size.height - 110) +
 //                           index * 2),
 class HomeScreenCard extends StatefulWidget {
-  Map<String, dynamic> advert;
-  GlobalKey<ScaffoldState> sKey;
+  final Map<String, dynamic> advert;
+  final GlobalKey<ScaffoldState> sKey;
+
   HomeScreenCard({this.advert, this.sKey});
 
   @override
@@ -128,107 +235,6 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                 end: Alignment.topCenter,
               ),
             ),
-          ),
-        ),
-
-        /// header
-        Positioned(
-          top: Global.getViewPadding(context).top + 16,
-          left: 0,
-          right: 16,
-          child: Row(
-            children: [
-              /// jurta image
-              Container(
-                height: 34,
-                // width: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(50),
-                    bottomRight: Radius.circular(50),
-                  ),
-                  color: Style.blue,
-                ),
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  color: Colors.white,
-                  height: 26,
-                ),
-              ),
-              Spacer(),
-
-              /// filter old
-              /* Expanded(
-                          child: Container(
-                            alignment: Alignment.centerRight,
-                            height: 30,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              children: _headerTexts.map(
-                                (text) {
-                                  return Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _headerSelected = text;
-                                          });
-                                        },
-                                        child: Text(
-                                          text,
-                                          style: TextStyle(
-                                            color: _headerSelected == text
-                                                ? Colors.white
-                                                : Colors.grey.shade300,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      if (text != _headerTexts[2])
-                                        Container(
-                                          width: 1,
-                                          height: 20,
-                                          color: Colors.white,
-                                          margin:
-                                              const EdgeInsets.symmetric(horizontal: 8),
-                                        ),
-                                    ],
-                                  );
-                                },
-                              ).toList(),
-                            ),
-                          ),
-                        ), */
-
-              /// filter new
-              GestureDetector(
-                onTap: () {
-                  widget.sKey.currentState.openEndDrawer();
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Фильтр',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    ImageIcon(
-                      AssetImage('assets/images/sort.png'),
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
 
@@ -316,12 +322,13 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
               ),
               const SizedBox(height: 12),
               Text(
-                '${widget.advert['address_city']}, ${widget.advert['address_district']} район\n${widget.advert['address_street']}, ${widget.advert['address_house']}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                ),
+                '${widget.advert['address_city']}, ${widget.advert['address_district']} район',
+                style: TextStyle(color: Colors.white, fontSize: 13),
               ),
+              const SizedBox(height: 2),
+              Text(
+                  '${widget.advert['address_street']}, ${widget.advert['address_house']}',
+                  style: TextStyle(color: Colors.white, fontSize: 13)),
               const SizedBox(height: 16),
             ],
           ),
@@ -729,8 +736,8 @@ class CommentListTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              border:
-                  Border.all(color: const Color.fromRGBO(219, 219, 219, 1.0)),
+              border: Border.all(
+                  color: const Color.fromRGBO(219, 219, 219, 1.0), width: 0.5),
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
             ),

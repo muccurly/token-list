@@ -134,7 +134,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             HeaderTextWidget(text: 'КРЕДИТНЫЙ КАЛЬКУЛЯТОР (ИПОТЕКА)'),
             const SizedBox(height: 8),
             CreditCalculatorWidget(),
-            // const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             /// mortgage
             MortgageWidget(),
@@ -303,23 +303,36 @@ class BookWidget extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ImageIcon(AssetImage('assets/images/calendar.png'), size: 24),
               const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'Забронируйте эту квартиру прямо сейчас чтобы купить ее БЕЗ КОМИССИИ в 3 шага',
-                  style: TextStyle(height: 1.5),
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 5),
+                  Text(
+                    'Забронируйте эту квартиру прямо сейчас\nчтобы купить ее БЕЗ КОМИССИИ в 3 шага',
+                    style: TextStyle(height: 1.5),
+                  ),
+                ],
               ),
             ],
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              pushNewScreen(context,
-                  screen: LeaveContactsScreen(isPage: 1), withNavBar: false);
+            onPressed: () async {
+              final res = await showGeneralDialog(
+                context: context,
+                pageBuilder: (c, _, __) {
+                  return LeaveContactsScreen(isPage: 1);
+                },
+              );
+
+              if (res != null && res == true) {
+                showRequestConfirmationDialog(context);
+              }
+              // pushNewScreen(context,
+              //     screen: LeaveContactsScreen(isPage: 1), withNavBar: false);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),
@@ -345,6 +358,71 @@ class BookWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+void showRequestConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 250,
+                  maxWidth: 250,
+                ),
+                child: Image.asset(
+                  'assets/images/enthusiastic_pana.png',
+                  height: Global.getSize(c).width / 2,
+                  width: Global.getSize(c).width / 2,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Ваша заявка на бронирование объекта\nпринята. В ближайшее время наши\nменеджеры свяжутся с вами',
+                style: TextStyle(fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Спасибо за обращение!',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: Global.getSize(c).width / 2,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(top: 2.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
 }
 
 class TradeWidget extends StatelessWidget {
@@ -423,15 +501,24 @@ class MortgageWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Заполните ваши данные и запишитесь'),
-          const SizedBox(height: 6),
-          Text('к нам на консультацию для подбора'),
-          const SizedBox(height: 6),
-          Text('лучшей ипотечной программы'),
+          Text(
+            'Заполните ваши данные и запишитесь\nк нам на консультацию для подбора\nлучшей ипотечной программы',
+            style: TextStyle(height: 1.5),
+          ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              pushNewScreen(context, screen: MortgageFormScreen());
+            onPressed: () async {
+              final res = await showGeneralDialog(
+                context: context,
+                pageBuilder: (c, _, __) {
+                  return MortgageFormScreen();
+                },
+              );
+
+              if (res != null && res == true) {
+                showFormConfirmationDialog(context);
+              }
+              //  pushNewScreen(context, screen: MortgageFormScreen());
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 2.0),
@@ -457,6 +544,71 @@ class MortgageWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+void showFormConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (c) {
+      return AlertDialog(
+        content: Container(
+          width: Global.getSize(c).width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 250,
+                  maxWidth: 250,
+                ),
+                child: Image.asset(
+                  'assets/images/trade_success.png',
+                  height: Global.getSize(c).width / 2,
+                  width: Global.getSize(c).width / 2,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Ваша анкета принята',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Ваш персональный менеджер\nскоро свяжется с вами',
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: Global.getSize(c).width / 2,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.orange,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(top: 2.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        insetPadding: const EdgeInsets.all(16),
+      );
+    },
+  );
 }
 
 class CreditCalculatorWidget extends StatefulWidget {
@@ -816,6 +968,7 @@ class ObjectAroundListView extends StatelessWidget {
           )
         : ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             padding:
                 const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             itemCount: list.length,
@@ -1650,31 +1803,15 @@ Future<void> showBookDialog(BuildContext context) async {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Для подтверждения времени показа',
+                  'Для подтверждения времени показа\nв ближайшее время наши менеджеры\nсвяжутся с Вами',
                   style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 2),
-                // Text(
-                //   '${DateFormat('dd/MM/yyyy').format(res)} в ${DateFormat('kk:mm').format(res)}',
-                //   style: TextStyle(
-                //     color: Style.orange,
-                //     fontSize: 14,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
-                Text(
-                  'в ближайшее время наши менеджеры',
-                  style: TextStyle(fontSize: 12),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'свяжутся с Вами',
-                  style: TextStyle(fontSize: 12),
-                ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 5),
                 Text(
                   'Спасибо за обращение!',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 Container(
@@ -1751,7 +1888,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
               margin: const EdgeInsets.all(16),
               // height: Global.getSize(context).width * 1.2,
               constraints: BoxConstraints(
-                  maxHeight: Global.getSize(context).width * 1.2),
+                  maxHeight: Global.getSize(context).width * 1.5),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -1766,18 +1903,35 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
               child: ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                padding: EdgeInsets.only(top: 32, bottom: 16),
+                padding: const EdgeInsets.only(top: 32, bottom: 16),
                 children: [
-                  Text(
-                    DateFormat('d MMMM, yyyy • EEEE', 'RU')
-                        .format(_selectedDate),
-                    style: TextStyle(
-                      color: Color(0xFF00CABF),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  RichText(
                     textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(
+                        color: Color(0xFF00CABF),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: DateFormat('d MMMM, yyyy', 'RU')
+                              .format(_selectedDate),
+                        ),
+                        TextSpan(
+                          text: '   ∙   ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Montserrat'),
+                        ),
+                        TextSpan(
+                          text: toBeginningOfSentenceCase(
+                              DateFormat('EEEE', 'RU').format(_selectedDate)),
+                        ),
+                      ],
+                    ),
                   ),
+
                   const SizedBox(height: 28),
 
                   /// next 7 days

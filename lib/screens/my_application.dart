@@ -16,6 +16,9 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -89,7 +92,7 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                                 fontSize: 12,
                                 fontWeight: _tabController.index == 1
                                     ? FontWeight.w900
-                                    : FontWeight.w900),
+                                    : FontWeight.w400),
                           ),
                         ),
                       ],
@@ -313,7 +316,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Комментарий',
-              fieldValue: '${widget.application['short_description']}',
+              fieldValue: '${widget.application['comment']}',
               isExpanded: isExpanded,
               widget: widget),
           const Divider(height: 0),
@@ -424,12 +427,21 @@ class PhoneSpecialistTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedPhoneNumber = phone.substring(0, 2) +
+        " " +
+        phone.substring(2, 5) +
+        " " +
+        phone.substring(5, 8) +
+        " " +
+        phone.substring(8, 10) +
+        " " +
+        phone.substring(10, phone.length);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
         border: Border.all(color: Colors.grey.shade300, width: 0.5),
       ),
       child: Row(
@@ -482,7 +494,7 @@ class PhoneSpecialistTile extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: null,
                           child: Text(
-                            '$phone',
+                            '$formattedPhoneNumber',
                             style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(

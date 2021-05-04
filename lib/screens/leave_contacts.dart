@@ -164,8 +164,14 @@ void showRequestConfirmationDialog(BuildContext context) {
               ),
               const SizedBox(height: 16),
               Text(
-                'Ваша заявка на бронирование объекта принята,\nВ ближайшее время наши менеджеры свяжутся с вами\nСпасибо за обращение',
-                style: TextStyle(fontSize: 14),
+                'Ваша заявка на бронирование объекта\nпринята. В ближайшее время наши\nменеджеры свяжутся с вами',
+                style: TextStyle(fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Спасибо за обращение!',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),

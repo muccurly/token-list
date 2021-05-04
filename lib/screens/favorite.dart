@@ -362,11 +362,10 @@ class SavedSearchCard extends StatelessWidget {
                         onTap: () {
                           showDeleteSavedSearchDialog(context);
                         },
-                        child: Icon(
-                          LineIcons.heartAlt,
-                          color: Colors.red,
-                          size: 20,
-                        ),
+                        child: ImageIcon(
+                            AssetImage('assets/images/like_filled.png'),
+                            size: 19,
+                            color: Color.fromRGBO(220, 79, 94, 1.0)),
                       ),
                     ],
                   ),
@@ -379,7 +378,7 @@ class SavedSearchCard extends StatelessWidget {
 
                 /// middle section
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

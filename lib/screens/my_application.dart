@@ -313,7 +313,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Комментарий',
-              fieldValue: '${widget.application['short_description']}',
+              fieldValue: '${widget.application['comment']}',
               isExpanded: isExpanded,
               widget: widget),
           const Divider(height: 0),

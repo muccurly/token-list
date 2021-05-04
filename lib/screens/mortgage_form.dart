@@ -162,7 +162,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
               width: Global.getSize(context).width,
               child: ElevatedButton(
                 onPressed: () {
-                  showFormConfirmationDialog(context);
+                  Navigator.pop(context, true);
                 },
                 child: Text(
                   'СОХРАНИТЬ',
@@ -187,71 +187,6 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
       ),
     );
   }
-}
-
-void showFormConfirmationDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (c) {
-      return AlertDialog(
-        content: Container(
-          width: Global.getSize(c).width,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 250,
-                  maxWidth: 250,
-                ),
-                child: Image.asset(
-                  'assets/images/trade_success.png',
-                  height: Global.getSize(c).width / 2,
-                  width: Global.getSize(c).width / 2,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Ваша анкета принята',
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Ваш персональный менеджер\nскоро свяжется с вами',
-                style: TextStyle(fontSize: 14),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: Global.getSize(c).width / 2,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(c),
-                  child: Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Style.orange,
-                    elevation: 0,
-                    padding: const EdgeInsets.only(top: 2.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        insetPadding: const EdgeInsets.all(16),
-      );
-    },
-  );
 }
 
 class FormTile extends StatelessWidget {

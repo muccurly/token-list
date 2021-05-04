@@ -107,7 +107,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                     onPressed: () {
                       log(widget.isPage);
                       if (widget.isPage == 1) {
-                        showRequestConfirmationDialog(context);
+                        Navigator.pop(context, true);
                       } else if (widget.isPage == 2) {
                         pushNewScreen(context,
                             screen: RieltorFrilancer7(), withNavBar: true);
@@ -138,69 +138,4 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
       ),
     );
   }
-}
-
-void showRequestConfirmationDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (c) {
-      return AlertDialog(
-        content: Container(
-          width: Global.getSize(c).width,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 250,
-                  maxWidth: 250,
-                ),
-                child: Image.asset(
-                  'assets/images/enthusiastic_pana.png',
-                  height: Global.getSize(c).width / 2,
-                  width: Global.getSize(c).width / 2,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Ваша заявка на бронирование объекта\nпринята. В ближайшее время наши\nменеджеры свяжутся с вами',
-                style: TextStyle(fontSize: 12),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Спасибо за обращение!',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: Global.getSize(c).width / 2,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(c),
-                  child: Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Style.orange,
-                    elevation: 0,
-                    padding: const EdgeInsets.only(top: 2.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        insetPadding: const EdgeInsets.all(16),
-      );
-    },
-  );
 }

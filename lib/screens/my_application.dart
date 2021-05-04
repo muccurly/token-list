@@ -424,6 +424,16 @@ class PhoneSpecialistTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedPhoneNumber = phone.substring(0, 2) +
+        " " +
+        phone.substring(2, 5) +
+        " " +
+        phone.substring(5, 8) +
+        " " +
+        phone.substring(8, 10) +
+        " " +
+        phone.substring(10, phone.length);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 12),
@@ -481,7 +491,7 @@ class PhoneSpecialistTile extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: null,
                           child: Text(
-                            '$phone',
+                            '$formattedPhoneNumber',
                             style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(

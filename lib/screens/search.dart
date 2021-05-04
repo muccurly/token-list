@@ -206,7 +206,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     borderRadius: BorderRadius.circular(5),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List<Widget>.generate(5, (index) {
+                        children: List<Widget>.generate(ROOMS.length, (index) {
                           return Expanded(
                             child: GestureDetector(
                               onTap: () {
@@ -219,7 +219,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(7),
                                 decoration: BoxDecoration(
-                                  color: _selectedRooms[index] == true
+                                  color: _selectedRooms[index]
                                       ? Style.orange
                                       : Colors.white,
                                   border: Border.all(
@@ -230,11 +230,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                 child: Text(
                                   ROOMS[index],
                                   style: TextStyle(
-                                    color: _selectedRooms[index] == true
+                                    color: _selectedRooms[index]
                                         ? Colors.white
                                         : null,
                                     fontSize: 12,
-                                    fontWeight: _selectedRooms[index] == true
+                                    fontWeight: _selectedRooms[index]
                                         ? FontWeight.w500
                                         : FontWeight.w400,
                                   ),

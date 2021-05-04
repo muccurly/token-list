@@ -16,6 +16,9 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -89,7 +92,7 @@ class _MyApplicationScreenState extends State<MyApplicationScreen>
                                 fontSize: 12,
                                 fontWeight: _tabController.index == 1
                                     ? FontWeight.w900
-                                    : FontWeight.w900),
+                                    : FontWeight.w400),
                           ),
                         ),
                       ],

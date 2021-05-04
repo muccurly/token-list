@@ -429,7 +429,6 @@ class PhoneSpecialistTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
         border: Border.all(color: Colors.grey.shade300, width: 0.5),
       ),
       child: Row(

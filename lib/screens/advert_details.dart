@@ -802,6 +802,7 @@ class ObjectAroundListView extends StatelessWidget {
           )
         : ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             padding:
                 const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             itemCount: list.length,

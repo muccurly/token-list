@@ -134,14 +134,14 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             HeaderTextWidget(text: 'КРЕДИТНЫЙ КАЛЬКУЛЯТОР (ИПОТЕКА)'),
             const SizedBox(height: 8),
             CreditCalculatorWidget(),
-            // const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             /// mortgage
             MortgageWidget(),
 
             /// trade
             // TradeWidget(),
-            Divider(height: 0, endIndent: 16, indent: 16),
+            //Divider(height: 0, endIndent: 16, indent: 16),
 
             /// book
             BookWidget(advert: advert),
@@ -302,13 +302,19 @@ class BookWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ImageIcon(AssetImage('assets/images/calendar.png'), size: 24),
               const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                    'Забронируйте эту квартиру прямо сейчас чтобы купить ее БЕЗ КОМИССИИ в 3 шага'),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 5),
+                  Text(
+                    'Забронируйте эту квартиру прямо сейчас\nчтобы купить ее БЕЗ КОМИССИИ в 3 шага',
+                    style: TextStyle(height: 1.5),
+                  ),
+                ],
               ),
             ],
           ),
@@ -496,7 +502,9 @@ class MortgageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-              'Заполните ваши данные и запишитесь к нам на консультацию для подбора лучшей ипотечной программы'),
+            'Заполните ваши данные и запишитесь\nк нам на консультацию для подбора\nлучшей ипотечной программы',
+            style: TextStyle(height: 1.5),
+          ),
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () async {

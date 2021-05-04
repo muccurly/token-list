@@ -141,7 +141,7 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
 
             /// trade
             // TradeWidget(),
-            //Divider(height: 0, endIndent: 16, indent: 16),
+            // Divider(height: 0, endIndent: 16, indent: 16),
 
             /// book
             BookWidget(advert: advert),
@@ -492,7 +492,7 @@ class MortgageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.fromLTRB(16, 40, 16, 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
@@ -717,7 +717,7 @@ class CreditCalculatorProgram extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(text, style: TextStyle(fontSize: 11)),
+          Text(text, style: TextStyle(fontSize: 12)),
           DropdownButton<String>(
             focusColor: Colors.white,
             value: selectedProgram,
@@ -733,11 +733,11 @@ class CreditCalculatorProgram extends StatelessWidget {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value,
-                    style: TextStyle(color: Style.orange, fontSize: 12)),
+                    style: TextStyle(color: Style.orange, fontSize: 14)),
               );
             }).toList(),
             hint: Text(hint,
-                style: TextStyle(color: Colors.grey.shade400, fontSize: 12)),
+                style: TextStyle(color: Colors.grey.shade400, fontSize: 14)),
             onChanged: (String value) => onChanged(value),
           ),
         ],
@@ -775,7 +775,7 @@ class CreditCalculatorTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(text, style: TextStyle(fontSize: 11)),
+          Text(text, style: TextStyle(fontSize: 12)),
           TextFormField(
             controller: controller,
             decoration: InputDecoration(
@@ -787,12 +787,12 @@ class CreditCalculatorTile extends StatelessWidget {
               focusedErrorBorder: InputBorder.none,
               isDense: true,
               hintText: hint,
-              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
               contentPadding: EdgeInsets.only(top: 8),
             ),
             style: TextStyle(
                 color: color ?? Style.orange,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w500),
             keyboardType: TextInputType.number,
           ),
@@ -832,13 +832,21 @@ class ShowCommentsButtonWidget extends StatelessWidget {
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(50),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(LineIcons.sms),
-              Text(' ${COMMENTS.length} • ',
+              Image.asset(
+                'assets/images/comments.png',
+                width: 23,
+                height: 19,
+              ),
+              Text('  ${COMMENTS.length}',
                   style: TextStyle(fontWeight: FontWeight.w500)),
+              Text(
+                ' • ',
+                style: TextStyle(fontSize: 12),
+              ),
               Text('Показать комментарии', style: TextStyle(fontSize: 13)),
             ],
           ),
@@ -1143,8 +1151,11 @@ class TableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.only(
+        left: 16,
+      ),
       child: Table(
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(children: [
             TableFirstColumnWidget(
@@ -1153,7 +1164,7 @@ class TableWidget extends StatelessWidget {
           ]),
           TableRow(children: [
             TableFirstColumnWidget(
-              text: 'Площадь ...........................................',
+              text: 'Площадь ..........................................',
             ),
             TableSecondColumnWidget(text: advert['area']),
           ]),
@@ -1444,9 +1455,9 @@ class _MainInfoWidgetState extends State<MainInfoWidget> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 5),
                 Text(
-                  '${widget.advert['rooms']}-комнатная квартира • ${widget.advert['flat']} • ${widget.advert['area']}',
+                  '${widget.advert['rooms']}-комнатная квартира‧${widget.advert['flat']}‧${widget.advert['area']}',
                   style: TextStyle(
                     fontSize: 12,
                   ),
@@ -1463,17 +1474,18 @@ class _MainInfoWidgetState extends State<MainInfoWidget> {
           children: [
             /// like
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  widget.advert['is_fav'] = !widget.advert['is_fav'];
-                });
-              },
-              child: Icon(
-                widget.advert['is_fav'] ? LineIcons.heartAlt : LineIcons.heart,
-                color: widget.advert['is_fav'] ? Colors.red : null,
-              ),
-              behavior: HitTestBehavior.opaque,
-            ),
+                onTap: () {
+                  setState(() {
+                    widget.advert['is_fav'] = !widget.advert['is_fav'];
+                  });
+                },
+                child: widget.advert['is_fav']
+                    ? ImageIcon(AssetImage('assets/images/like_red.png'),
+                        size: 21, color: Color.fromRGBO(220, 79, 94, 1.0))
+                    : ImageIcon(
+                        AssetImage('assets/images/like_bl.png'),
+                        size: 21,
+                      )),
             const SizedBox(width: 4),
 
             /// share

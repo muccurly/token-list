@@ -196,6 +196,9 @@ class _OurSpeicalistsScreenState extends State<OurSpeicalistsScreen> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 70,
+              ),
             ],
           ),
         ),

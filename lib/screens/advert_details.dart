@@ -1876,7 +1876,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
               margin: const EdgeInsets.all(16),
               // height: Global.getSize(context).width * 1.2,
               constraints: BoxConstraints(
-                  maxHeight: Global.getSize(context).width * 1.2),
+                  maxHeight: Global.getSize(context).width * 1.5),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -1891,18 +1891,35 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
               child: ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                padding: EdgeInsets.only(top: 32, bottom: 16),
+                padding: const EdgeInsets.only(top: 32, bottom: 16),
                 children: [
-                  Text(
-                    DateFormat('d MMMM, yyyy • EEEE', 'RU')
-                        .format(_selectedDate),
-                    style: TextStyle(
-                      color: Color(0xFF00CABF),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  RichText(
                     textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(
+                        color: Color(0xFF00CABF),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: DateFormat('d MMMM, yyyy', 'RU')
+                              .format(_selectedDate),
+                        ),
+                        TextSpan(
+                          text: '   ∙   ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Montserrat'),
+                        ),
+                        TextSpan(
+                          text: toBeginningOfSentenceCase(
+                              DateFormat('EEEE', 'RU').format(_selectedDate)),
+                        ),
+                      ],
+                    ),
                   ),
+
                   const SizedBox(height: 28),
 
                   /// next 7 days

@@ -731,8 +731,8 @@ class CommentListTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              border:
-                  Border.all(color: const Color.fromRGBO(219, 219, 219, 0.5)),
+              border: Border.all(
+                  color: const Color.fromRGBO(219, 219, 219, 1.0), width: 0.5),
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
             ),

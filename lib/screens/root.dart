@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/providers/providers.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/widgets.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
 
 class RootScreen extends StatefulWidget {
   static const String route = 'root_screen';
@@ -37,8 +37,12 @@ class _RootScreenState extends State<RootScreen> {
       key: _sKey,
       endDrawer: DrawerWrapper(type: DrawerType.menu, rootContext: context),
       endDrawerEnableOpenDragGesture: false,
-      body: Consumer<TabProvider>(
-        builder: (c, tab, w) => PersistentTabView.custom(
+      body: Consumer(
+          // Rebuild only the Text when counterProvider updates
+          builder: (context, watch, _) {
+        final hideNavBar = watch(hideBottomTabProvider).state;
+
+        return PersistentTabView.custom(
           context,
           controller: Global.getController(),
           screens: _pageOptions,
@@ -49,7 +53,7 @@ class _RootScreenState extends State<RootScreen> {
           // bottomScreenMargin: 0.0,
           resizeToAvoidBottomInset: true,
           stateManagement: true,
-          hideNavigationBar: tab.hideNavBar ?? false,
+          hideNavigationBar: hideNavBar ?? false,
           hideNavigationBarWhenKeyboardShows: true,
           customWidget: CustomNavBar(
             width: width,
@@ -65,8 +69,8 @@ class _RootScreenState extends State<RootScreen> {
                 _sKey.currentState.openEndDrawer();
             },
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

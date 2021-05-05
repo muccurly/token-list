@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/our_specialists.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class PlusScreen extends StatelessWidget {
+class PlusScreen extends StatefulWidget {
+  @override
+  _PlusScreenState createState() => _PlusScreenState();
+}
+
+class _PlusScreenState extends State<PlusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +29,10 @@ class PlusScreen extends StatelessWidget {
                   image: 'assets/images/select_house_pana.png',
                   text: 'ПРОДАТЬ САМОМУ',
                   color: Style.orange,
-                  onPressed: () {
-                    pushNewScreen(context,
-                        screen: PlusIntoductionScreen(), withNavBar: false);
+                  onPressed: () async {
+                    await pushNewScreen(context,
+                        screen: PlusIntoductionScreen());
+                    context.read(hideBottomTabProvider).state = false;
                   },
                 ),
                 const SizedBox(height: 32),

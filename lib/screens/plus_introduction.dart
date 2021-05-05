@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -10,6 +12,14 @@ class PlusIntoductionScreen extends StatefulWidget {
 
 class _PlusIntoductionScreenState extends State<PlusIntoductionScreen> {
   bool _notShowMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      context.read(hideBottomTabProvider).state = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

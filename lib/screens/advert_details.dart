@@ -1206,8 +1206,8 @@ class TableWidget extends StatelessWidget {
           ]),
         ],
         columnWidths: {
-          0: FractionColumnWidth(0.6),
-          1: FractionColumnWidth(0.4)
+          0: FractionColumnWidth(0.65),
+          1: FractionColumnWidth(0.35)
         },
       ),
     );

@@ -71,7 +71,7 @@ class _RieltorFrilancer3State extends State<RieltorFrilancer3> {
                 child: GestureDetector(
                   onTap: () {
                     pushNewScreen(context,
-                        screen: OwnerScreen(), withNavBar: true);
+                        screen: OwnerScreen(), withNavBar: false);
                   },
                   child: Image.asset(
                     'assets/images/call_center_bro.png',

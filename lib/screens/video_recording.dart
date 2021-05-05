@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
+import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -23,6 +25,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      context.read(hideBottomTabProvider).state = true;
+    });
     _phoneC = TextEditingController();
     _nameC = TextEditingController();
     initializeCameras();
@@ -223,9 +228,10 @@ void showUploadConfirmNameDialog(
                   height: 46,
                   width: Global.getSize(context).width,
                   child: ElevatedButton(
-                    onPressed: () {
-                      pushNewScreen(context,
-                          screen: RieltorFrilancer3(), withNavBar: true);
+                    onPressed: () async {
+                      Navigator.pop(c);
+                      await pushNewScreen(context, screen: RieltorFrilancer3());
+                      context.read(hideBottomTabProvider).state = true;
                     },
                     child: Text(
                       'СОХРАНИТЬ',

@@ -1,10 +1,3 @@
-import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TabProvider with ChangeNotifier {
-  bool _hideNavBar = false;
-  bool get hideNavBar => _hideNavBar;
-  set hideNavBar(bool value) {
-    _hideNavBar = value;
-    notifyListeners();
-  }
-}
+final hideBottomTabProvider = StateProvider((ref) => false);

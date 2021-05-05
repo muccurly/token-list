@@ -47,7 +47,7 @@ dependencies:
   url_launcher: ^6.0.3
   flutter_svg: ^0.22.0
   camera: ^0.8.1
-  infinite_scroll_pagination: ^3.0.1
+  #infinite_scroll_pagination: ^3.0.1
   flutter_hooks: ^0.16.0-nullsafety.0
   hooks_riverpod: ^0.14.0+3
 

@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/owner.dart';
 import 'package:jurta/utils/global.dart';
+import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class RieltorFrilancer3 extends StatelessWidget {
+class RieltorFrilancer3 extends StatefulWidget {
+  @override
+  _RieltorFrilancer3State createState() => _RieltorFrilancer3State();
+}
+
+class _RieltorFrilancer3State extends State<RieltorFrilancer3> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      context.read(hideBottomTabProvider).state = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

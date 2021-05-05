@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -512,7 +509,7 @@ Future<void> showCommentsBottomSheet(
   BuildContext context,
 ) async {
   /// hide navbar when comment bottom sheet is shown
-  Provider.of<TabProvider>(context, listen: false).hideNavBar = true;
+  context.read(hideBottomTabProvider).state = true;
 
   await showModalBottomSheet(
     context: context,
@@ -533,7 +530,7 @@ Future<void> showCommentsBottomSheet(
   );
 
   /// show navbar again
-  Provider.of<TabProvider>(context, listen: false).hideNavBar = false;
+  context.read(hideBottomTabProvider).state = false;
 }
 
 class CommentBottomSheet extends StatefulWidget {

@@ -610,10 +610,8 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
-          RichText(
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
+          Text.rich(
+            TextSpan(
               children: <TextSpan>[
                 TextSpan(
                   text: '${widget.advert['price']}',
@@ -633,6 +631,8 @@ class _AdvertCardNewState extends State<AdvertCardNew> {
                 ),
               ],
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

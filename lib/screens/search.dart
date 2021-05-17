@@ -252,8 +252,8 @@ class _SearchScreenState extends State<SearchScreen> {
               /// price
               Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 4.0),
-                child: RichText(
-                  text: TextSpan(
+                child: Text.rich(
+                  TextSpan(
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.black,
@@ -2042,10 +2042,8 @@ class OptionalAdvertsListView extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  RichText(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
+                  Text.rich(
+                    TextSpan(
                       children: <TextSpan>[
                         TextSpan(
                           text: '${advert['price']}',
@@ -2065,6 +2063,8 @@ class OptionalAdvertsListView extends StatelessWidget {
                         ),
                       ],
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

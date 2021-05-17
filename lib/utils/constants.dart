@@ -120,18 +120,18 @@ enum VideoLength { short, medium, long }
 enum ApplicationType { buy, sell }
 
 List<TextInputFormatter> MONEY_FORMATTER = [
-  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
+  FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true),
   MoneyInputFormatter(
       mantissaLength: 0,
       thousandSeparator: ThousandSeparator.SpaceAndCommaMantissa),
 ];
 
 List<TextInputFormatter> PHONE_FORMATTER = [
-  PhoneInputFormatter(),
+  MaskedInputFormatter('+7-###-##-##', anyCharMatcher: RegExp(r'[0-9]'))
 ];
 
 List<TextInputFormatter> NUMERIC_FORMATTER = [
-  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789")
+  FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true)
 ];
 
 List<Map<String, dynamic>> SPECIALISTS = [

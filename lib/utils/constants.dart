@@ -127,7 +127,7 @@ List<TextInputFormatter> MONEY_FORMATTER = [
 ];
 
 List<TextInputFormatter> PHONE_FORMATTER = [
-  MaskedInputFormatter('+#-###-##-##', anyCharMatcher: RegExp(r'[0-9]'))
+  MaskedInputFormatter('+# (###)-###-##-##', anyCharMatcher: RegExp(r'[0-9]'))
 ];
 
 List<TextInputFormatter> NUMERIC_FORMATTER = [

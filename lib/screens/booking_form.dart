@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/rate_agent_new.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:flutter/services.dart';
 
 import 'package:jurta/widgets/form_tile.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BookingFormScreen extends StatefulWidget {
   BookingFormScreen({Key key}) : super(key: key);
@@ -76,7 +78,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           centerTitle: false,
         ),
         body: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 5, 16, 16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           children: [
             /// surname
             FormTile(
@@ -174,7 +176,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _bookAmountC,
               title: 'СУММА БРОНИРОВАНИЯ',
-              hintText: '100000',
+              hintText: '100 000',
               keyboardType: TextInputType.number,
               textInputFormatters: MONEY_FORMATTER,
             ),
@@ -212,7 +214,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
               width: Global.getSize(context).width,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context, true);
+                  //Navigator.pop(context, true);
+                  pushNewScreen(context, screen: RateAgentNewScreen());
                 },
                 child: Text(
                   'ЗАБРОНИРОВАТЬ ОБЪЕКТ',

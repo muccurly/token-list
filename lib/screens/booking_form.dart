@@ -2,31 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+
 import 'package:jurta/widgets/form_tile.dart';
 
-class MortgageFormScreen extends StatefulWidget {
+class BookingFormScreen extends StatefulWidget {
+  BookingFormScreen({Key key}) : super(key: key);
+
   @override
-  _MortgageFormScreenState createState() => _MortgageFormScreenState();
+  _BookingFormScreenState createState() => _BookingFormScreenState();
 }
 
-class _MortgageFormScreenState extends State<MortgageFormScreen> {
+class _BookingFormScreenState extends State<BookingFormScreen> {
+  final TextEditingController _nameC = TextEditingController();
+  final TextEditingController _surnameC = TextEditingController();
+  final TextEditingController _patronymicC = TextEditingController();
+  final TextEditingController _iinC = TextEditingController();
+  final TextEditingController _docNumberC = TextEditingController();
+  final TextEditingController _docDateC = TextEditingController();
+  final TextEditingController _docOrgC = TextEditingController();
+  final TextEditingController _addressC = TextEditingController();
   final TextEditingController _phoneC = TextEditingController();
-  final TextEditingController _fullNameC = TextEditingController();
-  final TextEditingController _creditAmountC = TextEditingController();
-  final TextEditingController _durationC = TextEditingController();
-  final TextEditingController _incomeC = TextEditingController();
-  final TextEditingController _loanC = TextEditingController();
-  bool _existingCredits = false;
+  final TextEditingController _bookAmountC = TextEditingController();
 
   @override
   void dispose() {
+    _nameC.dispose();
+    _surnameC.dispose();
+    _patronymicC.dispose();
+    _iinC.dispose();
+    _docNumberC.dispose();
+    _docDateC.dispose();
+    _docOrgC.dispose();
+    _addressC.dispose();
     _phoneC.dispose();
-    _fullNameC.dispose();
-    _creditAmountC.dispose();
-    _durationC.dispose();
-    _incomeC.dispose();
-    _loanC.dispose();
+    _bookAmountC.dispose();
     super.dispose();
   }
 
@@ -50,7 +59,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0, left: 4.0),
                     child: Text(
-                      'АНКЕТА',
+                      'ЗАБРОНИРОВАТЬ',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -67,64 +76,104 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
           centerTitle: false,
         ),
         body: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 5, 16, 16),
           children: [
+            /// surname
+            FormTile(
+              controller: _surnameC,
+              title: 'ФАМИЛИЯ',
+              hintText: 'ФАМИЛИЯ',
+              keyboardType: TextInputType.name,
+            ),
+
+            /// name
+            FormTile(
+              controller: _nameC,
+              title: 'ИМЯ',
+              hintText: 'ИМЯ',
+              keyboardType: TextInputType.name,
+            ),
+
+            /// patronymic
+            FormTile(
+              controller: _patronymicC,
+              title: 'Адрес',
+              hintText: 'ОТЧЕСТВО',
+              keyboardType: TextInputType.name,
+            ),
+
+            /// ИИН
+            FormTile(
+              controller: _iinC,
+              title: 'ИИН',
+              hintText: '903227334432',
+              keyboardType: TextInputType.number,
+              textInputFormatters: NUMERIC_FORMATTER,
+            ),
+
+            ///Документы данные
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 6,
+                  child: FormTile(
+                    controller: _docNumberC,
+                    title: '№ ДОКУМЕНТА',
+                    hintText: '1234567',
+                    keyboardType: TextInputType.number,
+                    textInputFormatters: NUMERIC_FORMATTER,
+                  ),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Flexible(
+                  flex: 5,
+                  child: FormTile(
+                    controller: _docDateC,
+                    title: 'ОТ',
+                    hintText: '18.05.1995',
+                    keyboardType: TextInputType.datetime,
+                  ),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Flexible(
+                  flex: 5,
+                  child: FormTile(
+                    controller: _docOrgC,
+                    title: 'ВЫДАН',
+                    hintText: 'МВД РК',
+                    keyboardType: TextInputType.name,
+                  ),
+                ),
+              ],
+            ),
+
+            ///address
+            FormTile(
+              controller: _addressC,
+              title: 'АДРЕС',
+              hintText: 'г. Нур-Султан, ул. Сауран 23, кв 55',
+              keyboardType: TextInputType.streetAddress,
+            ),
+
             /// phone
             FormTile(
               controller: _phoneC,
-              title: 'Номер телефона',
+              title: 'КОНТАКТЫ',
               hintText: '+7 (___) ___-__-__',
               keyboardType: TextInputType.phone,
               textInputFormatters: PHONE_FORMATTER,
             ),
 
-            /// fullname
-            FormTile(
-              controller: _fullNameC,
-              title: 'ФИО',
-              hintText: 'ФИО',
-              keyboardType: TextInputType.name,
-            ),
-
-            /// credit amount
-            FormTile(
-              controller: _creditAmountC,
-              title: 'Сумма кредита, тг',
-              hintText: '25000000',
-              keyboardType: TextInputType.number,
-              textInputFormatters: MONEY_FORMATTER,
-            ),
-
-            /// duration
-            FormTile(
-              controller: _durationC,
-              title: 'Срок, месяц',
-              hintText: '60',
-              keyboardType: TextInputType.number,
-              textInputFormatters: NUMERIC_FORMATTER,
-            ),
-
-            /// income
-            FormTile(
-              controller: _incomeC,
-              title: 'Общий доход, тг/мес',
-              hintText: '250000',
-              keyboardType: TextInputType.number,
-              textInputFormatters: MONEY_FORMATTER,
-            ),
-
-            /// income switch
-            NotificationSettingsTile(
-              title: 'Действующие кредиты',
-              padding: 16.0,
-              switchValue: _existingCredits,
-              onChanged: (val) => setState(() => _existingCredits = val),
-            ),
-
             /// loan
             FormTile(
-              controller: _loanC,
-              title: 'Платеж по действующим займам, тг/мес',
+              controller: _bookAmountC,
+              title: 'СУММА БРОНИРОВАНИЯ',
               hintText: '100000',
               keyboardType: TextInputType.number,
               textInputFormatters: MONEY_FORMATTER,
@@ -166,7 +215,7 @@ class _MortgageFormScreenState extends State<MortgageFormScreen> {
                   Navigator.pop(context, true);
                 },
                 child: Text(
-                  'СОХРАНИТЬ',
+                  'ЗАБРОНИРОВАТЬ ОБЪЕКТ',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

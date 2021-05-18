@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/our_specialists.dart';
+import 'package:jurta/screens/rules.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/custom_icons_icons.dart';
 import 'package:jurta/utils/utils.dart';
@@ -53,7 +54,12 @@ class MenuDrawer extends StatelessWidget {
             ),
 
             /// info
-            MenuTile(icon: CustomIcons.info, title: 'Информация'),
+            MenuTile(
+              icon: CustomIcons.info,
+              title: 'Информация',
+              screen: RulesScreen(),
+              rootContext: rootContext,
+            ),
 
             /// chat with developers
             // MenuTile(

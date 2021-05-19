@@ -40,7 +40,7 @@ class _PlusScreenState extends State<PlusScreen> {
                 /// help to sell
                 OptionWidget(
                   image: 'assets/images/relaxing_at_home_pana.png',
-                  text: 'ПРОДАТЬ\nЧЕРЕЗ РИЭЛТОРА',
+                  text: 'ОСТАВИТЬ ЗАЯВКУ\nНА ВИДЕО ОБЗОР',
                   color: Style.blue,
                   onPressed: () {
                     pushNewScreen(context, screen: OurSpeicalistsScreen());

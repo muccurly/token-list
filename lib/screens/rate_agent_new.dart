@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:jurta/screens/screens.dart';
+import 'package:jurta/utils/custom_icons_icons.dart';
 
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/finish_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RateAgentNewScreen extends StatefulWidget {
   static const String route = 'rate_agent';
@@ -26,7 +28,7 @@ class _RateAgentNewScreenState extends State<RateAgentNewScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding:
-                const EdgeInsets.only(bottom: 10, top: 70, left: 25, right: 25),
+                const EdgeInsets.only(bottom: 10, top: 50, left: 25, right: 25),
             child: Column(
               children: [
                 //text
@@ -39,9 +41,29 @@ class _RateAgentNewScreenState extends State<RateAgentNewScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: Global.getSize(context).height * 0.05,
+                  height: Global.getSize(context).height * 0.08,
                 ),
 
+                ///Rating
+                RatingBar.builder(
+                  initialRating: 5,
+                  minRating: 1,
+                  unratedColor: Style.blue,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => Icon(
+                    CustomIcons.star,
+                    color: Color(0xFFFF9929),
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                ),
+                SizedBox(height: Global.getSize(context).height * 0.07),
+
+                ///RatingButtons
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,7 +138,76 @@ class _RateAgentNewScreenState extends State<RateAgentNewScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 60,
+                  height: Global.getSize(context).height * 0.05,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Оставьте комментарий:',
+                    style: TextStyle(
+                      color: Color(0xFF333333),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Global.getSize(context).height * 0.02,
+                ),
+                TextFormField(
+                  maxLines: 10,
+                  textAlignVertical: TextAlignVertical.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                  //controller: _yearFromC,
+                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 0.5,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 0.5,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 0.5,
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 0.5,
+                      ),
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: 'Введите текст...',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade300,
+                      fontSize: 14,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 20,
+                    ),
+                    isDense: true,
+                  ),
+                  keyboardType: TextInputType.text,
+                ),
+
+                SizedBox(
+                  height: Global.getSize(context).height * 0.04,
                 ),
 
                 /// Завершить заявку кнопка
@@ -124,10 +215,6 @@ class _RateAgentNewScreenState extends State<RateAgentNewScreen> {
                   func: () {
                     pushNewScreen(context, screen: RateCallCenterScreen());
                   },
-                ),
-
-                SizedBox(
-                  height: 30,
                 ),
               ],
             ),

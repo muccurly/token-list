@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jurta/screens/rules.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:jurta/utils/global.dart';
@@ -107,7 +108,9 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                     onPressed: () {
                       log(widget.isPage);
                       if (widget.isPage == 1) {
-                        Navigator.pop(context, true);
+                        // Navigator.pop(context, true);
+                        pushNewScreen(context,
+                            screen: RulesScreen(), withNavBar: false);
                       } else if (widget.isPage == 2) {
                         pushNewScreen(context,
                             screen: RieltorFrilancer7(), withNavBar: true);

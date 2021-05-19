@@ -215,7 +215,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   //Navigator.pop(context, true);
-                  pushNewScreen(context, screen: RateAgentNewScreen());
+                  showRequestConfirmationDialog(context);
+                  //pushNewScreen(context, screen: RateAgentNewScreen());
                 },
                 child: Text(
                   'ЗАБРОНИРОВАТЬ ОБЪЕКТ',

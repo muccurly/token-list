@@ -795,11 +795,11 @@ class SortWidget extends StatelessWidget {
                                           bottomRight: Radius.circular(16))
                                       : null,
                             ),
-                            padding: const EdgeInsets.fromLTRB(32, 12, 16, 12),
+                            padding: const EdgeInsets.fromLTRB(32, 10, 16, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.brightness_1,
-                                    size: 8,
+                                    size: 6,
                                     color: selectedSort == text
                                         ? Colors.white
                                         : Colors.transparent),

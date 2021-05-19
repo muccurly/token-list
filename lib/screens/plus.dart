@@ -27,7 +27,7 @@ class _PlusScreenState extends State<PlusScreen> {
                 /// owner
                 OptionWidget(
                   image: 'assets/images/select_house_pana.png',
-                  text: 'ПРОДАТЬ САМОМУ',
+                  text: 'СНЯТЬ\nВИДЕО САМОМУ',
                   color: Style.orange,
                   onPressed: () async {
                     await pushNewScreen(context,
@@ -40,7 +40,7 @@ class _PlusScreenState extends State<PlusScreen> {
                 /// help to sell
                 OptionWidget(
                   image: 'assets/images/relaxing_at_home_pana.png',
-                  text: 'ПРОДАТЬ\nЧЕРЕЗ РИЭЛТОРА',
+                  text: 'ОСТАВИТЬ ЗАЯВКУ\nНА ВИДЕО ОБЗОР',
                   color: Style.blue,
                   onPressed: () {
                     pushNewScreen(context, screen: OurSpeicalistsScreen());

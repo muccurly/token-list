@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jurta/screens/rate_agent.dart';
+import 'package:jurta/screens/rate_agent_new.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 import 'package:jurta/utils/utils.dart';
@@ -48,7 +49,7 @@ class Buyers extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   pushNewScreen(context,
-                      screen: RateAgentScreen(), withNavBar: false);
+                      screen: RateAgentNewScreen(), withNavBar: false);
                 },
                 child: Text(
                   'ПРОДАМ САМ',

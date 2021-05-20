@@ -253,7 +253,7 @@ List<Map<String, dynamic>> BUY_APPLICATIONS = [
     'mortage': true,
     'note': 'Тест комментарий',
     'rooms': {'from': 1, 'to': 3},
-    'price': {'from': 10000000, 'to': 3000000},
+    'price': {'from': '10 000 000', 'to': '30 000 000'},
     'area': {'from': 39, 'to': 50},
   },
   {
@@ -264,7 +264,7 @@ List<Map<String, dynamic>> BUY_APPLICATIONS = [
     'mortage': false,
     'note': 'Тест комментарий 2',
     'rooms': {'from': 3, 'to': 3},
-    'price': {'from': 10000000, 'to': 5000000},
+    'price': {'from': '10 000 000', 'to': '50 000 000'},
     'area': {'from': 20, 'to': 30},
   },
 ];

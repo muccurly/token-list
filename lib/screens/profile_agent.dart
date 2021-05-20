@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:intl/intl.dart';
 import 'package:jurta/screens/advert_details.dart';
 import 'package:jurta/screens/search_result.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileAgentScreen extends StatefulWidget {
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _ProfileAgentScreenState createState() => _ProfileAgentScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
   bool _showAllAdverts = true;
 
   @override

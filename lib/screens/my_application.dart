@@ -319,7 +319,6 @@ class _ApplicationCardState extends State<ApplicationCard> {
               fieldValue: '${widget.application['comment']}',
               isExpanded: isExpanded,
               widget: widget),
-          const Divider(height: 0),
 
           /// specialist
           Visibility(
@@ -330,6 +329,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
               name: widget.specialist['name'],
               phone: widget.specialist['phone'],
             ),
+            replacement: const Divider(height: 0),
           ),
 
           /// bottom section
@@ -438,11 +438,11 @@ class PhoneSpecialistTile extends StatelessWidget {
         phone.substring(10, phone.length);
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.only(right: 12, left: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300, width: 0.5),
+        color: const Color.fromRGBO(247, 247, 247, 1.0),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
@@ -455,6 +455,7 @@ class PhoneSpecialistTile extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// name
@@ -462,7 +463,7 @@ class PhoneSpecialistTile extends StatelessWidget {
                   name ?? '--',
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 5.0),
@@ -473,38 +474,41 @@ class PhoneSpecialistTile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      /// phone button
-                      ImageIcon(
-                        AssetImage('assets/images/phone_round.png'),
-                        size: 30,
-                        color: Style.blue,
-                      ),
-
-                      const SizedBox(width: 8),
-
                       /// phone itself
                       Container(
-                        alignment: Alignment.centerRight,
-                        height: 28,
+                        alignment: Alignment.center,
+                        height: 20,
                         decoration: BoxDecoration(
                           color: Style.blue,
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        child: ElevatedButton(
-                          onPressed: null,
-                          child: Text(
-                            '$formattedPhoneNumber',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Style.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 2),
+
+                            /// phone button
+                            ImageIcon(
+                              AssetImage('assets/images/phone_round.png'),
+                              size: 17,
+                              color: Colors.white,
                             ),
-                            elevation: 0,
-                            // padding: EdgeInsets.symmetric(horizontal: 16),
-                          ),
+
+                            const SizedBox(width: 8),
+
+                            Text(
+                              '$formattedPhoneNumber',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                            ),
+
+                            const SizedBox(width: 8),
+                          ],
                         ),
                       ),
                     ],

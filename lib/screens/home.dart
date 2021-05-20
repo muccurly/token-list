@@ -263,27 +263,53 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text.rich(
-                TextSpan(
-                  children: <TextSpan>[
+              Row(
+                children: [
+                  Text.rich(
                     TextSpan(
-                        text:
-                            '${widget.advert['title']}, ${widget.advert['price']}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        )),
-                    TextSpan(
-                      text: ' ₸',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                          fontFamily: 'Montserrat'),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text:
+                                '${widget.advert['title']}, ${widget.advert['price']}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            )),
+                        TextSpan(
+                          text: ' ₸',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              fontFamily: 'Montserrat'),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Visibility(
+                      visible: widget.advert['new_price'] ?? false,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Container(
+                          height: 16,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(0, 202, 191, 1.0),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Center(
+                            child: Text('НОВАЯ\nЦЕНА',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 8,
+                                )),
+                          ),
+                        ),
+                      ))
+                ],
               ),
               const SizedBox(height: 8),
               Text.rich(

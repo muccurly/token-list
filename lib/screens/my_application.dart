@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/custom_tabbar.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MyApplicationScreen extends StatefulWidget {
   @override
@@ -333,28 +335,64 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ),
 
           /// bottom section
-          Container(
-            alignment: Alignment.centerRight,
-            height: 28,
-            margin: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              },
-              child: Text(
-                isExpanded ? 'Свернуть' : 'Подробнее',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Style.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: widget.applicationType == ApplicationType.sell
+                      ? GestureDetector(
+                          onTap: () {
+                            pushNewScreenWithRouteSettings(
+                              context,
+                              screen: AdvertDetailsScreen(),
+                              settings: RouteSettings(
+                                name: AdvertDetailsScreen.route,
+                                arguments: widget.application['advert'],
+                              ),
+                            );
+                          },
+                          child: Container(
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Style.blue,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Перейти к объекту',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )))
+                      : Container(height: 28),
                 ),
-                elevation: 0,
-                padding: EdgeInsets.symmetric(horizontal: 36),
-              ),
+                const SizedBox(width: 5),
+                Expanded(
+                    child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isExpanded = !isExpanded;
+                          });
+                        },
+                        child: Container(
+                            height: 28,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Style.orange,
+                            ),
+                            child: Center(
+                              child: Text(
+                                isExpanded ? 'Свернуть' : 'Подробнее',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )))),
+              ],
             ),
           ),
         ],
@@ -382,7 +420,7 @@ class ExtendedApplicationDescription extends StatelessWidget {
     return Visibility(
       visible: isExpanded,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
         child: Text.rich(
           TextSpan(
             children: <TextSpan>[

@@ -224,7 +224,7 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Квартира в отличном состоянии, с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[0],
+    'advert': ADVERTS[1],
     'type': 'sell',
   },
   {
@@ -235,7 +235,7 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Ищу квартиру с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[0],
+    'advert': ADVERTS[2],
     'type': 'buy',
   },
 ];

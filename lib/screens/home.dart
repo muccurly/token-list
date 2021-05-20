@@ -381,6 +381,9 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                     onTap: () {
                       setState(() {
                         widget.advert['is_fav'] = !widget.advert['is_fav'];
+                        widget.advert['is_fav']
+                            ? widget.advert['like_count']++
+                            : widget.advert['like_count']--;
                       });
                     },
                     child: ImageIcon(
@@ -391,6 +394,8 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                           : Colors.white,
                     ),
                   ),
+                  Text('${widget.advert['like_count']}',
+                      style: TextStyle(color: Colors.white)),
                   const SizedBox(height: 12),
 
                   /// comments

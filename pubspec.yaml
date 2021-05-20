@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/rate_agent_icon/
+    - assets/images/about_app_icon/
     - assets/fonts/OFL.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see

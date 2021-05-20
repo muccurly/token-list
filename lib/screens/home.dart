@@ -292,8 +292,8 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5.0),
                         child: Container(
-                          height: 16,
-                          width: 30,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(
                             color: const Color.fromRGBO(0, 202, 191, 1.0),
                             borderRadius: BorderRadius.circular(5),

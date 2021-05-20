@@ -275,17 +275,23 @@ class _ApplicationCardState extends State<ApplicationCard> {
 
           ExtendedApplicationDescription(
               fieldName: 'Цена',
-              fieldValue: '${widget.application['advert']['price']} тг',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? 'от ${widget.application['purchase_info']['price']['from']} до ${widget.application['purchase_info']['price']['to']} тг'
+                  : '${widget.application['advert']['price']} тг',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Город',
-              fieldValue: '${widget.application['advert']['address_city']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? '${CITIES[widget.application['purchase_info']['city_id']]}'
+                  : '${widget.application['advert']['address_city']}',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Район',
-              fieldValue: '${widget.application['advert']['address_district']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? '${widget.application['purchase_info']['districts'].join(", ")}'
+                  : '${widget.application['advert']['address_district']}',
               isExpanded: isExpanded,
               widget: widget),
 
@@ -308,12 +314,16 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ],
           ExtendedApplicationDescription(
               fieldName: 'Количество комнат',
-              fieldValue: '${widget.application['advert']['rooms']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? 'от ${widget.application['purchase_info']['rooms']['from']} до ${widget.application['purchase_info']['rooms']['to']}'
+                  : '${widget.application['advert']['rooms']}',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Площадь',
-              fieldValue: '${widget.application['advert']['area']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? 'от ${widget.application['purchase_info']['area']['from']} до ${widget.application['purchase_info']['area']['to']} м\u00B2'
+                  : '${widget.application['advert']['area']}',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(

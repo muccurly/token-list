@@ -23,13 +23,6 @@ const String STREETS_URL =
 const String BUILDINGS_BY_STREET_URL =
     'https://gm.jurta.kz/open-api/address/getBuildingsByStreet/'; // <street_id>
 
-List<PersistentBottomNavBarItem> NAVBAR_ITEMS = List.generate(
-  5,
-  (index) => PersistentBottomNavBarItem(
-    icon: Icon(Icons.brightness_1),
-  ),
-);
-
 const List<String> NAVBAR_TITLE_LIST = [
   'главная',
   'поиск',
@@ -65,6 +58,14 @@ const List<String> ROOMS = [
   '4',
   '5+',
 ];
+
+const Map<int, String> CITIES = {
+  1: 'Нур-Султан',
+  2: 'Алматы',
+  3: 'Актобе',
+  4: 'Шымкент',
+  5: 'Актау'
+};
 
 const List<String> REGIONS = [
   'регион 1',
@@ -213,7 +214,8 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Ищу квартиру с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[0],
+    'advert': null,
+    'purchase_info': BUY_APPLICATIONS[0],
     'type': 'buy',
   },
   {
@@ -225,6 +227,7 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
     'advert': ADVERTS[1],
+    'purchase_info': null,
     'type': 'sell',
   },
   {
@@ -235,8 +238,34 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Ищу квартиру с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[2],
+    'advert': null,
+    'purchase_info': BUY_APPLICATIONS[1],
     'type': 'buy',
+  },
+];
+
+List<Map<String, dynamic>> BUY_APPLICATIONS = [
+  {
+    'atelier': false,
+    'city_id': 1,
+    'districts': ['Есильский', 'Сарыаркинский'],
+    'floors': {'from': 4, 'to': 5},
+    'mortage': true,
+    'note': 'Тест комментарий',
+    'rooms': {'from': 1, 'to': 3},
+    'price': {'from': 10000000, 'to': 3000000},
+    'area': {'from': 39, 'to': 50},
+  },
+  {
+    'atelier': false,
+    'city_id': 2,
+    'districts': ['Есильский'],
+    'floors': {'from': 1, 'to': 20},
+    'mortage': false,
+    'note': 'Тест комментарий 2',
+    'rooms': {'from': 3, 'to': 3},
+    'price': {'from': 10000000, 'to': 5000000},
+    'area': {'from': 20, 'to': 30},
   },
 ];
 

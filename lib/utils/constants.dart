@@ -263,7 +263,7 @@ List<Map<String, dynamic>> BUY_APPLICATIONS = [
     'floors': {'from': 1, 'to': 20},
     'mortage': false,
     'note': 'Тест комментарий 2',
-    'rooms': {'from': 3, 'to': 3},
+    'rooms': {'from': 3, 'to': 4},
     'price': {'from': '10 000 000', 'to': '50 000 000'},
     'area': {'from': 20, 'to': 30},
   },

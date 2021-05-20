@@ -201,7 +201,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                   color: Style.orange,
                   size: 47,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 5),
                 Text(
                   'Заявка на ${widget.applicationType == ApplicationType.buy ? 'покупку' : 'продажу'}',
                   style: TextStyle(
@@ -218,7 +218,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                         'ID - ${widget.application['application_id']}',
                         style: TextStyle(
                           fontSize: 10,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -226,7 +226,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                         '${DateFormat('kk:mm, dd.MM.yyyy').format(widget.application['datetime'])}',
                         style: TextStyle(
                           fontSize: 10,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -247,7 +247,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                 'Краткое описание:',
                 style: TextStyle(
                   color: Colors.black87,
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -257,9 +257,11 @@ class _ApplicationCardState extends State<ApplicationCard> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Text(
-                widget.application['short_description'],
+                widget.applicationType == ApplicationType.buy
+                    ? 'Район ${widget.application['purchase_info']['districts'].join(", ")}\n${widget.application['purchase_info']['rooms']['from']}-${widget.application['purchase_info']['rooms']['to']} комнатная, ${widget.application['purchase_info']['price']['from']} - ${widget.application['purchase_info']['price']['to']} тг'
+                    : widget.application['short_description'],
                 style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

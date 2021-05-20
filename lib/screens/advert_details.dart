@@ -1905,9 +1905,8 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 32, bottom: 16),
                 children: [
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
+                  Text.rich(
+                    TextSpan(
                       style: TextStyle(
                         color: Color(0xFF00CABF),
                         fontSize: 13,
@@ -1930,6 +1929,7 @@ class _BookDateTimeSelectWidgetState extends State<BookDateTimeSelectWidget> {
                         ),
                       ],
                     ),
+                    textAlign: TextAlign.center,
                   ),
 
                   const SizedBox(height: 28),

@@ -263,8 +263,8 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                 ),
               ),
               const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: <TextSpan>[
                     TextSpan(
                         text:
@@ -286,8 +286,8 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                 ),
               ),
               const SizedBox(height: 8),
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,

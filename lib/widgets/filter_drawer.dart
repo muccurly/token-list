@@ -342,8 +342,8 @@ class _FilterDrawerState extends State<FilterDrawer> {
             /// price
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: RichText(
-                text: TextSpan(
+              child: Text.rich(
+                TextSpan(
                   children: <TextSpan>[
                     TextSpan(
                         text: 'ДИАПАЗОН ЦЕН,',
@@ -356,7 +356,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
-                          fontSize: 11,
                           fontFamily: 'Montserrat'),
                     ),
                   ],

@@ -383,10 +383,8 @@ class ExtendedApplicationDescription extends StatelessWidget {
       visible: isExpanded,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: RichText(
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          text: TextSpan(
+        child: Text.rich(
+          TextSpan(
             children: <TextSpan>[
               TextSpan(
                   text: '$fieldName: ',
@@ -405,6 +403,8 @@ class ExtendedApplicationDescription extends StatelessWidget {
               ),
             ],
           ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

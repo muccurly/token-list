@@ -106,11 +106,13 @@ const List<String> OBJECTS_AROUND_TAB_TITLES = [
 ];
 
 const SORT_BY = [
-  'Новизне',
+  'По новизне',
   'Цена (по убыванию)',
   'Цена (по возрастанию)',
-  'По комнатам',
-  'По площади',
+  'По комнатам (по убыванию)',
+  'По комнатам (по возрастанию)',
+  'По площади (по убыванию)',
+  'По площади (по возрастанию)',
 ];
 
 enum DrawerType { filter, menu }
@@ -120,18 +122,18 @@ enum VideoLength { short, medium, long }
 enum ApplicationType { buy, sell }
 
 List<TextInputFormatter> MONEY_FORMATTER = [
-  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789"),
+  FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true),
   MoneyInputFormatter(
       mantissaLength: 0,
       thousandSeparator: ThousandSeparator.SpaceAndCommaMantissa),
 ];
 
 List<TextInputFormatter> PHONE_FORMATTER = [
-  PhoneInputFormatter(),
+  MaskedInputFormatter('+# (###)-###-##-##', anyCharMatcher: RegExp(r'[0-9]'))
 ];
 
 List<TextInputFormatter> NUMERIC_FORMATTER = [
-  RestrictingInputFormatter.allowFromString(allowedChars: "0123456789")
+  FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: true)
 ];
 
 List<Map<String, dynamic>> SPECIALISTS = [

@@ -23,13 +23,6 @@ const String STREETS_URL =
 const String BUILDINGS_BY_STREET_URL =
     'https://gm.jurta.kz/open-api/address/getBuildingsByStreet/'; // <street_id>
 
-List<PersistentBottomNavBarItem> NAVBAR_ITEMS = List.generate(
-  5,
-  (index) => PersistentBottomNavBarItem(
-    icon: Icon(Icons.brightness_1),
-  ),
-);
-
 const List<String> NAVBAR_TITLE_LIST = [
   'главная',
   'поиск',
@@ -65,6 +58,14 @@ const List<String> ROOMS = [
   '4',
   '5+',
 ];
+
+const Map<int, String> CITIES = {
+  1: 'Нур-Султан',
+  2: 'Алматы',
+  3: 'Актобе',
+  4: 'Шымкент',
+  5: 'Актау'
+};
 
 const List<String> REGIONS = [
   'регион 1',
@@ -213,7 +214,8 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Ищу квартиру с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[0],
+    'advert': null,
+    'purchase_info': BUY_APPLICATIONS[0],
     'type': 'buy',
   },
   {
@@ -224,7 +226,8 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Квартира в отличном состоянии, с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[0],
+    'advert': ADVERTS[1],
+    'purchase_info': null,
     'type': 'sell',
   },
   {
@@ -235,8 +238,52 @@ List<Map<String, dynamic>> APPLICATIONS = [
     'comment': 'Ищу квартиру с дизайнерским ремонтом',
     'short_description':
         'ул. Сауран 20, кв 15\n1 комнатная квартира, 51 м\u00B2, 18 000 000 тг',
-    'advert': ADVERTS[0],
+    'advert': null,
+    'purchase_info': BUY_APPLICATIONS[1],
     'type': 'buy',
+  },
+];
+
+List<Map<String, dynamic>> BUY_APPLICATIONS = [
+  {
+    'atelier': false,
+    'city_id': 1,
+    'districts': ['Есильский', 'Сарыаркинский'],
+    'floors': {'from': 4, 'to': 5},
+    'mortage': true,
+    'note': 'Тест комментарий',
+    'rooms': {'from': 1, 'to': 3},
+    'price': {'from': '10 000 000', 'to': '30 000 000'},
+    'area': {'from': 39, 'to': 50},
+  },
+  {
+    'atelier': false,
+    'city_id': 2,
+    'districts': ['Есильский'],
+    'floors': {'from': 1, 'to': 20},
+    'mortage': false,
+    'note': 'Тест комментарий 2',
+    'rooms': {'from': 3, 'to': 4},
+    'price': {'from': '10 000 000', 'to': '50 000 000'},
+    'area': {'from': 20, 'to': 30},
+  },
+];
+
+List<Map<String, dynamic>> REVIEWS = [
+  {
+    'name': 'Алия Умирзакова',
+    'text':
+        'Огромная благодарность агентству недвижимости и лично специалисту Темирлану Умурзакову за высокий профессионализм в подборе жилья, безупречную организацию работы, надежность и нацеленность на результат!'
+  },
+  {
+    'name': 'Мухтар Аширбаев',
+    'text':
+        'Огромная благодарность агентству недвижимости и лично специалисту Темирлану Умурзакову за высокий профессионализм в подборе жилья, безупречную организацию работы, надежность и нацеленность на результат!'
+  },
+  {
+    'name': 'Замзагуль Дюсуп',
+    'text':
+        'Огромная благодарность агентству недвижимости и лично специалисту Темирлану Умурзакову за высокий профессионализм в подборе жилья, безупречную организацию работы, надежность и нацеленность на результат!'
   },
 ];
 
@@ -245,6 +292,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'id': 1,
     'title': 'JK Bi city Seoul',
     'price': '29 500 000',
+    'new_price': true,
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127 м\u00B2',
@@ -265,6 +313,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'like_count': 10,
     'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
@@ -334,6 +383,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'id': 2,
     'title': 'JK Bi city Seoul',
     'price': '29 500 000',
+    'new_price': false,
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127 м\u00B2',
@@ -354,6 +404,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'like_count': 12,
     'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
@@ -423,6 +474,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'id': 3,
     'title': 'JK Bi city Seoul',
     'price': '29 500 000',
+    'new_price': false,
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127 м\u00B2',
@@ -443,6 +495,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'like_count': 5,
     'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
@@ -512,6 +565,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'id': 4,
     'title': 'JK Bi city Seoul',
     'price': '29 500 000',
+    'new_price': true,
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127 м\u00B2',
@@ -532,6 +586,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'like_count': 15,
     'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
@@ -601,6 +656,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'id': 5,
     'title': 'JK Bi city Seoul',
     'price': '29 500 000',
+    'new_price': false,
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127 м\u00B2',
@@ -621,6 +677,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'like_count': 20,
     'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',
@@ -690,6 +747,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'id': 6,
     'title': 'JK Bi city Seoul',
     'price': '29 500 000',
+    'new_price': true,
     'rooms': '4',
     'flat': '4 из 9',
     'area': '127 м\u00B2',
@@ -710,6 +768,7 @@ List<Map<String, dynamic>> ADVERTS = [
     'parking': 'Парковка',
     'year': '2014',
     'rating': 4,
+    'like_count': 20,
     'adverts_type': 'Бизнес класс',
     'description':
         'The launch method takes a string argument containing a URL. This URL can be formatted using a number of different URL schemes. The supported URL schemes depend on the underlying platform and installed apps.',

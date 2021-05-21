@@ -1471,21 +1471,33 @@ class _MainInfoWidgetState extends State<MainInfoWidget> {
 
         /// like and share
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// like
-            GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.advert['is_fav'] = !widget.advert['is_fav'];
-                  });
-                },
-                child: widget.advert['is_fav']
-                    ? ImageIcon(AssetImage('assets/images/like_red.png'),
-                        size: 21, color: Color.fromRGBO(220, 79, 94, 1.0))
-                    : ImageIcon(
-                        AssetImage('assets/images/like_bl.png'),
-                        size: 21,
-                      )),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        widget.advert['is_fav'] = !widget.advert['is_fav'];
+                        widget.advert['is_fav']
+                            ? widget.advert['like_count']++
+                            : widget.advert['like_count']--;
+                      });
+                    },
+                    child: widget.advert['is_fav']
+                        ? ImageIcon(AssetImage('assets/images/like_red.png'),
+                            size: 21, color: Color.fromRGBO(220, 79, 94, 1.0))
+                        : ImageIcon(
+                            AssetImage('assets/images/like_bl.png'),
+                            size: 21,
+                          )),
+                const SizedBox(height: 5),
+                Text('${widget.advert['like_count']}'),
+              ],
+            ),
+
             const SizedBox(width: 4),
 
             /// share

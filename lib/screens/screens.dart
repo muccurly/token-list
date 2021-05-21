@@ -7,7 +7,7 @@ export 'book.dart';
 export 'favorite.dart';
 //export 'advert_comment.dart';
 export 'my_application.dart';
-export 'profile.dart';
+export 'profile_agent.dart';
 export 'notification.dart';
 export 'notification_settings.dart';
 export 'mortgage_form.dart';

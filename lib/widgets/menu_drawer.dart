@@ -227,7 +227,7 @@ class UserInfoWidget extends StatelessWidget {
         Navigator.pop(context);
         pushNewScreen(
           rootContext,
-          screen: ProfileScreen(),
+          screen: ProfileAgentScreen(),
         );
       },
       child: Row(

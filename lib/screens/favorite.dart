@@ -309,7 +309,7 @@ class SavedSearch extends StatelessWidget {
             savedSearch: application,
           );
         },
-        itemCount: APPLICATIONS.length);
+        itemCount: SAVED_SEARCH.length);
   }
 }
 

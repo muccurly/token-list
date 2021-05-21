@@ -46,7 +46,7 @@ class _RootScreenState extends State<RootScreen> {
           context,
           controller: Global.getController(),
           screens: _pageOptions,
-          itemCount: NAVBAR_ITEMS.length,
+          itemCount: _pageOptions.length,
           confineInSafeArea: true,
           backgroundColor: Colors.white,
           handleAndroidBackButtonPress: true,

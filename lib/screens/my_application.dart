@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/custom_tabbar.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MyApplicationScreen extends StatefulWidget {
   @override
@@ -199,7 +201,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                   color: Style.orange,
                   size: 47,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 5),
                 Text(
                   'Заявка на ${widget.applicationType == ApplicationType.buy ? 'покупку' : 'продажу'}',
                   style: TextStyle(
@@ -216,7 +218,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                         'ID - ${widget.application['application_id']}',
                         style: TextStyle(
                           fontSize: 10,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -224,7 +226,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                         '${DateFormat('kk:mm, dd.MM.yyyy').format(widget.application['datetime'])}',
                         style: TextStyle(
                           fontSize: 10,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -245,7 +247,7 @@ class _ApplicationCardState extends State<ApplicationCard> {
                 'Краткое описание:',
                 style: TextStyle(
                   color: Colors.black87,
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -255,9 +257,11 @@ class _ApplicationCardState extends State<ApplicationCard> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Text(
-                widget.application['short_description'],
+                widget.applicationType == ApplicationType.buy
+                    ? 'Район ${widget.application['purchase_info']['districts'].join(", ")}\n${widget.application['purchase_info']['rooms']['from']}-${widget.application['purchase_info']['rooms']['to']} комнатная, ${widget.application['purchase_info']['price']['from']} - ${widget.application['purchase_info']['price']['to']} тг'
+                    : widget.application['short_description'],
                 style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -273,17 +277,23 @@ class _ApplicationCardState extends State<ApplicationCard> {
 
           ExtendedApplicationDescription(
               fieldName: 'Цена',
-              fieldValue: '${widget.application['advert']['price']} тг',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? 'от ${widget.application['purchase_info']['price']['from']} до ${widget.application['purchase_info']['price']['to']} тг'
+                  : '${widget.application['advert']['price']} тг',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Город',
-              fieldValue: '${widget.application['advert']['address_city']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? '${CITIES[widget.application['purchase_info']['city_id']]}'
+                  : '${widget.application['advert']['address_city']}',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Район',
-              fieldValue: '${widget.application['advert']['address_district']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? '${widget.application['purchase_info']['districts'].join(", ")}'
+                  : '${widget.application['advert']['address_district']}',
               isExpanded: isExpanded,
               widget: widget),
 
@@ -306,12 +316,16 @@ class _ApplicationCardState extends State<ApplicationCard> {
           ],
           ExtendedApplicationDescription(
               fieldName: 'Количество комнат',
-              fieldValue: '${widget.application['advert']['rooms']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? 'от ${widget.application['purchase_info']['rooms']['from']} до ${widget.application['purchase_info']['rooms']['to']}'
+                  : '${widget.application['advert']['rooms']}',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
               fieldName: 'Площадь',
-              fieldValue: '${widget.application['advert']['area']}',
+              fieldValue: widget.applicationType == ApplicationType.buy
+                  ? 'от ${widget.application['purchase_info']['area']['from']} до ${widget.application['purchase_info']['area']['to']} м\u00B2'
+                  : '${widget.application['advert']['area']}',
               isExpanded: isExpanded,
               widget: widget),
           ExtendedApplicationDescription(
@@ -319,7 +333,6 @@ class _ApplicationCardState extends State<ApplicationCard> {
               fieldValue: '${widget.application['comment']}',
               isExpanded: isExpanded,
               widget: widget),
-          const Divider(height: 0),
 
           /// specialist
           Visibility(
@@ -330,31 +343,68 @@ class _ApplicationCardState extends State<ApplicationCard> {
               name: widget.specialist['name'],
               phone: widget.specialist['phone'],
             ),
+            replacement: const Divider(height: 0),
           ),
 
           /// bottom section
-          Container(
-            alignment: Alignment.centerRight,
-            height: 28,
-            margin: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              },
-              child: Text(
-                isExpanded ? 'Свернуть' : 'Подробнее',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Style.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: widget.applicationType == ApplicationType.sell
+                      ? GestureDetector(
+                          onTap: () {
+                            pushNewScreenWithRouteSettings(
+                              context,
+                              screen: AdvertDetailsScreen(),
+                              settings: RouteSettings(
+                                name: AdvertDetailsScreen.route,
+                                arguments: widget.application['advert'],
+                              ),
+                            );
+                          },
+                          child: Container(
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Style.blue,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Перейти к объекту',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )))
+                      : Container(height: 28),
                 ),
-                elevation: 0,
-                padding: EdgeInsets.symmetric(horizontal: 36),
-              ),
+                const SizedBox(width: 5),
+                Expanded(
+                    child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isExpanded = !isExpanded;
+                          });
+                        },
+                        child: Container(
+                            height: 28,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Style.orange,
+                            ),
+                            child: Center(
+                              child: Text(
+                                isExpanded ? 'Свернуть' : 'Подробнее',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )))),
+              ],
             ),
           ),
         ],
@@ -382,7 +432,7 @@ class ExtendedApplicationDescription extends StatelessWidget {
     return Visibility(
       visible: isExpanded,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
         child: Text.rich(
           TextSpan(
             children: <TextSpan>[
@@ -438,11 +488,11 @@ class PhoneSpecialistTile extends StatelessWidget {
         phone.substring(10, phone.length);
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.only(right: 12, left: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300, width: 0.5),
+        color: const Color.fromRGBO(247, 247, 247, 1.0),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
@@ -455,6 +505,7 @@ class PhoneSpecialistTile extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// name
@@ -462,7 +513,7 @@ class PhoneSpecialistTile extends StatelessWidget {
                   name ?? '--',
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 5.0),
@@ -473,38 +524,41 @@ class PhoneSpecialistTile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      /// phone button
-                      ImageIcon(
-                        AssetImage('assets/images/phone_round.png'),
-                        size: 30,
-                        color: Style.blue,
-                      ),
-
-                      const SizedBox(width: 8),
-
                       /// phone itself
                       Container(
-                        alignment: Alignment.centerRight,
-                        height: 28,
+                        alignment: Alignment.center,
+                        height: 20,
                         decoration: BoxDecoration(
                           color: Style.blue,
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        child: ElevatedButton(
-                          onPressed: null,
-                          child: Text(
-                            '$formattedPhoneNumber',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Style.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 2),
+
+                            /// phone button
+                            ImageIcon(
+                              AssetImage('assets/images/phone_round.png'),
+                              size: 17,
+                              color: Colors.white,
                             ),
-                            elevation: 0,
-                            // padding: EdgeInsets.symmetric(horizontal: 16),
-                          ),
+
+                            const SizedBox(width: 8),
+
+                            Text(
+                              '$formattedPhoneNumber',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                            ),
+
+                            const SizedBox(width: 8),
+                          ],
                         ),
                       ),
                     ],

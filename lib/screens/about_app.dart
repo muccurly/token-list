@@ -114,38 +114,36 @@ class AboutAppText extends StatelessWidget {
   AboutAppText({this.imageUrl, this.title, this.subtitle});
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SvgPicture.asset(
-            imageUrl ?? "assets/images/about_app_icon/video.svg",
-            width: 32,
-            height: 32,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SvgPicture.asset(
+          imageUrl ?? "assets/images/about_app_icon/video.svg",
+          width: 32,
+          height: 32,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title ?? 'ВИДЕООБЗОРЫ ОБЪЕКТОВ',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+              ),
+              Text(
+                subtitle ??
+                    'для удобного и быстрого просмотра объекта без выезда на объект. Все видеообзоры проверены нашими специалистами и являются достоверными.',
+                textAlign: TextAlign.left,
+                maxLines: 4,
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+              ),
+            ],
           ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title ?? 'ВИДЕООБЗОРЫ ОБЪЕКТОВ',
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                ),
-                Text(
-                  subtitle ??
-                      'для удобного и быстрого просмотра объекта без выезда на объект. Все видеообзоры проверены нашими специалистами и являются достоверными.',
-                  textAlign: TextAlign.left,
-                  maxLines: 4,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

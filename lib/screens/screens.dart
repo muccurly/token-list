@@ -23,3 +23,5 @@ export 'rate_call_center.dart';
 export 'video_recording.dart';
 export 'rieltor_frilancer3.dart';
 export 'rieltor_frilancer7.dart';
+export 'update.dart';
+export 'contact_us.dart';

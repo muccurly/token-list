@@ -258,6 +258,7 @@ class RatingAgentWidget extends StatelessWidget {
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
+                  fontFamily: 'HelveticaNeueCyrRoman',
                 ),
               )
             ],
@@ -287,6 +288,7 @@ class RatingAgentWidget extends StatelessWidget {
                   color: Style.orange,
                   fontWeight: FontWeight.w700,
                   fontSize: 12,
+                  fontFamily: 'HelveticaNeueCyrRoman',
                 ),
               )
             ],

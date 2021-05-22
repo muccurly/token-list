@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jurta/screens/root.dart';
 
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/finish_button.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class RateCallCenterScreen extends StatefulWidget {
   static const String route = 'rate_call_center';
@@ -794,7 +796,7 @@ class _RateCallCenterScreenState extends State<RateCallCenterScreen> {
                 /// Завершить заявку кнопка
                 FinishButton(
                   func: () {
-                    print('asd');
+                    pushNewScreen(context, screen: RootScreen());
                   },
                 ),
 

@@ -728,29 +728,27 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                         ),
 
                         /// show all adverts list
-                        replacement: Expanded(
-                          child: GridView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            // physics: const ClampingScrollPhysics(),
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 5 / 9,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 0,
-                            ),
-                            itemBuilder: (context, index) {
-                              final advert = ADVERTS[index];
-                              return AdvertCardNew(
-                                  advert: advert, index: index);
-                              // return AdvertCard(advert: advert);
-                            },
-                            itemCount: ADVERTS.length,
+                        replacement: GridView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          // physics: const ClampingScrollPhysics(),
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 5 / 9,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 0,
                           ),
+                          itemBuilder: (context, index) {
+                            final advert = ADVERTS[index];
+                            return AdvertCardNew(advert: advert, index: index);
+                            // return AdvertCard(advert: advert);
+                          },
+                          itemCount: ADVERTS.length,
                         ),
                       ),
+
                       const SizedBox(height: 8),
 
                       /// show all adverts toggle

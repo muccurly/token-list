@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:jurta/screens/advert_details.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:jurta/screens/search_result.dart';
 import 'package:jurta/utils/custom_icons_icons.dart';
 import 'package:jurta/utils/utils.dart';
@@ -624,14 +624,12 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.all(16),
-                                  height: 100,
                                   decoration: BoxDecoration(
                                     color: const Color.fromRGBO(
                                         247, 247, 247, 1.0),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: PageView.builder(
-                                    scrollDirection: Axis.horizontal,
+                                  child: ExpandablePageView(
                                     itemCount: REVIEWS.length,
                                     controller: _pageController,
                                     itemBuilder: (context, index) {

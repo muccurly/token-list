@@ -618,9 +618,9 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                                   duration: _kDuration,
                                   curve: _kCurve,
                                 ),
-                                child: Icon(Icons.arrow_back_rounded, size: 20),
+                                child: Icon(LineIcons.angleLeft, size: 24),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.all(16),
@@ -658,14 +658,13 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 8),
                               GestureDetector(
                                 onTap: () => _pageController.nextPage(
                                   duration: _kDuration,
                                   curve: _kCurve,
                                 ),
-                                child:
-                                    Icon(Icons.arrow_forward_rounded, size: 20),
+                                child: Icon(LineIcons.angleRight, size: 24),
                               ),
                             ],
                           ),

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+
+// TODO: use compile time variable
+const String BUILD_DATE = '22.05.2021';
 
 const String BASE_URL = '';
 const String REAL_PROPERTY_VIDEO_TOUR_LIST_URL =

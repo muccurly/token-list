@@ -14,6 +14,8 @@ class ProfileAgentScreen extends StatefulWidget {
 
 class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
   final PageController _pageController = PageController();
+  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kCurve = Curves.ease;
 
   bool _showAllAdverts = true;
 
@@ -606,56 +608,71 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                           ],
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                      //   child: Container(
-                      //     child: Row(
-                      //       children: [
-                      //         Icon(Icons.arrow_back_rounded, size: 20),
-                      //         Expanded(
-                      //           child: PageView.builder(
-                      //             scrollDirection: Axis.horizontal,
-                      //             itemCount: REVIEWS.length,
-                      //             controller: PageController(
-                      //               initialPage: 0,
-                      //               viewportFraction: 1,
-                      //             ),
-                      //             itemBuilder: (context, index) {
-                      //               return Container(
-                      //                 decoration: BoxDecoration(
-                      //                   color: const Color.fromRGBO(
-                      //                       247, 247, 247, 1.0),
-                      //                   borderRadius:
-                      //                       BorderRadius.circular(10),
-                      //                 ),
-                      //                 child: Column(
-                      //                   mainAxisSize: MainAxisSize.min,
-                      //                   children: [
-                      //                     Text(
-                      //                       REVIEWS[index]['text'],
-                      //                       style: TextStyle(
-                      //                         fontSize: 14,
-                      //                         fontWeight: FontWeight.w500,
-                      //                       ),
-                      //                     ),
-                      //                     Text(
-                      //                       REVIEWS[index]['name'],
-                      //                       style: TextStyle(
-                      //                         fontSize: 14,
-                      //                         fontWeight: FontWeight.w500,
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               );
-                      //             },
-                      //           ),
-                      //         ),
-                      //         Icon(Icons.arrow_forward_rounded, size: 20),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => _pageController.previousPage(
+                                  duration: _kDuration,
+                                  curve: _kCurve,
+                                ),
+                                child: Icon(Icons.arrow_back_rounded, size: 20),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromRGBO(
+                                        247, 247, 247, 1.0),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: PageView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: REVIEWS.length,
+                                    controller: _pageController,
+                                    itemBuilder: (context, index) {
+                                      return ListView(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        children: [
+                                          Text(
+                                            REVIEWS[index]['text'],
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            REVIEWS[index]['name'],
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: () => _pageController.nextPage(
+                                  duration: _kDuration,
+                                  curve: _kCurve,
+                                ),
+                                child:
+                                    Icon(Icons.arrow_forward_rounded, size: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
 
                       /// adverts
                       DottedHeaderTextWidget(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/about_app.dart';
+import 'package:jurta/screens/screens.dart';
 import 'package:jurta/widgets/info_page_btn.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -46,7 +47,10 @@ class InfoScreen extends StatelessWidget {
           children: [
             InfoPageBtn(
               function: () {
-                print('asd');
+                pushNewScreen(
+                  context,
+                  screen: UpdateScreen(),
+                );
               },
               text: "Обновления приложения",
             ),
@@ -61,7 +65,10 @@ class InfoScreen extends StatelessWidget {
             ),
             InfoPageBtn(
               function: () {
-                print('asd');
+                pushNewScreen(
+                  context,
+                  screen: ContactUsScreen(),
+                );
               },
               text: "Связаться с нами",
             ),

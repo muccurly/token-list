@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+
+// TODO: use compile time variable
+const String BUILD_DATE = '22.05.2021';
 
 const String BASE_URL = '';
 const String REAL_PROPERTY_VIDEO_TOUR_LIST_URL =
@@ -172,6 +173,20 @@ List<Map<String, dynamic>> SPECIALISTS = [
     'phone': '+77771234567',
   },
 ];
+
+Map<String, dynamic> CLIENT_PROFILE = {
+  'id': 3,
+  'first_name': 'Дюсуп',
+  'last_name': 'Замзагуль',
+  'patronymic_name': 'Алибековна',
+  'imagePath': 'assets/images/specialist1.png',
+  'imageUrl':
+      'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80',
+  'email': 'astana@gmail.com',
+  'city': 'Нур-Султан',
+  'phone': '+77771234567',
+  'birth_date': DateTime.now().subtract(Duration(days: 365 * 30)),
+};
 
 List<Map<String, dynamic>> NOTIFICATIONS = [
   {

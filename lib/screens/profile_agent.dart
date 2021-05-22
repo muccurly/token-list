@@ -14,6 +14,8 @@ class ProfileAgentScreen extends StatefulWidget {
 
 class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
   final PageController _pageController = PageController();
+  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kCurve = Curves.ease;
 
   bool _showAllAdverts = true;
 
@@ -127,191 +129,167 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                 Container(
                   padding: const EdgeInsets.only(top: 16),
                   color: Colors.white,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        /// status
-                        // Align(
-                        //   alignment: Alignment.centerRight,
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       color: Style.blue2,
-                        //       borderRadius: BorderRadius.circular(4),
-                        //     ),
-                        //     padding: const EdgeInsets.symmetric(
-                        //         horizontal: 8, vertical: 4),
-                        //     margin: EdgeInsets.only(
-                        //         right: (Global.getSize(context).width -
-                        //                 (Global.getSize(context).width / 2.5)) /
-                        //             2,
-                        //         bottom: 8),
-                        //     child: Text(
-                        //       'Эксперт',
-                        //       style: TextStyle(
-                        //         color: Colors.white,
-                        //         fontSize: 11,
-                        //         fontWeight: FontWeight.w500,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                  child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      /// status
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       color: Style.blue2,
+                      //       borderRadius: BorderRadius.circular(4),
+                      //     ),
+                      //     padding: const EdgeInsets.symmetric(
+                      //         horizontal: 8, vertical: 4),
+                      //     margin: EdgeInsets.only(
+                      //         right: (Global.getSize(context).width -
+                      //                 (Global.getSize(context).width / 2.5)) /
+                      //             2,
+                      //         bottom: 8),
+                      //     child: Text(
+                      //       'Эксперт',
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 11,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
 
-                        /// full name
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Замзагуль Дюсуп',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                textAlign: TextAlign.center,
+                      /// full name
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Замзагуль Дюсуп',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5.0),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(51, 51, 51, 1.0),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text('1 год',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12,
-                                        )),
-                                  ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(51, 51, 51, 1.0),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        /// main badge
-                        MainBadge(),
-
-                        /// rating
-                        // Row(
-                        //   crossAxisAlignment: CrossAxisAlignment.center,
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Text(
-                        //       'Лидер месяца ',
-                        //       style: TextStyle(
-                        //         fontSize: 12,
-                        //         color: Style.orange,
-                        //       ),
-                        //     ),
-                        //     const SizedBox(width: 16),
-                        //     Icon(
-                        //       Icons.circle,
-                        //       color: Style.orange2,
-                        //       size: 5,
-                        //     ),
-                        //     const SizedBox(width: 16),
-                        //     RatingBar(
-                        //       initialRating: 5,
-                        //       direction: Axis.horizontal,
-                        //       allowHalfRating: false,
-                        //       itemCount: 5,
-                        //       ratingWidget: RatingWidget(
-                        //         full: Icon(
-                        //           LineIcons.starAlt,
-                        //           color: Style.orange,
-                        //         ),
-                        //         half: Icon(
-                        //           LineIcons.starAlt,
-                        //           color: Style.orange,
-                        //         ),
-                        //         empty: Icon(LineIcons.star),
-                        //       ),
-                        //       onRatingUpdate: (rating) {},
-                        //       itemSize: 16,
-                        //       ignoreGestures: true,
-                        //     ),
-                        //     // Stack(
-                        //     //   alignment: Alignment.center,
-                        //     //   children: [
-                        //     //     Align(
-                        //     //       alignment: Alignment.center,
-                        //     //       child: Image.asset(
-                        //     //         'assets/images/bubble_rect.png',
-                        //     //         height: 26,
-                        //     //         // width: 36,
-                        //     //       ),
-                        //     //     ),
-                        //     //     Align(
-                        //     //       alignment: Alignment.center,
-                        //     //       child: Padding(
-                        //     //         padding: const EdgeInsets.only(bottom: 1),
-                        //     //         child: Text(
-                        //     //           '4.2',
-                        //     //           style: TextStyle(
-                        //     //             color: Style.orange,
-                        //     //             fontSize: 12,
-                        //     //             fontWeight: FontWeight.w700,
-                        //     //           ),
-                        //     //           textAlign: TextAlign.center,
-                        //     //         ),
-                        //     //       ),
-                        //     //     ),
-                        //     //   ],
-                        //     // ),
-                        //   ],
-                        // ),
-
-                        /// phone, location
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0),
-                          child: Row(
-                            children: [
-                              /// phone
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () => launchUrl('tel:+77028884580'),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: Style.orange,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '+7 702 888 45 80',
+                                child: Center(
+                                  child: Text('1 год',
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 14,
                                         fontWeight: FontWeight.w700,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
+                                        fontSize: 12,
+                                      )),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                            )
+                          ],
+                        ),
+                      ),
 
-                              /// location
-                              Expanded(
+                      /// main badge
+                      MainBadge(),
+
+                      /// rating
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Text(
+                      //       'Лидер месяца ',
+                      //       style: TextStyle(
+                      //         fontSize: 12,
+                      //         color: Style.orange,
+                      //       ),
+                      //     ),
+                      //     const SizedBox(width: 16),
+                      //     Icon(
+                      //       Icons.circle,
+                      //       color: Style.orange2,
+                      //       size: 5,
+                      //     ),
+                      //     const SizedBox(width: 16),
+                      //     RatingBar(
+                      //       initialRating: 5,
+                      //       direction: Axis.horizontal,
+                      //       allowHalfRating: false,
+                      //       itemCount: 5,
+                      //       ratingWidget: RatingWidget(
+                      //         full: Icon(
+                      //           LineIcons.starAlt,
+                      //           color: Style.orange,
+                      //         ),
+                      //         half: Icon(
+                      //           LineIcons.starAlt,
+                      //           color: Style.orange,
+                      //         ),
+                      //         empty: Icon(LineIcons.star),
+                      //       ),
+                      //       onRatingUpdate: (rating) {},
+                      //       itemSize: 16,
+                      //       ignoreGestures: true,
+                      //     ),
+                      //     // Stack(
+                      //     //   alignment: Alignment.center,
+                      //     //   children: [
+                      //     //     Align(
+                      //     //       alignment: Alignment.center,
+                      //     //       child: Image.asset(
+                      //     //         'assets/images/bubble_rect.png',
+                      //     //         height: 26,
+                      //     //         // width: 36,
+                      //     //       ),
+                      //     //     ),
+                      //     //     Align(
+                      //     //       alignment: Alignment.center,
+                      //     //       child: Padding(
+                      //     //         padding: const EdgeInsets.only(bottom: 1),
+                      //     //         child: Text(
+                      //     //           '4.2',
+                      //     //           style: TextStyle(
+                      //     //             color: Style.orange,
+                      //     //             fontSize: 12,
+                      //     //             fontWeight: FontWeight.w700,
+                      //     //           ),
+                      //     //           textAlign: TextAlign.center,
+                      //     //         ),
+                      //     //       ),
+                      //     //     ),
+                      //     //   ],
+                      //     // ),
+                      //   ],
+                      // ),
+
+                      /// phone, location
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0),
+                        child: Row(
+                          children: [
+                            /// phone
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => launchUrl('tel:+77028884580'),
                                 child: Container(
                                   alignment: Alignment.center,
                                   height: 35,
                                   decoration: BoxDecoration(
-                                    color: Colors.grey.shade100,
+                                    color: Style.orange,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
-                                    'г. Нур-Султан',
+                                    '+7 702 888 45 80',
                                     style: TextStyle(
+                                      color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -320,502 +298,526 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-
-                        /// statistics
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        //   child: Row(
-                        //     children: [
-                        //       Expanded(
-                        //         child: Column(
-                        //           children: [
-                        //             Icon(
-                        //               Icons.brightness_1,
-                        //               size: 8,
-                        //               color: Style.orange,
-                        //             ),
-                        //             Padding(
-                        //               padding: const EdgeInsets.symmetric(
-                        //                   vertical: 8.0),
-                        //               child: FittedBox(
-                        //                 child: Text(
-                        //                   'Сделки в этом месяце',
-                        //                   style: TextStyle(
-                        //                     color: Colors.grey,
-                        //                     fontSize: 12,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             Text(
-                        //               '7',
-                        //               style: TextStyle(
-                        //                 color: Style.orange,
-                        //                 fontSize: 16,
-                        //                 fontWeight: FontWeight.w700,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //       Container(
-                        //         height: 50,
-                        //         width: 1,
-                        //         color: Colors.grey.shade200,
-                        //       ),
-                        //       Expanded(
-                        //         child: Column(
-                        //           children: [
-                        //             Icon(
-                        //               Icons.brightness_1,
-                        //               size: 8,
-                        //               color: Style.orange,
-                        //             ),
-                        //             Padding(
-                        //               padding: const EdgeInsets.symmetric(
-                        //                   vertical: 8.0),
-                        //               child: FittedBox(
-                        //                 child: Text(
-                        //                   'Сделки за 2020 год',
-                        //                   style: TextStyle(
-                        //                     color: Colors.grey,
-                        //                     fontSize: 12,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             Text(
-                        //               '34',
-                        //               style: TextStyle(
-                        //                 color: Style.orange,
-                        //                 fontSize: 16,
-                        //                 fontWeight: FontWeight.w700,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-
-                        /// About me
-                        DottedHeaderTextWidget(text: 'О СЕБЕ'),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            'Более 5 лет опыта в сфере купли-продажи недвижимости по всему Казахстану, более 1000 благодарных клиентов и 200 постоянных клиентов. Специализируюсь на продажах многокомнатных квартир и домов элит класса',
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Divider(height: 0),
-
-                        /// Professionalism
-                        DottedHeaderTextWidget(
-                          text: 'ПРОФЕССИОНАЛИЗМ',
-                          tailWidget: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              HeaderStars(rating: 5),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/day_deal.png',
-                                    badgeName: 'Сделка\nза день',
-                                    count: 12),
-                              ),
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/communication_master.png',
-                                    badgeName: 'Мастер\nпереговоров',
-                                    count: 3),
-                              ),
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/best_rookie.png',
-                                    badgeName: 'Лучший\nновичок',
-                                    count: 1),
-                              ),
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/professional_costume.png',
-                                    badgeName: 'Костюм\nпрофессионала',
-                                    count: 9),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        DottedHeaderTextWidget(
-                          text: 'ОЦЕНКА КЛИЕНТОВ',
-                          tailWidget: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              HeaderStars(rating: 5),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/polezn_podborki.png',
-                                    badgeName: 'Полезные\nподборки',
-                                    count: 32),
-                              ),
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/vigod_prodazha.png',
-                                    badgeName: 'Выгодная\nпродажа',
-                                    count: 45),
-                              ),
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/friendly_expert.png',
-                                    badgeName: 'Дружелюбный\nэксперт',
-                                    count: 52),
-                              ),
-                              Expanded(
-                                child: CounterBadge(
-                                    iconAssetPath:
-                                        'assets/images/rate_agent_icon/ideal.png',
-                                    badgeName: 'Идеальное\nсопровождение',
-                                    count: 40),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Divider(height: 0),
-
-                        // /// birthday
-                        // Container(
-                        //   width: double.infinity,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.grey.shade100,
-                        //     borderRadius: BorderRadius.circular(4),
-                        //   ),
-                        //   padding: const EdgeInsets.symmetric(
-                        //       horizontal: 36, vertical: 16),
-                        //   margin: const EdgeInsets.symmetric(horizontal: 16),
-                        //   child: RichText(
-                        //     text: TextSpan(
-                        //       text: 'Дата рождения: ',
-                        //       style: TextStyle(
-                        //         color: Colors.black54,
-                        //         fontFamily: 'HelveticaNeueCyr',
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w400,
-                        //       ),
-                        //       children: [
-                        //         TextSpan(
-                        //           text:
-                        //               '${DateFormat('dd.MM.yyyy').format(DateTime(1994, 8, 6))}',
-                        //           style: TextStyle(
-                        //             color: Colors.black87,
-                        //             fontWeight: FontWeight.w500,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-
-                        // /// email
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                        //   child: Container(
-                        //     width: double.infinity,
-                        //     decoration: BoxDecoration(
-                        //       color: Colors.grey.shade100,
-                        //       borderRadius: BorderRadius.circular(4),
-                        //     ),
-                        //     padding: const EdgeInsets.symmetric(
-                        //         horizontal: 36, vertical: 16),
-                        //     margin: const EdgeInsets.symmetric(horizontal: 16),
-                        //     child: RichText(
-                        //       text: TextSpan(
-                        //         text: 'Email: ',
-                        //         style: TextStyle(
-                        //           color: Colors.black54,
-                        //           fontFamily: 'HelveticaNeueCyr',
-                        //           fontSize: 12,
-                        //           fontWeight: FontWeight.w400,
-                        //         ),
-                        //         children: [
-                        //           TextSpan(
-                        //             text: 'zamzagul@gmail.com',
-                        //             style: TextStyle(
-                        //               color: Colors.black87,
-                        //               fontWeight: FontWeight.w500,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-
-                        /// reviews
-                        DottedHeaderTextWidget(
-                          text: 'ОТЗЫВЫ',
-                          tailWidget: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromRGBO(196, 196, 196, 1.0),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text('${REVIEWS.length}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                      )),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                        //   child: PageView.builder(
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: REVIEWS.length,
-                        //     controller: PageController(
-                        //       initialPage: 0,
-                        //       viewportFraction: 1,
-                        //     ),
-                        //     itemBuilder: (context, index) {
-                        //       return ConstrainedBox(
-                        //         constraints: BoxConstraints(
-                        //             minWidth: 70,
-                        //             minHeight: 70,
-                        //             maxWidth: 150,
-                        //             maxHeight: 150),
-                        //         child: Container(
-                        //           padding: const EdgeInsets.symmetric(
-                        //               vertical: 10, horizontal: 10),
-                        //           decoration: BoxDecoration(
-                        //             color: const Color.fromRGBO(
-                        //                 247, 247, 247, 1.0),
-                        //             borderRadius: BorderRadius.circular(10),
-                        //           ),
-                        //           child: Column(
-                        //             mainAxisSize: MainAxisSize.min,
-                        //             children: [
-                        //               Row(
-                        //                 children: [
-                        //                   /// review
-                        //                   Text(
-                        //                     REVIEWS[index]['text'],
-                        //                     style: TextStyle(
-                        //                       fontSize: 14,
-                        //                       fontWeight: FontWeight.w500,
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               Row(
-                        //                 mainAxisAlignment:
-                        //                     MainAxisAlignment.end,
-                        //                 children: [
-                        //                   /// reviewer name
-                        //                   Text(
-                        //                     REVIEWS[index]['name'],
-                        //                     style: TextStyle(
-                        //                       fontSize: 14,
-                        //                       fontWeight: FontWeight.w500,
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-
-                        /// adverts
-                        DottedHeaderTextWidget(
-                          text: 'МОИ ОБЪЕКТЫ',
-                          tailWidget: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromRGBO(196, 196, 196, 1.0),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text('${ADVERTS.length}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                      )),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                          visible: _showAllAdverts,
-
-                          /// show 2 adverts
-                          child: Container(
-                            height: 350.0,
-                            child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 5 / 9,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 0,
-                              ),
-                              itemBuilder: (context, index) {
-                                final advert = ADVERTS[index];
-                                return AdvertCardNew(
-                                    advert: advert, index: index);
-                                // return AdvertCard(advert: advert);
-                              },
-                              itemCount: 2,
                             ),
-                          ),
+                            const SizedBox(width: 8),
 
-                          /// show all adverts list
-                          replacement: Container(
-                            height: 450.0,
-                            child: GridView.builder(
-                              primary: false,
-                              shrinkWrap: true,
-                              // physics: const ClampingScrollPhysics(),
-                              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 5 / 9,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 0,
-                              ),
-                              itemBuilder: (context, index) {
-                                final advert = ADVERTS[index];
-                                return AdvertCardNew(
-                                    advert: advert, index: index);
-                                // return AdvertCard(advert: advert);
-                              },
-                              itemCount: ADVERTS.length,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-
-                        /// show all adverts toggle
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                _showAllAdverts = !_showAllAdverts;
-                              });
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 20,
+                            /// location
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  'г. Нур-Султан',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  Text(
-                                    'Показать все заявки',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// statistics
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: Column(
+                      //           children: [
+                      //             Icon(
+                      //               Icons.brightness_1,
+                      //               size: 8,
+                      //               color: Style.orange,
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.symmetric(
+                      //                   vertical: 8.0),
+                      //               child: FittedBox(
+                      //                 child: Text(
+                      //                   'Сделки в этом месяце',
+                      //                   style: TextStyle(
+                      //                     color: Colors.grey,
+                      //                     fontSize: 12,
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Text(
+                      //               '7',
+                      //               style: TextStyle(
+                      //                 color: Style.orange,
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.w700,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       Container(
+                      //         height: 50,
+                      //         width: 1,
+                      //         color: Colors.grey.shade200,
+                      //       ),
+                      //       Expanded(
+                      //         child: Column(
+                      //           children: [
+                      //             Icon(
+                      //               Icons.brightness_1,
+                      //               size: 8,
+                      //               color: Style.orange,
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.symmetric(
+                      //                   vertical: 8.0),
+                      //               child: FittedBox(
+                      //                 child: Text(
+                      //                   'Сделки за 2020 год',
+                      //                   style: TextStyle(
+                      //                     color: Colors.grey,
+                      //                     fontSize: 12,
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Text(
+                      //               '34',
+                      //               style: TextStyle(
+                      //                 color: Style.orange,
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.w700,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+
+                      /// About me
+                      DottedHeaderTextWidget(text: 'О СЕБЕ'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          'Более 5 лет опыта в сфере купли-продажи недвижимости по всему Казахстану, более 1000 благодарных клиентов и 200 постоянных клиентов. Специализируюсь на продажах многокомнатных квартир и домов элит класса',
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Divider(height: 0),
+
+                      /// Professionalism
+                      DottedHeaderTextWidget(
+                        text: 'ПРОФЕССИОНАЛИЗМ',
+                        tailWidget: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            HeaderStars(rating: 5),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/day_deal.png',
+                                  badgeName: 'Сделка\nза день',
+                                  count: 12),
+                            ),
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/communication_master.png',
+                                  badgeName: 'Мастер\nпереговоров',
+                                  count: 3),
+                            ),
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/best_rookie.png',
+                                  badgeName: 'Лучший\nновичок',
+                                  count: 1),
+                            ),
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/professional_costume.png',
+                                  badgeName: 'Костюм\nпрофессионала',
+                                  count: 9),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      DottedHeaderTextWidget(
+                        text: 'ОЦЕНКА КЛИЕНТОВ',
+                        tailWidget: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            HeaderStars(rating: 5),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/polezn_podborki.png',
+                                  badgeName: 'Полезные\nподборки',
+                                  count: 32),
+                            ),
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/vigod_prodazha.png',
+                                  badgeName: 'Выгодная\nпродажа',
+                                  count: 45),
+                            ),
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/friendly_expert.png',
+                                  badgeName: 'Дружелюбный\nэксперт',
+                                  count: 52),
+                            ),
+                            Expanded(
+                              child: CounterBadge(
+                                  iconAssetPath:
+                                      'assets/images/rate_agent_icon/ideal.png',
+                                  badgeName: 'Идеальное\nсопровождение',
+                                  count: 40),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Divider(height: 0),
+
+                      // /// birthday
+                      // Container(
+                      //   width: double.infinity,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.grey.shade100,
+                      //     borderRadius: BorderRadius.circular(4),
+                      //   ),
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 36, vertical: 16),
+                      //   margin: const EdgeInsets.symmetric(horizontal: 16),
+                      //   child: RichText(
+                      //     text: TextSpan(
+                      //       text: 'Дата рождения: ',
+                      //       style: TextStyle(
+                      //         color: Colors.black54,
+                      //         fontFamily: 'HelveticaNeueCyr',
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w400,
+                      //       ),
+                      //       children: [
+                      //         TextSpan(
+                      //           text:
+                      //               '${DateFormat('dd.MM.yyyy').format(DateTime(1994, 8, 6))}',
+                      //           style: TextStyle(
+                      //             color: Colors.black87,
+                      //             fontWeight: FontWeight.w500,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+
+                      // /// email
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                      //   child: Container(
+                      //     width: double.infinity,
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.grey.shade100,
+                      //       borderRadius: BorderRadius.circular(4),
+                      //     ),
+                      //     padding: const EdgeInsets.symmetric(
+                      //         horizontal: 36, vertical: 16),
+                      //     margin: const EdgeInsets.symmetric(horizontal: 16),
+                      //     child: RichText(
+                      //       text: TextSpan(
+                      //         text: 'Email: ',
+                      //         style: TextStyle(
+                      //           color: Colors.black54,
+                      //           fontFamily: 'HelveticaNeueCyr',
+                      //           fontSize: 12,
+                      //           fontWeight: FontWeight.w400,
+                      //         ),
+                      //         children: [
+                      //           TextSpan(
+                      //             text: 'zamzagul@gmail.com',
+                      //             style: TextStyle(
+                      //               color: Colors.black87,
+                      //               fontWeight: FontWeight.w500,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
+                      /// reviews
+                      DottedHeaderTextWidget(
+                        text: 'ОТЗЫВЫ',
+                        tailWidget: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(196, 196, 196, 1.0),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Text('${REVIEWS.length}',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 12,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Icon(
-                                    _showAllAdverts
-                                        ? LineIcons.angleDown
-                                        : LineIcons.angleUp,
-                                    size: 16,
-                                  ),
-                                ],
+                                      fontSize: 12,
+                                    )),
                               ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => _pageController.previousPage(
+                                  duration: _kDuration,
+                                  curve: _kCurve,
+                                ),
+                                child: Icon(Icons.arrow_back_rounded, size: 20),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromRGBO(
+                                        247, 247, 247, 1.0),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: PageView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: REVIEWS.length,
+                                    controller: _pageController,
+                                    itemBuilder: (context, index) {
+                                      return ListView(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        children: [
+                                          Text(
+                                            REVIEWS[index]['text'],
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            REVIEWS[index]['name'],
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: () => _pageController.nextPage(
+                                  duration: _kDuration,
+                                  curve: _kCurve,
+                                ),
+                                child:
+                                    Icon(Icons.arrow_forward_rounded, size: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      /// adverts
+                      DottedHeaderTextWidget(
+                        text: 'МОИ ОБЪЕКТЫ',
+                        tailWidget: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(196, 196, 196, 1.0),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Text('${ADVERTS.length}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                    )),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: _showAllAdverts,
+
+                        /// show 2 adverts
+                        child: Container(
+                          height: 350.0,
+                          child: GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 5 / 9,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 0,
+                            ),
+                            itemBuilder: (context, index) {
+                              final advert = ADVERTS[index];
+                              return AdvertCardNew(
+                                  advert: advert, index: index);
+                              // return AdvertCard(advert: advert);
+                            },
+                            itemCount: 2,
+                          ),
+                        ),
+
+                        /// show all adverts list
+                        replacement: Expanded(
+                          child: GridView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            // physics: const ClampingScrollPhysics(),
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 5 / 9,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 0,
+                            ),
+                            itemBuilder: (context, index) {
+                              final advert = ADVERTS[index];
+                              return AdvertCardNew(
+                                  advert: advert, index: index);
+                              // return AdvertCard(advert: advert);
+                            },
+                            itemCount: ADVERTS.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      /// show all adverts toggle
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 0),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _showAllAdverts = !_showAllAdverts;
+                            });
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'Показать все заявки',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Icon(
+                                  _showAllAdverts
+                                      ? LineIcons.angleDown
+                                      : LineIcons.angleUp,
+                                  size: 16,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
 
-                        /// edit button
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(16, 16, 16, 56),
-                        //   child: ElevatedButton(
-                        //     onPressed: () {},
-                        //     child: Text(
-                        //       'Редактировать',
-                        //       style: TextStyle(
-                        //         color: Colors.white,
-                        //         fontSize: 12,
-                        //         fontWeight: FontWeight.w500,
-                        //       ),
-                        //     ),
-                        //     style: ElevatedButton.styleFrom(
-                        //       primary: Style.blue,
-                        //       elevation: 0,
-                        //       shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(4),
-                        //       ),
-                        //       padding: const EdgeInsets.symmetric(horizontal: 50),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                      /// edit button
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(16, 16, 16, 56),
+                      //   child: ElevatedButton(
+                      //     onPressed: () {},
+                      //     child: Text(
+                      //       'Редактировать',
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 12,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //     ),
+                      //     style: ElevatedButton.styleFrom(
+                      //       primary: Style.blue,
+                      //       elevation: 0,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(4),
+                      //       ),
+                      //       padding: const EdgeInsets.symmetric(horizontal: 50),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
               ],

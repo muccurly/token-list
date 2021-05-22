@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:jurta/screens/advert_details.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:jurta/screens/search_result.dart';
 import 'package:jurta/utils/custom_icons_icons.dart';
 import 'package:jurta/utils/utils.dart';
@@ -618,20 +618,18 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                                   duration: _kDuration,
                                   curve: _kCurve,
                                 ),
-                                child: Icon(Icons.arrow_back_rounded, size: 20),
+                                child: Icon(LineIcons.angleLeft, size: 24),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.all(16),
-                                  height: 100,
                                   decoration: BoxDecoration(
                                     color: const Color.fromRGBO(
                                         247, 247, 247, 1.0),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: PageView.builder(
-                                    scrollDirection: Axis.horizontal,
+                                  child: ExpandablePageView(
                                     itemCount: REVIEWS.length,
                                     controller: _pageController,
                                     itemBuilder: (context, index) {
@@ -660,14 +658,13 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 8),
                               GestureDetector(
                                 onTap: () => _pageController.nextPage(
                                   duration: _kDuration,
                                   curve: _kCurve,
                                 ),
-                                child:
-                                    Icon(Icons.arrow_forward_rounded, size: 20),
+                                child: Icon(LineIcons.angleRight, size: 24),
                               ),
                             ],
                           ),
@@ -728,27 +725,24 @@ class _ProfileAgentScreenState extends State<ProfileAgentScreen> {
                         ),
 
                         /// show all adverts list
-                        replacement: Expanded(
-                          child: GridView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            // physics: const ClampingScrollPhysics(),
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 5 / 9,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 0,
-                            ),
-                            itemBuilder: (context, index) {
-                              final advert = ADVERTS[index];
-                              return AdvertCardNew(
-                                  advert: advert, index: index);
-                              // return AdvertCard(advert: advert);
-                            },
-                            itemCount: ADVERTS.length,
+                        replacement: GridView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 5 / 9,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 0,
                           ),
+                          itemBuilder: (context, index) {
+                            final advert = ADVERTS[index];
+                            return AdvertCardNew(advert: advert, index: index);
+                            // return AdvertCard(advert: advert);
+                          },
+                          itemCount: ADVERTS.length,
                         ),
                       ),
                       const SizedBox(height: 8),

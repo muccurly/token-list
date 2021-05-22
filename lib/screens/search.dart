@@ -1897,7 +1897,10 @@ void showSaveSearchDialog(BuildContext context) {
               Container(
                 width: Global.getSize(c).width / 1.5,
                 child: ElevatedButton(
-                  onPressed: () => showSaveSearchSuccessDialog(context),
+                  onPressed: () async {
+                    await showSaveSearchSuccessDialog(context);
+                    Navigator.pop(c);
+                  },
                   child: FittedBox(
                     child: Text(
                       'СОХРАНИТЬ',
@@ -1926,8 +1929,8 @@ void showSaveSearchDialog(BuildContext context) {
   );
 }
 
-void showSaveSearchSuccessDialog(BuildContext context) {
-  showDialog(
+Future<void> showSaveSearchSuccessDialog(BuildContext context) async {
+  await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (c) {

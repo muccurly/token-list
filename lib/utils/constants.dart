@@ -174,6 +174,20 @@ List<Map<String, dynamic>> SPECIALISTS = [
   },
 ];
 
+Map<String, dynamic> CLIENT_PROFILE = {
+  'id': 3,
+  'name': 'Дюсуп',
+  'last_name': 'Замзагуль',
+  'patronymic_name': 'Алибековна',
+  'imagePath': 'assets/images/specialist1.png',
+  'imageUrl':
+      'https://images.unsplash.com/photo-1527585743534-7113e3211270?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=100&q=80',
+  'email': 'astana@gmail.com',
+  'city': 'Нур-Султан',
+  'phone': '+77771234567',
+  'birth_date': DateTime.now().subtract(Duration(days: 365 * 30)),
+};
+
 List<Map<String, dynamic>> NOTIFICATIONS = [
   {
     'id': 1,

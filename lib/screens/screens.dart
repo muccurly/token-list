@@ -25,3 +25,4 @@ export 'rieltor_frilancer3.dart';
 export 'rieltor_frilancer7.dart';
 export 'update.dart';
 export 'contact_us.dart';
+export 'profile_client.dart';

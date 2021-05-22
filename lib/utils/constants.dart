@@ -176,7 +176,7 @@ List<Map<String, dynamic>> SPECIALISTS = [
 
 Map<String, dynamic> CLIENT_PROFILE = {
   'id': 3,
-  'name': 'Дюсуп',
+  'first_name': 'Дюсуп',
   'last_name': 'Замзагуль',
   'patronymic_name': 'Алибековна',
   'imagePath': 'assets/images/specialist1.png',

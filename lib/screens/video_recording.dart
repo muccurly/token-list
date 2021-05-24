@@ -200,12 +200,13 @@ void showUploadConfirmNameDialog(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(width: 30),
+              const SizedBox(height: 30),
               Row(children: [HeadersTextWidget(text: 'Имя')]),
               InputWidget(
                 controller: _nameC,
                 inputType: TextInputType.name,
               ),
+              const SizedBox(height: 20),
               Row(children: [HeadersTextWidget(text: 'Контакты')]),
               InputWidget(
                 controller: _phoneC,
@@ -223,7 +224,7 @@ void showUploadConfirmNameDialog(
                 // ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
                 child: Container(
                   height: 46,
                   width: Global.getSize(context).width,

@@ -11,8 +11,9 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 class LeaveContactsScreen extends StatefulWidget {
   static const String route = 'leave_contacts';
   int isPage = 1;
+  final Map<String, dynamic> advert;
   //1 - Advert Details 2 - is Оставить заявку
-  LeaveContactsScreen({@required this.isPage});
+  LeaveContactsScreen({@required this.isPage, this.advert});
   @override
   _LeaveContactsScreenState createState() => _LeaveContactsScreenState();
 }
@@ -110,7 +111,10 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                       if (widget.isPage == 1) {
                         // Navigator.pop(context, true);
                         pushNewScreen(context,
-                            screen: RulesScreen(), withNavBar: false);
+                            screen: RulesScreen(
+                              advert: widget.advert,
+                            ),
+                            withNavBar: false);
                       } else if (widget.isPage == 2) {
                         pushNewScreen(context,
                             screen: RieltorFrilancer7(), withNavBar: true);

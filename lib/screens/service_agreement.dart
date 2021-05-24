@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jurta/screens/advert_details.dart';
 import 'package:jurta/screens/booking_form.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:jurta/widgets/rules_checkbox.dart';
@@ -7,6 +8,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 /*Страница Ознакомьтесь с правилами*/
 class ServiceAgreementScreen extends StatefulWidget {
+  final Map<String, dynamic> advert;
+  ServiceAgreementScreen({this.advert});
   @override
   _ServiceAgreementScreenState createState() => _ServiceAgreementScreenState();
 }
@@ -78,9 +81,20 @@ class _ServiceAgreementScreenState extends State<ServiceAgreementScreen> {
               height: 46,
               width: Global.getSize(context).width,
               child: ElevatedButton(
-                onPressed: () {
-                  pushNewScreen(context, screen: BookingFormScreen());
-                },
+                onPressed: _readRules
+                    ? () {
+                        pushNewScreenWithRouteSettings(
+                          context,
+                          screen: AdvertDetailsScreen(),
+                          settings: RouteSettings(
+                            name: AdvertDetailsScreen.route,
+                            arguments: widget.advert,
+                          ),
+                          withNavBar: true,
+                        );
+                        showRequestConfirmationDialog(context);
+                      }
+                    : null,
                 child: Text(
                   'Далее',
                   style: TextStyle(

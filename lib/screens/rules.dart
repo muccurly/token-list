@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jurta/screens/service_agreement.dart';
+import 'package:jurta/screens/booking_form.dart';
 
 import 'package:jurta/utils/utils.dart';
 
@@ -9,6 +9,9 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 /*Страница Ознакомьтесь с правилами*/
 class RulesScreen extends StatefulWidget {
+  final Map<String, dynamic> advert;
+  RulesScreen({this.advert});
+
   @override
   _RulesScreenState createState() => _RulesScreenState();
 }
@@ -75,9 +78,14 @@ class _RulesScreenState extends State<RulesScreen> {
               height: 46,
               width: Global.getSize(context).width,
               child: ElevatedButton(
-                onPressed: () {
-                  pushNewScreen(context, screen: ServiceAgreementScreen());
-                },
+                onPressed: _readRules
+                    ? () {
+                        pushNewScreen(context,
+                            screen: BookingFormScreen(
+                              advert: widget.advert,
+                            ));
+                      }
+                    : null,
                 child: Text(
                   'Далее',
                   style: TextStyle(

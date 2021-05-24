@@ -3,12 +3,13 @@ import 'package:jurta/screens/rate_agent_new.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:flutter/services.dart';
-
+import 'package:jurta/screens/service_agreement.dart';
 import 'package:jurta/widgets/form_tile.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BookingFormScreen extends StatefulWidget {
-  BookingFormScreen({Key key}) : super(key: key);
+  final Map<String, dynamic> advert;
+  BookingFormScreen({Key key, this.advert}) : super(key: key);
 
   @override
   _BookingFormScreenState createState() => _BookingFormScreenState();
@@ -84,7 +85,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _surnameC,
               title: 'ФАМИЛИЯ',
-              hintText: 'ФАМИЛИЯ',
+              // hintText: 'ФАМИЛИЯ',
               keyboardType: TextInputType.name,
             ),
 
@@ -92,7 +93,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _nameC,
               title: 'ИМЯ',
-              hintText: 'ИМЯ',
+              // hintText: 'ИМЯ',
               keyboardType: TextInputType.name,
             ),
 
@@ -100,7 +101,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _patronymicC,
               title: 'Адрес',
-              hintText: 'ОТЧЕСТВО',
+              // hintText: 'ОТЧЕСТВО',
               keyboardType: TextInputType.name,
             ),
 
@@ -108,7 +109,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _iinC,
               title: 'ИИН',
-              hintText: '903227334432',
+              // hintText: '903227334432',
               keyboardType: TextInputType.number,
               textInputFormatters: NUMERIC_FORMATTER,
             ),
@@ -123,7 +124,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                   child: FormTile(
                     controller: _docNumberC,
                     title: '№ ДОКУМЕНТА',
-                    hintText: '1234567',
+                    // hintText: '1234567',
                     keyboardType: TextInputType.number,
                     textInputFormatters: NUMERIC_FORMATTER,
                   ),
@@ -136,7 +137,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                   child: FormTile(
                     controller: _docDateC,
                     title: 'ОТ',
-                    hintText: '18.05.1995',
+                    // hintText: '18.05.1995',
                     keyboardType: TextInputType.datetime,
                   ),
                 ),
@@ -148,7 +149,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                   child: FormTile(
                     controller: _docOrgC,
                     title: 'ВЫДАН',
-                    hintText: 'МВД РК',
+                    // hintText: 'МВД РК',
                     keyboardType: TextInputType.name,
                   ),
                 ),
@@ -159,7 +160,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _addressC,
               title: 'АДРЕС',
-              hintText: 'г. Нур-Султан, ул. Сауран 23, кв 55',
+              // hintText: 'г. Нур-Султан, ул. Сауран 23, кв 55',
               keyboardType: TextInputType.streetAddress,
             ),
 
@@ -176,7 +177,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _bookAmountC,
               title: 'СУММА БРОНИРОВАНИЯ',
-              hintText: '100 000',
+              // hintText: '100 000',
               keyboardType: TextInputType.number,
               textInputFormatters: MONEY_FORMATTER,
             ),
@@ -215,7 +216,10 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   //Navigator.pop(context, true);
-                  showRequestConfirmationDialog(context);
+                  pushNewScreen(context,
+                      screen: ServiceAgreementScreen(
+                        advert: widget.advert,
+                      ));
                   //pushNewScreen(context, screen: RateAgentNewScreen());
                 },
                 child: Text(

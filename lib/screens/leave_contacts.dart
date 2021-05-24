@@ -102,7 +102,8 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
                     if (widget.isPage == 1) {
                       // Navigator.pop(context, true);
                       pushNewScreen(context,
-                          screen: RulesScreen(), withNavBar: false);
+                          screen: RulesScreen(advert: widget.advert),
+                          withNavBar: false);
                     } else if (widget.isPage == 2) {
                       pushNewScreen(context,
                           screen: RieltorFrilancer7(), withNavBar: true);

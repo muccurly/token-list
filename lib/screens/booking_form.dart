@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jurta/screens/rate_agent_new.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:jurta/screens/service_agreement.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:flutter/services.dart';
 import 'package:jurta/screens/service_agreement.dart';
@@ -100,8 +101,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             /// patronymic
             FormTile(
               controller: _patronymicC,
-              title: 'Адрес',
-              // hintText: 'ОТЧЕСТВО',
+              title: 'ОТЧЕСТВО',
+              //  hintText: 'ОТЧЕСТВО',
               keyboardType: TextInputType.name,
             ),
 
@@ -109,7 +110,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _iinC,
               title: 'ИИН',
-              // hintText: '903227334432',
+              //  hintText: '903227334432',
               keyboardType: TextInputType.number,
               textInputFormatters: NUMERIC_FORMATTER,
             ),
@@ -124,7 +125,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                   child: FormTile(
                     controller: _docNumberC,
                     title: '№ ДОКУМЕНТА',
-                    // hintText: '1234567',
+                    //  hintText: '1234567',
                     keyboardType: TextInputType.number,
                     textInputFormatters: NUMERIC_FORMATTER,
                   ),
@@ -149,7 +150,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                   child: FormTile(
                     controller: _docOrgC,
                     title: 'ВЫДАН',
-                    // hintText: 'МВД РК',
+                    //  hintText: 'МВД РК',
                     keyboardType: TextInputType.name,
                   ),
                 ),
@@ -160,7 +161,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _addressC,
               title: 'АДРЕС',
-              // hintText: 'г. Нур-Султан, ул. Сауран 23, кв 55',
+              //   hintText: 'г. Нур-Султан, ул. Сауран 23, кв 55',
               keyboardType: TextInputType.streetAddress,
             ),
 
@@ -177,7 +178,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             FormTile(
               controller: _bookAmountC,
               title: 'СУММА БРОНИРОВАНИЯ',
-              // hintText: '100 000',
+
+              /// hintText: '100 000',
               keyboardType: TextInputType.number,
               textInputFormatters: MONEY_FORMATTER,
             ),
@@ -215,6 +217,10 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
               width: Global.getSize(context).width,
               child: ElevatedButton(
                 onPressed: () {
+                  pushNewScreen(context,
+                      screen: ServiceAgreementScreen(
+                        advert: widget.advert,
+                      ));
                   //Navigator.pop(context, true);
                   pushNewScreen(context,
                       screen: ServiceAgreementScreen(

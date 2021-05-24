@@ -9,7 +9,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 /*Страница Ознакомьтесь с правилами*/
 class ServiceAgreementScreen extends StatefulWidget {
   final Map<String, dynamic> advert;
-  ServiceAgreementScreen({this.advert});
+  ServiceAgreementScreen({@required this.advert});
+
   @override
   _ServiceAgreementScreenState createState() => _ServiceAgreementScreenState();
 }

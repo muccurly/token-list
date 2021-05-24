@@ -10,7 +10,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 /*Страница Ознакомьтесь с правилами*/
 class RulesScreen extends StatefulWidget {
   final Map<String, dynamic> advert;
-  RulesScreen({this.advert});
+  RulesScreen({@required this.advert});
 
   @override
   _RulesScreenState createState() => _RulesScreenState();

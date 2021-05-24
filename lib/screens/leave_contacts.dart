@@ -10,8 +10,9 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 class LeaveContactsScreen extends StatefulWidget {
   static const String route = 'leave_contacts';
   int isPage = 1;
+  final Map<String, dynamic> advert;
   //1 - Advert Details 2 - is Оставить заявку
-  LeaveContactsScreen({@required this.isPage});
+  LeaveContactsScreen({@required this.isPage, this.advert});
   @override
   _LeaveContactsScreenState createState() => _LeaveContactsScreenState();
 }

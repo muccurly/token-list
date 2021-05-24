@@ -338,7 +338,10 @@ class BookWidget extends StatelessWidget {
               final res = await showGeneralDialog(
                 context: context,
                 pageBuilder: (c, _, __) {
-                  return LeaveContactsScreen(isPage: 1);
+                  return LeaveContactsScreen(
+                    isPage: 1,
+                    advert: advert,
+                  );
                 },
               );
 

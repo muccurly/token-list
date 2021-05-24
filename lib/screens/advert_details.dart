@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:jurta/screens/screens.dart';
+import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -20,6 +22,15 @@ class AdvertDetailsScreen extends StatefulWidget {
 
 class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
   final GlobalKey<ScaffoldState> _sKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _nameC = TextEditingController();
+  final TextEditingController _phoneC = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameC.dispose();
+    _phoneC.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +117,10 @@ class _AdvertDetailsScreenState extends State<AdvertDetailsScreen> {
             const SizedBox(height: 16),
 
             /// call buttons
-            CallBookButtonsWidget(advert: advert),
+            CallBookButtonsWidget(
+                advert: advert,
+                nameTextController: _nameC,
+                phoneTextController: _phoneC),
             const SizedBox(height: 16),
 
             /// description
@@ -1260,12 +1274,16 @@ class TableFirstColumnWidget extends StatelessWidget {
 }
 
 class CallBookButtonsWidget extends StatelessWidget {
+  final TextEditingController nameTextController;
+  final TextEditingController phoneTextController;
+  final Map<String, dynamic> advert;
+
   const CallBookButtonsWidget({
     Key key,
     @required this.advert,
+    @required this.nameTextController,
+    @required this.phoneTextController,
   }) : super(key: key);
-
-  final Map<String, dynamic> advert;
 
   @override
   Widget build(BuildContext context) {
@@ -1303,7 +1321,8 @@ class CallBookButtonsWidget extends StatelessWidget {
               height: 35,
               child: ElevatedButton(
                 onPressed: () {
-                  showBookDialog(context);
+                  showBookDialog(
+                      context, nameTextController, phoneTextController);
                   // pushNewScreenWithRouteSettings(
                   //   context,
                   //   screen: BookScreen(),
@@ -1484,9 +1503,10 @@ class _MainInfoWidgetState extends State<MainInfoWidget> {
                     onTap: () {
                       setState(() {
                         widget.advert['is_fav'] = !widget.advert['is_fav'];
-                        widget.advert['is_fav']
-                            ? widget.advert['like_count']++
-                            : widget.advert['like_count']--;
+
+                        // TODO: check on backend for the previous like status
+                        if (widget.advert['is_fav'])
+                          widget.advert['like_count']++;
                       });
                     },
                     child: widget.advert['is_fav']
@@ -1784,7 +1804,10 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
   }
 }
 
-Future<void> showBookDialog(BuildContext context) async {
+Future<void> showBookDialog(
+    BuildContext context,
+    TextEditingController nameController,
+    TextEditingController phoneController) async {
   final res = await showGeneralDialog(
     context: context,
     pageBuilder: (c, _, __) {
@@ -1794,6 +1817,10 @@ Future<void> showBookDialog(BuildContext context) async {
   );
 
   if (res != null && res is DateTime) {
+    /// leave contacts
+    await showUploadConfirmNameDialog(context, nameController, phoneController,
+        redirectRieltor: false);
+
     /// show confirmation dialog
     showDialog(
       context: context,
@@ -1857,6 +1884,8 @@ Future<void> showBookDialog(BuildContext context) async {
         );
       },
     );
+
+    context.read(hideBottomTabProvider).state = false;
   }
 }
 

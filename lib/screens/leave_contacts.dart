@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jurta/screens/rules.dart';
 import 'package:jurta/screens/screens.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:jurta/utils/global.dart';
 import 'package:jurta/utils/style.dart';
 import 'package:jurta/utils/utils.dart';
@@ -19,15 +18,8 @@ class LeaveContactsScreen extends StatefulWidget {
 }
 
 class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
-  TextEditingController _phoneC;
-  TextEditingController _nameC;
-
-  @override
-  void initState() {
-    super.initState();
-    _phoneC = TextEditingController();
-    _nameC = TextEditingController();
-  }
+  final TextEditingController _phoneC = TextEditingController();
+  final TextEditingController _nameC = TextEditingController();
 
   @override
   void dispose() {
@@ -57,90 +49,86 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
         titleSpacing: 0,
         centerTitle: false,
       ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                'Как к Вам обращаться?',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 16),
+            Text(
+              'Как к Вам обращаться?',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 300,
+                maxWidth: 300,
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 300,
-                  maxWidth: 300,
-                ),
-                child: Image.asset(
-                  'assets/images/secure_data_pana.png',
-                  // Global.getSize(context).height,
-                  //Global.getSize(context).width,
-                ),
+              child: Image.asset(
+                'assets/images/secure_data_pana.png',
+                // Global.getSize(context).height,
+                //Global.getSize(context).width,
               ),
-              Row(children: [HeadersTextWidget(text: 'Имя')]),
-              InputWidget(
-                controller: _nameC,
-                inputType: TextInputType.name,
+            ),
+            Row(children: [HeadersTextWidget(text: 'Имя')]),
+            InputWidget(
+              controller: _nameC,
+              inputType: TextInputType.name,
+            ),
+            const SizedBox(height: 20),
+            Row(children: [HeadersTextWidget(text: 'Контакты')]),
+            InputWidget(
+              controller: _phoneC,
+              hintText: '+7 (___) ___-__-__',
+              hintStyle: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 13,
               ),
-              const SizedBox(height: 24),
-              Row(children: [HeadersTextWidget(text: 'Контакты')]),
-              InputWidget(
-                controller: _phoneC,
-                hintText: '+7 (___) ___-__-__',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade500,
-                  fontSize: 13,
-                ),
-                textInputFormatters: PHONE_FORMATTER,
-                inputType: TextInputType.phone,
-                // hintText: '+7 (---) --- -- --',
-                // hintStyle: TextStyle(
-                //   color: Colors.grey.shade300,
-                //   fontSize: 11,
-                // ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Container(
-                  height: 46,
-                  width: Global.getSize(context).width,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      log(widget.isPage);
-                      if (widget.isPage == 1) {
-                        // Navigator.pop(context, true);
-                        pushNewScreen(context,
-                            screen: RulesScreen(
-                              advert: widget.advert,
-                            ),
-                            withNavBar: false);
-                      } else if (widget.isPage == 2) {
-                        pushNewScreen(context,
-                            screen: RieltorFrilancer7(), withNavBar: true);
-                      }
-                    },
-                    child: Text(
-                      'СОХРАНИТЬ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                      ),
+              textInputFormatters: PHONE_FORMATTER,
+              inputType: TextInputType.phone,
+              // hintText: '+7 (---) --- -- --',
+              // hintStyle: TextStyle(
+              //   color: Colors.grey.shade300,
+              //   fontSize: 11,
+              // ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+              child: Container(
+                height: 46,
+                width: Global.getSize(context).width,
+                child: ElevatedButton(
+                  onPressed: () {
+                    log(widget.isPage);
+                    if (widget.isPage == 1) {
+                      // Navigator.pop(context, true);
+                      pushNewScreen(context,
+                          screen: RulesScreen(advert: widget.advert),
+                          withNavBar: false);
+                    } else if (widget.isPage == 2) {
+                      pushNewScreen(context,
+                          screen: RieltorFrilancer7(), withNavBar: true);
+                    }
+                  },
+                  child: Text(
+                    'СОХРАНИТЬ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
                     ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Style.blue,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.blue,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
                     ),
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

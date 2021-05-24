@@ -4,7 +4,7 @@ import 'package:jurta/screens/screens.dart';
 import 'package:jurta/screens/service_agreement.dart';
 import 'package:jurta/utils/utils.dart';
 import 'package:flutter/services.dart';
-
+import 'package:jurta/screens/service_agreement.dart';
 import 'package:jurta/widgets/form_tile.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -222,7 +222,10 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                         advert: widget.advert,
                       ));
                   //Navigator.pop(context, true);
-
+                  pushNewScreen(context,
+                      screen: ServiceAgreementScreen(
+                        advert: widget.advert,
+                      ));
                   //pushNewScreen(context, screen: RateAgentNewScreen());
                 },
                 child: Text(

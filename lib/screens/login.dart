@@ -53,79 +53,79 @@ class _LoginScreenState extends State<LoginScreen> {
         titleSpacing: 0,
         centerTitle: false,
       ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 300,
-                  maxWidth: 300,
-                ),
-                child: Image.asset(
-                  'assets/images/login_check.png',
-                  // height: Global.getSize(context).height / 2,
-                  // width: Global.getSize(context).width / 2,
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 32),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 300,
+                maxWidth: 300,
               ),
-              const SizedBox(width: 16),
-              Row(children: [HeadersTextWidget(text: 'Контакты')]),
-              InputWidget(
-                controller: _phoneC,
-                hintText: '+7 (___) ___-__-__',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade500,
-                  fontSize: 13,
-                ),
-                textInputFormatters: PHONE_FORMATTER,
-                inputType: TextInputType.phone,
-                // hintText: '+7 (---) --- -- --',
-                // hintStyle: TextStyle(
-                //   color: Colors.grey.shade300,
-                //   fontSize: 11,
-                // ),
+              child: Image.asset(
+                'assets/images/login_check.png',
+                // height: Global.getSize(context).height / 2,
+                // width: Global.getSize(context).width / 2,
               ),
-              Row(children: [HeadersTextWidget(text: 'Пароль')]),
-              InputWidget(
-                  controller: _passwordC,
-                  inputType: TextInputType.visiblePassword,
-                  obscureText: true),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Container(
-                  height: 46,
-                  width: Global.getSize(context).width,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: remove
-                      pushNewScreen(
-                        context,
-                        screen: ProfileClientScreen(),
-                        withNavBar: false,
-                      );
-                    },
-                    child: Text(
-                      'ВОЙТИ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                      ),
+            ),
+            const SizedBox(width: 25),
+            Row(children: [HeadersTextWidget(text: 'Контакты')]),
+            InputWidget(
+              controller: _phoneC,
+              hintText: '+7 (___) ___-__-__',
+              hintStyle: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 13,
+              ),
+              textInputFormatters: PHONE_FORMATTER,
+              inputType: TextInputType.phone,
+              // hintText: '+7 (---) --- -- --',
+              // hintStyle: TextStyle(
+              //   color: Colors.grey.shade300,
+              //   fontSize: 11,
+              // ),
+            ),
+            const SizedBox(height: 20),
+            Row(children: [HeadersTextWidget(text: 'Пароль')]),
+            InputWidget(
+                controller: _passwordC,
+                inputType: TextInputType.visiblePassword,
+                obscureText: true),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+              child: Container(
+                height: 46,
+                width: Global.getSize(context).width,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO: remove
+                    pushNewScreen(
+                      context,
+                      screen: ProfileClientScreen(),
+                      withNavBar: false,
+                    );
+                  },
+                  child: Text(
+                    'ВОЙТИ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
                     ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Style.blue,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Style.blue,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
                     ),
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

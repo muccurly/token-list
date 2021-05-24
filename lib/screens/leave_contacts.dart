@@ -73,7 +73,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
               controller: _nameC,
               inputType: TextInputType.name,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             Row(children: [HeadersTextWidget(text: 'Контакты')]),
             InputWidget(
               controller: _phoneC,
@@ -91,7 +91,7 @@ class _LeaveContactsScreenState extends State<LeaveContactsScreen> {
               // ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
               child: Container(
                 height: 46,
                 width: Global.getSize(context).width,

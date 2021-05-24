@@ -19,8 +19,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   CameraController _cameraController;
   Future<void> _initializeControllerFuture;
 
-  TextEditingController _phoneC;
-  TextEditingController _nameC;
+  final TextEditingController _phoneC = TextEditingController();
+  final TextEditingController _nameC = TextEditingController();
 
   @override
   void initState() {
@@ -28,8 +28,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     Future.delayed(Duration.zero, () {
       context.read(hideBottomTabProvider).state = true;
     });
-    _phoneC = TextEditingController();
-    _nameC = TextEditingController();
+
     initializeCameras();
   }
 
@@ -185,12 +184,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   }
 }
 
-void showUploadConfirmNameDialog(
-  BuildContext context,
-  TextEditingController _nameC,
-  TextEditingController _phoneC,
-) {
-  showDialog(
+Future<void> showUploadConfirmNameDialog(BuildContext context,
+    TextEditingController _nameC, TextEditingController _phoneC,
+    {bool redirectRieltor = true}) async {
+  await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (c) {
@@ -231,7 +228,9 @@ void showUploadConfirmNameDialog(
                   child: ElevatedButton(
                     onPressed: () async {
                       Navigator.pop(c);
-                      await pushNewScreen(context, screen: RieltorFrilancer3());
+                      if (redirectRieltor)
+                        await pushNewScreen(context,
+                            screen: RieltorFrilancer3());
                       context.read(hideBottomTabProvider).state = true;
                     },
                     child: Text(

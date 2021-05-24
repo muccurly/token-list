@@ -180,6 +180,16 @@ class HomeScreenCard extends StatefulWidget {
 }
 
 class _HomeScreenCardState extends State<HomeScreenCard> {
+  final TextEditingController _phoneC = TextEditingController();
+  final TextEditingController _nameC = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameC.dispose();
+    _phoneC.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -244,7 +254,7 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: () => showBookDialog(context),
+                onTap: () => showBookDialog(context, _nameC, _phoneC),
                 //  _showDialog(context);
                 child: Container(
                   decoration: BoxDecoration(
@@ -369,10 +379,10 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                   /// avatar
                   GestureDetector(
                     onTap: () {
-                      // pushNewScreen(
-                      //   context,
-                      //   screen: ProfileScreen(),
-                      // );
+                      pushNewScreen(
+                        context,
+                        screen: ProfileAgentScreen(),
+                      );
                     },
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
@@ -407,9 +417,10 @@ class _HomeScreenCardState extends State<HomeScreenCard> {
                     onTap: () {
                       setState(() {
                         widget.advert['is_fav'] = !widget.advert['is_fav'];
-                        widget.advert['is_fav']
-                            ? widget.advert['like_count']++
-                            : widget.advert['like_count']--;
+
+                        // TODO: check on backend for the previous like status
+                        if (widget.advert['is_fav'])
+                          widget.advert['like_count']++;
                       });
                     },
                     child: ImageIcon(
@@ -775,10 +786,12 @@ class CommentListTile extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(comment['image']),
-                  radius: 16,
-                ),
+                comment['image'] != null
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage(comment['image']),
+                        radius: 16,
+                      )
+                    : Icon(LineIcons.user, size: 32, color: Style.blue),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Column(
@@ -864,10 +877,9 @@ void _deleteComment(int commentId) {
   // TODO: migrate to firstWhere
   COMMENTS.where((element) => element['id'] == commentId).forEach((element) {
     element['user_id'] = null;
-    element['name'] = 'Deleted';
-    element['comment'] = 'Deleted comment';
-    element['image'] =
-        'https://images.unsplash.com/photo-1557774058-c9148bc6e481?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1320&q=80';
+    element['name'] = '';
+    element['comment'] = 'Удаленный комментарий';
+    element['image'] = null;
   });
 }
 

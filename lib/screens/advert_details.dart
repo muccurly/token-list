@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:jurta/screens/rules.dart';
 import 'package:jurta/screens/screens.dart';
 import 'package:jurta/providers/providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -338,10 +339,11 @@ class BookWidget extends StatelessWidget {
               final res = await showGeneralDialog(
                 context: context,
                 pageBuilder: (c, _, __) {
-                  return LeaveContactsScreen(
-                    isPage: 1,
-                    advert: advert,
-                  );
+                  return RulesScreen(advert: advert);
+                  // return LeaveContactsScreen(
+                  //   isPage: 1,
+                  //   advert: advert,
+                  // );
                 },
               );
 

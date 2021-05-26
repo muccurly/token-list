@@ -350,6 +350,8 @@ class BookWidget extends StatelessWidget {
               if (res != null && res == true) {
                 showRequestConfirmationDialog(context);
               }
+
+              context.read(hideBottomTabProvider).state = false;
               // pushNewScreen(context,
               //     screen: LeaveContactsScreen(isPage: 1), withNavBar: false);
             },

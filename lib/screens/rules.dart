@@ -9,6 +9,8 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 /*Страница Ознакомьтесь с правилами*/
 class RulesScreen extends StatefulWidget {
+  static const route = 'rules_screen';
+
   final Map<String, dynamic> advert;
   RulesScreen({@required this.advert});
 

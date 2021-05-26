@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jurta/screens/advert_details.dart';
 import 'package:jurta/screens/booking_form.dart';
 import 'package:jurta/utils/utils.dart';
+import 'package:jurta/providers/providers.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jurta/widgets/rules_checkbox.dart';
 import 'package:jurta/widgets/rules_text_scrollable.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -94,6 +96,7 @@ class _ServiceAgreementScreenState extends State<ServiceAgreementScreen> {
                           withNavBar: true,
                         );
                         showRequestConfirmationDialog(context);
+                        context.read(hideBottomTabProvider).state = false;
                       }
                     : null,
                 child: Text(

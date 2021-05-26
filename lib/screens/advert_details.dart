@@ -336,15 +336,10 @@ class BookWidget extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () async {
-              final res = await showGeneralDialog(
-                context: context,
-                pageBuilder: (c, _, __) {
-                  return RulesScreen(advert: advert);
-                  // return LeaveContactsScreen(
-                  //   isPage: 1,
-                  //   advert: advert,
-                  // );
-                },
+              final res = await pushNewScreen(
+                context,
+                screen: RulesScreen(advert: advert),
+                withNavBar: true,
               );
 
               if (res != null && res == true) {

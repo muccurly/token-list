@@ -222,10 +222,6 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                         advert: widget.advert,
                       ));
                   //Navigator.pop(context, true);
-                  pushNewScreen(context,
-                      screen: ServiceAgreementScreen(
-                        advert: widget.advert,
-                      ));
                   //pushNewScreen(context, screen: RateAgentNewScreen());
                 },
                 child: Text(

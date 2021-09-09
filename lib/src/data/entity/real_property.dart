@@ -5,20 +5,20 @@ class RealProperty extends Equatable {
   final int realPropertyId;
   final int applicationId;
   final String creationDate;
-  final double objectPrice;
+  final int objectPrice;
   final int numberOfRooms;
   final double totalArea;
   final int? floor;
   final String? residentialComplex;
   final MultiLangText address;
-  final String currentAgentPhoto;
+  final String? currentAgentPhoto;
   final String currentAgentPhone;
   final String currentAgentName;
   final String currentAgentSurname;
-  final String currentAgentPatronymic;
-  final List<String> virtualTourImageIdList;
-  final List<String> photoIdList;
-  final List<String> housingPlanIdList;
+  final String? currentAgentPatronymic;
+  final List<String>? virtualTourImageIdList;
+  final List<String>? photoIdList;
+  final List<String>? housingPlanIdList;
   final bool sold;
 
   RealProperty({
@@ -28,21 +28,32 @@ class RealProperty extends Equatable {
     required this.objectPrice,
     required this.numberOfRooms,
     required this.totalArea,
-    required this.floor,
+    this.floor,
     required this.residentialComplex,
     required this.address,
-    required this.currentAgentPhoto,
+    this.currentAgentPhoto,
     required this.currentAgentPhone,
     required this.currentAgentName,
     required this.currentAgentSurname,
     required this.currentAgentPatronymic,
-    required this.virtualTourImageIdList,
-    required this.photoIdList,
-    required this.housingPlanIdList,
+    this.virtualTourImageIdList,
+    this.photoIdList,
+    this.housingPlanIdList,
     required this.sold,
   });
 
   factory RealProperty.fromJson(Map<String, dynamic> json) {
+    var vrList = <String>[];
+    var phList = <String>[];
+    var hpList = <String>[];
+
+    var vr = json['virtualTourImageIdList'];
+    if (vr != null) vrList = (vr as List).map<String>((e) => e).toList();
+    var ph = json['photoIdList'];
+    if (ph != null) phList = (ph as List).map<String>((e) => e).toList();
+    var hp = json['housingPlanIdList'];
+    if (hp != null) hpList = (hp as List).map<String>((e) => e).toList();
+
     return RealProperty(
       realPropertyId: json['realPropertyId'],
       applicationId: json['applicationId'],
@@ -58,18 +69,20 @@ class RealProperty extends Equatable {
       currentAgentName: json['currentAgentName'],
       currentAgentSurname: json['currentAgentSurname'],
       currentAgentPatronymic: json['currentAgentPatronymic'],
-      virtualTourImageIdList: (json['virtualTourImageIdList'] as List)
-          .map<String>((e) => e)
-          .toList(),
-      photoIdList: (json['photoIdList'] as List).map<String>((e) => e).toList(),
-      housingPlanIdList:
-          (json['housingPlanIdList'] as List).map<String>((e) => e).toList(),
+      virtualTourImageIdList: vrList,
+      photoIdList: phList,
+      housingPlanIdList: hpList,
       sold: json['sold'],
     );
   }
 
   static RealProperty fromJsonModel(Map<String, dynamic> json) =>
       RealProperty.fromJson(json);
+
+  @override
+  String toString() {
+    return 'RealProperty{realPropertyId: $realPropertyId, applicationId: $applicationId, creationDate: $creationDate, objectPrice: $objectPrice, numberOfRooms: $numberOfRooms, totalArea: $totalArea, floor: $floor, residentialComplex: $residentialComplex, address: $address, currentAgentPhoto: $currentAgentPhoto, currentAgentPhone: $currentAgentPhone, currentAgentName: $currentAgentName, currentAgentSurname: $currentAgentSurname, currentAgentPatronymic: $currentAgentPatronymic, virtualTourImageIdList: $virtualTourImageIdList, photoIdList: $photoIdList, housingPlanIdList: $housingPlanIdList, sold: $sold}';
+  }
 
   @override
   List<Object?> get props => [

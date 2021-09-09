@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
@@ -30,12 +29,40 @@ class RealPropertyFilter extends Equatable {
     this.sortBy = 'id',
   });
 
+  RealPropertyFilter copyWith({
+    Range? areaRange,
+    String? direction,
+    int? flagId,
+    bool? moreThanFiveRooms,
+    List<int>? numberOfRooms,
+    int? objectTypeId,
+    int? pageNumber,
+    int? pageSize,
+    Range? priceRange,
+    bool? showNew,
+    String? sortBy,
+  }) {
+    return RealPropertyFilter(
+      areaRange: areaRange ?? this.areaRange,
+      direction: direction ?? this.direction,
+      flagId: flagId ?? this.flagId,
+      moreThanFiveRooms: moreThanFiveRooms ?? this.moreThanFiveRooms,
+      numberOfRooms: numberOfRooms ?? this.numberOfRooms,
+      objectTypeId: objectTypeId ?? this.objectTypeId,
+      pageNumber: pageNumber ?? this.pageNumber,
+      pageSize: pageSize ?? this.pageSize,
+      priceRange: priceRange ?? this.priceRange,
+      showNew: showNew ?? this.showNew,
+      sortBy: sortBy ?? this.sortBy,
+    );
+  }
+
   Map<String, dynamic> toJson() => {
         "areaRange": this.areaRange.toJson(),
         "direction": this.direction,
         "flagId": this.flagId,
         "moreThanFiveRooms": this.moreThanFiveRooms,
-        "numberOfRooms": jsonEncode(this.numberOfRooms),
+        "numberOfRooms": this.numberOfRooms,
         "objectTypeId": this.objectTypeId,
         "pageNumber": this.pageNumber,
         "pageSize": this.pageSize,

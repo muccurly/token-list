@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+
 import '../components/filter_widget.dart';
 import '../components/home_object_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../search_page/search_page_widget.dart';
-import 'package:flutter/material.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key? key}) : super(key: key);

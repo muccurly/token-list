@@ -30,6 +30,7 @@ dependencies:
 
   #internet
   connectivity: ^3.0.6
+  internet_connection_checker: ^0.0.1+2
   dio: ^4.0.0
   cached_network_image: ^3.1.0
   geolocator: ^7.6.0

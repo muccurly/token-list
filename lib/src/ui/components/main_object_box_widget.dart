@@ -1,9 +1,10 @@
-import '../components/show_more_box_widget.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../components/show_more_box_widget.dart';
+import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
 
 class MainObjectBoxWidget extends StatefulWidget {
   MainObjectBoxWidget({Key? key}) : super(key: key);

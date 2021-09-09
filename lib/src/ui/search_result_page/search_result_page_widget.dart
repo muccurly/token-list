@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+
 import '../components/search_result_box_widget.dart';
 import '../components/sort_filter_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../object_info_page/object_info_page_widget.dart';
-import 'package:flutter/material.dart';
 
 class SearchResultPageWidget extends StatefulWidget {
   SearchResultPageWidget({Key? key}) : super(key: key);

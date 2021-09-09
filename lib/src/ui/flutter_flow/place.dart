@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import 'lat_lng.dart';
 
 @immutable

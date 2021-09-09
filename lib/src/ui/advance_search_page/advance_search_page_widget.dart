@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../flutter_flow/flutter_flow_drop_down_template.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
 import '../search_result_page/search_result_page_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AdvanceSearchPageWidget extends StatefulWidget {
   AdvanceSearchPageWidget({Key? key}) : super(key: key);
@@ -35,11 +36,11 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   int room_2 = 1;
   int room_3 = 1;
   int room_4 = 1;
-  int room_more_5 = 1;
+  int roomMore5 = 1;
 
   int any = 1;
   int studio = 1;
-  int isolated_rooms = 1;
+  int isolatedRooms = 1;
 
   // @override
   // void initState() {
@@ -292,14 +293,14 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                             child: InkWell(
                               onTap: () {
                                 setState(() {
-                                  room_more_5 = 0;
+                                  roomMore5 = 0;
                                 });
                               },
                               child: Container(
                                 width: 30,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                  color: room_more_5 == 0
+                                  color: roomMore5 == 0
                                       ? FlutterFlowTheme.primaryColor
                                       : FlutterFlowTheme.white,
                                   borderRadius: BorderRadius.only(
@@ -315,7 +316,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                     '5+',
                                     style:
                                         FlutterFlowTheme.btnTextWhite.copyWith(
-                                      color: room_more_5 == 0
+                                      color: roomMore5 == 0
                                           ? FlutterFlowTheme.white
                                           : FlutterFlowTheme.secondaryColor,
                                     ),

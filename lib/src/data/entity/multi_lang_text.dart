@@ -1,9 +1,11 @@
-class MultiLangText {
-  String nameRu;
-  String nameKz;
-  String nameEn;
+import 'package:equatable/equatable.dart';
 
-  MultiLangText({
+class MultiLangText extends Equatable {
+  final String nameRu;
+  final String nameKz;
+  final String nameEn;
+
+  const MultiLangText({
     required this.nameRu,
     required this.nameKz,
     required this.nameEn,
@@ -16,4 +18,7 @@ class MultiLangText {
       nameEn: json['nameEn'],
     );
   }
+
+  @override
+  List<Object?> get props => [nameRu, nameKz, nameEn];
 }

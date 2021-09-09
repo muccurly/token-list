@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jurta_app/src/ui/home_page/home_page_widget.dart';
-void main() => runApp(MyApp());
+import 'package:jurta_app/src/app.dart';
+import 'package:jurta_app/src/data/remote/property_remote_data_source_impl.dart';
+import 'package:jurta_app/src/data/repository/property_repository.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePageWidget(),
-    );
-  }
+void main() async {
+  final propertyRemoteDataSource = PropertyRemoteDataSourceImpl();
+  final propertyRepository = PropertyRepositoryImpl(propertyRemoteDataSource);
+
+  runApp(App(propertyRepository: propertyRepository));
 }

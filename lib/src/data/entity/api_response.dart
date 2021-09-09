@@ -9,12 +9,18 @@ class ApiResponse<T> {
     required this.data,
   });
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json,Function fromJsonModel) {
+  factory ApiResponse.fromJson(Map<String, dynamic> json,
+      Function fromJsonModel) {
     return ApiResponse<T>(
       success: json['success'],
       code: json['code'],
-      data: Pagination.fromJson(json, fromJsonModel),
+      data: Pagination<T>.fromJson(json['data'], fromJsonModel),
     );
+  }
+
+  @override
+  String toString() {
+    return 'ApiResponse{success: $success, code: $code, data: $data}';
   }
 }
 
@@ -31,14 +37,19 @@ class Pagination<T> {
     required this.data,
   });
 
-  factory Pagination.fromJson(
-      Map<String, dynamic> json, Function fromJsonModel) {
+  factory Pagination.fromJson(Map<String, dynamic> json,
+      Function fromJsonModel) {
     return Pagination<T>(
       pageNumber: json['pageNumber'],
       total: json['total'],
       size: json['size'],
-      data: Data.fromJson(json, fromJsonModel),
+      data: Data.fromJson(json['data'], fromJsonModel),
     );
+  }
+
+  @override
+  String toString() {
+    return 'Pagination{pageNumber: $pageNumber, total: $total, size: $size, data: $data}';
   }
 }
 
@@ -60,5 +71,10 @@ class Data<T> {
       empty: json['empty'],
       data: List<T>.from(items.map((e) => fromJsonModel(e))),
     );
+  }
+
+  @override
+  String toString() {
+    return 'Data{size: $size, empty: $empty, data: $data}';
   }
 }

@@ -10,13 +10,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'lat_lng.dart';
 
 export 'package:page_transition/page_transition.dart';
+
 export 'lat_lng.dart';
 export 'place.dart';
 
 T valueOrDefault<T>(T value, T defaultValue) =>
     (value is String && value.isEmpty) || value == null ? defaultValue : value;
 
-String dateTimeFormat(String format, DateTime dateTime) {
+String dateTimeFormat(String format, DateTime? dateTime) {
   if (dateTime == null) {
     return '';
   }

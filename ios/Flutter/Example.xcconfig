@@ -1,0 +1,7 @@
+EXAMPLE_APP_NAME=Jurta
+EXAMPLE_APP_SUFFIX=dev
+EXAMPLE_API_URL_DM=https://dm-dev.jurta.kz
+EXAMPLE_API_URL_VM=https://vm-dev.jurta.kz
+EXAMPLE_API_URL_GM=https://gm-dev.jurta.kz
+EXAMPLE_API_URL_UM=https://um-dev.jurta.kz
+EXAMPLE_API_VERSION=open-api

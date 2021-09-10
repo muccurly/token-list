@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: avoid_classes_with_only_static_members
 class FlutterFlowTheme {
   static const Color primaryColor = Color(0xFFFF9929);
   static const Color secondaryColor = Color(0xFF131E34);
@@ -118,7 +117,7 @@ class FlutterFlowTheme {
         fontWeight: FontWeight.w400,
         fontSize: 14,
       );
-  static TextStyle get clickTextwhite => TextStyle(
+  static TextStyle get clickTextWhite => TextStyle(
         fontFamily: primaryFontFamily,
         color: white,
         fontWeight: FontWeight.w400,

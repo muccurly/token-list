@@ -72,17 +72,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       context.read<HomeBloc>().add(LoadProperties());
                       await Future.delayed(const Duration(seconds: 2));
                     },
-                    // child:
-                    //     NotificationListener<OverscrollIndicatorNotification>(
-                    //         onNotification: (notification) {
-                    //           // if(notification.ov)
-                    //           print(notification.leading);
-                    //           if (!notification.leading)
-                    //             context
-                    //                 .read<HomeBloc>()
-                    //                 .add(LoadMoreProperties());
-                    //           return false;
-                    //         },
                     child: PageView.builder(
                               controller: pageViewController,
                               scrollDirection: Axis.vertical,
@@ -96,7 +85,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   HomeObjectBoxWidget(
                                       realProperty: state.properties[index]),
                             ),
-                        // ),
                   ),
                 );
               },

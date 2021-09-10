@@ -33,15 +33,6 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
   int studio = 1;
   int isolatedRooms = 1;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   textController1 = TextEditingController();
-  //   textController2 = TextEditingController();
-  //   textController3 = TextEditingController();
-  //   textController4 = TextEditingController();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

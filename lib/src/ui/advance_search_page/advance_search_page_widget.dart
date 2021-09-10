@@ -42,20 +42,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   int studio = 1;
   int isolatedRooms = 1;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   textController1 = TextEditingController();
-  //   textController2 = TextEditingController();
-  //   textController3 = TextEditingController();
-  //   textController4 = TextEditingController();
-  //   textController5 = TextEditingController();
-  //   textController6 = TextEditingController();
-  //   textController7 = TextEditingController();
-  //   textController8 = TextEditingController();
-  //   textController9 = TextEditingController();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

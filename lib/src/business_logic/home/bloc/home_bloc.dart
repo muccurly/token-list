@@ -18,16 +18,13 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
-    // required IFileRepository fileRepository,
   })  : _propertyRepository = propertyRepository,
-        // _fileRepository = fileRepository,
         super(HomeState()) {
     _propertiesStreamSubscription = _propertyRepository.property
         .listen((apiResponse) => add(PropertiesLoaded(apiResponse)));
   }
 
   final IPropertyRepository _propertyRepository;
-  // final IFileRepository _fileRepository;
 
   late StreamSubscription<ApiResponse<RealProperty>>
       _propertiesStreamSubscription;

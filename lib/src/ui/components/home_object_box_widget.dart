@@ -118,7 +118,6 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                                 style: FlutterFlowTheme.subtitleText.copyWith(),
                               ),
                               Text(
-                                // 'Нур-Султан, Есильский район,  Кошкарбаева 18/2',
                                 widget.realProperty.address.nameRu,
                                 style:
                                     FlutterFlowTheme.subtitle2Text.copyWith(),

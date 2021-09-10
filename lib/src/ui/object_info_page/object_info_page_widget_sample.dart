@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
-import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
 
 import '../components/images_box_widget.dart';
 import '../components/main_object_box_widget.dart';
@@ -9,19 +7,16 @@ import '../components/small_info_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 
-class ObjectInfoPageWidget extends StatefulWidget {
-  ObjectInfoPageWidget({
+class ObjectInfoPageWidgetSample extends StatefulWidget {
+  ObjectInfoPageWidgetSample({
     Key? key,
-    required this.realProperty,
   }) : super(key: key);
 
-  final RealProperty realProperty;
-
   @override
-  _ObjectInfoPageWidgetState createState() => _ObjectInfoPageWidgetState();
+  _ObjectInfoPageWidgetSampleState createState() => _ObjectInfoPageWidgetSampleState();
 }
 
-class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
+class _ObjectInfoPageWidgetSampleState extends State<ObjectInfoPageWidgetSample> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

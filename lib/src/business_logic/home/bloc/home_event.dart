@@ -19,3 +19,7 @@ class PropertiesLoaded extends HomeEvent {
   @override
   List<Object?> get props => [apiResponse];
 }
+
+class LoadMoreProperties extends HomeEvent{
+  const LoadMoreProperties();
+}

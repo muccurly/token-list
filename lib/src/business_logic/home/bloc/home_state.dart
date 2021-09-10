@@ -10,12 +10,7 @@ class HomeState extends Equatable {
   HomeState({
     this.apiResponse,
     this.properties = const <RealProperty>[],
-    //TODO: for check
-    this.filter = const RealPropertyFilter(
-      flagId: 3,
-      numberOfRooms: <int>[1, 2, 3, 4],
-      objectTypeId: 2,
-    ),
+    this.filter = const RealPropertyFilter(),
     this.status = FormzStatus.pure,
     this.message,
   });

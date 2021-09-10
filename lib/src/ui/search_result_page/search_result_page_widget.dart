@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
 
 import '../components/search_result_box_widget.dart';
 import '../components/sort_filter_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../object_info_page/object_info_page_widget.dart';
 
 class SearchResultPageWidget extends StatefulWidget {
   SearchResultPageWidget({Key? key}) : super(key: key);
@@ -138,7 +138,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                           type: PageTransitionType.fade,
                           duration: Duration(milliseconds: 300),
                           reverseDuration: Duration(milliseconds: 300),
-                          child: ObjectInfoPageWidget(),
+                          child: ObjectInfoPageWidgetSample(),
                         ),
                       );
                     },

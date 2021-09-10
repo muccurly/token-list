@@ -16,9 +16,9 @@ class RealProperty extends Equatable {
   final String currentAgentName;
   final String currentAgentSurname;
   final String? currentAgentPatronymic;
-  final List<String>? virtualTourImageIdList;
-  final List<String>? photoIdList;
-  final List<String>? housingPlanIdList;
+  final List<String> virtualTourImageIdList;
+  final List<String> photoIdList;
+  final List<String> housingPlanIdList;
   final bool sold;
 
   RealProperty({
@@ -36,9 +36,9 @@ class RealProperty extends Equatable {
     required this.currentAgentName,
     required this.currentAgentSurname,
     required this.currentAgentPatronymic,
-    this.virtualTourImageIdList,
-    this.photoIdList,
-    this.housingPlanIdList,
+    this.virtualTourImageIdList = const <String>[],
+    this.photoIdList = const <String>[],
+    this.housingPlanIdList = const <String>[],
     required this.sold,
   });
 
@@ -81,7 +81,7 @@ class RealProperty extends Equatable {
 
   @override
   String toString() {
-    return 'RealProperty{realPropertyId: $realPropertyId, applicationId: $applicationId, creationDate: $creationDate, objectPrice: $objectPrice, numberOfRooms: $numberOfRooms, totalArea: $totalArea, floor: $floor, residentialComplex: $residentialComplex, address: $address, currentAgentPhoto: $currentAgentPhoto, currentAgentPhone: $currentAgentPhone, currentAgentName: $currentAgentName, currentAgentSurname: $currentAgentSurname, currentAgentPatronymic: $currentAgentPatronymic, virtualTourImageIdList: $virtualTourImageIdList, photoIdList: $photoIdList, housingPlanIdList: $housingPlanIdList, sold: $sold}';
+    return '\nRealProperty{id: $realPropertyId}';
   }
 
   @override

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:jurta_app/src/business_logic/home/home.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../components/filter_widget.dart';
 import '../components/home_object_box_widget.dart';
@@ -16,21 +20,86 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   final pageViewController = PageController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final indicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
+    final _size = MediaQuery.of(context).size;
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.tertiaryColor,
       body: Stack(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1,
-            child: PageView(
-              controller: pageViewController,
-              scrollDirection: Axis.vertical,
-              children: [HomeObjectBoxWidget()],
+          BlocListener<HomeBloc, HomeState>(
+            listenWhen: (previous, current) =>
+                previous.status != current.status,
+            listener: (context, state) {
+              if (state.status.isSubmissionFailure && state.message != null)
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.message!)));
+            },
+            child: BlocBuilder<HomeBloc, HomeState>(
+              buildWhen: (previous, current) =>
+                  previous.properties != current.properties ||
+                  previous.status != current.status,
+              builder: (context, state) {
+                if (state.properties.isEmpty) {
+                  if (state.status.isSubmissionInProgress ||
+                      state.status.isPure)
+                    return Shimmer.fromColors(
+                      //TODO: change colors
+                      baseColor: Colors.blue[300]!,
+                      highlightColor: Colors.blue[100]!,
+                      child: Container(
+                        width: _size.width,
+                        height: _size.height,
+                        color: Colors.white,
+                      ),
+                    );
+                  else
+                    return Center(
+                      child: Text(
+                          'Empty properties!\nNeed a placeholder for this situation...'),
+                    );
+                }
+                return Container(
+                  width: _size.width,
+                  height: _size.height * 1,
+                  child: RefreshIndicator(
+                    key: indicatorKey,
+                    onRefresh: () async {
+                      context.read<HomeBloc>().add(LoadProperties());
+                      await Future.delayed(const Duration(seconds: 2));
+                    },
+                    // child:
+                    //     NotificationListener<OverscrollIndicatorNotification>(
+                    //         onNotification: (notification) {
+                    //           // if(notification.ov)
+                    //           print(notification.leading);
+                    //           if (!notification.leading)
+                    //             context
+                    //                 .read<HomeBloc>()
+                    //                 .add(LoadMoreProperties());
+                    //           return false;
+                    //         },
+                    child: PageView.builder(
+                              controller: pageViewController,
+                              scrollDirection: Axis.vertical,
+                              onPageChanged: (page) {
+                                print('current page: $page');
+                                if (page == state.properties.length - 3)
+                                  context.read<HomeBloc>().add(LoadMoreProperties());
+                              },
+                              itemCount: state.properties.length,
+                              itemBuilder: (context, index) =>
+                                  HomeObjectBoxWidget(
+                                      realProperty: state.properties[index]),
+                            ),
+                        // ),
+                  ),
+                );
+              },
             ),
           ),
           Column(
@@ -39,7 +108,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 16, 0),
+                padding: const EdgeInsets.fromLTRB(0, 50, 16, 0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -48,8 +117,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       child: Align(
                         alignment: Alignment(-1, 0),
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: _size.width * 0.25,
+                          height: _size.height * 0.05,
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.secondaryColor,
                             borderRadius: BorderRadius.only(
@@ -63,11 +132,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             ),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(6, 6, 6, 6),
+                            padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
                             child: Image.asset(
                               'assets/images/Jurta-2.png',
-                              width: MediaQuery.of(context).size.width * 0.75,
-                              height: MediaQuery.of(context).size.height * 0.75,
+                              width: _size.width * 0.75,
+                              height: _size.height * 0.75,
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -75,7 +144,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                       child: InkWell(
                         onTap: () async {
                           await Navigator.push(
@@ -113,7 +182,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           context: context,
                           builder: (context) {
                             return Container(
-                              height: MediaQuery.of(context).size.height * 1,
+                              height: _size.height * 1,
                               child: FilterWidget(),
                             );
                           },

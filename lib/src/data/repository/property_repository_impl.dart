@@ -5,6 +5,7 @@ import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/data/remote/i_property_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
+import 'package:jurta_app/src/utils/my_logger.dart';
 
 class PropertyRepositoryImpl implements IPropertyRepository {
   PropertyRepositoryImpl(this.remote);
@@ -22,6 +23,7 @@ class PropertyRepositoryImpl implements IPropertyRepository {
   Future<void> findRealProperty(RealPropertyFilter filter) async {
     ApiResponse<RealProperty> realProperties =
         await remote.getRealPropertyForMobileMainPage(filter);
+    MyLogger.instance.log.d(realProperties.toString());
     _propertyController.add(realProperties);
   }
 

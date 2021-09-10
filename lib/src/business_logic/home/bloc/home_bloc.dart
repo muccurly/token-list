@@ -18,18 +18,21 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
+    // required IFileRepository fileRepository,
   })  : _propertyRepository = propertyRepository,
+        // _fileRepository = fileRepository,
         super(HomeState()) {
     _propertiesStreamSubscription = _propertyRepository.property
         .listen((apiResponse) => add(PropertiesLoaded(apiResponse)));
   }
 
   final IPropertyRepository _propertyRepository;
+  // final IFileRepository _fileRepository;
+
   late StreamSubscription<ApiResponse<RealProperty>>
       _propertiesStreamSubscription;
 
-  var l = <RealProperty>[];
-  var s = Set<RealProperty>();
+  var propertiesSet = Set<RealProperty>();
 
   @override
   Future<void> close() {
@@ -46,9 +49,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(
           status: FormzStatus.submissionSuccess,
           apiResponse: event.apiResponse,
+          filter: state.filter.copyWith(pageNumber: event.apiResponse.data.pageNumber),
           properties: List<RealProperty>.from(
-              s..addAll(event.apiResponse.data.data.data)));
-    }
+              propertiesSet..addAll(event.apiResponse.data.data.data)));
+    } else if (event is LoadMoreProperties)
+      yield* _mapLoadMorePropertiesToState(event);
   }
 
   Stream<HomeState> _mapLoadPropertiesToState(
@@ -57,7 +62,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _propertyRepository.findRealProperty(state.filter);
+        await _propertyRepository
+            .findRealProperty(state.filter.copyWith(pageNumber: 0));
+      } on DioError catch (e) {
+        yield state.copyWith(
+          status: FormzStatus.submissionFailure,
+          message: e.message,
+        );
+      } catch (_) {
+        MyLogger.instance.log.e(_.toString());
+        yield state.copyWith(status: FormzStatus.submissionFailure);
+      }
+    } else
+      yield state.copyWith(
+        status: FormzStatus.submissionFailure,
+        message: 'Internet connection error',
+      );
+  }
+
+  Stream<HomeState> _mapLoadMorePropertiesToState(
+      LoadMoreProperties event) async* {
+    if (await InternetConnectionChecker().hasConnection) {
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      try {
+        await _propertyRepository.findRealProperty(
+            state.filter.copyWith(pageNumber: state.filter.pageNumber + 1));
       } on DioError catch (e) {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,

@@ -1,40 +1,96 @@
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../object_info_page/object_info_page_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/env_config.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_util.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_widgets.dart';
+import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeObjectBoxWidget extends StatefulWidget {
-  HomeObjectBoxWidget({Key? key}) : super(key: key);
+  HomeObjectBoxWidget({
+    Key? key,
+    required this.realProperty,
+  }) : super(key: key);
+
+  final RealProperty realProperty;
 
   @override
   _HomeObjectBoxWidgetState createState() => _HomeObjectBoxWidgetState();
 }
 
 class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
+  //TODO: change colors
+  static final _placeholderColor = Colors.blue[300]!;
+  final _shimmer = Shimmer.fromColors(
+    baseColor: _placeholderColor,
+    highlightColor: Colors.blue[100]!,
+    child: Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.white,
+    ),
+  );
+
+  final _errorPlaceholder = Container(
+    width: double.infinity,
+    height: double.infinity,
+    child: Image.asset(
+      'assets/images/404.png',
+      fit: BoxFit.cover,
+      colorBlendMode: BlendMode.multiply,
+      color: _placeholderColor,
+    ),
+  );
+
+  final _noImagePlaceholder = Container(
+    width: double.infinity,
+    height: double.infinity,
+    child: Image.asset(
+      'assets/images/no_image.png',
+      fit: BoxFit.cover,
+      colorBlendMode: BlendMode.multiply,
+      color: _placeholderColor,
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
+    final _size = MediaQuery.of(context).size;
+
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 1,
+      width: _size.width,
+      height: _size.height,
       child: Stack(
         children: [
-          Image.network(
-            'https://picsum.photos/seed/589/600',
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1,
-            fit: BoxFit.cover,
-          ),
+          if (widget.realProperty.photoIdList.isNotEmpty)
+            CachedNetworkImage(
+              imageUrl:
+                  '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}/download/${widget.realProperty.photoIdList.first}',
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => _shimmer,
+              errorWidget: (context, url, error) => _errorPlaceholder,
+            )
+          else
+            _noImagePlaceholder,
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 8, 0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,24 +98,28 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                                 child: Text(
-                                  'BI Village Deluxe,  290 500 000 ₸',
+                                  '${widget.realProperty.residentialComplex != null ? '${widget.realProperty.residentialComplex}  ' : ''}'
+                                  '${widget.realProperty.objectPrice} \u{3012}',
                                   style: FlutterFlowTheme.titleText.copyWith(),
                                 ),
                               ),
                               Text(
-                                '4-комнатный дом    •    2 этажа    •   148 м²',
+                                '${widget.realProperty.numberOfRooms}-комнатный дом    '
+                                '${widget.realProperty.floor != null ? '•    ${widget.realProperty.floor} этажа' : ''}'
+                                '•   ${widget.realProperty.totalArea} м²',
                                 style: FlutterFlowTheme.subtitleText.copyWith(),
                               ),
                               Text(
-                                'Нур-Султан, Есильский район,  Кошкарбаева 18/2',
+                                // 'Нур-Султан, Есильский район,  Кошкарбаева 18/2',
+                                widget.realProperty.address.nameRu,
                                 style:
                                     FlutterFlowTheme.subtitle2Text.copyWith(),
                               )
@@ -73,7 +133,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0, 16, 0, 12),
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 12),
                             child: Icon(
                               Icons.phone_rounded,
                               color: FlutterFlowTheme.white,
@@ -96,7 +156,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 12, 8, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 12, 8, 0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -110,7 +170,9 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                               type: PageTransitionType.fade,
                               duration: Duration(milliseconds: 300),
                               reverseDuration: Duration(milliseconds: 300),
-                              child: ObjectInfoPageWidget(),
+                              child: ObjectInfoPageWidget(
+                                realProperty: widget.realProperty,
+                              ),
                             ),
                           );
                         },

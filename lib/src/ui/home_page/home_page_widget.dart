@@ -82,6 +82,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               },
                               itemCount: state.properties.length,
                               itemBuilder: (context, index) =>
+                              //TODO: pass object type too
                                   HomeObjectBoxWidget(
                                       realProperty: state.properties[index]),
                             ),

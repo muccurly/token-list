@@ -7,19 +7,16 @@ import '../components/show_more_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 
-class MainObjectBoxWidget extends StatefulWidget {
-  MainObjectBoxWidget({
+class MainObjectBoxWidgetSample extends StatefulWidget {
+  MainObjectBoxWidgetSample({
     Key? key,
-    required this.realProperty,
   }) : super(key: key);
 
-  final RealProperty realProperty;
-
   @override
-  _MainObjectBoxWidgetState createState() => _MainObjectBoxWidgetState();
+  _MainObjectBoxWidgetSampleState createState() => _MainObjectBoxWidgetSampleState();
 }
 
-class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
+class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,13 +35,13 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        '${widget.realProperty.residentialComplex ?? ''}',
+                        'ЖК ПАРИЖСКИЙ КВАРТАЛ,',
                         style: FlutterFlowTheme.titleTextWDark.copyWith(),
                       ),
                     ),
                     Expanded(
                       child: Text(
-                        '${widget.realProperty.objectPrice} \u{3012}',
+                        '70 000 000 ₸',
                         style: FlutterFlowTheme.titleTextWDark
                             .copyWith(color: FlutterFlowTheme.primaryColor),
                       ),
@@ -66,9 +63,8 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            child: Text('${widget.realProperty.numberOfRooms}-комнатный    '
-                '${widget.realProperty.floor != null ? '•    ${widget.realProperty.floor} этаж    ' : ''}'
-                '•   ${widget.realProperty.totalArea} м²',
+            child: Text(
+              '4-комнатный дом    •    2 этажа    •   148 м²',
               style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
             ),
           ),
@@ -87,7 +83,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                 Expanded(
                   flex: 2,
                   child: Text(
-                      widget.realProperty.address.nameRu,
+                    'Нур-Султан, Есильский район,  Кошкарбаева 18/2',
                     style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                   ),
                 ),
@@ -106,7 +102,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
-              'Количество комнат ................................. ${widget.realProperty.numberOfRooms}',
+              'Количество комнат ................................. 7',
               textAlign: TextAlign.start,
               style: FlutterFlowTheme.bodyTextGrey.copyWith(),
             ),
@@ -114,7 +110,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
-              'Площадь  .................................................. ${widget.realProperty.totalArea} м²',
+              'Площадь  .................................................. 180 м',
               textAlign: TextAlign.start,
               style: FlutterFlowTheme.bodyTextGrey.copyWith(),
             ),
@@ -122,7 +118,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
-              'Этаж ........................................................ ${widget.realProperty.floor}',
+              'Этаж ........................................................ 2 из 5',
               textAlign: TextAlign.start,
               style: FlutterFlowTheme.bodyTextGrey.copyWith(),
             ),

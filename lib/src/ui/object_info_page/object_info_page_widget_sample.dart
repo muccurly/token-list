@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jurta_app/src/ui/components/images_box_widget_sample.dart';
+import 'package:jurta_app/src/ui/components/main_object_box_widget_sample.dart';
 
-import '../components/images_box_widget.dart';
-import '../components/main_object_box_widget.dart';
 import '../components/small_info_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -71,8 +71,8 @@ class _ObjectInfoPageWidgetSampleState extends State<ObjectInfoPageWidgetSample>
                 ),
               ),
             ),
-            ImagesBoxWidget(),
-            MainObjectBoxWidget(),
+            ImagesBoxWidgetSample(),
+            MainObjectBoxWidgetSample(),
             Padding(
               padding: EdgeInsets.fromLTRB(8, 12, 0, 0),
               child: Text(

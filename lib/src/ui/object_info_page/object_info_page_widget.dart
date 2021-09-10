@@ -76,8 +76,8 @@ class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
                 ),
               ),
             ),
-            ImagesBoxWidget(),
-            MainObjectBoxWidget(),
+            ImagesBoxWidget(realProperty: widget.realProperty),
+            MainObjectBoxWidget(realProperty: widget.realProperty),
             Padding(
               padding: EdgeInsets.fromLTRB(8, 12, 0, 0),
               child: Text(

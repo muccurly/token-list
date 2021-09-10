@@ -7,8 +7,8 @@ import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_util.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_widgets.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders ;
 import 'package:share_plus/share_plus.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeObjectBoxWidget extends StatefulWidget {
   HomeObjectBoxWidget({
@@ -23,28 +23,6 @@ class HomeObjectBoxWidget extends StatefulWidget {
 }
 
 class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
-  //TODO: change colors
-  static final _placeholderColor = Colors.blue[300]!;
-  final _shimmer = Shimmer.fromColors(
-    baseColor: _placeholderColor,
-    highlightColor: Colors.blue[100]!,
-    child: Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.white,
-    ),
-  );
-
-  final _errorPlaceholder = Container(
-    width: double.infinity,
-    height: double.infinity,
-    child: Image.asset(
-      'assets/images/404.png',
-      fit: BoxFit.cover,
-      colorBlendMode: BlendMode.multiply,
-      color: _placeholderColor,
-    ),
-  );
 
   final _noImagePlaceholder = Container(
     width: double.infinity,
@@ -53,7 +31,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
       'assets/images/no_image.png',
       fit: BoxFit.cover,
       colorBlendMode: BlendMode.multiply,
-      color: _placeholderColor,
+      color: placeholders.placeholderColor,
     ),
   );
 
@@ -78,8 +56,8 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                   ),
                 ),
               ),
-              placeholder: (context, url) => _shimmer,
-              errorWidget: (context, url, error) => _errorPlaceholder,
+              placeholder: (context, url) => placeholders.shimmer,
+              errorWidget: (context, url, error) => placeholders.errorPlaceholder,
             )
           else
             _noImagePlaceholder,
@@ -112,9 +90,9 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                                 ),
                               ),
                               Text(
-                                '${widget.realProperty.numberOfRooms}-комнатный дом    '
-                                '${widget.realProperty.floor != null ? '•    ${widget.realProperty.floor} этажа' : ''}'
-                                '•   ${widget.realProperty.totalArea} м²',
+                                '${widget.realProperty.numberOfRooms}-комнатный  '
+                                '${widget.realProperty.floor != null ? '•  ${widget.realProperty.floor} этажа  ' : ''}'
+                                '•  ${widget.realProperty.totalArea} м²',
                                 style: FlutterFlowTheme.subtitleText.copyWith(),
                               ),
                               Text(

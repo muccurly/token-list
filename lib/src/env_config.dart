@@ -1,3 +1,4 @@
+//TODO: change default values to dummy values before release
 class EnvironmentConfig {
   static const APP_NAME = String.fromEnvironment(
     'EXAMPLE_APP_NAME',

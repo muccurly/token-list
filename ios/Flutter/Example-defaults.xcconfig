@@ -4,4 +4,5 @@ EXAMPLE_API_URL_DM=https://dm-dev.jurta.kz
 EXAMPLE_API_URL_VM=https://vm-dev.jurta.kz
 EXAMPLE_API_URL_GM=https://gm-dev.jurta.kz
 EXAMPLE_API_URL_UM=https://um-dev.jurta.kz
+EXAMPLE_API_URL_FM=https://fm-dev.jurta.kz
 EXAMPLE_API_VERSION=open-api

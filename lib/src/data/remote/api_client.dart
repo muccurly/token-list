@@ -59,7 +59,7 @@ class ApiClient {
   Dio fmDio = Dio()
     ..options = _options.copyWith(
       baseUrl:
-      '${EnvironmentConfig.API_URL_GM}/${EnvironmentConfig.API_VERSION}',
+      '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}',
       headers: Map.from(_options.headers)
         ..remove(Headers.contentTypeHeader),)
     ..interceptors.add(_baseInterceptors);

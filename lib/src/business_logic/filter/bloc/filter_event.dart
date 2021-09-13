@@ -57,8 +57,8 @@ class RoomsPressed extends FilterEvent {
 class MoreThan5Pressed extends FilterEvent {}
 
 class PriceRangeChanged extends FilterEvent {
-  final int from;
-  final int to;
+  final int? from;
+  final int? to;
 
   const PriceRangeChanged(this.from, this.to);
 
@@ -66,11 +66,11 @@ class PriceRangeChanged extends FilterEvent {
   List<Object?> get props => [from, to];
 }
 
-class SquareRangeChanged extends FilterEvent {
-  final int from;
-  final int to;
+class AreaRangeChanged extends FilterEvent {
+  final int? from;
+  final int? to;
 
-  const SquareRangeChanged(this.from, this.to);
+  const AreaRangeChanged(this.from, this.to);
 
   @override
   List<Object?> get props => [from, to];

@@ -36,8 +36,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<ApiResponse<RealProperty>>
       _apiResponseStreamSubscription;
 
-  late StreamSubscription<List<RealProperty>>
-    _propertiesStreamSubscription;
+  late StreamSubscription<List<RealProperty>> _propertiesStreamSubscription;
 
   late StreamSubscription<FilterState> _filterStreamSubscription;
 
@@ -58,10 +57,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(
           status: FormzStatus.submissionSuccess,
           apiResponse: event.apiResponse,
+          filter: state.filter.copyWith(
+              pageNumber: event.apiResponse?.data.pageNumber,
+              flagId: state.filter.flagId),
           properties: event.items);
     } else if (event is LoadMoreProperties) {
       if (state.apiResponse != null) {
-        if (state.filter.pageNumber < state.apiResponse!.data.size)
+        if (state.apiResponse!.data.pageNumber < state.apiResponse!.data.size)
           yield* _mapLoadMorePropertiesToState(event);
       }
     } else if (event is FilterChanged)

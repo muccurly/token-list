@@ -30,183 +30,188 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.tertiaryColor,
-      body: Container(
-        width: _size.width,
-        height: _size.height,
-        child: Stack(
-          children: [
-            BlocListener<HomeBloc, HomeState>(
-              listenWhen: (previous, current) =>
-                  previous.status != current.status,
-              listener: (context, state) {
-                if (state.status.isSubmissionFailure && state.message != null)
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.message!)));
-              },
-              child: BlocBuilder<HomeBloc, HomeState>(
-                buildWhen: (previous, current) =>
-                    previous.properties != current.properties ||
+      body: SingleChildScrollView(
+        child: Container(
+          width: _size.width,
+          height: _size.height,
+          child: Stack(
+            children: [
+              BlocListener<HomeBloc, HomeState>(
+                listenWhen: (previous, current) =>
                     previous.status != current.status,
-                builder: (context, state) {
-                  if (state.properties.isEmpty) {
-                    if (state.status.isSubmissionInProgress ||
-                        state.status.isPure)
-                      return placeholders.shimmer;
-                    else
-                      return Center(
-                        child: Text('Empty properties!'
-                            '\nNeed a placeholder for this situation...'),
-                      );
-                  }
-                  return Container(
-                    width: _size.width,
-                    height: _size.height,
-                    child: RefreshIndicator(
-                      key: indicatorKey,
-                      onRefresh: () async {
-                        context.read<HomeBloc>().add(LoadProperties());
-                        await Future.delayed(const Duration(seconds: 2));
-                      },
-                      child: PageView.builder(
-                        controller: pageViewController,
-                        scrollDirection: Axis.vertical,
-                        onPageChanged: (page) {
-                          print('current page: $page');
-                          if (page == state.properties.length - 3)
-                            context.read<HomeBloc>().add(LoadMoreProperties());
-                        },
-                        itemCount: state.status.isSubmissionInProgress
-                            ? state.properties.length + 1
-                            : state.properties.length,
-                        itemBuilder: (context, index) =>
-                            index == state.properties.length
-                                ? Center(child: CircularProgressIndicator())
-                                : HomeObjectBoxWidget(
-                                    realProperty: state.properties[index]),
-                      ),
-                    ),
-                  );
+                listener: (context, state) {
+                  if (state.status.isSubmissionFailure && state.message != null)
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(state.message!)));
                 },
+                child: BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      previous.properties != current.properties ||
+                      previous.status != current.status,
+                  builder: (context, state) {
+                    if (state.properties.isEmpty) {
+                      if (state.status.isSubmissionInProgress ||
+                          state.status.isPure)
+                        return placeholders.shimmer;
+                      else
+                        return Center(
+                          child: Text('Empty properties!'
+                              '\nNeed a placeholder for this situation...'),
+                        );
+                    }
+                    return Container(
+                      width: _size.width,
+                      height: _size.height,
+                      child: RefreshIndicator(
+                        key: indicatorKey,
+                        onRefresh: () async {
+                          context.read<HomeBloc>().add(LoadProperties());
+                          await Future.delayed(const Duration(seconds: 2));
+                        },
+                        child: PageView.builder(
+                          controller: pageViewController,
+                          scrollDirection: Axis.vertical,
+                          onPageChanged: (page) {
+                            print('current page: $page');
+                            if (page == state.properties.length - 3)
+                              context
+                                  .read<HomeBloc>()
+                                  .add(LoadMoreProperties());
+                          },
+                          itemCount: state.status.isSubmissionInProgress
+                              ? state.properties.length + 1
+                              : state.properties.length,
+                          itemBuilder: (context, index) =>
+                              index == state.properties.length
+                                  ? Center(child: CircularProgressIndicator())
+                                  : HomeObjectBoxWidget(
+                                      realProperty: state.properties[index]),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 50, 16, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment(-1, 0),
-                          child: Container(
-                            width: _size.width * 0.25,
-                            height: _size.height * 0.05,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.secondaryColor,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(0),
-                                bottomRight: Radius.circular(16),
-                                topLeft: Radius.circular(0),
-                                topRight: Radius.circular(16),
-                              ),
-                              border: Border.all(
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 50, 16, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment(-1, 0),
+                            child: Container(
+                              width: _size.width * 0.25,
+                              height: _size.height * 0.05,
+                              decoration: BoxDecoration(
                                 color: FlutterFlowTheme.secondaryColor,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(0),
+                                  bottomRight: Radius.circular(16),
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(16),
+                                ),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.secondaryColor,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
-                              child: Image.asset(
-                                'assets/images/Jurta-2.png',
-                                width: _size.width * 0.75,
-                                height: _size.height * 0.75,
-                                fit: BoxFit.contain,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
+                                child: Image.asset(
+                                  'assets/images/Jurta-2.png',
+                                  width: _size.width * 0.75,
+                                  height: _size.height * 0.75,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                        child: InkWell(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          child: InkWell(
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 300),
+                                  reverseDuration: Duration(milliseconds: 300),
+                                  child: SearchPageWidget(),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  'Поиск',
+                                  style:
+                                      FlutterFlowTheme.subtitleText.copyWith(),
+                                ),
+                                Icon(
+                                  Icons.search_outlined,
+                                  color: FlutterFlowTheme.white,
+                                  size: 24,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
                           onTap: () async {
-                            await Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 300),
-                                reverseDuration: Duration(milliseconds: 300),
-                                child: SearchPageWidget(),
-                              ),
-                            );
+                            // await showModalBottomSheet(
+                            //   isScrollControlled: true,
+                            //   backgroundColor: Color(0xCD131E34),
+                            //   barrierColor: Color(0x344A5056),
+                            //   context: context,
+                            //   builder: (context) {
+                            //     return Container(
+                            //       height: _size.height * 1,
+                            //       child: FilterWidget(),
+                            //     );
+                            //   },
+                            // );
+                            setState(() => showFilter = !showFilter);
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                'Поиск',
+                                'Фильтр',
                                 style: FlutterFlowTheme.subtitleText.copyWith(),
                               ),
                               Icon(
-                                Icons.search_outlined,
+                                Icons.import_export_outlined,
                                 color: FlutterFlowTheme.white,
                                 size: 24,
                               )
                             ],
                           ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          // await showModalBottomSheet(
-                          //   isScrollControlled: true,
-                          //   backgroundColor: Color(0xCD131E34),
-                          //   barrierColor: Color(0x344A5056),
-                          //   context: context,
-                          //   builder: (context) {
-                          //     return Container(
-                          //       height: _size.height * 1,
-                          //       child: FilterWidget(),
-                          //     );
-                          //   },
-                          // );
-                          setState(() => showFilter = !showFilter);
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              'Фильтр',
-                              style: FlutterFlowTheme.subtitleText.copyWith(),
-                            ),
-                            Icon(
-                              Icons.import_export_outlined,
-                              color: FlutterFlowTheme.white,
-                              size: 24,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-            AnimatedPositioned(
-              left: showFilter ? _size.width * .3 : _size.width,
-              curve: Curves.easeInOut,
-              duration: const Duration(milliseconds: 300),
-              child: FilterWidget(
-                onCancel: () {
-                  setState(() => showFilter = !showFilter);
-                },
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-            ),
-          ],
+              AnimatedPositioned(
+                left: showFilter ? _size.width * .3 : _size.width,
+                curve: Curves.easeInOut,
+                duration: const Duration(milliseconds: 300),
+                child: FilterWidget(
+                  onCancel: () {
+                    setState(() => showFilter = !showFilter);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

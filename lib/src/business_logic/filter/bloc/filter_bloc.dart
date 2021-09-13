@@ -52,6 +52,20 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             flagId: state.filter.flagId,
             moreThanFiveRooms: !state.filter.moreThanFiveRooms),
       );
+    else if (event is PriceRangeChanged)
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+            flagId: state.filter.flagId,
+            priceRange: state.filter.priceRange
+                ?.copyWith(from: event.from, to: event.to)),
+      );
+    else if (event is AreaRangeChanged)
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+            flagId: state.filter.flagId,
+            areaRange: state.filter.areaRange
+                ?.copyWith(from: event.from, to: event.to)),
+      );
   }
 
   Stream<FilterState> _mapLoadObjectTypesEventToState() async* {
@@ -81,13 +95,13 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         list.removeWhere((it) => it == event.number);
       else
         list.add(event.number);
-    }else{
+    } else {
       list.add(event.number);
     }
     print(list);
     return state.copyWith(
-        filter: state.filter.copyWith(flagId: state.filter.flagId,
-        numberOfRooms: list));
+        filter: state.filter
+            .copyWith(flagId: state.filter.flagId, numberOfRooms: list));
   }
 
   @override

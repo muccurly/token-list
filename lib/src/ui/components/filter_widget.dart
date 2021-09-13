@@ -20,20 +20,10 @@ class FilterWidget extends StatefulWidget {
 }
 
 class _FilterWidgetState extends State<FilterWidget> {
-  String? dropDownValue;
-  bool? switchListTileValue1;
-  bool? switchListTileValue2;
-  TextEditingController textController1 = TextEditingController();
   TextEditingController textController2 = TextEditingController();
   TextEditingController textController3 = TextEditingController();
   TextEditingController textController4 = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  int room_1 = 1;
-  int room_2 = 1;
-  int room_3 = 1;
-  int room_4 = 1;
-  int roomMore5 = 1;
-
   int any = 1;
   int studio = 1;
   int isolatedRooms = 1;
@@ -58,7 +48,7 @@ class _FilterWidgetState extends State<FilterWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(child: HotWidget()),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Expanded(child: NewWidget())
               ],
             ),
@@ -144,65 +134,13 @@ class _FilterWidgetState extends State<FilterWidget> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                    child: TextFormField(
-                      controller: textController1,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'от',
-                        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        filled: true,
-                        fillColor: FlutterFlowTheme.white,
-                      ),
-                      style: FlutterFlowTheme.darkNormal16.copyWith(),
-                    ),
+                    child: PriceRangeFrom(),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                    child: TextFormField(
-                      controller: textController2,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'до',
-                        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        filled: true,
-                        fillColor: FlutterFlowTheme.white,
-                      ),
-                      style: FlutterFlowTheme.darkNormal16.copyWith(
-                        color: FlutterFlowTheme.secondaryColor,
-                      ),
-                    ),
+                    child: PriceRangeTo(),
                   ),
                 )
               ],
@@ -226,69 +164,13 @@ class _FilterWidgetState extends State<FilterWidget> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                    child: TextFormField(
-                      controller: textController3,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'от',
-                        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        filled: true,
-                        fillColor: FlutterFlowTheme.white,
-                      ),
-                      style: FlutterFlowTheme.darkNormal16.copyWith(
-                        color: FlutterFlowTheme.secondaryColor,
-                      ),
-                    ),
-                  ),
+                      padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
+                      child: AreaRangeFrom()),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                    child: TextFormField(
-                      controller: textController4,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'до',
-                        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        filled: true,
-                        fillColor: FlutterFlowTheme.white,
-                      ),
-                      style: FlutterFlowTheme.darkNormal16.copyWith(
-                        color: FlutterFlowTheme.secondaryColor,
-                      ),
-                    ),
-                  ),
+                      padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                      child: AreaRangeTo()),
                 )
               ],
             ),
@@ -537,6 +419,194 @@ class MoreThan5 extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class PriceRangeFrom extends StatefulWidget {
+  const PriceRangeFrom({Key? key}) : super(key: key);
+
+  @override
+  _PriceRangeFromState createState() => _PriceRangeFromState();
+}
+
+class _PriceRangeFromState extends State<PriceRangeFrom> {
+  final _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _controller,
+      obscureText: false,
+      keyboardType: TextInputType.number,
+      onChanged: (value) {
+        if (value.isNotEmpty)
+          context
+              .read<FilterBloc>()
+              .add(PriceRangeChanged(int.parse(value), null));
+      },
+      decoration: InputDecoration(
+        isDense: true,
+        hintText: 'от',
+        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        filled: true,
+        fillColor: FlutterFlowTheme.white,
+      ),
+      style: FlutterFlowTheme.darkNormal16.copyWith(),
+    );
+  }
+}
+
+class PriceRangeTo extends StatefulWidget {
+  const PriceRangeTo({Key? key}) : super(key: key);
+
+  @override
+  _PriceRangeToState createState() => _PriceRangeToState();
+}
+
+class _PriceRangeToState extends State<PriceRangeTo> {
+  final _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _controller,
+      obscureText: false,
+      keyboardType: TextInputType.number,
+      onChanged: (value) {
+        if (value.isNotEmpty)
+          context
+              .read<FilterBloc>()
+              .add(PriceRangeChanged(null, int.parse(value)));
+      },
+      decoration: InputDecoration(
+        isDense: true,
+        hintText: 'до',
+        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        filled: true,
+        fillColor: FlutterFlowTheme.white,
+      ),
+      style: FlutterFlowTheme.darkNormal16.copyWith(),
+    );
+  }
+}
+
+class AreaRangeFrom extends StatefulWidget {
+  const AreaRangeFrom({Key? key}) : super(key: key);
+
+  @override
+  _AreaRangeFromState createState() => _AreaRangeFromState();
+}
+
+class _AreaRangeFromState extends State<AreaRangeFrom> {
+  final _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _controller,
+      obscureText: false,
+      keyboardType: TextInputType.number,
+      onChanged: (value) {
+        if (value.isNotEmpty)
+          context
+              .read<FilterBloc>()
+              .add(AreaRangeChanged(int.parse(value), null));
+      },
+      decoration: InputDecoration(
+        isDense: true,
+        hintText: 'от',
+        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        filled: true,
+        fillColor: FlutterFlowTheme.white,
+      ),
+      style: FlutterFlowTheme.darkNormal16.copyWith(),
+    );
+  }
+}
+
+class AreaRangeTo extends StatefulWidget {
+  const AreaRangeTo({Key? key}) : super(key: key);
+
+  @override
+  _AreaRangeToState createState() => _AreaRangeToState();
+}
+
+class _AreaRangeToState extends State<AreaRangeTo> {
+  final _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _controller,
+      obscureText: false,
+      keyboardType: TextInputType.number,
+      onChanged: (value) {
+        if (value.isNotEmpty)
+          context
+              .read<FilterBloc>()
+              .add(AreaRangeChanged(null, int.parse(value)));
+      },
+      decoration: InputDecoration(
+        isDense: true,
+        hintText: 'до',
+        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: const Color(0x00000000),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        filled: true,
+        fillColor: FlutterFlowTheme.white,
+      ),
+      style: FlutterFlowTheme.darkNormal16.copyWith(),
     );
   }
 }

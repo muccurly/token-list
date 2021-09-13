@@ -16,7 +16,7 @@ class ApiClient {
 
   static final InterceptorsWrapper _baseInterceptors = InterceptorsWrapper(
     onResponse: (response, handler) {
-      // MyLogger.instance.log.d(response);
+      MyLogger.instance.log.d(response);
       return handler.next(response);
     },
     onError: (error, handler) async {

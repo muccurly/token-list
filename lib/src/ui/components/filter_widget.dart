@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jurta_app/src/business_logic/filter/bloc/filter_bloc.dart';
-
-import '../flutter_flow/flutter_flow_drop_down_template.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
+import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_theme.dart';
+import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_widgets.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 class FilterWidget extends StatefulWidget {
   FilterWidget({
@@ -13,6 +14,7 @@ class FilterWidget extends StatefulWidget {
   }) : super(key: key);
 
   final VoidCallback onCancel;
+
   @override
   _FilterWidgetState createState() => _FilterWidgetState();
 }
@@ -73,29 +75,8 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: FlutterFlowDropDown(
-              options: ['Квартира'].toList(),
-              onChanged: (value) {
-                setState(() => dropDownValue = value);
-              },
-              width: _size.width,
-              height: 40,
-              textStyle: FlutterFlowTheme.darkNormal16.copyWith(),
-              icon: Icon(
-                Icons.keyboard_arrow_down_outlined,
-                color: FlutterFlowTheme.secondaryColor,
-                size: 24,
-              ),
-              fillColor: Colors.white,
-              elevation: 2,
-              borderColor: Colors.transparent,
-              borderWidth: 0,
-              borderRadius: 0,
-              margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-              hidesUnderline: true,
-            ),
-          ),
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              child: ObjectTypesDropDown()),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
@@ -116,159 +97,27 @@ class _FilterWidgetState extends State<FilterWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          room_1 = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: room_1 == 0
-                              ? FlutterFlowTheme.primaryColor
-                              : FlutterFlowTheme.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(0),
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(0),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment(0, 0),
-                          child: Text(
-                            '1',
-                            style: FlutterFlowTheme.btnTextWhite.copyWith(
-                              color: room_1 == 0
-                                  ? FlutterFlowTheme.white
-                                  : FlutterFlowTheme.secondaryColor,
-                            ),
-                          ),
-                        ),
+                    child: RoomButton(
+                      number: 1,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: const Radius.circular(8),
+                        bottomRight: const Radius.circular(0),
+                        topLeft: const Radius.circular(8),
+                        topRight: const Radius.circular(0),
                       ),
                     ),
                   ),
+                  Expanded(child: RoomButton(number: 2)),
+                  Expanded(child: RoomButton(number: 3)),
+                  Expanded(child: RoomButton(number: 4)),
                   Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          room_2 = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: room_2 == 0
-                              ? FlutterFlowTheme.primaryColor
-                              : FlutterFlowTheme.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment(0, 0),
-                          child: Text(
-                            '2',
-                            style: FlutterFlowTheme.btnTextWhite.copyWith(
-                              color: room_2 == 0
-                                  ? FlutterFlowTheme.white
-                                  : FlutterFlowTheme.secondaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          room_3 = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: room_3 == 0
-                              ? FlutterFlowTheme.primaryColor
-                              : FlutterFlowTheme.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment(0, 0),
-                          child: Text(
-                            '3',
-                            style: FlutterFlowTheme.btnTextWhite.copyWith(
-                              color: room_3 == 0
-                                  ? FlutterFlowTheme.white
-                                  : FlutterFlowTheme.secondaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          room_4 = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: room_4 == 0
-                              ? FlutterFlowTheme.primaryColor
-                              : FlutterFlowTheme.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment(0, 0),
-                          child: Text(
-                            '4',
-                            style: FlutterFlowTheme.btnTextWhite.copyWith(
-                              color: room_4 == 0
-                                  ? FlutterFlowTheme.white
-                                  : FlutterFlowTheme.secondaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          roomMore5 = 0;
-                        });
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: roomMore5 == 0
-                              ? FlutterFlowTheme.primaryColor
-                              : FlutterFlowTheme.white,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(8),
-                            topLeft: Radius.circular(0),
-                            topRight: Radius.circular(8),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment(0, 0),
-                          child: Text(
-                            '5+',
-                            style: FlutterFlowTheme.btnTextWhite.copyWith(
-                              color: roomMore5 == 0
-                                  ? FlutterFlowTheme.white
-                                  : FlutterFlowTheme.secondaryColor,
-                            ),
-                          ),
-                        ),
+                    child: RoomButton(
+                      number: 5,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(8),
+                        topLeft: Radius.circular(0),
+                        topRight: Radius.circular(8),
                       ),
                     ),
                   ),
@@ -553,6 +402,138 @@ class NewWidget extends StatelessWidget {
             activeColor: FlutterFlowTheme.primaryColor,
             dense: true,
             controlAffinity: ListTileControlAffinity.trailing,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ObjectTypesDropDown extends StatefulWidget {
+  const ObjectTypesDropDown({Key? key}) : super(key: key);
+
+  @override
+  _ObjectTypesDropDownState createState() => _ObjectTypesDropDownState();
+}
+
+class _ObjectTypesDropDownState extends State<ObjectTypesDropDown> {
+  DictionaryMultiLangItem? dropDownValue;
+
+  @override
+  Widget build(BuildContext context) {
+    final _size = MediaQuery.of(context).size;
+
+    return BlocBuilder<FilterBloc, FilterState>(builder: (context, state) {
+      if (state.objectTypes == null) {
+        return placeholders.objectTypesDropDownPlaceholder;
+      }
+      return FlutterFlowDropDownObjectTypes(
+        options: state.objectTypes!,
+        onChanged: (value) => setState(() => dropDownValue = value),
+        width: _size.width,
+        height: 40,
+        textStyle: FlutterFlowTheme.darkNormal16.copyWith(),
+        icon: Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: FlutterFlowTheme.secondaryColor,
+          size: 24,
+        ),
+        fillColor: Colors.white,
+        elevation: 2,
+        borderColor: Colors.transparent,
+        borderWidth: 0,
+        borderRadius: 0,
+        margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+        hidesUnderline: true,
+      );
+    });
+  }
+}
+
+class RoomButton extends StatelessWidget {
+  const RoomButton({
+    Key? key,
+    required this.number,
+    this.borderRadius,
+  }) : super(key: key);
+
+  final int number;
+  final BorderRadius? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FilterBloc, FilterState>(
+        buildWhen: (previous, current) =>
+            previous.filter.numberOfRooms != current.filter.numberOfRooms ||
+            previous.filter.moreThanFiveRooms !=
+                current.filter.moreThanFiveRooms,
+        builder: (context, state) {
+          return InkWell(
+            onTap: () => context.read<FilterBloc>().add(RoomsPressed(number)),
+            child: Container(
+              width: 30,
+              height: 40,
+              decoration: BoxDecoration(
+                color: state.filter.numberOfRooms != null
+                    ? state.filter.numberOfRooms!.contains(number)
+                        ? FlutterFlowTheme.primaryColor
+                        : FlutterFlowTheme.white
+                    : FlutterFlowTheme.white,
+                borderRadius: borderRadius,
+              ),
+              child: Center(
+                child: Text(
+                  number.toString(),
+                  style: FlutterFlowTheme.btnTextWhite.copyWith(
+                    color: state.filter.numberOfRooms != null
+                        ? state.filter.numberOfRooms!.contains(number)
+                            ? FlutterFlowTheme.white
+                            : FlutterFlowTheme.secondaryColor
+                        : FlutterFlowTheme.secondaryColor,
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
+  }
+}
+
+class MoreThan5 extends StatelessWidget {
+  const MoreThan5({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FilterBloc, FilterState>(
+      buildWhen: (previous, current) =>
+          previous.filter.moreThanFiveRooms != current.filter.moreThanFiveRooms,
+      builder: (context, state) {
+        return InkWell(
+          onTap: () => context.read<FilterBloc>().add(MoreThan5Pressed()),
+          child: Container(
+            width: 30,
+            height: 40,
+            decoration: BoxDecoration(
+              color: state.filter.moreThanFiveRooms
+                  ? FlutterFlowTheme.primaryColor
+                  : FlutterFlowTheme.white,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: const Radius.circular(0),
+                bottomRight: const Radius.circular(8),
+                topLeft: const Radius.circular(0),
+                topRight: const Radius.circular(8),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                '5+',
+                style: FlutterFlowTheme.btnTextWhite.copyWith(
+                  color: state.filter.moreThanFiveRooms
+                      ? FlutterFlowTheme.white
+                      : FlutterFlowTheme.secondaryColor,
+                ),
+              ),
+            ),
           ),
         );
       },

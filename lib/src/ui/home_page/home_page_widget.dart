@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/home/home.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 import '../components/filter_widget.dart';
 import '../components/home_object_box_widget.dart';
@@ -51,16 +51,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   if (state.properties.isEmpty) {
                     if (state.status.isSubmissionInProgress ||
                         state.status.isPure)
-                      return Shimmer.fromColors(
-                        //TODO: change colors
-                        baseColor: Colors.blue[300]!,
-                        highlightColor: Colors.blue[100]!,
-                        child: Container(
-                          width: _size.width,
-                          height: _size.height,
-                          color: Colors.white,
-                        ),
-                      );
+                      return placeholders.shimmer;
                     else
                       return Center(
                         child: Text('Empty properties!'

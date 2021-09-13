@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/remote/i_dictionary_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
+import 'package:jurta_app/src/utils/my_logger.dart';
 
 class DictionaryRepositoryImpl implements IDictionaryRepository {
   DictionaryRepositoryImpl(this.remote);

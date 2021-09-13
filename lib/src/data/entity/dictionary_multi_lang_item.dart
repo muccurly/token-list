@@ -16,10 +16,15 @@ class DictionaryMultiLangItem extends Equatable{
     return DictionaryMultiLangItem(
       code: json['code'],
       id: json['id'],
-      name: MultiLangText.fromJson(json['name']),
+      name: MultiLangText.fromJson(json['multiLang']),
     );
   }
 
   @override
   List<Object?> get props => [code, id, name];
+
+  @override
+  String toString() {
+    return 'DictionaryMultiLangItem{code: $code, id: $id, name: $name}';
+  }
 }

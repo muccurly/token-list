@@ -12,12 +12,13 @@ class LoadProperties extends HomeEvent {
 }
 
 class PropertiesLoaded extends HomeEvent {
-  final ApiResponse<RealProperty> apiResponse;
+  final ApiResponse<RealProperty>? apiResponse;
+  final List<RealProperty>? items;
 
-  const PropertiesLoaded(this.apiResponse);
+  const PropertiesLoaded(this.apiResponse, this.items);
 
   @override
-  List<Object?> get props => [apiResponse];
+  List<Object?> get props => [apiResponse, items];
 }
 
 class LoadMoreProperties extends HomeEvent {

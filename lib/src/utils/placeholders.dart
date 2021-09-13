@@ -3,10 +3,11 @@ import 'package:shimmer/shimmer.dart';
 
 //TODO: change colors
 final placeholderColor = Colors.blue[300]!;
+final highlightColor = Colors.blue[100]!;
 
 final shimmer = Shimmer.fromColors(
   baseColor: placeholderColor,
-  highlightColor: Colors.blue[100]!,
+  highlightColor: highlightColor,
   child: Container(
     width: double.infinity,
     height: double.infinity,
@@ -26,3 +27,13 @@ final errorPlaceholder = Container(
 );
 
 final noImagePlaceholder = Image.asset('assets/images/no_image.png');
+
+final objectTypesDropDownPlaceholder = Shimmer.fromColors(
+  baseColor: placeholderColor,
+  highlightColor : highlightColor,
+  child: Container(
+    width: double.infinity,
+    height: 40,
+    color: Colors.white,
+  ),
+);

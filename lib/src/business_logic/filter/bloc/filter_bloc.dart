@@ -8,6 +8,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
+import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'filter_event.dart';
 
@@ -18,7 +19,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     required IDictionaryRepository dictionaryRepository,
   })  : _dictionaryRepository = dictionaryRepository,
         super(FilterState()) {
-    _objectTypesStreamSubscription = _dictionaryRepository.objectTypes
+    _objectTypesStreamSubscription = dictionaryRepository.objectTypes
         .listen((items) => add(ObjectTypesLoaded(items)));
   }
 
@@ -31,10 +32,10 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   Stream<FilterState> mapEventToState(FilterEvent event) async* {
     if (event is ObjectTypesLoad)
       yield* _mapLoadObjectTypesEventToState();
-    else if (event is ObjectTypesLoaded)
+    else if (event is ObjectTypesLoaded) {
       yield state.copyWith(
           status: FormzStatus.submissionSuccess, objectTypes: event.items);
-    else if (event is HotPressed)
+    } else if (event is HotPressed)
       yield state.copyWith(
         filter: state.filter.copyWith(flagId: event.value == true ? 3 : null),
       );
@@ -43,19 +44,13 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         filter: state.filter
             .copyWith(flagId: state.filter.flagId, showNew: event.value),
       );
-    else if (event is Rooms1Pressed)
+    else if (event is RoomsPressed)
+      yield _mapRoomsPressedToState(event);
+    else if (event is MoreThan5Pressed)
       yield state.copyWith(
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
-            numberOfRooms: state.filter.numberOfRooms
-              ?..removeWhere((it) => it == 1)),
-      );
-    else if (event is Rooms2Pressed)
-      yield state.copyWith(
-        filter: state.filter.copyWith(
-            flagId: state.filter.flagId,
-            numberOfRooms: state.filter.numberOfRooms
-              ?..removeWhere((it) => it == 2)),
+            moreThanFiveRooms: !state.filter.moreThanFiveRooms),
       );
   }
 
@@ -68,6 +63,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         yield state.copyWith(
             message: e.message, status: FormzStatus.submissionFailure);
       } catch (_) {
+        MyLogger.instance.log.e(_.toString());
         yield state.copyWith(
             message: _.toString(), status: FormzStatus.submissionFailure);
       }
@@ -75,6 +71,23 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       yield state.copyWith(
           message: 'Internet connection error',
           status: FormzStatus.submissionFailure);
+  }
+
+  FilterState _mapRoomsPressedToState(RoomsPressed event) {
+    var list = <int>[];
+    if (state.filter.numberOfRooms != null) {
+      list.addAll(state.filter.numberOfRooms!);
+      if (list.contains(event.number))
+        list.removeWhere((it) => it == event.number);
+      else
+        list.add(event.number);
+    }else{
+      list.add(event.number);
+    }
+    print(list);
+    return state.copyWith(
+        filter: state.filter.copyWith(flagId: state.filter.flagId,
+        numberOfRooms: list));
   }
 
   @override

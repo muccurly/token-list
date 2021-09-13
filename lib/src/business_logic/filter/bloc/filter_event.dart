@@ -9,14 +9,18 @@ abstract class FilterEvent extends Equatable {
 
 class HotPressed extends FilterEvent {
   final bool value;
+
   const HotPressed(this.value);
+
   @override
   List<Object?> get props => [value];
 }
 
 class NewPressed extends FilterEvent {
   final bool value;
+
   const NewPressed(this.value);
+
   @override
   List<Object?> get props => [value];
 }
@@ -41,9 +45,16 @@ class ObjectTypesLoaded extends FilterEvent {
   List<Object?> get props => [items];
 }
 
-class Rooms1Pressed extends FilterEvent {}
+class RoomsPressed extends FilterEvent {
+  final int number;
 
-class Rooms2Pressed extends FilterEvent {}
+  const RoomsPressed(this.number);
+
+  @override
+  List<Object?> get props => [number];
+}
+
+class MoreThan5Pressed extends FilterEvent {}
 
 class PriceRangeChanged extends FilterEvent {
   final int from;

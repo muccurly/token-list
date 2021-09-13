@@ -22,23 +22,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required FilterBloc filterBloc,
   })  : _propertyRepository = propertyRepository,
         super(HomeState(filter: filterBloc.state.filter)) {
-    _propertiesStreamSubscription = _propertyRepository.property
-        .listen((apiResponse) => add(PropertiesLoaded(apiResponse)));
-    _filterStreamSubscription = filterBloc.stream
-        .listen((filterState) => add(FilterChanged(filterState.filter)));
+    _apiResponseStreamSubscription = _propertyRepository.apiResponseStream
+        .listen((apiResponse) => add(PropertiesLoaded(apiResponse, null)));
+    _propertiesStreamSubscription = _propertyRepository.propertiesStream
+        .listen((list) => add(PropertiesLoaded(null, list)));
+    _filterStreamSubscription = filterBloc.stream.listen(
+      (filterState) => add(FilterChanged(filterState.filter)),
+    );
   }
 
   final IPropertyRepository _propertyRepository;
 
   late StreamSubscription<ApiResponse<RealProperty>>
-      _propertiesStreamSubscription;
+      _apiResponseStreamSubscription;
+
+  late StreamSubscription<List<RealProperty>>
+    _propertiesStreamSubscription;
 
   late StreamSubscription<FilterState> _filterStreamSubscription;
 
-  var propertiesSet = Set<RealProperty>();
-
   @override
   Future<void> close() {
+    _apiResponseStreamSubscription.cancel();
     _propertiesStreamSubscription.cancel();
     _propertyRepository.dispose();
     _filterStreamSubscription.cancel();
@@ -53,11 +58,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(
           status: FormzStatus.submissionSuccess,
           apiResponse: event.apiResponse,
-          filter: state.filter.copyWith(
-              pageNumber: event.apiResponse.data.pageNumber,
-              flagId: state.filter.flagId),
-          properties: List<RealProperty>.from(
-              propertiesSet..addAll(event.apiResponse.data.data.data)));
+          properties: event.items);
     } else if (event is LoadMoreProperties) {
       if (state.apiResponse != null) {
         if (state.filter.pageNumber < state.apiResponse!.data.size)

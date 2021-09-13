@@ -46,11 +46,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(
           status: FormzStatus.submissionSuccess,
           apiResponse: event.apiResponse,
-          filter: state.filter.copyWith(pageNumber: event.apiResponse.data.pageNumber),
+          filter: state.filter
+              .copyWith(pageNumber: event.apiResponse.data.pageNumber),
           properties: List<RealProperty>.from(
               propertiesSet..addAll(event.apiResponse.data.data.data)));
-    } else if (event is LoadMoreProperties)
-      yield* _mapLoadMorePropertiesToState(event);
+    } else if (event is LoadMoreProperties) {
+      if (state.apiResponse != null) {
+        if (state.filter.pageNumber < state.apiResponse!.data.size)
+          yield* _mapLoadMorePropertiesToState(event);
+      }
+    }
   }
 
   Stream<HomeState> _mapLoadPropertiesToState(

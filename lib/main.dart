@@ -13,6 +13,8 @@ void main() async {
   final dictionaryRepository =
       DictionaryRepositoryImpl(dictionaryRemoteDataSource);
 
-  runApp(App(propertyRepository: propertyRepository,
-  dictionaryRepository: dictionaryRepository,));
+  runApp(App(
+    propertyRepository: propertyRepository,
+    dictionaryRepository: dictionaryRepository,
+  ));
 }

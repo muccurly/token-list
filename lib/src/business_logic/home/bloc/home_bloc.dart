@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:jurta_app/src/business_logic/filter/bloc/filter_bloc.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
@@ -18,10 +19,13 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
+    required FilterBloc filterBloc,
   })  : _propertyRepository = propertyRepository,
-        super(HomeState()) {
+        super(HomeState(filter: filterBloc.state.filter)) {
     _propertiesStreamSubscription = _propertyRepository.property
         .listen((apiResponse) => add(PropertiesLoaded(apiResponse)));
+    _filterStreamSubscription = filterBloc.stream
+        .listen((filterState) => add(FilterChanged(filterState.filter)));
   }
 
   final IPropertyRepository _propertyRepository;
@@ -29,12 +33,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<ApiResponse<RealProperty>>
       _propertiesStreamSubscription;
 
+  late StreamSubscription<FilterState> _filterStreamSubscription;
+
   var propertiesSet = Set<RealProperty>();
 
   @override
   Future<void> close() {
     _propertiesStreamSubscription.cancel();
     _propertyRepository.dispose();
+    _filterStreamSubscription.cancel();
     return super.close();
   }
 
@@ -46,9 +53,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(
           status: FormzStatus.submissionSuccess,
           apiResponse: event.apiResponse,
-          filter: state.filter
-              .copyWith(pageNumber: event.apiResponse.data.pageNumber,
-          flagId: state.filter.flagId),
+          filter: state.filter.copyWith(
+              pageNumber: event.apiResponse.data.pageNumber,
+              flagId: state.filter.flagId),
           properties: List<RealProperty>.from(
               propertiesSet..addAll(event.apiResponse.data.data.data)));
     } else if (event is LoadMoreProperties) {
@@ -56,7 +63,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (state.filter.pageNumber < state.apiResponse!.data.size)
           yield* _mapLoadMorePropertiesToState(event);
       }
-    }
+    } else if (event is FilterChanged)
+      yield state.copyWith(filter: event.filter);
   }
 
   Stream<HomeState> _mapLoadPropertiesToState(
@@ -65,9 +73,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _propertyRepository
-            .findRealProperty(state.filter.copyWith(pageNumber: 0,
-        flagId: state.filter.flagId));
+        await _propertyRepository.findRealProperty(
+            state.filter.copyWith(pageNumber: 0, flagId: state.filter.flagId));
       } on DioError catch (e) {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -89,8 +96,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _propertyRepository.findRealProperty(
-            state.filter.copyWith(pageNumber: state.filter.pageNumber + 1,
+        await _propertyRepository.findRealProperty(state.filter.copyWith(
+            pageNumber: state.filter.pageNumber + 1,
             flagId: state.filter.flagId));
       } on DioError catch (e) {
         yield state.copyWith(

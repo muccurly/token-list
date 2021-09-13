@@ -36,13 +36,12 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
           status: FormzStatus.submissionSuccess, objectTypes: event.items);
     else if (event is HotPressed)
       yield state.copyWith(
-        filter: state.filter
-            .copyWith(flagId: state.filter.flagId == null ? 3 : null),
+        filter: state.filter.copyWith(flagId: event.value == true ? 3 : null),
       );
     else if (event is NewPressed)
       yield state.copyWith(
-        filter: state.filter.copyWith(
-            flagId: state.filter.flagId, showNew: !state.filter.showNew),
+        filter: state.filter
+            .copyWith(flagId: state.filter.flagId, showNew: event.value),
       );
     else if (event is Rooms1Pressed)
       yield state.copyWith(

@@ -29,40 +29,38 @@ class ApiClient {
 
   Dio vmDio = Dio()
     ..options = _options.copyWith(
-        baseUrl:
-            '${EnvironmentConfig.API_URL_VM}/${EnvironmentConfig.API_VERSION}',
-      headers: Map.from(_options.headers)
-        ..remove(Headers.contentTypeHeader),)
+      baseUrl:
+          '${EnvironmentConfig.API_URL_VM}/${EnvironmentConfig.API_VERSION}',
+      headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
+    )
     ..interceptors.add(_baseInterceptors);
   Dio dmDio = Dio()
     ..options = _options.copyWith(
-        baseUrl:
-            '${EnvironmentConfig.API_URL_DM}/${EnvironmentConfig.API_VERSION}',
-      headers: Map.from(_options.headers)
-        ..remove(Headers.contentTypeHeader),)
+      baseUrl:
+          '${EnvironmentConfig.API_URL_DM}/${EnvironmentConfig.API_VERSION}',
+      headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
+    )
     ..interceptors.add(_baseInterceptors);
   Dio umDio = Dio()
     ..options = _options.copyWith(
-        baseUrl:
-            '${EnvironmentConfig.API_URL_UM}/${EnvironmentConfig.API_VERSION}',
-      headers: Map.from(_options.headers)
-        ..remove(Headers.contentTypeHeader),)
+      baseUrl:
+          '${EnvironmentConfig.API_URL_UM}/${EnvironmentConfig.API_VERSION}',
+      headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
+    )
     ..interceptors.add(_baseInterceptors);
   Dio gmDio = Dio()
     ..options = _options.copyWith(
-        baseUrl:
-            '${EnvironmentConfig.API_URL_GM}/${EnvironmentConfig.API_VERSION}',
-      headers: Map.from(_options.headers)
-        ..remove(Headers.contentTypeHeader),)
+      baseUrl:
+          '${EnvironmentConfig.API_URL_GM}/${EnvironmentConfig.API_VERSION}',
+      headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
+    )
     ..interceptors.add(_baseInterceptors);
 
   Dio fmDio = Dio()
     ..options = _options.copyWith(
       baseUrl:
-      '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}',
-      headers: Map.from(_options.headers)
-        ..remove(Headers.contentTypeHeader),)
+          '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}',
+      headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
+    )
     ..interceptors.add(_baseInterceptors);
-
-
 }

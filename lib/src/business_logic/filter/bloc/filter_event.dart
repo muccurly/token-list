@@ -7,9 +7,19 @@ abstract class FilterEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class HotPressed extends FilterEvent {}
+class HotPressed extends FilterEvent {
+  final bool value;
+  const HotPressed(this.value);
+  @override
+  List<Object?> get props => [value];
+}
 
-class NewPressed extends FilterEvent {}
+class NewPressed extends FilterEvent {
+  final bool value;
+  const NewPressed(this.value);
+  @override
+  List<Object?> get props => [value];
+}
 
 class ObjectTypeChose extends FilterEvent {
   final DictionaryMultiLangItem item;

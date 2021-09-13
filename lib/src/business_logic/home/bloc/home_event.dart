@@ -20,6 +20,13 @@ class PropertiesLoaded extends HomeEvent {
   List<Object?> get props => [apiResponse];
 }
 
-class LoadMoreProperties extends HomeEvent{
+class LoadMoreProperties extends HomeEvent {
   const LoadMoreProperties();
+}
+
+class FilterChanged extends HomeEvent {
+  final RealPropertyFilter filter;
+  const FilterChanged(this.filter);
+  @override
+  List<Object?> get props => [filter];
 }

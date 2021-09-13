@@ -18,19 +18,27 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => propertyRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<IPropertyRepository>(
+          create: (context) => propertyRepository,
+        ),
+        RepositoryProvider<IDictionaryRepository>(
+          create: (context) => dictionaryRepository,
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => HomeBloc(
-              propertyRepository: propertyRepository,
-            )..add(LoadProperties()),
-          ),
-          BlocProvider(
+          BlocProvider<FilterBloc>(
             create: (context) => FilterBloc(
               dictionaryRepository: dictionaryRepository,
             )..add(ObjectTypesLoad()),
+          ),
+          BlocProvider<HomeBloc>(
+            create: (context) => HomeBloc(
+              propertyRepository: propertyRepository,
+              filterBloc: BlocProvider.of<FilterBloc>(context),
+            )..add(LoadProperties()),
           ),
         ],
         child: AppView(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jurta_app/src/business_logic/filter/bloc/filter_bloc.dart';
 
 import '../flutter_flow/flutter_flow_drop_down_template.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -41,7 +43,6 @@ class _FilterWidgetState extends State<FilterWidget> {
     return Container(
       width: _size.width * .7,
       height: _size.height,
-      // color: Color(0xCD131E34),
       color: const Color.fromRGBO(19, 30, 52, .8),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -49,89 +50,19 @@ class _FilterWidgetState extends State<FilterWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: SwitchListTile(
-                          value: switchListTileValue1 ??= true,
-                          onChanged: (newValue) =>
-                              setState(() => switchListTileValue1 = newValue),
-                          title: Text(
-                            'Горящие',
-                            style: FlutterFlowTheme.dark50016.copyWith(),
-                          ),
-                          tileColor: FlutterFlowTheme.white,
-                          activeColor: FlutterFlowTheme.primaryColor,
-                          dense: true,
-                          controlAffinity: ListTileControlAffinity.trailing,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // child: Align(
-                  //   alignment: Alignment(0, 0),
-                  //   child: Padding(
-                  //     padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                  //     child: ClipRRect(
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       child: SwitchListTile(
-                  //         value: switchListTileValue1 ??= true,
-                  //         onChanged: (newValue) =>
-                  //             setState(() => switchListTileValue1 = newValue),
-                  //         title: Text(
-                  //           'Горящие',
-                  //           style: FlutterFlowTheme.dark50016.copyWith(),
-                  //         ),
-                  //         tileColor: FlutterFlowTheme.white,
-                  //         activeColor: FlutterFlowTheme.primaryColor,
-                  //         dense: true,
-                  //         controlAffinity: ListTileControlAffinity.trailing,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                ),
-                // Expanded(
-                //   child: Align(
-                //     alignment: Alignment(0, 0),
-                //     child: Padding(
-                //       padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(8),
-                //         child: SwitchListTile(
-                //           value: switchListTileValue2 ??= true,
-                //           onChanged: (newValue) =>
-                //               setState(() => switchListTileValue2 = newValue),
-                //           title: Text(
-                //             'Новые',
-                //             style: FlutterFlowTheme.dark50016.copyWith(),
-                //           ),
-                //           tileColor: FlutterFlowTheme.white,
-                //           activeColor: FlutterFlowTheme.primaryColor,
-                //           dense: true,
-                //           controlAffinity: ListTileControlAffinity.trailing,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // )
+                Expanded(child: HotWidget()),
+                SizedBox(width: 5),
+                Expanded(child: NewWidget())
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 24, 0, 0),
+            padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
               'ТИП НЕДВИЖИМОСТИ',
               style: FlutterFlowTheme.filterTitle.copyWith(
@@ -142,13 +73,13 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
             child: FlutterFlowDropDown(
               options: ['Квартира'].toList(),
               onChanged: (value) {
                 setState(() => dropDownValue = value);
               },
-              width: MediaQuery.of(context).size.width,
+              width: _size.width,
               height: 40,
               textStyle: FlutterFlowTheme.darkNormal16.copyWith(),
               icon: Icon(
@@ -161,12 +92,12 @@ class _FilterWidgetState extends State<FilterWidget> {
               borderColor: Colors.transparent,
               borderWidth: 0,
               borderRadius: 0,
-              margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
+              margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
               hidesUnderline: true,
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 24, 0, 0),
+            padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
               'ТИП НЕДВИЖИМОСТИ',
               style: FlutterFlowTheme.filterTitle.copyWith(),
@@ -346,7 +277,7 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 24, 0, 0),
+            padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
               'ДИАПАЗОН ЦЕН, ₸',
               style: FlutterFlowTheme.filterTitle.copyWith(
@@ -357,7 +288,7 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -555,6 +486,76 @@ class _FilterWidgetState extends State<FilterWidget> {
           )
         ],
       ),
+    );
+  }
+}
+
+class HotWidget extends StatelessWidget {
+  const HotWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FilterBloc, FilterState>(
+      buildWhen: (previous, current) =>
+          previous.filter.flagId != current.filter.flagId,
+      builder: (context, state) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10),
+            ),
+          ),
+          child: SwitchListTile(
+            value: state.filter.flagId == null ? false : true,
+            onChanged: (newValue) =>
+                context.read<FilterBloc>().add(HotPressed(newValue)),
+            title: Text(
+              'Горящие',
+              style: FlutterFlowTheme.dark50016.copyWith(),
+            ),
+            tileColor: FlutterFlowTheme.white,
+            activeColor: FlutterFlowTheme.primaryColor,
+            dense: true,
+            controlAffinity: ListTileControlAffinity.trailing,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FilterBloc, FilterState>(
+      buildWhen: (previous, current) =>
+          previous.filter.showNew != current.filter.showNew,
+      builder: (context, state) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10),
+            ),
+          ),
+          child: SwitchListTile(
+            value: state.filter.showNew,
+            onChanged: (newValue) =>
+                context.read<FilterBloc>().add(NewPressed(newValue)),
+            title: Text(
+              'Новые',
+              style: FlutterFlowTheme.dark50016.copyWith(),
+            ),
+            tileColor: FlutterFlowTheme.white,
+            activeColor: FlutterFlowTheme.primaryColor,
+            dense: true,
+            controlAffinity: ListTileControlAffinity.trailing,
+          ),
+        );
+      },
     );
   }
 }

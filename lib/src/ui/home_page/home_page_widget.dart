@@ -63,8 +63,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       );
                     else
                       return Center(
-                        child: Text(
-                            'Empty properties!\nNeed a placeholder for this situation...'),
+                        child: Text('Empty properties!'
+                            '\nNeed a placeholder for this situation...'),
                       );
                   }
                   return Container(
@@ -183,9 +183,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           //     );
                           //   },
                           // );
-                          setState(() {
-                            showFilter=!showFilter;
-                          });
+                          setState(() => showFilter = !showFilter);
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -208,13 +206,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ],
             ),
             AnimatedPositioned(
-              left: showFilter ? 0 : _size.width,
+              left: showFilter ? _size.width * .3 : _size.width,
               curve: Curves.easeInOut,
               duration: const Duration(milliseconds: 300),
-              child: Container(
-                  width: _size.width,
-                  height: _size.height,
-                  child: FilterWidget()),
+              child: FilterWidget(
+                onCancel: () {
+                  setState(() => showFilter = !showFilter);
+                },
+              ),
             ),
           ],
         ),

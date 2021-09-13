@@ -6,6 +6,10 @@ class Range extends Equatable {
 
   const Range(this.from, this.to);
 
+  Range copyWith({int? from, int? to}) {
+    return Range(from ?? this.from, to ?? this.to);
+  }
+
   Range.fromJson(Map<String, dynamic> json)
       : from = json['from'],
         to = json['to'];

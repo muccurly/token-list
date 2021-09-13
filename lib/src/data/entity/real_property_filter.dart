@@ -31,7 +31,7 @@ class RealPropertyFilter extends Equatable {
   RealPropertyFilter copyWith({
     Range? areaRange,
     String? direction,
-    int? flagId,
+    required int? flagId,
     bool? moreThanFiveRooms,
     List<int>? numberOfRooms,
     int? objectTypeId,
@@ -44,7 +44,7 @@ class RealPropertyFilter extends Equatable {
     return RealPropertyFilter(
       areaRange: areaRange ?? this.areaRange,
       direction: direction ?? this.direction,
-      flagId: flagId ?? this.flagId,
+      flagId: flagId,
       moreThanFiveRooms: moreThanFiveRooms ?? this.moreThanFiveRooms,
       numberOfRooms: numberOfRooms ?? this.numberOfRooms,
       objectTypeId: objectTypeId ?? this.objectTypeId,

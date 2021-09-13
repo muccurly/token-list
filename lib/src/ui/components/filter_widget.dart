@@ -41,7 +41,8 @@ class _FilterWidgetState extends State<FilterWidget> {
     return Container(
       width: _size.width * .7,
       height: _size.height,
-      color: Color(0xCD131E34),
+      // color: Color(0xCD131E34),
+      color: const Color.fromRGBO(19, 30, 52, .8),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -54,8 +55,11 @@ class _FilterWidgetState extends State<FilterWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Align(
-                    alignment: Alignment(0, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
                       child: ClipRRect(
@@ -76,31 +80,53 @@ class _FilterWidgetState extends State<FilterWidget> {
                       ),
                     ),
                   ),
+                  // child: Align(
+                  //   alignment: Alignment(0, 0),
+                  //   child: Padding(
+                  //     padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
+                  //     child: ClipRRect(
+                  //       borderRadius: BorderRadius.circular(8),
+                  //       child: SwitchListTile(
+                  //         value: switchListTileValue1 ??= true,
+                  //         onChanged: (newValue) =>
+                  //             setState(() => switchListTileValue1 = newValue),
+                  //         title: Text(
+                  //           'Горящие',
+                  //           style: FlutterFlowTheme.dark50016.copyWith(),
+                  //         ),
+                  //         tileColor: FlutterFlowTheme.white,
+                  //         activeColor: FlutterFlowTheme.primaryColor,
+                  //         dense: true,
+                  //         controlAffinity: ListTileControlAffinity.trailing,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment(0, 0),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: SwitchListTile(
-                          value: switchListTileValue2 ??= true,
-                          onChanged: (newValue) =>
-                              setState(() => switchListTileValue2 = newValue),
-                          title: Text(
-                            'Новые',
-                            style: FlutterFlowTheme.dark50016.copyWith(),
-                          ),
-                          tileColor: FlutterFlowTheme.white,
-                          activeColor: FlutterFlowTheme.primaryColor,
-                          dense: true,
-                          controlAffinity: ListTileControlAffinity.trailing,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                // Expanded(
+                //   child: Align(
+                //     alignment: Alignment(0, 0),
+                //     child: Padding(
+                //       padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                //       child: ClipRRect(
+                //         borderRadius: BorderRadius.circular(8),
+                //         child: SwitchListTile(
+                //           value: switchListTileValue2 ??= true,
+                //           onChanged: (newValue) =>
+                //               setState(() => switchListTileValue2 = newValue),
+                //           title: Text(
+                //             'Новые',
+                //             style: FlutterFlowTheme.dark50016.copyWith(),
+                //           ),
+                //           tileColor: FlutterFlowTheme.white,
+                //           activeColor: FlutterFlowTheme.primaryColor,
+                //           dense: true,
+                //           controlAffinity: ListTileControlAffinity.trailing,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),

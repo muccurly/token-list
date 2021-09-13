@@ -47,7 +47,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           status: FormzStatus.submissionSuccess,
           apiResponse: event.apiResponse,
           filter: state.filter
-              .copyWith(pageNumber: event.apiResponse.data.pageNumber),
+              .copyWith(pageNumber: event.apiResponse.data.pageNumber,
+          flagId: state.filter.flagId),
           properties: List<RealProperty>.from(
               propertiesSet..addAll(event.apiResponse.data.data.data)));
     } else if (event is LoadMoreProperties) {
@@ -65,7 +66,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
         await _propertyRepository
-            .findRealProperty(state.filter.copyWith(pageNumber: 0));
+            .findRealProperty(state.filter.copyWith(pageNumber: 0,
+        flagId: state.filter.flagId));
       } on DioError catch (e) {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -88,7 +90,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
         await _propertyRepository.findRealProperty(
-            state.filter.copyWith(pageNumber: state.filter.pageNumber + 1));
+            state.filter.copyWith(pageNumber: state.filter.pageNumber + 1,
+            flagId: state.filter.flagId));
       } on DioError catch (e) {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,

@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 
-class DictionaryMultiLangItem {
-  String code;
-  int id;
-  MultiLangText name;
+class DictionaryMultiLangItem extends Equatable{
+  final String code;
+  final int id;
+  final MultiLangText name;
 
   DictionaryMultiLangItem({
     required this.code,
@@ -18,4 +19,7 @@ class DictionaryMultiLangItem {
       name: MultiLangText.fromJson(json['name']),
     );
   }
+
+  @override
+  List<Object?> get props => [code, id, name];
 }

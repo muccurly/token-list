@@ -7,7 +7,7 @@ class HomeState extends Equatable {
   final FormzStatus status;
   final String? message;
 
-  HomeState({
+  const HomeState({
     this.apiResponse,
     this.properties = const <RealProperty>[],
     this.filter = const RealPropertyFilter(),

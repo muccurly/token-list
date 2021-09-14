@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/ui/components/images_box_widget.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../components/show_more_box_widget.dart';
@@ -20,10 +21,12 @@ class MainObjectBoxWidget extends StatefulWidget {
 }
 
 class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
+  bool isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -65,10 +68,11 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            child: Text('${widget.realProperty.numberOfRooms}-комнатный    '
-                '${widget.realProperty.floor != null ? '•    ${widget.realProperty.floor} этаж    ' : ''}'
-                '•   ${widget.realProperty.totalArea} м²',
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: Text(
+              '${widget.realProperty.numberOfRooms}-комнатный    '
+              '${widget.realProperty.floor != null ? '•    ${widget.realProperty.floor} этаж    ' : ''}'
+              '•   ${widget.realProperty.totalArea} м²',
               style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
             ),
           ),
@@ -78,7 +82,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             color: Color(0xFFCBCBCB),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 12),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +91,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                 Expanded(
                   flex: 2,
                   child: Text(
-                      widget.realProperty.address.nameRu,
+                    widget.realProperty.address.nameRu,
                     style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                   ),
                 ),
@@ -104,7 +108,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Количество комнат ................................. ${widget.realProperty.numberOfRooms}',
               textAlign: TextAlign.start,
@@ -112,7 +116,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Площадь  .................................................. ${widget.realProperty.totalArea} м²',
               textAlign: TextAlign.start,
@@ -120,7 +124,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Этаж ........................................................ ${widget.realProperty.floor}',
               textAlign: TextAlign.start,
@@ -128,7 +132,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Состояние ................................................ Евроремонт',
               textAlign: TextAlign.start,
@@ -136,7 +140,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Потолки ................................................... 3 м',
               textAlign: TextAlign.start,
@@ -144,7 +148,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Санузел ................................................... Раздельний',
               textAlign: TextAlign.start,
@@ -152,7 +156,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Паркинг ................................................... Парковка',
               textAlign: TextAlign.start,
@@ -160,7 +164,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Год постройки ......................................... 2014',
               textAlign: TextAlign.start,
@@ -168,7 +172,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -178,7 +182,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                   style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                   child: Icon(
                     Icons.keyboard_arrow_down_outlined,
                     color: FlutterFlowTheme.dark,
@@ -189,37 +193,80 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
-            child: Card(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              color: Color(0xFFDADADA),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 15, 8, 15),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Посмотреть планировку объекта',
-                      style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () => setState(() {
+                isExpanded = !isExpanded;
+              }),
+              child: Container(
+                child: Theme(
+                  data: Theme.of(context).copyWith(cardColor: const Color(0xFFF3F4F6)),
+                  child: Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Color(0xFFDADADA),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    Icon(
-                      Icons.keyboard_arrow_down_sharp,
-                      color: Colors.black,
-                      size: 24,
-                    )
-                  ],
+                    child: ExpansionPanelList(
+                      animationDuration: const Duration(milliseconds: 300),
+                      expansionCallback: (index, value){
+                        print('$index : $value');
+                        setState(() {
+                          isExpanded = !value;
+                        });
+                      },
+                      children: [
+                        ExpansionPanel(
+                            headerBuilder: (context, isExpanded) {
+                              return Center(
+                                child: Text(
+                                  'Посмотреть планировку объекта',
+                                  style: FlutterFlowTheme.subtitleTextDark
+                                      .copyWith(),
+                                ),
+                              );
+                            },
+                            body: ImagesBoxWidget(list: widget.realProperty.housingPlanIdList,
+                            id: widget.realProperty.realPropertyId,),
+                        isExpanded: isExpanded)
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
+            // child: Card(
+            //   clipBehavior: Clip.antiAliasWithSaveLayer,
+            //   color: Color(0xFFDADADA),
+            //   elevation: 0,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.fromLTRB(16, 15, 8, 15),
+            //     child: Row(
+            //       mainAxisSize: MainAxisSize.max,
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       children: [
+            //         Text(
+            //           'Посмотреть планировку объекта',
+            //           style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+            //         ),
+            //         Icon(
+            //           Icons.keyboard_arrow_down_sharp,
+            //           color: Colors.black,
+            //           size: 24,
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(3, 12, 3, 0),
+            padding: const EdgeInsets.fromLTRB(3, 12, 3, 0),
             child: FFButtonWidget(
               onPressed: () {
                 print('Button pressed ...');

@@ -1,16 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
-import 'package:jurta_app/src/env_config.dart';
+import 'package:jurta_app/src/ui/components/gallery_photo_widget.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 class ImagesBoxWidget extends StatefulWidget {
   ImagesBoxWidget({
     Key? key,
-    required this.realProperty,
+    required this.list,
+    required this.id,
   }) : super(key: key);
 
-  final RealProperty realProperty;
+  final List<String> list;
+  final int id;
 
   @override
   _ImagesBoxWidgetState createState() => _ImagesBoxWidgetState();
@@ -21,29 +21,11 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
 
-    _buildImage(String uuid) {
-      return CachedNetworkImage(
-        imageUrl: '${EnvironmentConfig.API_URL_FM}'
-            '/${EnvironmentConfig.API_VERSION}/download'
-            '/$uuid',
-        imageBuilder: (context, imageProvider) => Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        placeholder: (context, url) => placeholders.shimmer,
-        errorWidget: (context, url, error) => placeholders.errorPlaceholder,
-      );
-    }
-
     return Container(
       width: _size.width,
       height: 300,
       decoration: BoxDecoration(),
-      child: widget.realProperty.photoIdList.isEmpty
+      child: widget.list.isEmpty
           ? placeholders.noImagePlaceholder
           : Row(
               mainAxisSize: MainAxisSize.max,
@@ -54,31 +36,111 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
-                          child: widget.realProperty.photoIdList.isEmpty
+                          child: widget.list.isEmpty
                               ? placeholders.noImagePlaceholder
-                              : _buildImage(
-                                  widget.realProperty.photoIdList.first))
+                              : GalleryExampleItemThumbnail(
+                                  galleryExampleItem:
+                                      widget.list.first,
+                                  onTap: () async => await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor:
+                                          Colors.black.withOpacity(.8),
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          child: GalleryPhotoViewWrapper(
+                                            itemsUuid:
+                                                widget.list,
+                                            backgroundDecoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                            ),
+                                            initialIndex: 0,
+                                            scrollDirection: Axis.horizontal,
+                                          ),
+                                        );
+                                      }),
+                                ))
                     ],
                   ),
                 ),
-                widget.realProperty.photoIdList.length > 1
+                widget.list.length > 1
                     ? Expanded(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Expanded(
-                                child:
-                                    widget.realProperty.photoIdList.length > 1
-                                        ? _buildImage(
-                                            widget.realProperty.photoIdList[1])
-                                        : placeholders.noImagePlaceholder),
-                            widget.realProperty.photoIdList.length > 2
+                                child: widget.list.length >
+                                        1
+                                    ? GalleryExampleItemThumbnail(
+                                        galleryExampleItem:
+                                            widget.list[1],
+                                        onTap: () async =>
+                                            await showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor: Colors.black
+                                                    .withOpacity(.8),
+                                                context: context,
+                                                builder: (context) {
+                                                  return Container(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height,
+                                                    child:
+                                                        GalleryPhotoViewWrapper(
+                                                      itemsUuid: widget.list,
+                                                      backgroundDecoration:
+                                                          BoxDecoration(
+                                                        color:
+                                                            Colors.transparent,
+                                                      ),
+                                                      initialIndex: 1,
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                    ),
+                                                  );
+                                                }),
+                                      )
+                                    : placeholders.noImagePlaceholder),
+                            widget.list.length > 2
                                 ? Expanded(
-                                    child: widget.realProperty.photoIdList
+                                    child: widget.list
                                                 .length >
                                             2
-                                        ? _buildImage(
-                                            widget.realProperty.photoIdList[2])
+                                        ? GalleryExampleItemThumbnail(
+                                            galleryExampleItem: widget.
+                                                list[2],
+                                            onTap: () async =>
+                                                await showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    backgroundColor: Colors
+                                                        .black
+                                                        .withOpacity(.8),
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return Container(
+                                                        height: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .height,
+                                                        child:
+                                                            GalleryPhotoViewWrapper(
+                                                          itemsUuid: widget.list,
+                                                          backgroundDecoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                          ),
+                                                          initialIndex: 2,
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                        ),
+                                                      );
+                                                    }),
+                                          )
                                         : placeholders.noImagePlaceholder)
                                 : SizedBox.shrink(),
                           ],

@@ -74,7 +74,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                           context: context,
                           builder: (context) {
                             return Container(
-                              height: MediaQuery.of(context).size.height * 1,
+                              height: MediaQuery.of(context).size.height,
                               child: SortFilterBoxWidget(),
                             );
                           },

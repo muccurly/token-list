@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jurta_app/l10n/l10n.dart';
-import 'package:jurta_app/src/business_logic/filter/bloc/filter_bloc.dart';
+import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/bloc/home_bloc.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';

@@ -95,10 +95,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         list.removeWhere((it) => it == event.number);
       else
         list.add(event.number);
-    } else {
+    } else
       list.add(event.number);
-    }
-    print(list);
     return state.copyWith(
         filter: state.filter
             .copyWith(flagId: state.filter.flagId, numberOfRooms: list));

@@ -31,10 +31,10 @@ class RealPropertyFilter extends Equatable {
   RealPropertyFilter copyWith({
     Range? areaRange,
     String? direction,
-    int? flagId,
+    required int? flagId,
     bool? moreThanFiveRooms,
     List<int>? numberOfRooms,
-    int? objectTypeId,
+    required int? objectTypeId,
     int? pageNumber,
     int? pageSize,
     Range? priceRange,
@@ -44,10 +44,10 @@ class RealPropertyFilter extends Equatable {
     return RealPropertyFilter(
       areaRange: areaRange ?? this.areaRange,
       direction: direction ?? this.direction,
-      flagId: flagId ?? this.flagId,
+      flagId: flagId,
       moreThanFiveRooms: moreThanFiveRooms ?? this.moreThanFiveRooms,
       numberOfRooms: numberOfRooms ?? this.numberOfRooms,
-      objectTypeId: objectTypeId ?? this.objectTypeId,
+      objectTypeId: objectTypeId,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
       priceRange: priceRange ?? this.priceRange,
@@ -84,4 +84,12 @@ class RealPropertyFilter extends Equatable {
         showNew,
         sortBy,
       ];
+
+  @override
+  String toString() {
+    return 'RealPropertyFilter{areaRange: $areaRange, direction: $direction, flagId: $flagId,'
+        '\nmoreThanFiveRooms: $moreThanFiveRooms, numberOfRooms: $numberOfRooms, '
+        '\nobjectTypeId: $objectTypeId, pageNumber: $pageNumber, pageSize: $pageSize, '
+        '\npriceRange: $priceRange, showNew: $showNew, sortBy: $sortBy}';
+  }
 }

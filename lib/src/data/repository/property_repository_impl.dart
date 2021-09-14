@@ -12,21 +12,44 @@ class PropertyRepositoryImpl implements IPropertyRepository {
 
   final IPropertyRemoteDataSource remote;
 
-  final _propertyController = StreamController<ApiResponse<RealProperty>>();
+  final _apiResponseStreamController = StreamController<ApiResponse<RealProperty>>();
+  final _propertiesStreamController = StreamController<List<RealProperty>>();
+
+  var properties = Set<RealProperty>();
+
+  ApiResponse? apiResponse;
 
   @override
-  Stream<ApiResponse<RealProperty>> get property async* {
-    yield* _propertyController.stream;
+  Stream<ApiResponse<RealProperty>> get apiResponseStream async* {
+    yield* _apiResponseStreamController.stream;
+  }
+
+  @override
+  Stream<List<RealProperty>> get propertiesStream async* {
+    yield* _propertiesStreamController.stream;
   }
 
   @override
   Future<void> findRealProperty(RealPropertyFilter filter) async {
-    ApiResponse<RealProperty> realProperties =
+    ApiResponse<RealProperty> result =
         await remote.getRealPropertyForMobileMainPage(filter);
-    MyLogger.instance.log.d(realProperties.toString());
-    _propertyController.add(realProperties);
+    MyLogger.instance.log.d('result:'
+        '\nfilter: $filter'
+        '\npageNumber: ${result.data.pageNumber}'
+        '\nsize: ${result.data.size}'
+        '\ntotal: ${result.data.total}'
+        '\nids: ${result.data.data.data}');
+    //TODO: find a cleaner way
+    if(filter.pageNumber == 0)
+      properties.clear();
+    properties.addAll(result.data.data.data);
+    _apiResponseStreamController.add(result);
+    _propertiesStreamController.add(properties.toList());
   }
 
   @override
-  void dispose() => _propertyController.close();
+  void dispose() {
+    _apiResponseStreamController.close();
+    _propertiesStreamController.close();
+  }
 }

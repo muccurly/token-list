@@ -5,13 +5,15 @@ class HomeState extends Equatable {
   final List<RealProperty> properties;
   final RealPropertyFilter filter;
   final FormzStatus status;
+  final bool firstLoading;
   final String? message;
 
-  HomeState({
+  const HomeState({
     this.apiResponse,
     this.properties = const <RealProperty>[],
-    this.filter = const RealPropertyFilter(),
+    required this.filter,
     this.status = FormzStatus.pure,
+    this.firstLoading = false,
     this.message,
   });
 
@@ -20,15 +22,16 @@ class HomeState extends Equatable {
     List<RealProperty>? properties,
     RealPropertyFilter? filter,
     FormzStatus? status,
+    bool? firstLoading,
     String? message,
   }) {
     return HomeState(
-      apiResponse: apiResponse ?? this.apiResponse,
-      properties: properties ?? this.properties,
-      filter: filter ?? this.filter,
-      status: status ?? this.status,
-      message: message ?? this.message,
-    );
+        apiResponse: apiResponse ?? this.apiResponse,
+        properties: properties ?? this.properties,
+        filter: filter ?? this.filter,
+        status: status ?? this.status,
+        message: message ?? this.message,
+        firstLoading: firstLoading ?? this.firstLoading);
   }
 
   @override
@@ -37,6 +40,7 @@ class HomeState extends Equatable {
         properties,
         filter,
         status,
+        firstLoading,
         message,
       ];
 }

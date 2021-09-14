@@ -1,10 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class Range extends Equatable {
-  final int from;
-  final int to;
+  final int? from;
+  final int? to;
 
-  const Range(this.from, this.to);
+  const Range({this.from, this.to});
+
+  Range copyWith({required int? from, required int? to}) {
+    return Range(from: from, to: to);
+  }
 
   Range.fromJson(Map<String, dynamic> json)
       : from = json['from'],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../components/show_more_box_widget.dart';

@@ -20,10 +20,11 @@ class _AreaRangeFromState extends State<AreaRangeFrom> {
       obscureText: false,
       keyboardType: TextInputType.number,
       onChanged: (value) {
-        if (value.isNotEmpty)
+        int? val;
+        if (value.isNotEmpty) val = int.parse(value);
           context
               .read<FilterBloc>()
-              .add(AreaRangeChanged(int.parse(value), null));
+              .add(AreaRangeFromChanged(val));
       },
       decoration: InputDecoration(
         isDense: true,
@@ -67,10 +68,11 @@ class _AreaRangeToState extends State<AreaRangeTo> {
       obscureText: false,
       keyboardType: TextInputType.number,
       onChanged: (value) {
-        if (value.isNotEmpty)
+        int? val;
+        if (value.isNotEmpty) val = int.parse(value);
           context
               .read<FilterBloc>()
-              .add(AreaRangeChanged(null, int.parse(value)));
+              .add(AreaRangeToChanged(val));
       },
       decoration: InputDecoration(
         isDense: true,

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/range.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
@@ -57,24 +58,43 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             moreThanFiveRooms: !state.filter.moreThanFiveRooms,
             objectTypeId: state.filter.objectTypeId),
       );
-    else if (event is PriceRangeChanged)
+    else if (event is PriceRangeFromChanged)
       yield state.copyWith(
-        filter: state.filter.copyWith(
-            flagId: state.filter.flagId,
-            priceRange: state.filter.priceRange
-                ?.copyWith(from: event.from, to: event.to),
-            objectTypeId: state.filter.objectTypeId),
-      );
-    else if (event is AreaRangeChanged)
+          filter: state.filter.copyWith(
+              flagId: state.filter.flagId,
+              objectTypeId: state.filter.objectTypeId,
+              priceRange: state.filter.priceRange == null
+                  ? Range(from: event.value)
+                  : state.filter.priceRange!.copyWith(
+                      from: event.value, to: state.filter.priceRange!.to)));
+    else if (event is PriceRangeToChanged)
       yield state.copyWith(
-        filter: state.filter.copyWith(
-            flagId: state.filter.flagId,
-            areaRange: state.filter.areaRange
-                ?.copyWith(from: event.from, to: event.to),
-            objectTypeId: state.filter.objectTypeId),
-      );
+          filter: state.filter.copyWith(
+              flagId: state.filter.flagId,
+              objectTypeId: state.filter.objectTypeId,
+              priceRange: state.filter.priceRange == null
+                  ? Range(to: event.value)
+                  : state.filter.priceRange!.copyWith(
+                      from: state.filter.priceRange!.from, to: event.value)));
+    else if (event is AreaRangeFromChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              flagId: state.filter.flagId,
+              objectTypeId: state.filter.objectTypeId,
+              areaRange: state.filter.areaRange == null
+                  ? Range(from: event.value)
+                  : state.filter.areaRange!.copyWith(
+                      from: event.value, to: state.filter.areaRange!.to)));
+    else if (event is AreaRangeToChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              flagId: state.filter.flagId,
+              objectTypeId: state.filter.objectTypeId,
+              areaRange: state.filter.areaRange == null
+                  ? Range(to: event.value)
+                  : state.filter.areaRange!.copyWith(
+                      from: state.filter.areaRange!.from, to: event.value)));
     else if (event is ObjectTypeChose) {
-      MyLogger.instance.log.d(event.item.name.nameEn);
       yield state.copyWith(
           filter: state.filter.copyWith(
               flagId: state.filter.flagId, objectTypeId: event.item.id));

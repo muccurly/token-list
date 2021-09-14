@@ -57,11 +57,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield _mapPropertiesLoadedToState(event);
     else if (event is LoadMoreProperties) {
       if (state.apiResponse != null) {
-        if (state.apiResponse!.data.pageNumber < state.apiResponse!.data.size)
+        if (state.apiResponse!.data.pageNumber+1 < state.apiResponse!.data.size)
           yield* _mapLoadMorePropertiesToState(event);
       }
     } else if (event is FilterChanged) {
-      MyLogger.instance.log.d(event.filter.objectTypeId);
       yield state.copyWith(filter: event.filter);
     }
   }
@@ -70,7 +69,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     LoadProperties event,
   ) async* {
     if (await InternetConnectionChecker().hasConnection) {
-      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      yield state.copyWith(status: FormzStatus.submissionInProgress,
+      firstLoading: true);
       try {
         await _propertyRepository.findRealProperty(state.filter.copyWith(
             pageNumber: 0,
@@ -80,15 +80,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,
           message: e.message,
+          firstLoading: false,
         );
       } catch (_) {
         MyLogger.instance.log.e(_.toString());
-        yield state.copyWith(status: FormzStatus.submissionFailure);
+        yield state.copyWith(status: FormzStatus.submissionFailure,
+          firstLoading: false,);
       }
     } else
       yield state.copyWith(
         status: FormzStatus.submissionFailure,
         message: 'Internet connection error',
+        firstLoading: false,
       );
   }
 
@@ -125,6 +128,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             pageNumber: event.apiResponse?.data.pageNumber,
             flagId: state.filter.flagId,
             objectTypeId: state.filter.objectTypeId),
-        properties: event.items);
+        properties: event.items,
+    firstLoading: false);
   }
 }

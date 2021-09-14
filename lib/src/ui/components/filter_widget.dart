@@ -180,7 +180,10 @@ class _FilterWidgetState extends State<FilterWidget> {
           Padding(
             padding: EdgeInsets.fromLTRB(8, 12, 8, 0),
             child: FFButtonWidget(
-              onPressed: () => BlocProvider.of<HomeBloc>(context).add(LoadProperties()),
+              onPressed: () {
+                BlocProvider.of<HomeBloc>(context).add(LoadProperties());
+                widget.onCancel();
+              },
               text: AppLocalizations.of(context)!.show.toUpperCase(),
               options: FFButtonOptions(
                 width: 130,

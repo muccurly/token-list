@@ -48,14 +48,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       previous.properties != current.properties ||
                       previous.status != current.status,
                   builder: (context, state) {
+                    if(state.status.isSubmissionInProgress && state.firstLoading){
+                      return placeholders.shimmer;
+                    }
                     if (state.properties.isEmpty) {
                       if (state.status.isSubmissionInProgress ||
                           state.status.isPure)
                         return placeholders.shimmer;
                       else
-                        return Center(
-                          child: Text('Empty properties!'
-                              '\nNeed a placeholder for this situation...'),
+                        return Container(
+                          width: _size.width,
+                          height: _size.height,
+                          color: Colors.blue[300]!,
+                          child: Center(
+                            child: Text('Empty properties!'
+                                '\nNeed a placeholder for this situation...'),
+                          ),
                         );
                     }
                     return Container(
@@ -81,7 +89,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               : state.properties.length,
                           itemBuilder: (context, index) =>
                               index == state.properties.length
-                                  ? Center(child: CircularProgressIndicator())
+                                  ? placeholders.shimmer
                                   : HomeObjectBoxWidget(
                                       realProperty: state.properties[index]),
                         ),

@@ -21,10 +21,9 @@ class _PriceRangeFromState extends State<PriceRangeFrom> {
       obscureText: false,
       keyboardType: TextInputType.number,
       onChanged: (value) {
-        if (value.isNotEmpty)
-          context
-              .read<FilterBloc>()
-              .add(PriceRangeChanged(int.parse(value), null));
+        int? val;
+        if (value.isNotEmpty) val = int.parse(value);
+        context.read<FilterBloc>().add(PriceRangeFromChanged(val));
       },
       decoration: InputDecoration(
         isDense: true,
@@ -61,6 +60,7 @@ class PriceRangeTo extends StatefulWidget {
 
 class _PriceRangeToState extends State<PriceRangeTo> {
   final _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -68,10 +68,11 @@ class _PriceRangeToState extends State<PriceRangeTo> {
       obscureText: false,
       keyboardType: TextInputType.number,
       onChanged: (value) {
-        if (value.isNotEmpty)
+        int? val;
+        if (value.isNotEmpty) val = int.parse(value);
           context
               .read<FilterBloc>()
-              .add(PriceRangeChanged(null, int.parse(value)));
+              .add(PriceRangeToChanged(val));
       },
       decoration: InputDecoration(
         isDense: true,

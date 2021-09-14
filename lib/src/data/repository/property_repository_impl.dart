@@ -5,6 +5,7 @@ import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/data/remote/i_property_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
+import 'package:jurta_app/src/utils/my_logger.dart';
 
 class PropertyRepositoryImpl implements IPropertyRepository {
   PropertyRepositoryImpl(this.remote);
@@ -15,6 +16,7 @@ class PropertyRepositoryImpl implements IPropertyRepository {
   final _propertiesStreamController = StreamController<List<RealProperty>>();
 
   var properties = Set<RealProperty>();
+
   ApiResponse? apiResponse;
 
   @override
@@ -31,6 +33,15 @@ class PropertyRepositoryImpl implements IPropertyRepository {
   Future<void> findRealProperty(RealPropertyFilter filter) async {
     ApiResponse<RealProperty> result =
         await remote.getRealPropertyForMobileMainPage(filter);
+    MyLogger.instance.log.d('result:'
+        '\nfilter: $filter'
+        '\npageNumber: ${result.data.pageNumber}'
+        '\nsize: ${result.data.size}'
+        '\ntotal: ${result.data.total}'
+        '\nids: ${result.data.data.data}');
+    //TODO: find a cleaner way
+    if(filter.pageNumber == 0)
+      properties.clear();
     properties.addAll(result.data.data.data);
     _apiResponseStreamController.add(result);
     _propertiesStreamController.add(properties.toList());

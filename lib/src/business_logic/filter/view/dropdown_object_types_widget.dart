@@ -26,7 +26,10 @@ class _ObjectTypesDropDownState extends State<ObjectTypesDropDown> {
       }
       return FlutterFlowDropDownObjectTypes(
         options: state.objectTypes!,
-        onChanged: (value) => setState(() => dropDownValue = value),
+        onChanged: (value) {
+          setState(() => dropDownValue = value);
+          context.read<FilterBloc>().add(ObjectTypeChose(value));
+        },
         width: _size.width,
         height: 40,
         textStyle: FlutterFlowTheme.darkNormal16.copyWith(),

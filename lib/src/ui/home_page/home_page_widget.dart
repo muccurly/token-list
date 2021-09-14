@@ -20,7 +20,6 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   final pageViewController = PageController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final indicatorKey = GlobalKey<RefreshIndicatorState>();
   bool showFilter = false;
 
   @override
@@ -63,7 +62,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       width: _size.width,
                       height: _size.height,
                       child: RefreshIndicator(
-                        key: indicatorKey,
                         onRefresh: () async {
                           context.read<HomeBloc>().add(LoadProperties());
                           await Future.delayed(const Duration(seconds: 2));
@@ -111,11 +109,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               height: _size.height * 0.05,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.secondaryColor,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(16),
-                                  topLeft: Radius.circular(0),
-                                  topRight: Radius.circular(16),
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: const Radius.circular(0),
+                                  bottomRight: const Radius.circular(16),
+                                  topLeft: const Radius.circular(0),
+                                  topRight: const Radius.circular(16),
                                 ),
                                 border: Border.all(
                                   color: FlutterFlowTheme.secondaryColor,
@@ -141,8 +139,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 context,
                                 PageTransition(
                                   type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 300),
-                                  reverseDuration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
+                                  reverseDuration: const Duration(milliseconds: 300),
                                   child: SearchPageWidget(),
                                 ),
                               );
@@ -165,21 +163,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () async {
-                            // await showModalBottomSheet(
-                            //   isScrollControlled: true,
-                            //   backgroundColor: Color(0xCD131E34),
-                            //   barrierColor: Color(0x344A5056),
-                            //   context: context,
-                            //   builder: (context) {
-                            //     return Container(
-                            //       height: _size.height * 1,
-                            //       child: FilterWidget(),
-                            //     );
-                            //   },
-                            // );
-                            setState(() => showFilter = !showFilter);
-                          },
+                          onTap: () =>
+                            setState(() => showFilter = !showFilter),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -205,9 +190,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 curve: Curves.easeInOut,
                 duration: const Duration(milliseconds: 300),
                 child: FilterWidget(
-                  onCancel: () {
-                    setState(() => showFilter = !showFilter);
-                  },
+                  onCancel: () =>
+                    setState(() => showFilter = !showFilter),
                 ),
               ),
             ],

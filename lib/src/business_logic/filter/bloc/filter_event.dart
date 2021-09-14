@@ -75,7 +75,3 @@ class AreaRangeChanged extends FilterEvent {
   @override
   List<Object?> get props => [from, to];
 }
-
-class CancelFilteringPressed extends FilterEvent {}
-
-class ShowFilteringPressed extends FilterEvent {}

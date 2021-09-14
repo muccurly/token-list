@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
+import 'package:jurta_app/src/business_logic/home/home.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:jurta_app/src/utils/extensions.dart';
 
 class FilterWidget extends StatefulWidget {
   FilterWidget({
@@ -179,9 +180,7 @@ class _FilterWidgetState extends State<FilterWidget> {
           Padding(
             padding: EdgeInsets.fromLTRB(8, 12, 8, 0),
             child: FFButtonWidget(
-              onPressed: () {
-                print('Show Button pressed ...');
-              },
+              onPressed: () => BlocProvider.of<HomeBloc>(context).add(LoadProperties()),
               text: AppLocalizations.of(context)!.show.toUpperCase(),
               options: FFButtonOptions(
                 width: 130,

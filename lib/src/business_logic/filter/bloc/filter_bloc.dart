@@ -32,17 +32,21 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   Stream<FilterState> mapEventToState(FilterEvent event) async* {
     if (event is ObjectTypesLoad)
       yield* _mapLoadObjectTypesEventToState();
-    else if (event is ObjectTypesLoaded) {
+    else if (event is ObjectTypesLoaded)
       yield state.copyWith(
           status: FormzStatus.submissionSuccess, objectTypes: event.items);
-    } else if (event is HotPressed)
+    else if (event is HotPressed)
       yield state.copyWith(
-        filter: state.filter.copyWith(flagId: event.value == true ? 3 : null),
+        filter: state.filter.copyWith(
+            flagId: event.value == true ? 3 : null,
+            objectTypeId: state.filter.objectTypeId),
       );
     else if (event is NewPressed)
       yield state.copyWith(
-        filter: state.filter
-            .copyWith(flagId: state.filter.flagId, showNew: event.value),
+        filter: state.filter.copyWith(
+            flagId: state.filter.flagId,
+            showNew: event.value,
+            objectTypeId: state.filter.objectTypeId),
       );
     else if (event is RoomsPressed)
       yield _mapRoomsPressedToState(event);
@@ -50,22 +54,31 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       yield state.copyWith(
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
-            moreThanFiveRooms: !state.filter.moreThanFiveRooms),
+            moreThanFiveRooms: !state.filter.moreThanFiveRooms,
+            objectTypeId: state.filter.objectTypeId),
       );
     else if (event is PriceRangeChanged)
       yield state.copyWith(
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
             priceRange: state.filter.priceRange
-                ?.copyWith(from: event.from, to: event.to)),
+                ?.copyWith(from: event.from, to: event.to),
+            objectTypeId: state.filter.objectTypeId),
       );
     else if (event is AreaRangeChanged)
       yield state.copyWith(
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
             areaRange: state.filter.areaRange
-                ?.copyWith(from: event.from, to: event.to)),
+                ?.copyWith(from: event.from, to: event.to),
+            objectTypeId: state.filter.objectTypeId),
       );
+    else if (event is ObjectTypeChose) {
+      MyLogger.instance.log.d(event.item.name.nameEn);
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              flagId: state.filter.flagId, objectTypeId: event.item.id));
+    }
   }
 
   Stream<FilterState> _mapLoadObjectTypesEventToState() async* {
@@ -98,8 +111,10 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     } else
       list.add(event.number);
     return state.copyWith(
-        filter: state.filter
-            .copyWith(flagId: state.filter.flagId, numberOfRooms: list));
+        filter: state.filter.copyWith(
+            flagId: state.filter.flagId,
+            numberOfRooms: list,
+            objectTypeId: state.filter.objectTypeId));
   }
 
   @override

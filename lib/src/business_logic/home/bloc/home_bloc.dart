@@ -53,21 +53,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is LoadProperties)
       yield* _mapLoadPropertiesToState(event);
-    else if (event is PropertiesLoaded) {
-      yield state.copyWith(
-          status: FormzStatus.submissionSuccess,
-          apiResponse: event.apiResponse,
-          filter: state.filter.copyWith(
-              pageNumber: event.apiResponse?.data.pageNumber,
-              flagId: state.filter.flagId),
-          properties: event.items);
-    } else if (event is LoadMoreProperties) {
+    else if (event is PropertiesLoaded)
+      yield _mapPropertiesLoadedToState(event);
+    else if (event is LoadMoreProperties) {
       if (state.apiResponse != null) {
         if (state.apiResponse!.data.pageNumber < state.apiResponse!.data.size)
           yield* _mapLoadMorePropertiesToState(event);
       }
-    } else if (event is FilterChanged)
+    } else if (event is FilterChanged) {
+      MyLogger.instance.log.d(event.filter.objectTypeId);
       yield state.copyWith(filter: event.filter);
+    }
   }
 
   Stream<HomeState> _mapLoadPropertiesToState(
@@ -76,8 +72,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _propertyRepository.findRealProperty(
-            state.filter.copyWith(pageNumber: 0, flagId: state.filter.flagId));
+        await _propertyRepository.findRealProperty(state.filter.copyWith(
+            pageNumber: 0,
+            flagId: state.filter.flagId,
+            objectTypeId: state.filter.objectTypeId));
       } on DioError catch (e) {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -101,7 +99,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         await _propertyRepository.findRealProperty(state.filter.copyWith(
             pageNumber: state.filter.pageNumber + 1,
-            flagId: state.filter.flagId));
+            flagId: state.filter.flagId,
+            objectTypeId: state.filter.objectTypeId));
       } on DioError catch (e) {
         yield state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -116,5 +115,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         status: FormzStatus.submissionFailure,
         message: 'Internet connection error',
       );
+  }
+
+  HomeState _mapPropertiesLoadedToState(PropertiesLoaded event) {
+    return state.copyWith(
+        status: FormzStatus.submissionSuccess,
+        apiResponse: event.apiResponse,
+        filter: state.filter.copyWith(
+            pageNumber: event.apiResponse?.data.pageNumber,
+            flagId: state.filter.flagId,
+            objectTypeId: state.filter.objectTypeId),
+        properties: event.items);
   }
 }

@@ -42,6 +42,25 @@
     "to": "to",
     "@to" : {
         "description": "Range to"
+    },
+    "search" : "search",
+    "@search" : {
+        "description": "Search action"
+    },
+    "filter" : "filter",
+    "@filter" : {
+        "description": "Filter action"
+    },
+    "seeMore" : "see more",
+    "@seeMore" : {
+        "description": "See more action"
+    },
+    "share" : "share",
+    "@share" : {
+        "description": "Share action"
+    },
+    "call" : "call",
+    "@call" : {
+        "description": "Call action"
     }
-
 }

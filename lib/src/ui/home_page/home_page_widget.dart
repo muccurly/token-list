@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/home/home.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jurta_app/src/utils/extensions.dart';
 
 import '../components/filter_widget.dart';
 import '../components/home_object_box_widget.dart';
@@ -157,7 +159,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  'Поиск',
+                                  AppLocalizations.of(context)!.search.capitalize(),
                                   style:
                                       FlutterFlowTheme.subtitleText.copyWith(),
                                 ),
@@ -177,7 +179,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                'Фильтр',
+                                AppLocalizations.of(context)!.filter.capitalize(),
                                 style: FlutterFlowTheme.subtitleText.copyWith(),
                               ),
                               Icon(

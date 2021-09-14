@@ -9,6 +9,8 @@ import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_widgets.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders ;
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jurta_app/src/utils/extensions.dart';
 
 class HomeObjectBoxWidget extends StatefulWidget {
   HomeObjectBoxWidget({
@@ -153,7 +155,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                             ),
                           );
                         },
-                        text: 'Подробнее',
+                        text: AppLocalizations.of(context)!.seeMore.capitalize(),
                         options: FFButtonOptions(
                           width: 130,
                           height: 30,

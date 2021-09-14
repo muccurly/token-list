@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
-
-import '../components/images_box_widget.dart';
-import '../components/main_object_box_widget.dart';
-import '../components/small_info_box_widget.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import 'package:jurta_app/src/ui/components/images_box_widget.dart';
+import 'package:jurta_app/src/ui/components/main_object_box_widget.dart';
+import 'package:jurta_app/src/ui/components/small_info_box_widget.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_util.dart';
 
 class ObjectInfoPageWidget extends StatefulWidget {
   ObjectInfoPageWidget({

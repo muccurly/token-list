@@ -1,16 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jurta_app/src/business_logic/home/home.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/env_config.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_util.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_widgets.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
-import 'package:jurta_app/src/utils/placeholders.dart' as placeholders ;
+import 'package:jurta_app/src/utils/my_logger.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:formz/formz.dart';
+import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
 class HomeObjectBoxWidget extends StatefulWidget {
   HomeObjectBoxWidget({
@@ -25,7 +31,6 @@ class HomeObjectBoxWidget extends StatefulWidget {
 }
 
 class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
-
   final _noImagePlaceholder = Container(
     width: double.infinity,
     height: double.infinity,
@@ -47,19 +52,39 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
       child: Stack(
         children: [
           if (widget.realProperty.photoIdList.isNotEmpty)
-            CachedNetworkImage(
-              imageUrl:
-                  '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}/download/${widget.realProperty.photoIdList.first}',
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              placeholder: (context, url) => placeholders.shimmer,
-              errorWidget: (context, url, error) => placeholders.errorPlaceholder,
+            CarouselSlider(
+              options: CarouselOptions(
+                  height: _size.height,
+                  initialPage: 0,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: false,
+                  viewportFraction: 1.0),
+              items: widget.realProperty.photoIdList.map((e) {
+                return Builder(
+                  builder: (context) {
+                    return Container(
+                      width: _size.width,
+                      height: _size.height,
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
+                            '/download/$e',
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, url) => placeholders.shimmer,
+                        errorWidget: (context, url, error) =>
+                            placeholders.errorPlaceholder,
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
             )
           else
             _noImagePlaceholder,
@@ -112,23 +137,9 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 12),
-                            child: Icon(
-                              Icons.phone_rounded,
-                              color: FlutterFlowTheme.white,
-                              size: 28,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await Share.share('https://www.jurta.kz/');
-                            },
-                            child: FaIcon(
-                              FontAwesomeIcons.shareSquare,
-                              color: FlutterFlowTheme.white,
-                              size: 28,
-                            ),
-                          )
+                              padding: const EdgeInsets.fromLTRB(0, 16, 0, 12),
+                              child: CallButton()),
+                          ShareButton(),
                         ],
                       )
                     ],
@@ -141,36 +152,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 300),
-                              reverseDuration: Duration(milliseconds: 300),
-                              child: ObjectInfoPageWidget(
-                                realProperty: widget.realProperty,
-                              ),
-                            ),
-                          );
-                        },
-                        text: AppLocalizations.of(context)!.seeMore.capitalize(),
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 30,
-                          color: FlutterFlowTheme.primaryColor,
-                          textStyle: FlutterFlowTheme.btnTextWhite.copyWith(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: 16,
-                        ),
-                      )
+                      SeeMoreButton(realProperty: widget.realProperty)
                     ],
                   ),
                 )
@@ -178,6 +160,105 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class SeeMoreButton extends StatelessWidget {
+  const SeeMoreButton({
+    Key? key,
+    required this.realProperty,
+  }) : super(key: key);
+
+  final RealProperty realProperty;
+
+  @override
+  Widget build(BuildContext context) {
+    return FFButtonWidget(
+      onPressed: () async {
+        await Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.fade,
+            duration: Duration(milliseconds: 300),
+            reverseDuration: Duration(milliseconds: 300),
+            child: ObjectInfoPageWidget(
+              realProperty: realProperty,
+            ),
+          ),
+        );
+      },
+      text: AppLocalizations.of(context)!.seeMore.capitalize(),
+      options: FFButtonOptions(
+        width: 130,
+        height: 30,
+        color: FlutterFlowTheme.primaryColor,
+        textStyle: FlutterFlowTheme.btnTextWhite.copyWith(
+          color: Colors.white,
+          fontSize: 14,
+        ),
+        borderSide: BorderSide(
+          color: Colors.transparent,
+          width: 1,
+        ),
+        borderRadius: 16,
+      ),
+    );
+  }
+}
+
+class CallButton extends StatelessWidget {
+  const CallButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<HomeBloc, HomeState>(
+      listenWhen: (previous, current) =>
+          previous.callStatus != current.callStatus &&
+          current.callStatus.isSubmissionSuccess,
+      listener: (context, state) {
+        MyLogger.instance.log.d('call ${state.phoneNumber}');
+        if (state.callStatus.isSubmissionSuccess)
+          urlLauncher.launch("tel:${state.phoneNumber}");
+      },
+      child: Tooltip(
+        message: AppLocalizations.of(context)!.call.capitalize(),
+        child: BlocBuilder<HomeBloc, HomeState>(
+          buildWhen: (previous, current) =>
+              previous.callStatus != current.callStatus,
+          builder: (context, state) => IconButton(
+            onPressed: () => context.read<HomeBloc>().add(CallPressed()),
+            icon: state.callStatus.isSubmissionInProgress
+                ? CircularProgressIndicator()
+                : Icon(
+                    Icons.phone_rounded,
+                    color: FlutterFlowTheme.white,
+                    size: 28,
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShareButton extends StatelessWidget {
+  const ShareButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: AppLocalizations.of(context)!.share.capitalize(),
+      child: InkWell(
+        onTap: () async {
+          await Share.share('https://www.jurta.kz/');
+        },
+        child: FaIcon(
+          FontAwesomeIcons.shareSquare,
+          color: FlutterFlowTheme.white,
+          size: 28,
+        ),
       ),
     );
   }

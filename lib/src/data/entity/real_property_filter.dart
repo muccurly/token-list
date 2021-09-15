@@ -16,7 +16,7 @@ class RealPropertyFilter extends Equatable {
 
   const RealPropertyFilter({
     this.areaRange,
-    this.direction = 'ASC',
+    this.direction = 'DESC',
     this.flagId,
     this.moreThanFiveRooms = false,
     this.numberOfRooms,

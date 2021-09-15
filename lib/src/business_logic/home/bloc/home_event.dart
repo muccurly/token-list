@@ -31,3 +31,6 @@ class FilterChanged extends HomeEvent {
   @override
   List<Object?> get props => [filter];
 }
+
+class CallPressed extends HomeEvent{}
+

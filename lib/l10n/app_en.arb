@@ -62,5 +62,9 @@
     "call" : "call",
     "@call" : {
         "description": "Call action"
+    },
+    "room" : "room",
+    "@room" : {
+        "description": "room"
     }
 }

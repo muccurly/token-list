@@ -6,6 +6,7 @@ import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/bloc/home_bloc.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
+import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/ui/home_page/home_page_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -14,10 +15,12 @@ class App extends StatelessWidget {
     Key? key,
     required this.propertyRepository,
     required this.dictionaryRepository,
+    required this.settingsRepository,
   }) : super(key: key);
 
   final IPropertyRepository propertyRepository;
   final IDictionaryRepository dictionaryRepository;
+  final ISettingsRepository settingsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +31,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<IDictionaryRepository>(
           create: (context) => dictionaryRepository,
+        ),
+        RepositoryProvider<ISettingsRepository>(
+          create: (context) => settingsRepository,
         ),
       ],
       child: MultiBlocProvider(
@@ -40,6 +46,7 @@ class App extends StatelessWidget {
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
               propertyRepository: propertyRepository,
+              settingsRepository: settingsRepository,
               filterBloc: BlocProvider.of<FilterBloc>(context),
             )..add(LoadProperties()),
           ),

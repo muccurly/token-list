@@ -77,7 +77,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         String phone = await _settingsRepository.getCallNumber();
         yield state.copyWith(callStatus: FormzStatus.submissionSuccess,
         phoneNumber: phone);
-      } catch (_) {
+      } on DioError catch(e){
+        yield state.copyWith(callStatus: FormzStatus.submissionFailure,
+        message: e.message);
+      }
+      catch (_) {
         MyLogger.instance.log.e(_.toString());
         yield state.copyWith(callStatus: FormzStatus.submissionFailure);
       }

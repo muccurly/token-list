@@ -2,7 +2,7 @@ part of 'filter_bloc.dart';
 
 class FilterState extends Equatable {
   final RealPropertyFilter filter;
-  final List<DictionaryMultiLangItem>? objectTypes;
+  final List<ObjectType>? objectTypes;
   final FormzStatus status;
   final String? message;
 
@@ -15,7 +15,7 @@ class FilterState extends Equatable {
 
   FilterState copyWith({
     RealPropertyFilter? filter,
-    List<DictionaryMultiLangItem>? objectTypes,
+    List<ObjectType>? objectTypes,
     FormzStatus? status,
     String? message,
 }){

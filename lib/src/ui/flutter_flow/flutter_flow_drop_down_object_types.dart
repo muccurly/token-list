@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/object_type.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,9 +25,9 @@ class FlutterFlowDropDownObjectTypes extends StatefulWidget {
     this.hidesUnderline = false,
   });
 
-  final DictionaryMultiLangItem? initialOption;
-  final List<DictionaryMultiLangItem> options;
-  final Function(DictionaryMultiLangItem) onChanged;
+  final ObjectType? initialOption;
+  final List<ObjectType> options;
+  final Function(ObjectType) onChanged;
   final Widget icon;
   final double? width;
   final double? height;
@@ -47,11 +47,11 @@ class FlutterFlowDropDownObjectTypes extends StatefulWidget {
 
 class _FlutterFlowDropDownObjectTypesState
     extends State<FlutterFlowDropDownObjectTypes> {
-  DictionaryMultiLangItem? dropDownValue;
+  ObjectType? dropDownValue;
 
-  List<DictionaryMultiLangItem> get effectiveOptions => widget.options.isEmpty
+  List<ObjectType> get effectiveOptions => widget.options.isEmpty
       ? [
-          DictionaryMultiLangItem(
+          ObjectType(
               code: 'code',
               id: 0,
               name: MultiLangText(
@@ -71,7 +71,7 @@ class _FlutterFlowDropDownObjectTypesState
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
-    final dropdownWidget = DropdownButton<DictionaryMultiLangItem>(
+    final dropdownWidget = DropdownButton<ObjectType>(
       value: effectiveOptions.contains(dropDownValue) ? dropDownValue : null,
       items: effectiveOptions
           .map((e) => DropdownMenuItem(

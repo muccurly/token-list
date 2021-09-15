@@ -1,6 +1,6 @@
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/object_type.dart';
 
 abstract class IDictionaryRemoteDataSource{
-  Future<List<DictionaryMultiLangItem>> getDictionaryListByName(String name);
-  Future<DictionaryMultiLangItem> getDictionaryByNameAndId(String name, int id);
+  Future<List<ObjectType>> getDictionaryListByName(String name);
+  Future<ObjectType> getDictionaryByNameAndId(String name, int id);
 }

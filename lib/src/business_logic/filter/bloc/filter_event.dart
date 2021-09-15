@@ -26,7 +26,7 @@ class NewPressed extends FilterEvent {
 }
 
 class ObjectTypeChose extends FilterEvent {
-  final DictionaryMultiLangItem item;
+  final ObjectType item;
 
   const ObjectTypeChose(this.item);
 
@@ -37,7 +37,7 @@ class ObjectTypeChose extends FilterEvent {
 class ObjectTypesLoad extends FilterEvent {}
 
 class ObjectTypesLoaded extends FilterEvent {
-  final List<DictionaryMultiLangItem> items;
+  final List<ObjectType> items;
 
   const ObjectTypesLoaded(this.items);
 

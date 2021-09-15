@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/object_type.dart';
 import 'package:jurta_app/src/data/remote/i_dictionary_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 
@@ -11,16 +11,16 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   final IDictionaryRemoteDataSource remote;
 
   final _objectTypesController =
-      StreamController<List<DictionaryMultiLangItem>>();
+      StreamController<List<ObjectType>>();
 
   @override
-  Stream<List<DictionaryMultiLangItem>> get objectTypes async* {
+  Stream<List<ObjectType>> get objectTypes async* {
     yield* _objectTypesController.stream;
   }
 
   @override
   Future<void> findAllObjectTypes() async {
-    List<DictionaryMultiLangItem> list =
+    List<ObjectType> list =
         await remote.getDictionaryListByName(_OBJECT_TYPE);
     _objectTypesController.add(list);
   }

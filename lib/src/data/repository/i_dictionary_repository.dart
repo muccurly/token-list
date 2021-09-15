@@ -1,7 +1,7 @@
-import 'package:jurta_app/src/data/entity/object_type.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 
 abstract class IDictionaryRepository{
-  Stream<List<ObjectType>> get objectTypes;
+  Stream<List<DictionaryMultiLangItem>> get objectTypes;
   void dispose();
   Future<void> findAllObjectTypes();
 }

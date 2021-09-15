@@ -21,7 +21,7 @@ class RealProperty extends Equatable {
   final List<String> housingPlanIdList;
   final bool sold;
 
-  RealProperty({
+  const RealProperty({
     required this.realPropertyId,
     required this.applicationId,
     required this.creationDate,

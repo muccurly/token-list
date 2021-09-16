@@ -24,7 +24,7 @@ class _PriceWidgetState extends State<PriceWidget> {
 
   final _formatters = <TextInputFormatter>[
     FilteringTextInputFormatter.digitsOnly,
-    CustomInputFormatter(),
+    NumericTextFormatter()
   ];
 
   @override
@@ -44,7 +44,7 @@ class _PriceWidgetState extends State<PriceWidget> {
       if (_toController.text.isNotEmpty)
         to = int.parse(_toController.text.replaceAll(' ', ''));
       if (to < from)
-        _toController.text = CustomInputFormatter()
+        _toController.text = NumericTextFormatter()
             .formatEditUpdate(const TextEditingValue(),
                 TextEditingValue(text: from.toString()))
             .text;
@@ -55,7 +55,7 @@ class _PriceWidgetState extends State<PriceWidget> {
         if (to == 0)
           _fromController.clear();
         else
-          _fromController.text = CustomInputFormatter()
+          _fromController.text = NumericTextFormatter()
               .formatEditUpdate(const TextEditingValue(),
                   TextEditingValue(text: to.toString()))
               .text;
@@ -76,7 +76,7 @@ class _PriceWidgetState extends State<PriceWidget> {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
             child: TextFormField(
               inputFormatters: _formatters,
               controller: _fromController,
@@ -98,7 +98,7 @@ class _PriceWidgetState extends State<PriceWidget> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
             child: TextFormField(
               inputFormatters: _formatters,
               controller: _toController,

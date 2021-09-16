@@ -40,7 +40,7 @@ class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
                 color: FlutterFlowTheme.tertiaryColor,
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 0, 8, 10),
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +61,7 @@ class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
                             size: 20,
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: Text(
                               'Назад',
                               style:
@@ -79,7 +79,7 @@ class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
             id: widget.realProperty.realPropertyId,),
             MainObjectBoxWidget(realProperty: widget.realProperty),
             Padding(
-              padding: EdgeInsets.fromLTRB(8, 12, 0, 0),
+              padding: const EdgeInsets.fromLTRB(8, 12, 0, 0),
               child: Text(
                 'ПОХОЖИЕ ОБЪЕКТЫ',
                 style: GoogleFonts.getFont(
@@ -90,14 +90,14 @@ class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       child: InkWell(
                         onTap: () async {
                           await Navigator.push(

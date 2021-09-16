@@ -65,31 +65,13 @@ class PriceRangeChanged extends FilterEvent {
   @override
   List<Object?> get props => [from, to];
 }
-//
-// class AreaRangeChanged extends FilterEvent {
-//   final int? from;
-//   final int? to;
-//
-//   const AreaRangeChanged(this.from, this.to);
-//
-//   @override
-//   List<Object?> get props => [from, to];
-// }
 
-class AreaRangeFromChanged extends FilterEvent {
-  final int? value;
+class AreaRangeChanged extends FilterEvent {
+  final int? from;
+  final int? to;
 
-  const AreaRangeFromChanged(this.value);
+  const AreaRangeChanged(this.from, this.to);
 
   @override
-  List<Object?> get props => [value];
-}
-
-class AreaRangeToChanged extends FilterEvent {
-  final int? value;
-
-  const AreaRangeToChanged(this.value);
-
-  @override
-  List<Object?> get props => [value];
+  List<Object?> get props => [from, to];
 }

@@ -50,7 +50,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                 color: FlutterFlowTheme.tertiaryColor,
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 50, 0, 0),
+                padding: const EdgeInsets.fromLTRB(8, 50, 0, 0),
                 child: InkWell(
                   onTap: () async {
                     Navigator.pop(context);
@@ -66,7 +66,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                         size: 20,
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                         child: Text(
                           'Назад',
                           style: FlutterFlowTheme.subtitleTextDark.copyWith(),
@@ -78,20 +78,20 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
                       'ТИП НЕДВИЖИМОСТИ',
                       style: FlutterFlowTheme.titleTextWDark.copyWith(),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                     child: FlutterFlowDropDown(
                       options:
                           ['Квартиры', 'Дома', 'Офисные помещение'].toList(),
@@ -110,12 +110,12 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                       borderColor: Color(0xFFBEBEBE),
                       borderWidth: 1,
                       borderRadius: 8,
-                      margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                      margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                       hidesUnderline: true,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
                       'КОМНАТНОСТЬ',
                       style: FlutterFlowTheme.titleTextWDark.copyWith(),
@@ -300,20 +300,20 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
                       'ДИАПАЗОН ЦЕН, ₸',
                       style: FlutterFlowTheme.titleTextWDark.copyWith(),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
                             child: TextFormField(
                               controller: textController1,
                               obscureText: false,
@@ -347,7 +347,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: TextFormField(
                               controller: textController2,
                               obscureText: false,
@@ -383,20 +383,20 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
                       'ПЛОЩАДЬ, М',
                       style: FlutterFlowTheme.titleTextWDark.copyWith(),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
                             child: TextFormField(
                               controller: textController3,
                               obscureText: false,
@@ -430,7 +430,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: TextFormField(
                               controller: textController4,
                               obscureText: false,
@@ -466,7 +466,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: InkWell(
                       onTap: () async {
                         await Navigator.push(
@@ -486,7 +486,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

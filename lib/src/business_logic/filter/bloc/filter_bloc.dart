@@ -12,6 +12,7 @@ import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'filter_event.dart';
+
 part 'filter_state.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
@@ -63,24 +64,12 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
               flagId: state.filter.flagId,
               objectTypeId: state.filter.objectTypeId,
               priceRange: Range(from: event.from, to: event.to)));
-    else if (event is AreaRangeFromChanged)
+    else if (event is AreaRangeChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
               flagId: state.filter.flagId,
               objectTypeId: state.filter.objectTypeId,
-              areaRange: state.filter.areaRange == null
-                  ? Range(from: event.value)
-                  : state.filter.areaRange!.copyWith(
-                      from: event.value, to: state.filter.areaRange!.to)));
-    else if (event is AreaRangeToChanged)
-      yield state.copyWith(
-          filter: state.filter.copyWith(
-              flagId: state.filter.flagId,
-              objectTypeId: state.filter.objectTypeId,
-              areaRange: state.filter.areaRange == null
-                  ? Range(to: event.value)
-                  : state.filter.areaRange!.copyWith(
-                      from: state.filter.areaRange!.from, to: event.value)));
+              areaRange: Range(from: event.from, to: event.to)));
     else if (event is ObjectTypeChose) {
       yield state.copyWith(
           filter: state.filter.copyWith(

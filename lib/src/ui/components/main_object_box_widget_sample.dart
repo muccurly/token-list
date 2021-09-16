@@ -19,7 +19,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,7 +61,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
             child: Text(
               '4-комнатный дом    •    2 этажа    •   148 м²',
               style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
@@ -73,7 +73,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             color: Color(0xFFCBCBCB),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 12),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +99,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Количество комнат ................................. 7',
               textAlign: TextAlign.start,
@@ -107,7 +107,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Площадь  .................................................. 180 м',
               textAlign: TextAlign.start,
@@ -115,7 +115,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Этаж ........................................................ 2 из 5',
               textAlign: TextAlign.start,
@@ -123,7 +123,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Состояние ................................................ Евроремонт',
               textAlign: TextAlign.start,
@@ -131,7 +131,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Потолки ................................................... 3 м',
               textAlign: TextAlign.start,
@@ -139,7 +139,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Санузел ................................................... Раздельний',
               textAlign: TextAlign.start,
@@ -147,7 +147,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Паркинг ................................................... Парковка',
               textAlign: TextAlign.start,
@@ -155,7 +155,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: Text(
               'Год постройки ......................................... 2014',
               textAlign: TextAlign.start,
@@ -163,7 +163,7 @@ class _MainObjectBoxWidgetSampleState extends State<MainObjectBoxWidgetSample> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [

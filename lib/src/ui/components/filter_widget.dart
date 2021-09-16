@@ -118,7 +118,7 @@ class _FilterWidgetState extends State<FilterWidget> {
               child: PriceWidget()
               ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 24, 0, 0),
+            padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
               '${AppLocalizations.of(context)!.area.toUpperCase()}, м²',
               style: FlutterFlowTheme.filterTitle.copyWith(
@@ -129,25 +129,11 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                      child: AreaRangeFrom()),
-                ),
-                Expanded(
-                  child: Padding(
-                      padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                      child: AreaRangeTo()),
-                )
-              ],
-            ),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+            child: AreaWidget(),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 20, 8, 0),
+            padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
             child: FFButtonWidget(
               onPressed: widget.onCancel,
               text: AppLocalizations.of(context)!.cancel.toUpperCase(),
@@ -166,7 +152,7 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(8, 12, 8, 0),
+            padding: const EdgeInsets.fromLTRB(8, 12, 8, 0),
             child: FFButtonWidget(
               onPressed: () {
                 BlocProvider.of<HomeBloc>(context).add(LoadProperties());

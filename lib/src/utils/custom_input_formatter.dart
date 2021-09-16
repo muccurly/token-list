@@ -1,27 +1,26 @@
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
-class CustomInputFormatter extends TextInputFormatter {
+class NumericTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    var text = newValue.text;
-
-    if (newValue.selection.baseOffset == 0) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) {
+      return newValue.copyWith(text: '');
+    } else if (newValue.text.compareTo(oldValue.text) != 0) {
+      final int selectionIndexFromTheRight =
+          newValue.text.length - newValue.selection.end;
+      final f = NumberFormat("#,###");
+      final number =
+      int.parse(newValue.text.replaceAll(f.symbols.GROUP_SEP, ''));
+      final newString = f.format(number).replaceAll(',', ' ');
+      return TextEditingValue(
+        text: newString,
+        selection: TextSelection.collapsed(
+            offset: newString.length - selectionIndexFromTheRight),
+      );
+    } else {
       return newValue;
     }
-
-    var buffer = new StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      var nonZeroIndex = i + 1;
-      if (nonZeroIndex % 3 == 0 && nonZeroIndex != text.length) {
-        buffer.write(' '); // Replace this with anything you want to put after each 3 numbers
-      }
-    }
-
-    var string = buffer.toString();
-    return newValue.copyWith(
-        text: string,
-        selection: new TextSelection.collapsed(offset: string.length)
-    );
   }
 }

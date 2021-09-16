@@ -13,7 +13,7 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -23,7 +23,7 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
             style: FlutterFlowTheme.subtitleTextDark.copyWith(),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
             child: Text(
               'Расположен ЖК в престижном развивающемся районе. Рядом находится прекрасное место для отдыха и прогулок — Президентский парк, набережная реки Есиль. В шаговой доступности школа Haileybury Astana. В 10 минутах пешком Национальный музей, Дворец мира и согласия (Пирамида), Дворец независимости, казахский национальный университет',
               style: FlutterFlowTheme.bodyTextDark.copyWith(),
@@ -34,28 +34,28 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                 child: Text(
                   'Школа',
                   style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                 child: Text(
                   'Больница',
                   style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                 child: Text(
                   'Детский сад',
                   style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                 child: Text(
                   'ТРЦ',
                   style: FlutterFlowTheme.subtitleTextDark.copyWith(),
@@ -64,7 +64,7 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -82,14 +82,14 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
             child: Text(
               'РЕЙТИНГ ЛОКАЛИЗАЦИИ',
               style: FlutterFlowTheme.subtitleTextDark.copyWith(),
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

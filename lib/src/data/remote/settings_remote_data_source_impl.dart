@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:jurta_app/src/data/remote/api_client.dart';
 import 'package:jurta_app/src/data/remote/i_settings_remote_data_source.dart';
-import 'package:jurta_app/src/utils/my_logger.dart';
 
 class SettingsRemoteDataSourceImpl implements ISettingsRemoteDataSource{
   @override

@@ -20,13 +20,13 @@ void main() async {
   final settingsRepository = SettingsRepositoryImpl(settingsRemoteDataSource);
 
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
-      .then((_) => runApp(App(
-    propertyRepository: propertyRepository,
-    dictionaryRepository: dictionaryRepository,
-    settingsRepository: settingsRepository,
-  )));
-
-
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (_) => runApp(
+      App(
+        propertyRepository: propertyRepository,
+        dictionaryRepository: dictionaryRepository,
+        settingsRepository: settingsRepository,
+      ),
+    ),
+  );
 }

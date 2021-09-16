@@ -33,4 +33,3 @@ class FilterChanged extends HomeEvent {
 }
 
 class CallPressed extends HomeEvent{}
-

@@ -116,11 +116,18 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                                   style: FlutterFlowTheme.titleText.copyWith(),
                                 ),
                               ),
-                              Text(
-                                '${widget.realProperty.numberOfRooms}-комнатный  '
-                                '${widget.realProperty.floor != null ? '•  ${widget.realProperty.floor} этажа  ' : ''}'
-                                '•  ${widget.realProperty.totalArea} м²',
-                                style: FlutterFlowTheme.subtitleText.copyWith(),
+                              BlocBuilder<HomeBloc, HomeState>(
+                                  buildWhen: (previous, current)
+                                  => previous.filter.objectTypeId!=current.filter.objectTypeId,
+                                  builder: (context,state) {
+                                  return Text(
+                                    '${widget.realProperty.numberOfRooms}-комнатн'
+                                        '${state.filter.objectTypeId == 1 ? 'ая квартира' : 'ый дом'}  '
+                                    '${widget.realProperty.floor != null ? '•  ${widget.realProperty.floor} этажа  ' : ''}'
+                                    '•  ${widget.realProperty.totalArea} м²',
+                                    style: FlutterFlowTheme.subtitleText.copyWith(),
+                                  );
+                                }
                               ),
                               Text(
                                 widget.realProperty.address.nameRu,

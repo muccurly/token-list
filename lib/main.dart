@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jurta_app/src/app.dart';
 import 'package:jurta_app/src/data/remote/dictionary_remote_data_source_impl.dart';
 import 'package:jurta_app/src/data/remote/property_remote_data_source_impl.dart';
@@ -18,9 +19,14 @@ void main() async {
   final settingsRemoteDataSource = SettingsRemoteDataSourceImpl();
   final settingsRepository = SettingsRepositoryImpl(settingsRemoteDataSource);
 
-  runApp(App(
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((_) => runApp(App(
     propertyRepository: propertyRepository,
     dictionaryRepository: dictionaryRepository,
     settingsRepository: settingsRepository,
-  ));
+  )));
+
+
 }

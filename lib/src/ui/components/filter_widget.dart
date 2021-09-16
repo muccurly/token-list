@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/home.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 
 class FilterWidget extends StatefulWidget {
   FilterWidget({
@@ -114,25 +116,9 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                    child: PriceRangeFrom(),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                    child: PriceRangeTo(),
-                  ),
-                )
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              child: PriceWidget()
+              ),
           Padding(
             padding: EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(

@@ -5,160 +5,120 @@ import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/utils/custom_input_formatter.dart';
-import 'package:jurta_app/src/utils/extensions.dart';
 
-class PriceRangeFrom extends StatefulWidget {
-  const PriceRangeFrom({Key? key}) : super(key: key);
-
-  @override
-  _PriceRangeFromState createState() => _PriceRangeFromState();
-}
-
-class _PriceRangeFromState extends State<PriceRangeFrom> {
-  final _controller = TextEditingController();
+class PriceWidget extends StatefulWidget {
+  const PriceWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FilterBloc, FilterState>(
-        buildWhen: (previous, current) =>
-            previous.filter.priceRange != current.filter.priceRange,
-        builder: (context, state) {
-          // if (state.filter.priceRange != null) {
-          //   if(state.filter.priceRange!.to!=null){
-          //     int from = 0;
-          //     if(_controller.text.isNotEmpty)
-          //       from = int.parse(_controller.text.replaceAll(' ', ''));
-          //     if(from > state.filter.priceRange!.to!)
-          //       _controller.text = CustomInputFormatter()
-          //           .formatEditUpdate(
-          //           const TextEditingValue(),
-          //           TextEditingValue(
-          //               text: state.filter.priceRange!.to.toString()))
-          //           .text;
-          //
-          //     print('state.filter.priceRange!.to : ${state.filter.priceRange!.to}');
-          //     // context.read<FilterBloc>().add(PriceRangeFromChanged(state.filter.priceRange!.to));
-          //   }
-          // }
-          return TextFormField(
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              CustomInputFormatter(),
-            ],
-            controller: _controller,
-            obscureText: false,
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              print('from $value');
-              int? val;
-              if (value.isNotEmpty) val = int.parse(value.replaceAll(' ', ''));
-              context.read<FilterBloc>().add(PriceRangeFromChanged(val));
-            },
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: AppLocalizations.of(context)!.from,
-              hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: const Color(0x00000000),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: const Color(0x00000000),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              filled: true,
-              fillColor: FlutterFlowTheme.white,
-            ),
-            style: FlutterFlowTheme.darkNormal16.copyWith(),
-          );
-        });
-  }
+  _PriceWidgetState createState() => _PriceWidgetState();
 }
 
-class PriceRangeTo extends StatefulWidget {
-  const PriceRangeTo({Key? key}) : super(key: key);
+class _PriceWidgetState extends State<PriceWidget> {
+  final _fromController = TextEditingController();
+  final _toController = TextEditingController();
 
-  @override
-  _PriceRangeToState createState() => _PriceRangeToState();
-}
+  final _border = OutlineInputBorder(
+    borderSide: BorderSide(color: const Color(0x00000000), width: 1),
+    borderRadius: BorderRadius.circular(6),
+  );
 
-class _PriceRangeToState extends State<PriceRangeTo> {
-  final _controller = TextEditingController();
+  final _formatters = <TextInputFormatter>[
+    FilteringTextInputFormatter.digitsOnly,
+    CustomInputFormatter(),
+  ];
 
   @override
   void dispose() {
+    _fromController.dispose();
+    _toController.dispose();
     super.dispose();
-    _controller.dispose();
+  }
+
+  void _onChanged(String value, bool priceFrom) {
+    int from = 0, to = 0;
+    if (value.isNotEmpty)
+      priceFrom
+          ? from = int.parse(value.replaceAll(' ', ''))
+          : to = int.parse(value.replaceAll(' ', ''));
+    if (priceFrom) {
+      if (_toController.text.isNotEmpty)
+        to = int.parse(_toController.text.replaceAll(' ', ''));
+      if (to < from)
+        _toController.text = CustomInputFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+                TextEditingValue(text: from.toString()))
+            .text;
+    } else {
+      if (_fromController.text.isNotEmpty)
+        from = int.parse(_fromController.text.replaceAll(' ', ''));
+      if (to < from) {
+        if (to == 0)
+          _fromController.clear();
+        else
+          _fromController.text = CustomInputFormatter()
+              .formatEditUpdate(const TextEditingValue(),
+                  TextEditingValue(text: to.toString()))
+              .text;
+      }
+    }
+    int? f, t;
+    if (_fromController.text.isNotEmpty)
+      f = int.parse(_fromController.text.replaceAll(' ', ''));
+    if (_toController.text.isNotEmpty)
+      t = int.parse(_toController.text.replaceAll(' ', ''));
+    context.read<FilterBloc>().add(PriceRangeChanged(f, t));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilterBloc, FilterState>(
-        buildWhen: (previous, current) =>
-            previous.filter.priceRange != current.filter.priceRange,
-        builder: (context, state) {
-          // if (state.filter.priceRange != null) {
-          //   if (state.filter.priceRange!.from != null) {
-          //     int to = 0;
-          //     if (_controller.text.isNotEmpty) {
-          //       to = int.parse(_controller.text.replaceAll(' ', ''));
-          //     }
-          //     if (to < state.filter.priceRange!.from!)
-          //       _controller.text = CustomInputFormatter()
-          //           .formatEditUpdate(
-          //               const TextEditingValue(),
-          //               TextEditingValue(
-          //                   text: state.filter.priceRange!.from.toString()))
-          //           .text;
-          //
-          //     print('state.filter.priceRange!.from : ${state.filter.priceRange!.from}');
-          //     context.read<FilterBloc>().add(PriceRangeToChanged(state.filter.priceRange!.from));
-          //   }
-          // }
-          return TextFormField(
-            inputFormatters: [
-
-              FilteringTextInputFormatter.digitsOnly,
-              CustomInputFormatter(),
-            ],
-            controller: _controller,
-            obscureText: false,
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              print('to $value');
-              int? val;
-              if (value.isNotEmpty) val = int.parse(value.replaceAll(' ', ''));
-              context.read<FilterBloc>().add(PriceRangeToChanged(val));
-            },
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: AppLocalizations.of(context)!.to,
-              hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: const Color(0x00000000),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(6),
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
+            child: TextFormField(
+              inputFormatters: _formatters,
+              controller: _fromController,
+              obscureText: false,
+              keyboardType: TextInputType.number,
+              onChanged: (value) => _onChanged(value, true),
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: AppLocalizations.of(context)!.from,
+                hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+                enabledBorder: _border,
+                focusedBorder: _border,
+                filled: true,
+                fillColor: FlutterFlowTheme.white,
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: const Color(0x00000000),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              filled: true,
-              fillColor: FlutterFlowTheme.white,
+              style: FlutterFlowTheme.darkNormal16.copyWith(),
             ),
-            style: FlutterFlowTheme.darkNormal16.copyWith(),
-          );
-        });
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+            child: TextFormField(
+              inputFormatters: _formatters,
+              controller: _toController,
+              obscureText: false,
+              keyboardType: TextInputType.number,
+              onChanged: (value) => _onChanged(value, false),
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: AppLocalizations.of(context)!.to,
+                hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+                enabledBorder: _border,
+                focusedBorder: _border,
+                filled: true,
+                fillColor: FlutterFlowTheme.white,
+              ),
+              style: FlutterFlowTheme.darkNormal16.copyWith(),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

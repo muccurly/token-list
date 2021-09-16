@@ -1,0 +1,66 @@
+{
+    "language": "English",
+    "@language": {
+        "description": "The current Language"
+    },
+    "hotAdds": "hot",
+    "@hotAdds" : {
+        "description": "The hot adds"
+    },
+    "newAdds": "new",
+    "@newAdds" : {
+        "description": "The new adds"
+    },
+    "propertyType": "property type",
+    "@propertyType" : {
+        "description": "The type of property (house, apartment, etc)"
+    },
+    "numberOfRooms": "number of rooms",
+    "@numberOfRooms" : {
+        "description": "The number of rooms"
+    },
+    "priceRange": "price range",
+    "@priceRange" : {
+        "description": "The range of prices"
+    },
+    "area": "area",
+    "@area" : {
+        "description": "The area of property"
+    },
+    "cancel": "cancel",
+    "@cancel" : {
+        "description": "Cancel action"
+    },
+    "show": "show",
+    "@show" : {
+        "description": "Show results"
+    },
+    "from": "from",
+    "@from" : {
+        "description": "Range from"
+    },
+    "to": "to",
+    "@to" : {
+        "description": "Range to"
+    },
+    "search" : "search",
+    "@search" : {
+        "description": "Search action"
+    },
+    "filter" : "filter",
+    "@filter" : {
+        "description": "Filter action"
+    },
+    "seeMore" : "see more",
+    "@seeMore" : {
+        "description": "See more action"
+    },
+    "share" : "share",
+    "@share" : {
+        "description": "Share action"
+    },
+    "call" : "call",
+    "@call" : {
+        "description": "Call action"
+    }
+}

@@ -79,7 +79,7 @@ class _FlutterFlowDropDownObjectTypesState
                 child: Text(
                   locale == 'ru'
                       ? e.name.nameRu
-                      : locale == 'kz'
+                      : locale == 'kk'
                           ? e.name.nameKz
                           : e.name.nameEn,
                   style: widget.textStyle,
@@ -97,6 +97,7 @@ class _FlutterFlowDropDownObjectTypesState
       isExpanded: true,
       dropdownColor: widget.fillColor,
     );
+    
     final childWidget = DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.borderRadius ?? 28),
@@ -108,9 +109,12 @@ class _FlutterFlowDropDownObjectTypesState
       ),
       child: Padding(
         padding: widget.margin,
-        child: widget.hidesUnderline
-            ? DropdownButtonHideUnderline(child: dropdownWidget)
-            : dropdownWidget,
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: widget.hidesUnderline
+              ? DropdownButtonHideUnderline(child: dropdownWidget)
+              : dropdownWidget,
+        ),
       ),
     );
     if (widget.height != null || widget.width != null) {

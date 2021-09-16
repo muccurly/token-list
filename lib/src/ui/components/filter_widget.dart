@@ -64,7 +64,11 @@ class _FilterWidgetState extends State<FilterWidget> {
             padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
               AppLocalizations.of(context)!.numberOfRooms.toUpperCase(),
-              style: FlutterFlowTheme.filterTitle.copyWith(),
+              style: FlutterFlowTheme.filterTitle.copyWith(
+                color: FlutterFlowTheme.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
             ),
           ),
           Padding(
@@ -101,7 +105,7 @@ class _FilterWidgetState extends State<FilterWidget> {
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
-              '${AppLocalizations.of(context)!.priceRange.toUpperCase()}, ₸',
+              '${AppLocalizations.of(context)!.priceRange.toUpperCase()}, \u{3012}',
               style: FlutterFlowTheme.filterTitle.copyWith(
                 color: FlutterFlowTheme.white,
                 fontWeight: FontWeight.w500,
@@ -132,7 +136,7 @@ class _FilterWidgetState extends State<FilterWidget> {
           Padding(
             padding: EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
-              '${AppLocalizations.of(context)!.area.toUpperCase()}, М',
+              '${AppLocalizations.of(context)!.area.toUpperCase()}, м²',
               style: FlutterFlowTheme.filterTitle.copyWith(
                 color: FlutterFlowTheme.white,
                 fontWeight: FontWeight.w500,

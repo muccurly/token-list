@@ -23,6 +23,9 @@ class Address extends Equatable {
     );
   }
 
+  static Address fromJsonModel(Map<String, dynamic> json) =>
+      Address.fromJson(json);
+
   @override
   List<Object?> get props => [address, parent, parentByType, total];
 }
@@ -94,4 +97,46 @@ class AddressType extends Equatable {
 
   @override
   List<Object?> get props => [id, code, name];
+}
+
+class Building extends Equatable {
+  final int id;
+  final String number;
+  final String? postcode;
+  final String latitude;
+  final String longitude;
+  final String? houseNumber;
+
+  Building({
+    required this.id,
+    required this.number,
+    this.postcode,
+    required this.latitude,
+    required this.longitude,
+    this.houseNumber,
+  });
+
+  factory Building.fromJson(Map<String, dynamic> json) {
+    return Building(
+      id: json['id'],
+      number: json['number'],
+      postcode: json['postcode'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      houseNumber: json['houseNumber'],
+    );
+  }
+
+  static Building fromJsonModel(Map<String, dynamic> json) =>
+      Building.fromJson(json);
+
+  @override
+  List<Object?> get props => [
+        id,
+        number,
+        postcode,
+        latitude,
+        longitude,
+        houseNumber,
+      ];
 }

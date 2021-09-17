@@ -20,6 +20,7 @@ class RealProperty extends Equatable {
   final List<String> photoIdList;
   final List<String> housingPlanIdList;
   final bool sold;
+  final int objectTypeId;
 
   const RealProperty({
     required this.realPropertyId,
@@ -40,6 +41,7 @@ class RealProperty extends Equatable {
     this.photoIdList = const <String>[],
     this.housingPlanIdList = const <String>[],
     required this.sold,
+    required this.objectTypeId,
   });
 
   factory RealProperty.fromJson(Map<String, dynamic> json) {
@@ -73,6 +75,7 @@ class RealProperty extends Equatable {
       photoIdList: phList,
       housingPlanIdList: hpList,
       sold: json['sold'],
+      objectTypeId: json['objectTypeId'],
     );
   }
 
@@ -104,5 +107,6 @@ class RealProperty extends Equatable {
         photoIdList,
         housingPlanIdList,
         sold,
+        objectTypeId,
       ];
 }

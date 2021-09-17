@@ -27,9 +27,21 @@ class LoadMoreProperties extends HomeEvent {
 
 class FilterChanged extends HomeEvent {
   final RealPropertyFilter filter;
-  const FilterChanged(this.filter);
+  final List<DictionaryMultiLangItem>? objectTypes;
+
+  const FilterChanged({required this.filter, this.objectTypes});
+
   @override
-  List<Object?> get props => [filter];
+  List<Object?> get props => [filter, objectTypes];
 }
 
-class CallPressed extends HomeEvent{}
+class CallPressed extends HomeEvent {}
+
+class ObjectTypesLoaded extends HomeEvent {
+  final List<DictionaryMultiLangItem> objectTypes;
+
+  const ObjectTypesLoaded(this.objectTypes);
+
+  @override
+  List<Object?> get props => [objectTypes];
+}

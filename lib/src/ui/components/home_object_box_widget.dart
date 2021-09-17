@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jurta_app/src/business_logic/home/home.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/env_config.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
@@ -45,7 +46,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-
+    final locale = AppLocalizations.of(context)!.localeName;
     return Container(
       width: _size.width,
       height: _size.height,
@@ -117,18 +118,30 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                                 ),
                               ),
                               BlocBuilder<HomeBloc, HomeState>(
-                                  buildWhen: (previous, current)
-                                  => previous.filter.objectTypeId!=current.filter.objectTypeId,
-                                  builder: (context,state) {
-                                  return Text(
-                                    '${widget.realProperty.numberOfRooms}-комнатн'
-                                        '${state.filter.objectTypeId == 1 ? 'ая квартира' : 'ый дом'}  '
-                                    '${widget.realProperty.floor != null ? '•  ${widget.realProperty.floor} этажа  ' : ''}'
-                                    '•  ${widget.realProperty.totalArea} м²',
-                                    style: FlutterFlowTheme.subtitleText.copyWith(),
-                                  );
-                                }
-                              ),
+                                  buildWhen: (previous, current) =>
+                                      previous.objectTypes !=
+                                      current.objectTypes,
+                                  builder: (context, state) {
+                                    String? name;
+                                    if (state.objectTypes != null) {
+                                      for (DictionaryMultiLangItem item
+                                          in state.objectTypes!) {
+                                        if (item.id ==
+                                            widget.realProperty.objectTypeId) {
+                                          name = item.name.nameRu;
+                                          break;
+                                        }
+                                      }
+                                    }
+                                    return Text(
+                                      '${widget.realProperty.numberOfRooms}-комнатн'
+                                      '${widget.realProperty.objectTypeId == 1 ? 'ая ${name?.toLowerCase()}' : 'ый дом'}  '
+                                      '${widget.realProperty.floor != null ? '•  ${widget.realProperty.floor} этажа  ' : ''}'
+                                      '•  ${widget.realProperty.totalArea} м²',
+                                      style: FlutterFlowTheme.subtitleText
+                                          .copyWith(),
+                                    );
+                                  }),
                               Text(
                                 widget.realProperty.address.nameRu,
                                 style:

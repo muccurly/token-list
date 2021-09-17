@@ -7,8 +7,10 @@ import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
+import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
@@ -21,21 +23,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
     required ISettingsRepository settingsRepository,
+    // required IDictionaryRepository dictionaryRepository,
     required FilterBloc filterBloc,
   })  : _propertyRepository = propertyRepository,
         _settingsRepository = settingsRepository,
+        // _dictionaryRepository = dictionaryRepository,
         super(HomeState(filter: filterBloc.state.filter)) {
     _apiResponseStreamSubscription = _propertyRepository.apiResponseStream
         .listen((apiResponse) => add(PropertiesLoaded(apiResponse, null)));
     _propertiesStreamSubscription = _propertyRepository.propertiesStream
         .listen((list) => add(PropertiesLoaded(null, list)));
-    _filterStreamSubscription = filterBloc.stream.listen(
-      (filterState) => add(FilterChanged(filterState.filter)),
-    );
+    _filterStreamSubscription = filterBloc.stream.listen((filterState) => add(
+        FilterChanged(
+            filter: filterState.filter, objectTypes: filterState.objectTypes)));
+    // _objectTypesStreamSubscription = _dictionaryRepository.objectTypes
+    //     .listen((list) => add(ObjectTypesLoaded(list)));
   }
 
   final IPropertyRepository _propertyRepository;
   final ISettingsRepository _settingsRepository;
+
+  // final IDictionaryRepository _dictionaryRepository;
 
   late StreamSubscription<ApiResponse<RealProperty>>
       _apiResponseStreamSubscription;
@@ -43,6 +51,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<List<RealProperty>> _propertiesStreamSubscription;
 
   late StreamSubscription<FilterState> _filterStreamSubscription;
+
+  // late StreamSubscription<List<DictionaryMultiLangItem>>
+  //     _objectTypesStreamSubscription;
 
   @override
   Future<void> close() {
@@ -66,8 +77,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           yield* _mapLoadMorePropertiesToState(event);
       }
     } else if (event is FilterChanged)
-      yield state.copyWith(filter: event.filter);
-    else if (event is CallPressed) yield* _mapCallPressedToState();
+      yield state.copyWith(
+          filter: event.filter, objectTypes: event.objectTypes);
+    else if (event is CallPressed)
+      yield* _mapCallPressedToState();
+    else if (event is ObjectTypesLoaded)
+      yield state.copyWith(objectTypes: event.objectTypes);
   }
 
   Stream<HomeState> _mapCallPressedToState() async* {
@@ -75,13 +90,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield state.copyWith(callStatus: FormzStatus.submissionInProgress);
       try {
         String phone = await _settingsRepository.getCallNumber();
-        yield state.copyWith(callStatus: FormzStatus.submissionSuccess,
-        phoneNumber: phone);
-      } on DioError catch(e){
-        yield state.copyWith(callStatus: FormzStatus.submissionFailure,
-        message: e.message);
-      }
-      catch (_) {
+        yield state.copyWith(
+            callStatus: FormzStatus.submissionSuccess, phoneNumber: phone);
+      } on DioError catch (e) {
+        yield state.copyWith(
+            callStatus: FormzStatus.submissionFailure, message: e.message);
+      } catch (_) {
         MyLogger.instance.log.e(_.toString());
         yield state.copyWith(callStatus: FormzStatus.submissionFailure);
       }
@@ -147,14 +161,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeState _mapPropertiesLoadedToState(PropertiesLoaded event) {
     return state.copyWith(
-        status: FormzStatus.submissionSuccess,
-        apiResponse: event.apiResponse,
-        filter: state.filter.copyWith(
-            pageNumber: event.apiResponse?.data.pageNumber,
-            flagId: state.filter.flagId,
-            objectTypeId: state.filter.objectTypeId),
-        properties: event.items,
-        firstLoading: false,
+      status: FormzStatus.submissionSuccess,
+      apiResponse: event.apiResponse,
+      filter: state.filter.copyWith(
+          pageNumber: event.apiResponse?.data.pageNumber,
+          flagId: state.filter.flagId,
+          objectTypeId: state.filter.objectTypeId),
+      properties: event.items,
+      firstLoading: false,
     );
   }
 }

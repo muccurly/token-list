@@ -9,6 +9,7 @@ class HomeState extends Equatable {
   final bool firstLoading;
   final String? message;
   final String? phoneNumber;
+  final List<DictionaryMultiLangItem>? objectTypes;
 
   const HomeState({
     this.apiResponse,
@@ -19,18 +20,19 @@ class HomeState extends Equatable {
     this.firstLoading = false,
     this.message,
     this.phoneNumber,
+    this.objectTypes,
   });
 
-  HomeState copyWith({
-    ApiResponse<RealProperty>? apiResponse,
-    List<RealProperty>? properties,
-    RealPropertyFilter? filter,
-    FormzStatus? status,
-    FormzStatus? callStatus,
-    bool? firstLoading,
-    String? message,
-    String? phoneNumber,
-  }) {
+  HomeState copyWith(
+      {ApiResponse<RealProperty>? apiResponse,
+      List<RealProperty>? properties,
+      RealPropertyFilter? filter,
+      FormzStatus? status,
+      FormzStatus? callStatus,
+      bool? firstLoading,
+      String? message,
+      String? phoneNumber,
+      List<DictionaryMultiLangItem>? objectTypes}) {
     return HomeState(
       apiResponse: apiResponse ?? this.apiResponse,
       properties: properties ?? this.properties,
@@ -40,6 +42,7 @@ class HomeState extends Equatable {
       firstLoading: firstLoading ?? this.firstLoading,
       message: message ?? this.message,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      objectTypes: objectTypes ?? this.objectTypes,
     );
   }
 
@@ -53,5 +56,6 @@ class HomeState extends Equatable {
         firstLoading,
         message,
         phoneNumber,
+        objectTypes,
       ];
 }

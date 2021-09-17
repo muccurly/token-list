@@ -47,6 +47,7 @@ class App extends StatelessWidget {
             create: (context) => HomeBloc(
               propertyRepository: propertyRepository,
               settingsRepository: settingsRepository,
+              // dictionaryRepository: dictionaryRepository,
               filterBloc: BlocProvider.of<FilterBloc>(context),
             )..add(LoadProperties()),
           ),

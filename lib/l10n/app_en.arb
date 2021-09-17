@@ -63,8 +63,16 @@
     "@call" : {
         "description": "Call action"
     },
-    "room" : "room",
+    "roomM" : "room",
     "@room" : {
-        "description": "room"
-    }
+        "description": "room m"
+    },
+    "roomF" : "room",
+        "@room" : {
+            "description": "room f"
+        },
+    "roomI" : "room",
+        "@room" : {
+            "description": "room i"
+        }
 }

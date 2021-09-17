@@ -46,7 +46,6 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-    final locale = AppLocalizations.of(context)!.localeName;
     return Container(
       width: _size.width,
       height: _size.height,
@@ -117,31 +116,8 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                                   style: FlutterFlowTheme.titleText.copyWith(),
                                 ),
                               ),
-                              BlocBuilder<HomeBloc, HomeState>(
-                                  buildWhen: (previous, current) =>
-                                      previous.objectTypes !=
-                                      current.objectTypes,
-                                  builder: (context, state) {
-                                    String? name;
-                                    if (state.objectTypes != null) {
-                                      for (DictionaryMultiLangItem item
-                                          in state.objectTypes!) {
-                                        if (item.id ==
-                                            widget.realProperty.objectTypeId) {
-                                          name = item.name.nameRu;
-                                          break;
-                                        }
-                                      }
-                                    }
-                                    return Text(
-                                      '${widget.realProperty.numberOfRooms}-комнатн'
-                                      '${widget.realProperty.objectTypeId == 1 ? 'ая ${name?.toLowerCase()}' : 'ый дом'}  '
-                                      '${widget.realProperty.floor != null ? '•  ${widget.realProperty.floor} этажа  ' : ''}'
-                                      '•  ${widget.realProperty.totalArea} м²',
-                                      style: FlutterFlowTheme.subtitleText
-                                          .copyWith(),
-                                    );
-                                  }),
+                              PropertyDetailsWidget(
+                                  property: widget.realProperty),
                               Text(
                                 widget.realProperty.address.nameRu,
                                 style:
@@ -281,5 +257,65 @@ class ShareButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class PropertyDetailsWidget extends StatelessWidget {
+  const PropertyDetailsWidget({
+    Key? key,
+    required this.property,
+  }) : super(key: key);
+
+  final RealProperty property;
+
+  String _getRoom(BuildContext context, HomeState state) {
+    final locale = AppLocalizations.of(context)!.localeName;
+    String? name;
+    if (state.objectTypes != null) {
+      for (DictionaryMultiLangItem item in state.objectTypes!) {
+        if (item.id == property.objectTypeId) {
+          name = locale == 'ru'
+              ? item.name.nameRu.toLowerCase()
+              : locale == 'kk'
+                  ? item.name.nameKz.toLowerCase()
+                  : item.name.nameEn.toLowerCase();
+          break;
+        }
+      }
+    }
+    switch (locale) {
+      case 'ru':
+        {
+          if (name != null) {
+            if (name.endsWith('м'))
+              return '${AppLocalizations.of(context)!.roomM.toLowerCase()} дом';
+            else if (name.endsWith('е'))
+              return '${AppLocalizations.of(context)!.roomI.toLowerCase()} $name';
+            else
+              return '${AppLocalizations.of(context)!.roomF.toLowerCase()} $name';
+          }
+          return '${AppLocalizations.of(context)!.roomM.toLowerCase()} $name';
+        }
+      case 'kk':
+        return '${AppLocalizations.of(context)!.roomM.toLowerCase()} $name';
+      default:
+        return '${AppLocalizations.of(context)!.roomM.toLowerCase()} $name';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+        buildWhen: (previous, current) =>
+            previous.objectTypes != current.objectTypes,
+        builder: (context, state) {
+          return Text(
+            '${property.numberOfRooms}-'
+            '${_getRoom(context, state)}  '
+            '${property.floor != null ? '•  ${property.floor} этаж  ' : ''}'
+            '•  ${property.totalArea} м²',
+            style: FlutterFlowTheme.subtitleText.copyWith(),
+          );
+        });
   }
 }

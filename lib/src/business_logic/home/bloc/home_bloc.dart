@@ -10,24 +10,20 @@ import 'package:jurta_app/src/data/entity/api_response.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
-import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'home_event.dart';
-
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
     required ISettingsRepository settingsRepository,
-    // required IDictionaryRepository dictionaryRepository,
     required FilterBloc filterBloc,
   })  : _propertyRepository = propertyRepository,
         _settingsRepository = settingsRepository,
-        // _dictionaryRepository = dictionaryRepository,
         super(HomeState(filter: filterBloc.state.filter)) {
     _apiResponseStreamSubscription = _propertyRepository.apiResponseStream
         .listen((apiResponse) => add(PropertiesLoaded(apiResponse, null)));
@@ -36,14 +32,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _filterStreamSubscription = filterBloc.stream.listen((filterState) => add(
         FilterChanged(
             filter: filterState.filter, objectTypes: filterState.objectTypes)));
-    // _objectTypesStreamSubscription = _dictionaryRepository.objectTypes
-    //     .listen((list) => add(ObjectTypesLoaded(list)));
   }
 
   final IPropertyRepository _propertyRepository;
   final ISettingsRepository _settingsRepository;
-
-  // final IDictionaryRepository _dictionaryRepository;
 
   late StreamSubscription<ApiResponse<RealProperty>>
       _apiResponseStreamSubscription;
@@ -51,9 +43,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late StreamSubscription<List<RealProperty>> _propertiesStreamSubscription;
 
   late StreamSubscription<FilterState> _filterStreamSubscription;
-
-  // late StreamSubscription<List<DictionaryMultiLangItem>>
-  //     _objectTypesStreamSubscription;
 
   @override
   Future<void> close() {

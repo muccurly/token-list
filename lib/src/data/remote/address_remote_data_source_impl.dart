@@ -23,18 +23,12 @@ class AddressRemoteDataSourceImpl implements IAddressRemoteDataSource {
 
   @override
   Future<Data<Address>> getDistricts(String code) async {
-
-    var data = {'typeId': 1, 'parentCode': '002'};
-    MyLogger.instance.log.d(data);
-
     Response response = await ApiClient.instance.gmDio.get(
       '/address/getObjects',
-      // queryParameters: {'typeId': 1, 'parentCode': code},
-      queryParameters: data,
+      queryParameters: {'typeId': 2, 'parentCode': code},
     );
-    
+
     if (response.statusCode == 200) {
-      MyLogger.instance.log.d(response.data);
       return Data.fromJson(response.data, Address.fromJsonModel);
     } else
       throw Exception('districts api exception');
@@ -42,9 +36,9 @@ class AddressRemoteDataSourceImpl implements IAddressRemoteDataSource {
 
   @override
   Future<Pagination<Address>> getStreetsByParent(
-      String code, String? text) async {
+      String code, {String? text}) async {
     var data = {
-      "direction": "ASC",
+      "direction": "DESC",
       "pageNumber": 0,
       "pageSize": 20,
       "parentCode": code,
@@ -71,12 +65,12 @@ class AddressRemoteDataSourceImpl implements IAddressRemoteDataSource {
 
   @override
   Future<ApiResponse<ResidentialComplex>> residentialComplexList(
-      String? code, String? val) async {
+      String code, {String? val}) async {
     var data = <String, dynamic>{
       "code": code,
       "direction": "ASC",
       "pageNumber": 0,
-      "pageSize": 10,
+      "pageSize": 20,
       "sortBy": "id",
       "val": val
     };

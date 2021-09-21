@@ -57,7 +57,8 @@ class App extends StatelessWidget {
               propertyRepository: propertyRepository,
             )
               ..add(GetOrLoadObjectTypes())
-              ..add(LoadCities()),
+              ..add(LoadCities())
+              ..add(LoadConditions()),
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(

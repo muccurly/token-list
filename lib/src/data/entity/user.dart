@@ -9,7 +9,7 @@ class User extends Equatable {
   final int organizationId;
   final String organizationName;
   final String? patronymic;
-  final String phone;
+  final String? phone;
   final String? photoUuid;
   final String surname;
 

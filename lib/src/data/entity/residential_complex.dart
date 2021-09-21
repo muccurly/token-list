@@ -36,7 +36,7 @@ class ResidentialComplex extends Equatable {
   final double? safetyRating;
   final double? parkingRating;
   final double? entranceRating;
-  final AddressStreet street;
+  final AddressStreet addressBuilding;
 
   ResidentialComplex({
     required this.id,
@@ -73,7 +73,7 @@ class ResidentialComplex extends Equatable {
     this.safetyRating,
     this.parkingRating,
     this.entranceRating,
-    required this.street,
+    required this.addressBuilding,
   });
 
   factory ResidentialComplex.fromJson(Map<String, dynamic> json) {
@@ -112,7 +112,7 @@ class ResidentialComplex extends Equatable {
       safetyRating: json['safetyRating'],
       parkingRating: json['parkingRating'],
       entranceRating: json['entranceRating'],
-      street: json['street'],
+      addressBuilding: json['addressBuilding'],
     );
   }
 
@@ -155,6 +155,6 @@ class ResidentialComplex extends Equatable {
         safetyRating,
         parkingRating,
         entranceRating,
-        street,
+    addressBuilding,
       ];
 }

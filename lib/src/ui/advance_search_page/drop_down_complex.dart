@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jurta_app/src/data/entity/residential_complex.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
-class FlutterFlowDropDownObjectTypes extends StatefulWidget {
-  const FlutterFlowDropDownObjectTypes({
+class FlutterFlowDropDownComplex extends StatefulWidget {
+  const FlutterFlowDropDownComplex({
     this.initialOption,
     required this.options,
     required this.onChanged,
+    this.width,
   });
 
-  final DictionaryMultiLangItem? initialOption;
-  final List<DictionaryMultiLangItem> options;
-  final Function(DictionaryMultiLangItem) onChanged;
+  final ResidentialComplex? initialOption;
+  final List<ResidentialComplex> options;
+  final Function(ResidentialComplex) onChanged;
+  final double? width;
 
   @override
-  State<FlutterFlowDropDownObjectTypes> createState() =>
-      _FlutterFlowDropDownObjectTypesState();
+  State<FlutterFlowDropDownComplex> createState() =>
+      _FlutterFlowDropDownComplexState();
 }
 
-class _FlutterFlowDropDownObjectTypesState
-    extends State<FlutterFlowDropDownObjectTypes> {
-  DictionaryMultiLangItem? dropDownValue;
+class _FlutterFlowDropDownComplexState
+    extends State<FlutterFlowDropDownComplex> {
+  ResidentialComplex? dropDownValue;
 
-  List<DictionaryMultiLangItem> get effectiveOptions => widget.options.isEmpty
-      ? [
-          DictionaryMultiLangItem(
-              code: 'code',
-              id: 0,
-              name: MultiLangText(
-                  nameEn: 'Option', nameRu: 'Option', nameKz: 'Option'))
-        ]
+  List<ResidentialComplex> get effectiveOptions => widget.options.isEmpty
+      ? [ ]
       : widget.options;
 
   @override
@@ -47,17 +46,12 @@ class _FlutterFlowDropDownObjectTypesState
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
-    final dropdownWidget = DropdownButton<DictionaryMultiLangItem>(
+    final dropdownWidget = DropdownButton<ResidentialComplex>(
       value: effectiveOptions.contains(dropDownValue) ? dropDownValue : null,
       items: effectiveOptions
           .map((e) => DropdownMenuItem(
                 value: e,
-                child: Text(
-                  locale == 'ru'
-                      ? e.name.nameRu
-                      : locale == 'kk'
-                          ? e.name.nameKz
-                          : e.name.nameEn,
+                child: Text(e.houseName,
                   style: FlutterFlowTheme.darkNormal16,
                 ),
               ))
@@ -65,7 +59,6 @@ class _FlutterFlowDropDownObjectTypesState
       elevation: 2,
       onChanged: (value) {
         if (value != null) {
-          print('me changed');
           dropDownValue = value;
           widget.onChanged(value);
         }
@@ -88,15 +81,13 @@ class _FlutterFlowDropDownObjectTypesState
         ),
         color: Colors.white,
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-        child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButtonHideUnderline(child: dropdownWidget)),
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButtonHideUnderline(child: dropdownWidget),
       ),
     );
     return Container(
-        width: MediaQuery.of(context).size.width,
+        width: widget.width ?? MediaQuery.of(context).size.width,
         height: 40,
         child: childWidget);
   }

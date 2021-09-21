@@ -12,11 +12,15 @@ class FlutterFlowDropDownAddress extends StatefulWidget {
     this.initialOption,
     required this.options,
     required this.onChanged,
+    this.width,
+    required this.hintText,
   });
 
   final Address? initialOption;
   final List<Address> options;
   final Function(Address) onChanged;
+  final double? width;
+  final String hintText;
 
   @override
   State<FlutterFlowDropDownAddress> createState() =>
@@ -51,8 +55,8 @@ class _FlutterFlowDropDownAddressState
   void initState() {
     super.initState();
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-      dropDownValue = widget.initialOption ?? widget.options.first;
-      widget.onChanged(dropDownValue!);
+      // dropDownValue = widget.initialOption ?? widget.options.first;
+      // widget.onChanged(dropDownValue!);
     });
   }
 
@@ -60,6 +64,10 @@ class _FlutterFlowDropDownAddressState
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
     final dropdownWidget = DropdownButton<Address>(
+      hint: Text(
+        widget.hintText,
+        style: const TextStyle(color: const Color(0xFFADADAD)),
+      ),
       value: effectiveOptions.contains(dropDownValue) ? dropDownValue : null,
       items: effectiveOptions
           .map((e) => DropdownMenuItem(
@@ -105,7 +113,7 @@ class _FlutterFlowDropDownAddressState
       ),
     );
     return Container(
-        width: MediaQuery.of(context).size.width,
+        width: widget.width ?? MediaQuery.of(context).size.width,
         height: 40,
         child: childWidget);
   }

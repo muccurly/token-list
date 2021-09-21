@@ -59,13 +59,13 @@ class AddressObject extends Equatable {
   final int id;
   final String code;
   final MultiLangText name;
-  final String idKazPost;
+  final String? idKazPost;
 
   const AddressObject({
     required this.id,
     required this.code,
     required this.name,
-    required this.idKazPost,
+    this.idKazPost,
   });
 
   factory AddressObject.fromJson(Map<String, dynamic> json) {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
 
 import '../components/search_result_box_widget.dart';
@@ -57,9 +60,11 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: Text(
-                              'Назад',
+                              'РЕЗУЛЬТАТ ПОИСКА',
                               style:
-                                  FlutterFlowTheme.subtitleTextDark.copyWith(),
+                                  FlutterFlowTheme.subtitleTextDark.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           )
                         ],
@@ -120,31 +125,38 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
               color: FlutterFlowTheme.primaryColor,
             ),
             Expanded(
-              child: GridView(
-                padding: EdgeInsets.zero,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 120,
-                  childAspectRatio: 1,
-                ),
-                scrollDirection: Axis.vertical,
-                children: [
-                  InkWell(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          duration: Duration(milliseconds: 300),
-                          reverseDuration: Duration(milliseconds: 300),
-                          child: ObjectInfoPageWidgetSample(),
-                        ),
+              child: BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  return GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 0,
+                      childAspectRatio: .59,
+                    ),
+                    scrollDirection: Axis.vertical,
+                    itemCount: state.properties.length,
+                    itemBuilder: (context, index){
+                      return InkWell(
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 300),
+                              reverseDuration: Duration(milliseconds: 300),
+                              child: ObjectInfoPageWidget(
+                                realProperty: state.properties[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: SearchResultBoxWidget(property: state.properties[index],),
                       );
                     },
-                    child: SearchResultBoxWidget(),
-                  )
-                ],
+                  );
+                }
               ),
             )
           ],

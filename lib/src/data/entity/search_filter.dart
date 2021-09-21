@@ -10,6 +10,7 @@ class SearchFilter extends Equatable {
   final String direction;
   final bool? encumbrance;
   final bool? exchange;
+  final bool? probabilityOfBidding;
   final int? houseClassId;
   final int? housingConditionId;
   final bool moreThanFiveRooms;
@@ -29,6 +30,7 @@ class SearchFilter extends Equatable {
     this.direction = 'DESC',
     this.encumbrance,
     this.exchange,
+    this.probabilityOfBidding,
     this.houseClassId,
     this.housingConditionId,
     this.moreThanFiveRooms = false,
@@ -45,10 +47,11 @@ class SearchFilter extends Equatable {
     Range? areaRange,
     Range? priceRange,
     String? addressCode,
-    bool? atelier,
+    required bool? atelier,
     String? direction,
-    bool? encumbrance,
-    bool? exchange,
+    required bool? encumbrance,
+    required bool? exchange,
+    required bool? probabilityOfBidding,
     int? houseClassId,
     int? housingConditionId,
     bool? moreThanFiveRooms,
@@ -64,10 +67,11 @@ class SearchFilter extends Equatable {
       areaRange: areaRange ?? this.areaRange,
       priceRange: priceRange ?? this.priceRange,
       addressCode: addressCode ?? this.addressCode,
-      atelier: atelier ?? this.atelier,
+      atelier: atelier,
       direction: direction ?? this.direction,
-      encumbrance: encumbrance ?? this.encumbrance,
-      exchange: exchange ?? this.exchange,
+      encumbrance: encumbrance,
+      exchange: exchange,
+      probabilityOfBidding: probabilityOfBidding,
       houseClassId: houseClassId ?? this.houseClassId,
       housingConditionId: housingConditionId ?? this.housingConditionId,
       moreThanFiveRooms: moreThanFiveRooms ?? this.moreThanFiveRooms,
@@ -86,6 +90,7 @@ class SearchFilter extends Equatable {
         "direction": this.direction,
         "encumbrance": this.encumbrance,
         "exchange": this.exchange,
+        "probabilityOfBidding": this.probabilityOfBidding,
         "houseClassId": this.houseClassId,
         "housingConditionId": this.housingConditionId,
         "moreThanFiveRooms": this.moreThanFiveRooms,
@@ -100,6 +105,12 @@ class SearchFilter extends Equatable {
         "yearOfConstruction": this.yearOfConstruction?.toJson()
       };
 
+
+  @override
+  String toString() {
+    return 'SearchFilter{objectTypeId: $objectTypeId, areaRange: $areaRange, priceRange: $priceRange, addressCode: $addressCode, atelier: $atelier, direction: $direction, encumbrance: $encumbrance, exchange: $exchange, probabilityOfBidding: $probabilityOfBidding, houseClassId: $houseClassId, housingConditionId: $housingConditionId, moreThanFiveRooms: $moreThanFiveRooms, numberOfRooms: $numberOfRooms, pageNumber: $pageNumber, pageSize: $pageSize, residentialComplexId: $residentialComplexId, sortBy: $sortBy, yearOfConstruction: $yearOfConstruction}';
+  }
+
   @override
   List<Object?> get props => [
         objectTypeId,
@@ -110,6 +121,7 @@ class SearchFilter extends Equatable {
         direction,
         encumbrance,
         exchange,
+        probabilityOfBidding,
         houseClassId,
         housingConditionId,
         moreThanFiveRooms,

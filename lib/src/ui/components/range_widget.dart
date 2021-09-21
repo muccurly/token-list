@@ -10,10 +10,12 @@ class RangeWidget extends StatefulWidget {
     required this.fromController,
     required this.toController,
     required this.onChanged,
+    this.maxLength,
   }) : super(key: key);
   final TextEditingController fromController;
   final TextEditingController toController;
   final Function(String value, bool from) onChanged;
+  final int? maxLength;
 
   @override
   _RangeWidgetState createState() => _RangeWidgetState();
@@ -42,6 +44,7 @@ class _RangeWidgetState extends State<RangeWidget> {
             child: TextFormField(
               inputFormatters: _formatters,
               controller: widget.fromController,
+              maxLength: widget.maxLength,
               obscureText: false,
               keyboardType: TextInputType.number,
               onChanged: (value) => widget.onChanged(value, true),
@@ -49,6 +52,7 @@ class _RangeWidgetState extends State<RangeWidget> {
                 isDense: true,
                 hintText: AppLocalizations.of(context)!.from,
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+                counterText: "",
                 enabledBorder: _border,
                 focusedBorder: _border,
                 filled: true,
@@ -64,6 +68,7 @@ class _RangeWidgetState extends State<RangeWidget> {
             child: TextFormField(
               inputFormatters: _formatters,
               controller: widget.toController,
+              maxLength: widget.maxLength,
               obscureText: false,
               keyboardType: TextInputType.number,
               onChanged: (value) => widget.onChanged(value, false),
@@ -71,6 +76,7 @@ class _RangeWidgetState extends State<RangeWidget> {
                 isDense: true,
                 hintText: AppLocalizations.of(context)!.to,
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+                counterText: "",
                 enabledBorder: _border,
                 focusedBorder: _border,
                 filled: true,

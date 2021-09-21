@@ -1,37 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
-class FlutterFlowDropDownObjectTypes extends StatefulWidget {
-  const FlutterFlowDropDownObjectTypes({
+class FlutterFlowDropDownAddress extends StatefulWidget {
+  const FlutterFlowDropDownAddress({
     this.initialOption,
     required this.options,
     required this.onChanged,
   });
 
-  final DictionaryMultiLangItem? initialOption;
-  final List<DictionaryMultiLangItem> options;
-  final Function(DictionaryMultiLangItem) onChanged;
+  final Address? initialOption;
+  final List<Address> options;
+  final Function(Address) onChanged;
 
   @override
-  State<FlutterFlowDropDownObjectTypes> createState() =>
-      _FlutterFlowDropDownObjectTypesState();
+  State<FlutterFlowDropDownAddress> createState() =>
+      _FlutterFlowDropDownAddressState();
 }
 
-class _FlutterFlowDropDownObjectTypesState
-    extends State<FlutterFlowDropDownObjectTypes> {
-  DictionaryMultiLangItem? dropDownValue;
+class _FlutterFlowDropDownAddressState
+    extends State<FlutterFlowDropDownAddress> {
+  Address? dropDownValue;
 
-  List<DictionaryMultiLangItem> get effectiveOptions => widget.options.isEmpty
+  List<Address> get effectiveOptions => widget.options.isEmpty
       ? [
-          DictionaryMultiLangItem(
-              code: 'code',
-              id: 0,
-              name: MultiLangText(
-                  nameEn: 'Option', nameRu: 'Option', nameKz: 'Option'))
+          Address(
+              address: AddressObjectWithType(
+                  addressObject: AddressObject(
+                      id: -1,
+                      code: 'Option',
+                      name: MultiLangText(
+                          nameEn: 'Option', nameKz: 'Option', nameRu: 'Option'),
+                      idKazPost: 'Option'),
+                  addressType: AddressType(
+                      id: -1,
+                      name: MultiLangText(
+                          nameEn: 'Option',
+                          nameKz: 'Option',
+                          nameRu: 'Option'))),
+              total: 0)
         ]
       : widget.options;
 
@@ -47,17 +59,17 @@ class _FlutterFlowDropDownObjectTypesState
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
-    final dropdownWidget = DropdownButton<DictionaryMultiLangItem>(
+    final dropdownWidget = DropdownButton<Address>(
       value: effectiveOptions.contains(dropDownValue) ? dropDownValue : null,
       items: effectiveOptions
           .map((e) => DropdownMenuItem(
                 value: e,
                 child: Text(
                   locale == 'ru'
-                      ? e.name.nameRu
+                      ? e.address.addressObject.name.nameRu
                       : locale == 'kk'
-                          ? e.name.nameKz
-                          : e.name.nameEn,
+                          ? e.address.addressObject.name.nameKz
+                          : e.address.addressObject.name.nameEn,
                   style: FlutterFlowTheme.darkNormal16,
                 ),
               ))
@@ -87,11 +99,9 @@ class _FlutterFlowDropDownObjectTypesState
         ),
         color: Colors.white,
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-        child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButtonHideUnderline(child: dropdownWidget)),
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButtonHideUnderline(child: dropdownWidget),
       ),
     );
     return Container(

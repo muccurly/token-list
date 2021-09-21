@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:jurta_app/src/data/entity/search_filter.dart';
+import 'package:jurta_app/src/ui/advance_search_page/drop_down.dart';
+import 'package:jurta_app/src/ui/components/range_widget.dart';
+import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 
 import '../flutter_flow/flutter_flow_drop_down_template.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -7,6 +13,12 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
 import '../search_result_page/search_result_page_widget.dart';
+import 'package:formz/formz.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:formz/formz.dart';
+import 'package:jurta_app/src/utils/extensions.dart';
 
 class AdvanceSearchPageWidget extends StatefulWidget {
   AdvanceSearchPageWidget({Key? key}) : super(key: key);
@@ -18,10 +30,10 @@ class AdvanceSearchPageWidget extends StatefulWidget {
 
 class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   String? dropDownValue1;
-  TextEditingController textController1 = TextEditingController();
-  TextEditingController textController2 = TextEditingController();
-  TextEditingController textController3 = TextEditingController();
-  TextEditingController textController4 = TextEditingController();
+  TextEditingController priceFromController = TextEditingController();
+  TextEditingController priceToController = TextEditingController();
+  TextEditingController areaFromController = TextEditingController();
+  TextEditingController areaToController = TextEditingController();
   TextEditingController textController5 = TextEditingController();
   TextEditingController textController6 = TextEditingController();
   TextEditingController textController7 = TextEditingController();
@@ -43,6 +55,76 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   int isolatedRooms = 1;
 
   @override
+  void initState() {
+    _setFields();
+    super.initState();
+  }
+
+  _setFields() {
+    SearchFilter filter = BlocProvider.of<SearchBloc>(context).state.filter;
+    if (filter.priceRange != null) {
+      if (filter.priceRange!.from != null)
+        priceFromController.text = filter.priceRange!.from.toString();
+      if (filter.priceRange!.to != null)
+        priceToController.text = filter.priceRange!.to.toString();
+    }
+    if (filter.areaRange != null) {
+      if (filter.areaRange!.from != null)
+        areaFromController.text = filter.areaRange!.from.toString();
+      if (filter.areaRange!.to != null)
+        areaToController.text = filter.areaRange!.to.toString();
+    }
+  }
+
+  @override
+  void dispose() {
+    priceFromController.dispose();
+    priceToController.dispose();
+    areaFromController.dispose();
+    areaToController.dispose();
+    super.dispose();
+  }
+
+  void _onChanged({
+    required TextEditingController fromC,
+    required TextEditingController toC,
+    required String value,
+    required bool priceFrom,
+    required bool price,
+  }) {
+    int from = 0, to = 0;
+    if (value.isNotEmpty)
+      priceFrom
+          ? from = int.parse(value.replaceAll(' ', ''))
+          : to = int.parse(value.replaceAll(' ', ''));
+    if (priceFrom) {
+      if (toC.text.isNotEmpty) to = int.parse(toC.text.replaceAll(' ', ''));
+      if (to < from)
+        toC.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+                TextEditingValue(text: from.toString()))
+            .text;
+    } else {
+      if (fromC.text.isNotEmpty)
+        from = int.parse(fromC.text.replaceAll(' ', ''));
+      if (to < from) {
+        if (to == 0)
+          fromC.clear();
+        else
+          fromC.text = NumericTextFormatter()
+              .formatEditUpdate(const TextEditingValue(),
+                  TextEditingValue(text: to.toString()))
+              .text;
+      }
+    }
+    int? f, t;
+    if (fromC.text.isNotEmpty) f = int.parse(fromC.text.replaceAll(' ', ''));
+    if (toC.text.isNotEmpty) t = int.parse(toC.text.replaceAll(' ', ''));
+    context.read<SearchBloc>().add(
+        price ? SearchPriceRangeChanged(f, t) : SearchAreaRangeChanged(f, t));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -61,15 +143,13 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 50, 0, 0),
                 child: InkWell(
-                  onTap: () async {
-                    Navigator.pop(context);
-                  },
+                  onTap: () async => Navigator.pop(context),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.arrow_back_outlined,
                         color: Colors.black,
                         size: 20,
@@ -77,12 +157,8 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                         child: Text(
-                          'Назад',
-                          style: GoogleFonts.getFont(
-                            'Roboto',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
+                          AppLocalizations.of(context)!.back.capitalize(),
+                          style: FlutterFlowTheme.subtitleTextDark.copyWith(),
                         ),
                       )
                     ],
@@ -97,392 +173,58 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 8),
+                    child: Text(
+                      AppLocalizations.of(context)!.propertyType.toUpperCase(),
+                      style: FlutterFlowTheme.titleTextWDark,
+                    ),
+                  ),
+                  SearchObjTypesDropDown(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 8),
+                    child: Text(
+                      AppLocalizations.of(context)!.numberOfRooms.toUpperCase(),
+                      style: FlutterFlowTheme.titleTextWDark,
+                    ),
+                  ),
+                  SearchRoomsWidget(),
+                  Padding(
                     padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
-                      'ТИП НЕДВИЖИМОСТИ',
-                      style: FlutterFlowTheme.searchPageTitle.copyWith(),
+                      '${AppLocalizations.of(context)!.priceRange.toUpperCase()}, \u{3012}',
+                      style: FlutterFlowTheme.titleTextWDark,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: FlutterFlowDropDown(
-                      options:
-                          ['Квартиры', 'Дома', 'Офисные помещение'].toList(),
-                      onChanged: (value) {
-                        setState(() => dropDownValue1 = value);
-                      },
-                      width: 130,
-                      height: 48,
-                      textStyle: TextStyle(
-                        color: Color(0xFF333333),
-                        fontSize: 16,
-                      ),
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 15,
-                      ),
-                      fillColor: Colors.white,
-                      elevation: 1,
-                      borderColor: FlutterFlowTheme.tertiaryColor,
-                      borderWidth: 1,
-                      borderRadius: 8,
-                      margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                      hidesUnderline: true,
-                    ),
-                  ),
+                    child:RangeWidget(
+                      fromController: priceFromController,
+                      toController: priceToController,
+                      onChanged: (String value, bool from) => _onChanged(
+                          fromC: priceFromController,
+                          toC: priceToController,
+                          value: value,
+                          priceFrom: from,
+                          price: true),
+                    ), ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
-                      'КОМНАТНОСТЬ',
-                      style: FlutterFlowTheme.searchPageTitle.copyWith(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
-                    child: Card(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      color: FlutterFlowTheme.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  room_1 = 0;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: room_1 == 0
-                                      ? FlutterFlowTheme.primaryColor
-                                      : FlutterFlowTheme.white,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(8),
-                                    bottomRight: Radius.circular(0),
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(0),
-                                  ),
-                                ),
-                                child: Align(
-                                  alignment: Alignment(0, 0),
-                                  child: Text(
-                                    '1',
-                                    style:
-                                        FlutterFlowTheme.btnTextWhite.copyWith(
-                                      color: room_1 == 0
-                                          ? FlutterFlowTheme.white
-                                          : FlutterFlowTheme.secondaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  room_2 = 0;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: room_2 == 0
-                                      ? FlutterFlowTheme.primaryColor
-                                      : FlutterFlowTheme.white,
-                                ),
-                                child: Align(
-                                  alignment: Alignment(0, 0),
-                                  child: Text(
-                                    '2',
-                                    style:
-                                        FlutterFlowTheme.btnTextWhite.copyWith(
-                                      color: room_2 == 0
-                                          ? FlutterFlowTheme.white
-                                          : FlutterFlowTheme.secondaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  room_3 = 0;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: room_3 == 0
-                                      ? FlutterFlowTheme.primaryColor
-                                      : FlutterFlowTheme.white,
-                                ),
-                                child: Align(
-                                  alignment: Alignment(0, 0),
-                                  child: Text(
-                                    '3',
-                                    style:
-                                        FlutterFlowTheme.btnTextWhite.copyWith(
-                                      color: room_3 == 0
-                                          ? FlutterFlowTheme.white
-                                          : FlutterFlowTheme.secondaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  room_4 = 0;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: room_4 == 0
-                                      ? FlutterFlowTheme.primaryColor
-                                      : FlutterFlowTheme.white,
-                                ),
-                                child: Align(
-                                  alignment: Alignment(0, 0),
-                                  child: Text(
-                                    '4',
-                                    style:
-                                        FlutterFlowTheme.btnTextWhite.copyWith(
-                                      color: room_4 == 0
-                                          ? FlutterFlowTheme.white
-                                          : FlutterFlowTheme.secondaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  roomMore5 = 0;
-                                });
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: roomMore5 == 0
-                                      ? FlutterFlowTheme.primaryColor
-                                      : FlutterFlowTheme.white,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(8),
-                                    topLeft: Radius.circular(0),
-                                    topRight: Radius.circular(8),
-                                  ),
-                                ),
-                                child: Align(
-                                  alignment: Alignment(0, 0),
-                                  child: Text(
-                                    '5+',
-                                    style:
-                                        FlutterFlowTheme.btnTextWhite.copyWith(
-                                      color: roomMore5 == 0
-                                          ? FlutterFlowTheme.white
-                                          : FlutterFlowTheme.secondaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                    child: Text(
-                      'ДИАПАЗОН ЦЕН, ₸',
-                      style: FlutterFlowTheme.searchPageTitle.copyWith(),
+                      '${AppLocalizations.of(context)!.area.toUpperCase()}, м²',
+                      style: FlutterFlowTheme.titleTextWDark,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            child: TextFormField(
-                              controller: textController1,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'от',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                            child: TextFormField(
-                              controller: textController2,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'до',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                    child: Text(
-                      'ПЛОЩАДЬ, М',
-                      style: FlutterFlowTheme.searchPageTitle.copyWith(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            child: TextFormField(
-                              controller: textController3,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'от',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                            child: TextFormField(
-                              controller: textController4,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'до',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                    child: RangeWidget(
+                      fromController: areaFromController,
+                      toController: areaToController,
+                      onChanged: (String value, bool from) => _onChanged(
+                          fromC: areaFromController,
+                          toC: areaToController,
+                          value: value,
+                          priceFrom: from,
+                          price: false),
                     ),
                   ),
                   Padding(
@@ -494,34 +236,40 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: TextFormField(
-                      controller: textController5,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'Район',
-                        hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.tertiaryColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.tertiaryColor,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: FlutterFlowTheme.white,
-                      ),
-                      style: TextStyle(
-                        color: FlutterFlowTheme.secondaryColor,
-                        fontSize: 16,
-                      ),
+                    child: BlocBuilder<SearchBloc, SearchState>(
+                      buildWhen: (previous, current) =>
+                          previous.cities != current.cities,
+                      builder: (context, state) {
+                        if (state.cities.isEmpty)
+                          return placeholders.objectTypesDropDownPlaceholder;
+                        return FlutterFlowDropDownAddress(
+                          options: state.cities,
+                          onChanged: (val) {
+                            setState(() {});
+                            context.read<SearchBloc>().add(
+                                CityChanged(val.address.addressObject.code));
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    child: BlocBuilder<SearchBloc, SearchState>(
+                      buildWhen: (previous, current) =>
+                          previous.districts != current.districts ||
+                          previous.districtsStatus != current.districtsStatus,
+                      builder: (context, state) {
+                        if (state.districtsStatus.isSubmissionInProgress)
+                          return placeholders.objectTypesDropDownPlaceholder;
+                        return FlutterFlowDropDownAddress(
+                          options: state.districts,
+                          onChanged: (val) {
+                            setState(() {});
+                            //choose
+                          },
+                        );
+                      },
                     ),
                   ),
                   Padding(

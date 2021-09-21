@@ -15,10 +15,15 @@ class Address extends Equatable {
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
+    var parent = json['parent'];
+    var parentByType = json['parentByType'];
+
     return Address(
-      address: json['addressObject'],
-      parent: json['parent'],
-      parentByType: json['parentByType'],
+      address: AddressObjectWithType.fromJson(json['addressObject']),
+      parent: parent != null ? AddressObjectWithType.fromJson(parent) : null,
+      parentByType: parentByType != null
+          ? AddressObjectWithType.fromJson(parentByType)
+          : null,
       total: json['total'],
     );
   }
@@ -106,6 +111,7 @@ class Building extends Equatable {
   final String latitude;
   final String longitude;
   final String? houseNumber;
+  final Address? street;
 
   Building({
     required this.id,
@@ -114,6 +120,7 @@ class Building extends Equatable {
     required this.latitude,
     required this.longitude,
     this.houseNumber,
+    this.street,
   });
 
   factory Building.fromJson(Map<String, dynamic> json) {
@@ -124,6 +131,7 @@ class Building extends Equatable {
       latitude: json['latitude'],
       longitude: json['longitude'],
       houseNumber: json['houseNumber'],
+      street: Address.fromJson(json['street']),
     );
   }
 
@@ -138,5 +146,46 @@ class Building extends Equatable {
         latitude,
         longitude,
         houseNumber,
+        street,
+      ];
+}
+
+class AddressStreet extends Equatable {
+  final MultiLangText address;
+  final AddressObjectWithType addressObject;
+  final AddressObjectWithType parent;
+  final AddressObjectWithType parentByType;
+  final int total;
+  final List<Address> parentObject;
+
+  const AddressStreet({
+    required this.address,
+    required this.addressObject,
+    required this.parent,
+    required this.parentByType,
+    required this.total,
+    required this.parentObject,
+  });
+
+  factory AddressStreet.fromJson(Map<String, dynamic> json) {
+    return AddressStreet(
+      address: MultiLangText.fromJson(json['address']),
+      addressObject: AddressObjectWithType.fromJson(json['addressObject']),
+      parent: AddressObjectWithType.fromJson(json['parent']),
+      parentByType: AddressObjectWithType.fromJson(json['parentByType']),
+      total: json['total'],
+      parentObject:
+          (json['parent'] as List).map((e) => Address.fromJson(e)).toList(),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        address,
+        addressObject,
+        parent,
+        parentByType,
+        total,
+        parentObject,
       ];
 }

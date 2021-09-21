@@ -4,4 +4,5 @@ abstract class IDictionaryRepository{
   Stream<List<DictionaryMultiLangItem>> get objectTypes;
   void dispose();
   Future<void> findAllObjectTypes();
+  List<DictionaryMultiLangItem> get types;
 }

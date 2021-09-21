@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jurta_app/l10n/l10n.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/bloc/home_bloc.dart';
+import 'package:jurta_app/src/business_logic/search/bloc/search_bloc.dart';
+import 'package:jurta_app/src/data/repository/i_address_repository.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
@@ -16,11 +18,13 @@ class App extends StatelessWidget {
     required this.propertyRepository,
     required this.dictionaryRepository,
     required this.settingsRepository,
+    required this.addressRepository,
   }) : super(key: key);
 
   final IPropertyRepository propertyRepository;
   final IDictionaryRepository dictionaryRepository;
   final ISettingsRepository settingsRepository;
+  final IAddressRepository addressRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,9 @@ class App extends StatelessWidget {
         RepositoryProvider<ISettingsRepository>(
           create: (context) => settingsRepository,
         ),
+        RepositoryProvider<IAddressRepository>(
+          create: (context) => addressRepository,
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -42,6 +49,15 @@ class App extends StatelessWidget {
             create: (context) => FilterBloc(
               dictionaryRepository: dictionaryRepository,
             )..add(ObjectTypesLoad()),
+          ),
+          BlocProvider<SearchBloc>(
+            create: (context) => SearchBloc(
+              addressRepository: addressRepository,
+              dictionaryRepository: dictionaryRepository,
+              propertyRepository: propertyRepository,
+            )
+              ..add(GetOrLoadObjectTypes())
+              ..add(LoadCities()),
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(

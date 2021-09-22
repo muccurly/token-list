@@ -30,21 +30,6 @@ class _ObjectTypesDropDownState extends State<ObjectTypesDropDown> {
           setState(() => dropDownValue = value);
           context.read<FilterBloc>().add(ObjectTypeChose(value));
         },
-        width: _size.width,
-        height: 40,
-        textStyle: FlutterFlowTheme.darkNormal16.copyWith(),
-        icon: Icon(
-          Icons.keyboard_arrow_down_outlined,
-          color: FlutterFlowTheme.secondaryColor,
-          size: 24,
-        ),
-        fillColor: Colors.white,
-        elevation: 2,
-        borderColor: Colors.transparent,
-        borderWidth: 0,
-        borderRadius: 0,
-        margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-        hidesUnderline: true,
       );
     });
   }

@@ -22,7 +22,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.tertiaryColor,
       body: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +34,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                 color: FlutterFlowTheme.tertiaryColor,
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 0, 8, 20),
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 20),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +55,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                             size: 20,
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: Text(
                               'Назад',
                               style:
@@ -86,7 +86,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: Text(
                               'Сортировка',
                               style:
@@ -106,7 +106,7 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
               child: Text(
                 'СПИСОК',
                 textAlign: TextAlign.center,

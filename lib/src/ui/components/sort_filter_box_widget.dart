@@ -31,7 +31,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             child: Container(
               width: 350,
               height: 300,
@@ -59,7 +59,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Text(
                               'Сортировать по',
                               style: FlutterFlowTheme.subtitleText.copyWith(
@@ -68,7 +68,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                             child: InkWell(
                               onTap: () async {
                                 Navigator.pop(context);
@@ -103,7 +103,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                   ? FlutterFlowTheme.primaryColor
                                   : FlutterFlowTheme.white),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -140,7 +140,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                 : FlutterFlowTheme.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -177,7 +177,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                 : FlutterFlowTheme.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -214,7 +214,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                 : FlutterFlowTheme.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -251,7 +251,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                 : FlutterFlowTheme.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -288,7 +288,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                 : FlutterFlowTheme.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -325,7 +325,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                                 : FlutterFlowTheme.white,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [

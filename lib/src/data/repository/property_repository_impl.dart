@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:jurta_app/src/data/entity/api_response.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
+import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/data/remote/i_property_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
@@ -16,8 +17,10 @@ class PropertyRepositoryImpl implements IPropertyRepository {
   final _propertiesStreamController = StreamController<List<RealProperty>>();
 
   var properties = Set<RealProperty>();
+  var searchProps = Set<RealProperty>();
+  Pagination? _searchPag;
 
-  ApiResponse? apiResponse;
+
 
   @override
   Stream<ApiResponse<RealProperty>> get apiResponseStream async* {
@@ -47,9 +50,27 @@ class PropertyRepositoryImpl implements IPropertyRepository {
     _propertiesStreamController.add(properties.toList());
   }
 
+  Future<List<RealProperty>> searchRealProperty(SearchFilter filter) async {
+    ApiResponse<RealProperty> result = await remote.getRealPropertyList(filter);
+    MyLogger.instance.log.d('result:'
+        '\nfilter: $filter'
+        '\npageNumber: ${result.data.pageNumber}'
+        '\nsize: ${result.data.size}'
+        '\ntotal: ${result.data.total}'
+        '\nids: ${result.data.data.data}');
+    if(filter.pageNumber == 0)
+      searchProps.clear();
+    searchProps.addAll(result.data.data.data);
+    _searchPag = result.data;
+    return searchProps.toList();
+  }
+
   @override
   void dispose() {
     _apiResponseStreamController.close();
     _propertiesStreamController.close();
   }
+
+  @override
+  Pagination? get searchPagination => _searchPag;
 }

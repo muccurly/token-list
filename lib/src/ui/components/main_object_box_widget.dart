@@ -237,33 +237,6 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                 ),
               ),
             ),
-            // child: Card(
-            //   clipBehavior: Clip.antiAliasWithSaveLayer,
-            //   color: Color(0xFFDADADA),
-            //   elevation: 0,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(12),
-            //   ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.fromLTRB(16, 15, 8, 15),
-            //     child: Row(
-            //       mainAxisSize: MainAxisSize.max,
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       children: [
-            //         Text(
-            //           'Посмотреть планировку объекта',
-            //           style: FlutterFlowTheme.subtitleTextDark.copyWith(),
-            //         ),
-            //         Icon(
-            //           Icons.keyboard_arrow_down_sharp,
-            //           color: Colors.black,
-            //           size: 24,
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(3, 12, 3, 0),

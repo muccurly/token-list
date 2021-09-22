@@ -58,42 +58,18 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             moreThanFiveRooms: !state.filter.moreThanFiveRooms,
             objectTypeId: state.filter.objectTypeId),
       );
-    else if (event is PriceRangeFromChanged)
+    else if (event is PriceRangeChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
               flagId: state.filter.flagId,
               objectTypeId: state.filter.objectTypeId,
-              priceRange: state.filter.priceRange == null
-                  ? Range(from: event.value)
-                  : state.filter.priceRange!.copyWith(
-                      from: event.value, to: state.filter.priceRange!.to)));
-    else if (event is PriceRangeToChanged)
+              priceRange: Range(from: event.from, to: event.to)));
+    else if (event is AreaRangeChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
               flagId: state.filter.flagId,
               objectTypeId: state.filter.objectTypeId,
-              priceRange: state.filter.priceRange == null
-                  ? Range(to: event.value)
-                  : state.filter.priceRange!.copyWith(
-                      from: state.filter.priceRange!.from, to: event.value)));
-    else if (event is AreaRangeFromChanged)
-      yield state.copyWith(
-          filter: state.filter.copyWith(
-              flagId: state.filter.flagId,
-              objectTypeId: state.filter.objectTypeId,
-              areaRange: state.filter.areaRange == null
-                  ? Range(from: event.value)
-                  : state.filter.areaRange!.copyWith(
-                      from: event.value, to: state.filter.areaRange!.to)));
-    else if (event is AreaRangeToChanged)
-      yield state.copyWith(
-          filter: state.filter.copyWith(
-              flagId: state.filter.flagId,
-              objectTypeId: state.filter.objectTypeId,
-              areaRange: state.filter.areaRange == null
-                  ? Range(to: event.value)
-                  : state.filter.areaRange!.copyWith(
-                      from: state.filter.areaRange!.from, to: event.value)));
+              areaRange: Range(from: event.from, to: event.to)));
     else if (event is ObjectTypeChose) {
       yield state.copyWith(
           filter: state.filter.copyWith(

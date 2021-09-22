@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:jurta_app/src/business_logic/search_mini/bloc/search_mini_bloc.dart';
+import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
-import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 import '../components/search_result_box_widget.dart';
 import '../components/sort_filter_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 
-class SearchResultPageWidget extends StatefulWidget {
-  SearchResultPageWidget({Key? key}) : super(key: key);
-
-  @override
-  _SearchResultPageWidgetState createState() => _SearchResultPageWidgetState();
-}
-
-class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
+class SearchResultPageWidget extends StatelessWidget {
+  SearchResultPageWidget({
+    Key? key,
+    required this.isSearchMini,
+  }) : super(key: key);
+  final bool isSearchMini;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -61,10 +62,9 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
                             padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: Text(
                               'РЕЗУЛЬТАТ ПОИСКА',
-                              style:
-                                  FlutterFlowTheme.subtitleTextDark.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: FlutterFlowTheme.subtitleTextDark.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           )
                         ],
@@ -125,43 +125,94 @@ class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
               color: FlutterFlowTheme.primaryColor,
             ),
             Expanded(
-              child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  return GridView.builder(
-                    padding: EdgeInsets.zero,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 0,
-                      childAspectRatio: .59,
-                    ),
-                    scrollDirection: Axis.vertical,
-                    itemCount: state.properties.length,
-                    itemBuilder: (context, index){
-                      return InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 300),
-                              reverseDuration: Duration(milliseconds: 300),
-                              child: ObjectInfoPageWidget(
-                                realProperty: state.properties[index],
-                              ),
-                            ),
-                          );
-                        },
-                        child: SearchResultBoxWidget(property: state.properties[index],),
-                      );
-                    },
-                  );
-                }
-              ),
+              child: FromBloc(isMini: isSearchMini),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class FromBloc extends StatelessWidget {
+  const FromBloc({Key? key, required this.isMini}) : super(key: key);
+
+  final bool isMini;
+
+  @override
+  Widget build(BuildContext context) {
+    return isMini
+        ? BlocBuilder<SearchMiniBloc, SearchMiniState>(
+            buildWhen: (p, c) =>
+                p.moreStatus != c.moreStatus || p.properties != c.properties,
+            builder: (context, state) => ContentWidget(
+                  items: state.properties,
+                  status: state.moreStatus,
+                  load: () =>
+                      context.read<SearchMiniBloc>().add(SearchMiniMore()),
+                ))
+        : BlocBuilder<SearchBloc, SearchState>(
+            buildWhen: (p, c) =>
+                p.moreStatus != c.moreStatus || p.properties != c.properties,
+            builder: (context, state) => ContentWidget(
+                  items: state.properties,
+                  status: state.moreStatus,
+                  load: () => context.read<SearchBloc>().add(SearchMore()),
+                ));
+  }
+}
+
+class ContentWidget extends StatelessWidget {
+  const ContentWidget({
+    Key? key,
+    required this.items,
+    required this.status,
+    required this.load,
+  }) : super(key: key);
+
+  final List<RealProperty> items;
+  final FormzStatus status;
+  final VoidCallback load;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: EdgeInsets.zero,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 0,
+        childAspectRatio: .55,
+      ),
+      scrollDirection: Axis.vertical,
+      itemCount:
+          status.isSubmissionInProgress ? items.length + 2 : items.length,
+      itemBuilder: (context, index) {
+        if (index == items.length - 4) load.call();
+        if (index == items.length || index == items.length + 1)
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: placeholders.gridShimmer,
+          );
+        return InkWell(
+          onTap: () async {
+            await Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                duration: Duration(milliseconds: 300),
+                reverseDuration: Duration(milliseconds: 300),
+                child: ObjectInfoPageWidget(
+                  realProperty: items[index],
+                ),
+              ),
+            );
+          },
+          child: SearchResultBoxWidget(
+            property: items[index],
+          ),
+        );
+      },
     );
   }
 }

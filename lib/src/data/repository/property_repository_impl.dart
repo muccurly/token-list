@@ -13,14 +13,13 @@ class PropertyRepositoryImpl implements IPropertyRepository {
 
   final IPropertyRemoteDataSource remote;
 
-  final _apiResponseStreamController = StreamController<ApiResponse<RealProperty>>();
+  final _apiResponseStreamController =
+      StreamController<ApiResponse<RealProperty>>();
   final _propertiesStreamController = StreamController<List<RealProperty>>();
 
   var properties = Set<RealProperty>();
   var searchProps = Set<RealProperty>();
   Pagination? _searchPag;
-
-
 
   @override
   Stream<ApiResponse<RealProperty>> get apiResponseStream async* {
@@ -43,8 +42,7 @@ class PropertyRepositoryImpl implements IPropertyRepository {
         '\ntotal: ${result.data.total}'
         '\nids: ${result.data.data.data}');
     //TODO: find a cleaner way
-    if(filter.pageNumber == 0)
-      properties.clear();
+    if (filter.pageNumber == 0) properties.clear();
     properties.addAll(result.data.data.data);
     _apiResponseStreamController.add(result);
     _propertiesStreamController.add(properties.toList());
@@ -58,8 +56,7 @@ class PropertyRepositoryImpl implements IPropertyRepository {
         '\nsize: ${result.data.size}'
         '\ntotal: ${result.data.total}'
         '\nids: ${result.data.data.data}');
-    if(filter.pageNumber == 0)
-      searchProps.clear();
+    if (filter.pageNumber == 0) searchProps.clear();
     searchProps.addAll(result.data.data.data);
     _searchPag = result.data;
     return searchProps.toList();

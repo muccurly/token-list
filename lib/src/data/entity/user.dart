@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class User extends Equatable {
   final int id;
   final String login;
-  final String email;
+  final String? email;
   final String fullName;
   final String name;
   final int organizationId;
@@ -14,7 +14,7 @@ class User extends Equatable {
   final String surname;
 
   const User({
-    required this.email,
+    this.email,
     required this.fullName,
     required this.id,
     required this.login,

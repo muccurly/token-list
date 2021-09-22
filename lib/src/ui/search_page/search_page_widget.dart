@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:formz/formz.dart';
-import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:jurta_app/src/business_logic/search_mini/search_mini.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
+import 'package:jurta_app/src/ui/components/room_button_widget.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
 import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
@@ -16,6 +18,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../search_result_page/search_result_page_widget.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 class SearchPageWidget extends StatefulWidget {
   SearchPageWidget({Key? key}) : super(key: key);
@@ -38,7 +41,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
   }
 
   _setFields() {
-    SearchFilter filter = BlocProvider.of<SearchBloc>(context).state.filter;
+    SearchFilter filter = BlocProvider.of<SearchMiniBloc>(context).state.filter;
     if (filter.priceRange != null) {
       if (filter.priceRange!.from != null)
         priceFromController.text = filter.priceRange!.from.toString();
@@ -97,17 +100,16 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
     int? f, t;
     if (fromC.text.isNotEmpty) f = int.parse(fromC.text.replaceAll(' ', ''));
     if (toC.text.isNotEmpty) t = int.parse(toC.text.replaceAll(' ', ''));
-    context.read<SearchBloc>().add(
-        price ? SearchPriceRangeChanged(f, t) : SearchAreaRangeChanged(f, t));
+    context.read<SearchMiniBloc>().add(
+        price ? SearchMiniPriceRangeChanged(f, t) : SearchMiniAreaRangeChanged(f, t));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SearchBloc, SearchState>(
+    return BlocListener<SearchMiniBloc, SearchMiniState>(
       listenWhen: (p,c) => p.searchStatus!=c.searchStatus,
       listener: (context, state) async {
         if(state.searchStatus.isSubmissionSuccess){
-          MyLogger.instance.log.d('search success');
           await Navigator.push(
             context,
             PageTransition(
@@ -115,7 +117,9 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
               duration: Duration(milliseconds: 300),
               reverseDuration:
               Duration(milliseconds: 300),
-              child: SearchResultPageWidget(),
+              child: SearchResultPageWidget(
+                isSearchMini: true,
+              ),
             ),
           );
         }
@@ -173,7 +177,23 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                         style: FlutterFlowTheme.titleTextWDark,
                       ),
                     ),
-                    SearchObjTypesDropDown(),
+                    BlocBuilder<SearchMiniBloc, SearchMiniState>(
+                      buildWhen: (previous, current) =>
+                      previous.objectTypes != current.objectTypes,
+                      builder: (context, state) {
+                        if (state.objectTypes.isEmpty)
+                          return placeholders.objectTypesDropDownPlaceholder;
+                        return FlutterFlowDropDownObjectTypes(
+                          options: state.objectTypes,
+                          onChanged: (value) {
+                            setState(() {});
+                            context
+                                .read<SearchMiniBloc>()
+                                .add(SearchMiniObjectTypeChoose(value));
+                          },
+                        );
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 12, 0, 8),
                       child: Text(
@@ -181,7 +201,97 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                         style: FlutterFlowTheme.titleTextWDark,
                       ),
                     ),
-                    SearchRoomsWidget(),
+                    Card(
+                      margin: const EdgeInsets.all(0),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: FlutterFlowTheme.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: BlocBuilder<SearchMiniBloc, SearchMiniState>(
+                          buildWhen: (previous, current) =>
+                          previous.filter.numberOfRooms !=
+                              current.filter.numberOfRooms ||
+                              previous.filter.moreThanFiveRooms !=
+                                  current.filter.moreThanFiveRooms,
+                          builder: (context, state) {
+                            return Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: RoomButton(
+                                    text: '1',
+                                    onPressed: () => context
+                                        .read<SearchMiniBloc>()
+                                        .add(SearchMiniRoomsPressed(1)),
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: const Radius.circular(8),
+                                      bottomRight: const Radius.circular(0),
+                                      topLeft: const Radius.circular(8),
+                                      topRight: const Radius.circular(0),
+                                    ),
+                                    isActive:
+                                    state.filter.numberOfRooms.contains(1)
+                                        ? true
+                                        : false,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RoomButton(
+                                    text: '2',
+                                    onPressed: () => context
+                                        .read<SearchMiniBloc>()
+                                        .add(SearchMiniRoomsPressed(2)),
+                                    isActive:
+                                    state.filter.numberOfRooms.contains(2)
+                                        ? true
+                                        : false,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RoomButton(
+                                    text: '3',
+                                    onPressed: () => context
+                                        .read<SearchMiniBloc>()
+                                        .add(SearchMiniRoomsPressed(3)),
+                                    isActive:
+                                    state.filter.numberOfRooms.contains(3)
+                                        ? true
+                                        : false,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RoomButton(
+                                    text: '4',
+                                    onPressed: () => context
+                                        .read<SearchMiniBloc>()
+                                        .add(SearchMiniRoomsPressed(4)),
+                                    isActive:
+                                    state.filter.numberOfRooms.contains(4)
+                                        ? true
+                                        : false,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RoomButton(
+                                    text: '5+',
+                                    onPressed: () => context
+                                        .read<SearchMiniBloc>()
+                                        .add(SearchMiniMoreThan5Pressed()),
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: const Radius.circular(0),
+                                      bottomRight: const Radius.circular(8),
+                                      topLeft: const Radius.circular(0),
+                                      topRight: const Radius.circular(8),
+                                    ),
+                                    isActive: state.filter.moreThanFiveRooms,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                       child: Text(
@@ -254,8 +364,8 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                               padding: const EdgeInsets.only(right: 5),
                               child: FFButtonWidget(
                                 onPressed: () {
-                                  BlocProvider.of<SearchBloc>(context)
-                                      .add(SearchReset());
+                                  BlocProvider.of<SearchMiniBloc>(context)
+                                      .add(SearchMiniReset());
                                   priceFromController.clear();
                                   priceToController.clear();
                                   areaFromController.clear();
@@ -284,16 +394,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                               padding: const EdgeInsets.only(left: 5),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 300),
-                                      reverseDuration:
-                                          Duration(milliseconds: 300),
-                                      child: SearchResultPageWidget(),
-                                    ),
-                                  );
+                                  print('????? clicked');
                                 },
                                 text: AppLocalizations.of(context)!
                                     .save
@@ -318,13 +419,13 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                      child: BlocBuilder<SearchBloc, SearchState>(
+                      child: BlocBuilder<SearchMiniBloc, SearchMiniState>(
                           builder: (context, state) {
                         if (state.searchStatus.isSubmissionInProgress)
                           return Center(child: CircularProgressIndicator());
                         return FFButtonWidget(
                           onPressed: () =>
-                              context.read<SearchBloc>().add(SearchProperties()),
+                              context.read<SearchMiniBloc>().add(SearchMiniProperties()),
                           text: AppLocalizations.of(context)!.search.capitalize(),
                           options: FFButtonOptions(
                             width: 170,

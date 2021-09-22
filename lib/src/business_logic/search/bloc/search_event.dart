@@ -119,15 +119,18 @@ class ComplexChanged extends SearchEvent {
   List<Object?> get props => [complexId];
 }
 
-class AtelierChanged extends SearchEvent{
+class AtelierChanged extends SearchEvent {
   final bool? atelier;
+
   const AtelierChanged(this.atelier);
+
   @override
   List<Object?> get props => [atelier];
 }
 
-class LoadConditions extends SearchEvent{}
-class ConditionChoose extends SearchEvent{
+class LoadConditions extends SearchEvent {}
+
+class ConditionChoose extends SearchEvent {
   final DictionaryMultiLangItem type;
 
   const ConditionChoose(this.type);
@@ -146,6 +149,10 @@ class YearsRangeChanged extends SearchEvent {
   List<Object?> get props => [from, to];
 }
 
-class ExchangeChanged extends SearchEvent{}
-class EncumbranceChanged extends SearchEvent{}
-class BiddingChanged extends SearchEvent{}
+class ExchangeChanged extends SearchEvent {}
+
+class EncumbranceChanged extends SearchEvent {}
+
+class BiddingChanged extends SearchEvent {}
+
+class SearchMore extends SearchEvent{}

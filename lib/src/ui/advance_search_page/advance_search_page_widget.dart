@@ -647,16 +647,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                             padding: const EdgeInsets.only(left: 5),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 300),
-                                    reverseDuration:
-                                        Duration(milliseconds: 300),
-                                    child: SearchResultPageWidget(),
-                                  ),
-                                );
+                                print('????? clicked');
                               },
                               text: AppLocalizations.of(context)!
                                   .save

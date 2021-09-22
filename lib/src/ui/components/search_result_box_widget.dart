@@ -91,7 +91,7 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
-                name ?? "",
+                name,
                 style: FlutterFlowTheme.subtitleTextDark.copyWith(),
               ),
             ),

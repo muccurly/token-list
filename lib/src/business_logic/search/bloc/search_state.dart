@@ -6,6 +6,7 @@ class SearchState extends Equatable {
   final FormzStatus streetsStatus;
   final FormzStatus complexStatus;
   final FormzStatus searchStatus;
+  final FormzStatus moreStatus;
   final FormzStatus condStatus;
   final List<Address> districts;
   final List<Address> cities;
@@ -26,6 +27,7 @@ class SearchState extends Equatable {
     this.streetsStatus = FormzStatus.pure,
     this.complexStatus = FormzStatus.pure,
     this.searchStatus = FormzStatus.pure,
+    this.moreStatus = FormzStatus.pure,
     this.condStatus = FormzStatus.pure,
     this.districts = const <Address>[],
     this.cities = const <Address>[],
@@ -47,6 +49,7 @@ class SearchState extends Equatable {
     FormzStatus? streetsStatus,
     FormzStatus? complexStatus,
     FormzStatus? searchStatus,
+    FormzStatus? moreStatus,
     FormzStatus? condStatus,
     List<Address>? districts,
     List<Address>? cities,
@@ -67,6 +70,7 @@ class SearchState extends Equatable {
       streetsStatus: streetsStatus ?? this.streetsStatus,
       complexStatus: complexStatus ?? this.complexStatus,
       searchStatus: searchStatus ?? this.searchStatus,
+      moreStatus: moreStatus ?? this.moreStatus,
       condStatus: condStatus ?? this.condStatus,
       districts: districts ?? this.districts,
       cities: cities ?? this.cities,
@@ -90,6 +94,7 @@ class SearchState extends Equatable {
         streetsStatus,
         complexStatus,
         searchStatus,
+        moreStatus,
         condStatus,
         districts,
         cities,

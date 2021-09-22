@@ -7,6 +7,10 @@ import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
+<<<<<<< HEAD
+=======
+import 'package:jurta_app/src/data/entity/residential_complex.dart';
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/data/repository/i_address_repository.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
@@ -35,23 +39,35 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if (event is LoadCities)
       yield* _mapLoadCitiesToState();
+<<<<<<< HEAD
     else if (event is LoadDistricts)
       yield* _mapLoadDistrictsToState(event);
+=======
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     else if (event is CityChanged)
       yield* _mapCityChangedToState(event);
     else if (event is GetOrLoadObjectTypes)
       yield await _mapGetOrLoadObjectTypesToState();
     else if (event is SearchObjectTypeChoose)
       yield state.copyWith(
+<<<<<<< HEAD
         filter: state.filter.copyWith(objectTypeId: event.type.id),
       );
+=======
+          filter: state.filter.copyWith(objectTypeId: event.type.id));
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     else if (event is SearchRoomsPressed)
       yield _mapRoomsPressedToState(event);
     else if (event is SearchMoreThan5Pressed)
       yield state.copyWith(
+<<<<<<< HEAD
         filter: state.filter
             .copyWith(moreThanFiveRooms: !state.filter.moreThanFiveRooms),
       );
+=======
+          filter: state.filter
+              .copyWith(moreThanFiveRooms: !state.filter.moreThanFiveRooms));
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     else if (event is SearchPriceRangeChanged)
       yield state.copyWith(
           filter: state.filter
@@ -67,6 +83,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           priceRange: const Range(),
           yearOfConstruction: const Range(),
           atelier: false,
+<<<<<<< HEAD
           encumbrance: false,
           exchange: false,
           numberOfRooms: <int>[],
@@ -75,6 +92,57 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
     else if(event is SearchProperties)
       yield* _mapSearchPropertiesToState();
+=======
+          numberOfRooms: <int>[],
+          moreThanFiveRooms: false,
+          probabilityOfBidding: null,
+          encumbrance: null,
+          exchange: null,
+          housingConditionId: null,
+          houseClassId: null,
+        ),
+      );
+    else if (event is SearchProperties)
+      yield* _mapSearchPropertiesToState();
+    else if (event is DistrictChanged)
+      yield* _mapDistrictChangedToState(event);
+    else if (event is StreetChanged)
+      yield* _mapStreetChangedToState(event);
+    else if (event is ComplexChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(residentialComplexId: event.complexId));
+    else if (event is AtelierChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(atelier: event.atelier));
+    else if (event is LoadConditions)
+      yield* _mapLoadHousingConditionsToState();
+    else if (event is ConditionChoose)
+      yield state.copyWith(
+          filter: state.filter.copyWith(housingConditionId: event.type.id));
+    else if (event is YearsRangeChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              yearOfConstruction: Range(from: event.from, to: event.to)));
+    else if (event is BiddingChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              probabilityOfBidding: state.filter.probabilityOfBidding != null
+                  ? !state.filter.probabilityOfBidding!
+                  : null));
+    else if (event is EncumbranceChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              encumbrance: state.filter.encumbrance != null
+                  ? !state.filter.encumbrance!
+                  : null));
+    else if (event is ExchangeChanged)
+      yield state.copyWith(
+          filter: state.filter.copyWith(
+              exchange: state.filter.exchange != null
+                  ? !state.filter.exchange!
+                  : null));
+    else if (event is SearchMore) yield* _mapSearchMoreToState();
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   }
 
   Stream<SearchState> _mapLoadCitiesToState() async* {
@@ -94,6 +162,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
   }
 
+<<<<<<< HEAD
   Stream<SearchState> _mapLoadDistrictsToState(LoadDistricts event) async* {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(citiesStatus: FormzStatus.submissionInProgress);
@@ -118,6 +187,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     } else {
       MyLogger.instance.log.d('object types already loaded');
     }
+=======
+  Future<SearchState> _mapGetOrLoadObjectTypesToState() async {
+    if (_dictionaryRepository.types.isEmpty)
+      await _dictionaryRepository.findAllObjectTypes();
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     return state.copyWith(objectTypes: _dictionaryRepository.types);
   }
 
@@ -129,13 +203,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     else
       list.add(event.number);
 
+<<<<<<< HEAD
     return state.copyWith(filter: state.filter.copyWith(numberOfRooms: list));
+=======
+    return state.copyWith(
+        filter: state.filter.copyWith(
+      numberOfRooms: list,
+    ));
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   }
 
   Stream<SearchState> _mapSearchPropertiesToState() async* {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(searchStatus: FormzStatus.submissionInProgress);
       try {
+<<<<<<< HEAD
         List<RealProperty> props =
             await _propertyRepository.searchRealProperty(state.filter);
         yield state.copyWith(
@@ -145,12 +227,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         MyLogger.instance.log.e(e.message);
       }
       catch (_) {
+=======
+        List<RealProperty> props = await _propertyRepository
+            .searchRealProperty(state.filter.copyWith(pageNumber: 0));
+        yield state.copyWith(
+            properties: props, searchStatus: FormzStatus.submissionSuccess,
+        filter: state.filter.copyWith(pageNumber: _propertyRepository.searchPagination!.pageNumber));
+        return;
+      } on DioError catch (e) {
+        MyLogger.instance.log.e(e.message);
+      } catch (_) {
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
         MyLogger.instance.log.e(_.toString());
       }
       yield state.copyWith(searchStatus: FormzStatus.submissionFailure);
     }
   }
 
+<<<<<<< HEAD
   Stream<SearchState> _mapCityChangedToState(CityChanged event) async*{
     yield state.copyWith(cityCode: event.cityCode);
     if(await InternetConnectionChecker().hasConnection){
@@ -165,9 +259,114 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }catch(_){
         MyLogger.instance.log.e(_.toString());
         yield state.copyWith(searchStatus: FormzStatus.submissionFailure);
+=======
+  Stream<SearchState> _mapCityChangedToState(CityChanged event) async* {
+    yield state.copyWith(cityCode: event.cityCode);
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        yield state.copyWith(citiesStatus: FormzStatus.submissionInProgress);
+        List<Address> list =
+            await _addressRepository.findDistricts(event.cityCode);
+        yield state.copyWith(
+            citiesStatus: FormzStatus.submissionSuccess, districts: list);
+      } on DioError catch (e) {
+        MyLogger.instance.log.e(e.message);
+        yield state.copyWith(citiesStatus: FormzStatus.submissionFailure);
+      } catch (_) {
+        MyLogger.instance.log.e(_.toString());
+        yield state.copyWith(citiesStatus: FormzStatus.submissionFailure);
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
       }
     }
   }
 
+<<<<<<< HEAD
 
+=======
+  Stream<SearchState> _mapDistrictChangedToState(DistrictChanged event) async* {
+    yield state.copyWith(
+        districtCode: event.districtCode,
+        filter: state.filter.copyWith(addressCode: event.districtCode));
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        yield state.copyWith(streetsStatus: FormzStatus.submissionInProgress);
+        List<Address> list =
+            await _addressRepository.findStreetsByParent(event.districtCode);
+        yield state.copyWith(
+            streetsStatus: FormzStatus.submissionSuccess, streets: list);
+      } on DioError catch (e) {
+        MyLogger.instance.log.e(e.message);
+        yield state.copyWith(streetsStatus: FormzStatus.submissionFailure);
+      } catch (_) {
+        MyLogger.instance.log.e(_.toString());
+        yield state.copyWith(streetsStatus: FormzStatus.submissionFailure);
+      }
+    }
+  }
+
+  Stream<SearchState> _mapStreetChangedToState(StreetChanged event) async* {
+    yield state.copyWith(streetCode: event.streetCode);
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        yield state.copyWith(complexStatus: FormzStatus.submissionInProgress);
+        List<ResidentialComplex> list =
+            await _addressRepository.findResidentialComplex(event.streetCode);
+        yield state.copyWith(
+            complexStatus: FormzStatus.submissionSuccess, complexes: list);
+      } on DioError catch (e) {
+        MyLogger.instance.log.e(e.message);
+        yield state.copyWith(complexStatus: FormzStatus.submissionFailure);
+      } catch (_) {
+        MyLogger.instance.log.e(_.toString());
+        yield state.copyWith(complexStatus: FormzStatus.submissionFailure);
+      }
+    }
+  }
+
+  Stream<SearchState> _mapLoadHousingConditionsToState() async* {
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        yield state.copyWith(condStatus: FormzStatus.submissionInProgress);
+        List<DictionaryMultiLangItem> list =
+            await _dictionaryRepository.findAllHouseConditions();
+        yield state.copyWith(
+            condStatus: FormzStatus.submissionSuccess, conditions: list);
+      } on DioError catch (e) {
+        MyLogger.instance.log.e(e.message);
+        yield state.copyWith(condStatus: FormzStatus.submissionFailure);
+      } catch (_) {
+        MyLogger.instance.log.e(_.toString());
+        yield state.copyWith(condStatus: FormzStatus.submissionFailure);
+      }
+    }
+  }
+
+  Stream<SearchState> _mapSearchMoreToState() async* {
+    if (_propertyRepository.searchPagination != null) {
+      if (_propertyRepository.searchPagination!.pageNumber <
+          _propertyRepository.searchPagination!.size - 1) {
+        if (await InternetConnectionChecker().hasConnection) {
+          yield state.copyWith(moreStatus: FormzStatus.submissionInProgress);
+          try {
+            List<RealProperty> list =
+                await _propertyRepository.searchRealProperty(state.filter
+                    .copyWith(pageNumber: state.filter.pageNumber + 1));
+            yield state.copyWith(
+                moreStatus: FormzStatus.submissionSuccess,
+                properties: list,
+                filter: state.filter.copyWith(
+                  pageNumber: _propertyRepository.searchPagination!.pageNumber,
+                ));
+          } on DioError catch (e) {
+            MyLogger.instance.log.e(e.message);
+            yield state.copyWith(moreStatus: FormzStatus.submissionFailure);
+          } catch (_) {
+            MyLogger.instance.log.e(_.toString());
+            yield state.copyWith(moreStatus: FormzStatus.submissionFailure);
+          }
+        }
+      }
+    }
+  }
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 }

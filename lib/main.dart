@@ -10,8 +10,11 @@ import 'package:jurta_app/src/data/repository/dictionary_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/property_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/settings_repository_impl.dart';
 
+<<<<<<< HEAD
 //для коммита
 
+=======
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 void main() async {
   final propertyRemoteDataSource = PropertyRemoteDataSourceImpl();
   final propertyRepository = PropertyRepositoryImpl(propertyRemoteDataSource);

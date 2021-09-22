@@ -1,9 +1,29 @@
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 
 class SearchResultBoxWidget extends StatefulWidget {
   SearchResultBoxWidget({Key? key}) : super(key: key);
+=======
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/env_config.dart';
+
+import '../flutter_flow/flutter_flow_theme.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+class SearchResultBoxWidget extends StatefulWidget {
+  SearchResultBoxWidget({
+    Key? key,
+    required this.property,
+  }) : super(key: key);
+
+  final RealProperty property;
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
   @override
   _SearchResultBoxWidgetState createState() => _SearchResultBoxWidgetState();
@@ -12,11 +32,23 @@ class SearchResultBoxWidget extends StatefulWidget {
 class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+=======
+    var name = widget.property.address.nameRu;
+    name = name
+        .substring(name.indexOf(',') + 2)
+        .replaceAll(', astanaError 502', '');
+
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Container(
         width: 170,
+<<<<<<< HEAD
         height: 280,
+=======
+        height: 300,
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
         decoration: BoxDecoration(),
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -24,31 +56,94 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
+<<<<<<< HEAD
               child: Image.network(
                 'https://picsum.photos/seed/464/600',
                 width: MediaQuery.of(context).size.width,
                 height: 210,
                 fit: BoxFit.cover,
               ),
+=======
+              child: widget.property.photoIdList.isNotEmpty
+                  ? Container(
+                      width: 170,
+                      height: 214,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                            height: double.infinity,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            enlargeCenterPage: false,
+                            viewportFraction: 1.0),
+                        items: widget.property.photoIdList.map((e) {
+                          return Builder(
+                            builder: (context) {
+                              return Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
+                                      '/download/$e',
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      placeholders.shimmer,
+                                  errorWidget: (context, url, error) =>
+                                      placeholders.errorPlaceholder,
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  : Image.network(
+                      'https://picsum.photos/seed/464/600',
+                      width: MediaQuery.of(context).size.width,
+                      height: 210,
+                      fit: BoxFit.cover,
+                    ),
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
+<<<<<<< HEAD
                 'ЖК Ботанический',
+=======
+                name,
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 style: FlutterFlowTheme.subtitleTextDark.copyWith(),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
+<<<<<<< HEAD
                 '3 комнатная  •  78 м',
+=======
+                '${widget.property.numberOfRooms} ${widget.property.realPropertyId == 1 ? AppLocalizations.of(context)!.roomM : AppLocalizations.of(context)!.roomF}'
+                ' • ${widget.property.totalArea.toInt()} м²',
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
+<<<<<<< HEAD
                 '34 000 000 ₸',
+=======
+                '${widget.property.objectPrice} \u{3012}',
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 style: FlutterFlowTheme.subtitleTextDark.copyWith(
                   color: FlutterFlowTheme.primaryColor,
                 ),

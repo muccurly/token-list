@@ -10,10 +10,18 @@ class RangeWidget extends StatefulWidget {
     required this.fromController,
     required this.toController,
     required this.onChanged,
+<<<<<<< HEAD
+=======
+    this.maxLength,
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   }) : super(key: key);
   final TextEditingController fromController;
   final TextEditingController toController;
   final Function(String value, bool from) onChanged;
+<<<<<<< HEAD
+=======
+  final int? maxLength;
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
   @override
   _RangeWidgetState createState() => _RangeWidgetState();
@@ -42,6 +50,10 @@ class _RangeWidgetState extends State<RangeWidget> {
             child: TextFormField(
               inputFormatters: _formatters,
               controller: widget.fromController,
+<<<<<<< HEAD
+=======
+              maxLength: widget.maxLength,
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
               obscureText: false,
               keyboardType: TextInputType.number,
               onChanged: (value) => widget.onChanged(value, true),
@@ -49,6 +61,10 @@ class _RangeWidgetState extends State<RangeWidget> {
                 isDense: true,
                 hintText: AppLocalizations.of(context)!.from,
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+<<<<<<< HEAD
+=======
+                counterText: "",
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 enabledBorder: _border,
                 focusedBorder: _border,
                 filled: true,
@@ -64,6 +80,10 @@ class _RangeWidgetState extends State<RangeWidget> {
             child: TextFormField(
               inputFormatters: _formatters,
               controller: widget.toController,
+<<<<<<< HEAD
+=======
+              maxLength: widget.maxLength,
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
               obscureText: false,
               keyboardType: TextInputType.number,
               onChanged: (value) => widget.onChanged(value, false),
@@ -71,6 +91,10 @@ class _RangeWidgetState extends State<RangeWidget> {
                 isDense: true,
                 hintText: AppLocalizations.of(context)!.to,
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
+<<<<<<< HEAD
+=======
+                counterText: "",
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 enabledBorder: _border,
                 focusedBorder: _border,
                 filled: true,

@@ -32,6 +32,7 @@ class HomeObjectBoxWidget extends StatefulWidget {
 }
 
 class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
+<<<<<<< HEAD
   final _noImagePlaceholder = Container(
     width: double.infinity,
     height: double.infinity,
@@ -42,6 +43,8 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
       color: placeholders.placeholderColor,
     ),
   );
+=======
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +90,11 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
               }).toList(),
             )
           else
+<<<<<<< HEAD
             _noImagePlaceholder,
+=======
+            placeholders.noImagePlc,
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
             child: Column(

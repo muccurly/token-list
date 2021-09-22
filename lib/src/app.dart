@@ -12,6 +12,12 @@ import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/ui/home_page/home_page_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+<<<<<<< HEAD
+=======
+import 'business_logic/hots/hots.dart';
+import 'business_logic/search_mini/search_mini.dart';
+
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 class App extends StatelessWidget {
   const App({
     Key? key,
@@ -50,6 +56,14 @@ class App extends StatelessWidget {
               dictionaryRepository: dictionaryRepository,
             )..add(ObjectTypesLoad()),
           ),
+<<<<<<< HEAD
+=======
+          BlocProvider<HotsBloc>(
+            create: (context) => HotsBloc(
+              propertyRepository: propertyRepository,
+            )..add(LoadHots()),
+          ),
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
           BlocProvider<SearchBloc>(
             create: (context) => SearchBloc(
               addressRepository: addressRepository,
@@ -57,7 +71,18 @@ class App extends StatelessWidget {
               propertyRepository: propertyRepository,
             )
               ..add(GetOrLoadObjectTypes())
+<<<<<<< HEAD
               ..add(LoadCities()),
+=======
+              ..add(LoadCities())
+              ..add(LoadConditions()),
+          ),
+          BlocProvider<SearchMiniBloc>(
+            create: (context) => SearchMiniBloc(
+              dictionaryRepository: dictionaryRepository,
+              propertyRepository: propertyRepository,
+            )..add(SearchMiniGetObjectTypes()),
+>>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(

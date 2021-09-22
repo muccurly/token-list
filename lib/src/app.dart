@@ -12,6 +12,7 @@ import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/ui/home_page/home_page_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'business_logic/hots/hots.dart';
 import 'business_logic/search_mini/search_mini.dart';
 
 class App extends StatelessWidget {
@@ -51,6 +52,11 @@ class App extends StatelessWidget {
             create: (context) => FilterBloc(
               dictionaryRepository: dictionaryRepository,
             )..add(ObjectTypesLoad()),
+          ),
+          BlocProvider<HotsBloc>(
+            create: (context) => HotsBloc(
+              propertyRepository: propertyRepository,
+            )..add(LoadHots()),
           ),
           BlocProvider<SearchBloc>(
             create: (context) => SearchBloc(

@@ -9,5 +9,7 @@ abstract class IPropertyRepository {
   void dispose();
   Future<void> findRealProperty(RealPropertyFilter filter);
   Future<List<RealProperty>> searchRealProperty(SearchFilter filter);
-  Pagination? get searchPagination;
+  Pagination<RealProperty>? get searchPagination;
+  Pagination<RealProperty>? get hotsPagination;
+  Future<List<RealProperty>> findHots(RealPropertyFilter filter);
 }

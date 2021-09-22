@@ -6,7 +6,6 @@ import 'package:jurta_app/src/data/entity/api_response.dart';
 import 'package:jurta_app/src/data/entity/residential_complex.dart';
 import 'package:jurta_app/src/data/remote/api_client.dart';
 import 'package:jurta_app/src/data/remote/i_address_remote_data_source.dart';
-import 'package:jurta_app/src/utils/my_logger.dart';
 
 class AddressRemoteDataSourceImpl implements IAddressRemoteDataSource {
   @override

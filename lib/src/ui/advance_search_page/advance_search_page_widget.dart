@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
@@ -8,19 +10,11 @@ import 'package:jurta_app/src/ui/advance_search_page/drop_down_complex.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
 import 'package:jurta_app/src/utils/custom_input_formatter.dart';
-
-import '../flutter_flow/flutter_flow_drop_down_template.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../home_page/home_page_widget.dart';
-import '../search_result_page/search_result_page_widget.dart';
-import 'package:formz/formz.dart';
-import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:formz/formz.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
+
+import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
 
 class AdvanceSearchPageWidget extends StatefulWidget {
   AdvanceSearchPageWidget({Key? key}) : super(key: key);

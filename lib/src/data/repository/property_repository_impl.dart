@@ -19,7 +19,10 @@ class PropertyRepositoryImpl implements IPropertyRepository {
 
   var properties = Set<RealProperty>();
   var searchProps = Set<RealProperty>();
-  Pagination? _searchPag;
+  var hots = Set<RealProperty>();
+
+  Pagination<RealProperty>? _searchPag;
+  Pagination<RealProperty>? _hotsPag;
 
   @override
   Stream<ApiResponse<RealProperty>> get apiResponseStream async* {
@@ -63,11 +66,32 @@ class PropertyRepositoryImpl implements IPropertyRepository {
   }
 
   @override
+  Future<List<RealProperty>> findHots(RealPropertyFilter filter) async {
+    // RealPropertyFilter filter =
+    //     RealPropertyFilter().copyWith(flagId: 3, objectTypeId: null);
+    ApiResponse<RealProperty> result =
+        await remote.getRealPropertyForMobileMainPage(filter);
+    MyLogger.instance.log.d('result:'
+        '\nfilter: $filter'
+        '\npageNumber: ${result.data.pageNumber}'
+        '\nsize: ${result.data.size}'
+        '\ntotal: ${result.data.total}'
+        '\nids: ${result.data.data.data}');
+    hots.addAll(result.data.data.data);
+    _hotsPag = result.data;
+    MyLogger.instance.log.d(_hotsPag!.pageNumber);
+    return hots.toList();
+  }
+
+  @override
   void dispose() {
     _apiResponseStreamController.close();
     _propertiesStreamController.close();
   }
 
   @override
-  Pagination? get searchPagination => _searchPag;
+  Pagination<RealProperty>? get searchPagination => _searchPag;
+
+  @override
+  Pagination<RealProperty>? get hotsPagination => _hotsPag;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/ui/components/images_box_widget_sample.dart';
 import 'package:jurta_app/src/ui/components/main_object_box_widget_sample.dart';
+import 'package:jurta_app/src/ui/components/small_info_box_widget_sample.dart';
 
 import '../components/small_info_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -105,7 +106,7 @@ class _ObjectInfoPageWidgetSampleState extends State<ObjectInfoPageWidgetSample>
                             ),
                           );
                         },
-                        child: SmallInfoBoxWidget(),
+                        child: SmallInfoBoxWidgetSample(),
                       ),
                     )
                   ],

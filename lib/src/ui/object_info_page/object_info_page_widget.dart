@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/ui/components/small_info_box_widget_sample.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
 import 'package:jurta_app/src/ui/components/images_box_widget.dart';
 import 'package:jurta_app/src/ui/components/main_object_box_widget.dart';
@@ -110,7 +111,7 @@ class _ObjectInfoPageWidgetState extends State<ObjectInfoPageWidget> {
                             ),
                           );
                         },
-                        child: SmallInfoBoxWidget(),
+                        child: SmallInfoBoxWidgetSample(),
                       ),
                     )
                   ],

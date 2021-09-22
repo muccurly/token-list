@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jurta_app/src/business_logic/search/search.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
 class FlutterFlowDropDownAddress extends StatefulWidget {

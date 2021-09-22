@@ -3,12 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class FlutterFlowTheme {
-  static const Color primaryColor = Color(0xFF333333);
-  static const Color secondaryColor = Color(0xFFFF9929);
+  static const Color primaryColor = Color(0xFFFF9929);
+  static const Color secondaryColor = Color(0xFF131E34);
   static const Color tertiaryColor = Color(0xFFE5E5E5);
 
   static const Color white = Color(0xFFFFFFFF);
-  static const Color dark = Color(0xFF131E34);
+  static const Color grey = Color(0xFF4A5056);
+  static const Color green = Color(0xFF00CABF);
+  static const Color deny = Color(0xFFC85D5D);
+  static const Color approve = Color(0xFF62B68A);
+  static const Color lightGrey = Color(0xFFCBCBCB);
+  static const Color dark = Color(0xFF333333);
 
   String primaryFontFamily = 'Poppins';
   String secondaryFontFamily = 'Roboto';
@@ -17,41 +22,41 @@ class FlutterFlowTheme {
         'Roboto',
         color: white,
         fontWeight: FontWeight.w600,
-        fontSize: 28,
+        fontSize: 24,
       );
   static TextStyle get title2 => GoogleFonts.getFont(
         'Roboto',
-        color: white,
+        color: grey,
         fontWeight: FontWeight.w500,
-        fontSize: 23,
+        fontSize: 24,
       );
   static TextStyle get title3 => GoogleFonts.getFont(
         'Roboto',
         color: white,
         fontWeight: FontWeight.w500,
-        fontSize: 16,
+        fontSize: 20,
       );
   static TextStyle get subtitle1 => GoogleFonts.getFont(
         'Roboto',
-        color: white,
-        fontWeight: FontWeight.normal,
-        fontSize: 14,
+        color: grey,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
       );
   static TextStyle get subtitle2 => GoogleFonts.getFont(
         'Roboto',
-        color: dark,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
+        color: white,
+        fontWeight: FontWeight.normal,
+        fontSize: 18,
       );
   static TextStyle get bodyText1 => GoogleFonts.getFont(
         'Roboto',
-        color: dark,
-        fontWeight: FontWeight.w600,
-        fontSize: 22,
+        color: white,
+        fontWeight: FontWeight.normal,
+        fontSize: 18,
       );
   static TextStyle get bodyText2 => GoogleFonts.getFont(
         'Roboto',
-        color: dark,
+        color: secondaryColor,
         fontWeight: FontWeight.normal,
         fontSize: 16,
       );

@@ -63,8 +63,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           height: _size.height,
                           color: Colors.blue[300]!,
                           child: Center(
-                            child: Text('Empty properties!'
-                                '\nNeed a placeholder for this situation...'),
+                            child: Text('Результатов не найдено'),
                           ),
                         );
                     }

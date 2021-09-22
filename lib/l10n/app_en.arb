@@ -1,66 +1,50 @@
 {
     "language": "English",
-    "@language": {
-        "description": "The current Language"
-    },
+    "@language": {"description": "The current Language"},
     "hotAdds": "hot",
-    "@hotAdds" : {
-        "description": "The hot adds"
-    },
+    "@hotAdds" : {"description": "The hot adds"},
     "newAdds": "new",
-    "@newAdds" : {
-        "description": "The new adds"
-    },
+    "@newAdds" : {"description": "The new adds"},
     "propertyType": "property type",
-    "@propertyType" : {
-        "description": "The type of property (house, apartment, etc)"
-    },
+    "@propertyType" : {"description": "The type of property (house, apartment, etc)"},
     "numberOfRooms": "number of rooms",
-    "@numberOfRooms" : {
-        "description": "The number of rooms"
-    },
+    "@numberOfRooms" : {"description": "The number of rooms"},
     "priceRange": "price range",
-    "@priceRange" : {
-        "description": "The range of prices"
-    },
+    "@priceRange" : {"description": "The range of prices"},
     "area": "area",
-    "@area" : {
-        "description": "The area of property"
-    },
+    "@area" : {"description": "The area of property"},
     "cancel": "cancel",
-    "@cancel" : {
-        "description": "Cancel action"
-    },
+    "@cancel" : {"description": "Cancel action"},
     "show": "show",
-    "@show" : {
-        "description": "Show results"
-    },
+    "@show" : {"description": "Show results"},
     "from": "from",
-    "@from" : {
-        "description": "Range from"
-    },
+    "@from" : {"description": "Range from"},
     "to": "to",
-    "@to" : {
-        "description": "Range to"
-    },
+    "@to" : {"description": "Range to"},
     "search" : "search",
-    "@search" : {
-        "description": "Search action"
-    },
+    "@search" : {"description": "Search action"},
     "filter" : "filter",
-    "@filter" : {
-        "description": "Filter action"
-    },
+    "@filter" : {"description": "Filter action"},
     "seeMore" : "see more",
-    "@seeMore" : {
-        "description": "See more action"
-    },
+    "@seeMore" : {"description": "See more action"},
     "share" : "share",
-    "@share" : {
-        "description": "Share action"
-    },
+    "@share" : {"description": "Share action"},
     "call" : "call",
-    "@call" : {
-        "description": "Call action"
-    }
+    "@call" : {"description": "Call action"},
+    "roomM" : "room",
+    "@room" : {"description": "room m"},
+    "roomF" : "room",
+    "@room" : {"description": "room f"},
+    "roomI" : "room",
+    "@room" : {"description": "room i"},
+    "back":"back",
+    "@back" : {"description": "get back"},
+    "advanced_search":"advanced search",
+    "@advanced_search" : {"description": "advanced search"},
+    "reset":"reset",
+    "@reset" : {"description": "reset"},
+    "apply":"применить",
+    "@apply" : {"description": "apply" },
+    "save":"save",
+    "@save" : {"description": "save" }
 }

@@ -7,31 +7,35 @@ import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
+import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'home_event.dart';
-
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
+    required ISettingsRepository settingsRepository,
     required FilterBloc filterBloc,
   })  : _propertyRepository = propertyRepository,
+        _settingsRepository = settingsRepository,
         super(HomeState(filter: filterBloc.state.filter)) {
     _apiResponseStreamSubscription = _propertyRepository.apiResponseStream
         .listen((apiResponse) => add(PropertiesLoaded(apiResponse, null)));
     _propertiesStreamSubscription = _propertyRepository.propertiesStream
         .listen((list) => add(PropertiesLoaded(null, list)));
-    _filterStreamSubscription = filterBloc.stream.listen(
-      (filterState) => add(FilterChanged(filterState.filter)),
-    );
+    _filterStreamSubscription = filterBloc.stream.listen((filterState) => add(
+        FilterChanged(
+            filter: filterState.filter, objectTypes: filterState.objectTypes)));
   }
 
   final IPropertyRepository _propertyRepository;
+  final ISettingsRepository _settingsRepository;
 
   late StreamSubscription<ApiResponse<RealProperty>>
       _apiResponseStreamSubscription;
@@ -57,11 +61,33 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield _mapPropertiesLoadedToState(event);
     else if (event is LoadMoreProperties) {
       if (state.apiResponse != null) {
-        if (state.apiResponse!.data.pageNumber+1 < state.apiResponse!.data.size)
+        if (state.apiResponse!.data.pageNumber + 1 <
+            state.apiResponse!.data.size)
           yield* _mapLoadMorePropertiesToState(event);
       }
-    } else if (event is FilterChanged) {
-      yield state.copyWith(filter: event.filter);
+    } else if (event is FilterChanged)
+      yield state.copyWith(
+          filter: event.filter, objectTypes: event.objectTypes);
+    else if (event is CallPressed)
+      yield* _mapCallPressedToState();
+    else if (event is ObjectTypesLoaded)
+      yield state.copyWith(objectTypes: event.objectTypes);
+  }
+
+  Stream<HomeState> _mapCallPressedToState() async* {
+    if (await InternetConnectionChecker().hasConnection) {
+      yield state.copyWith(callStatus: FormzStatus.submissionInProgress);
+      try {
+        String phone = await _settingsRepository.getCallNumber();
+        yield state.copyWith(
+            callStatus: FormzStatus.submissionSuccess, phoneNumber: phone);
+      } on DioError catch (e) {
+        yield state.copyWith(
+            callStatus: FormzStatus.submissionFailure, message: e.message);
+      } catch (_) {
+        MyLogger.instance.log.e(_.toString());
+        yield state.copyWith(callStatus: FormzStatus.submissionFailure);
+      }
     }
   }
 
@@ -69,8 +95,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     LoadProperties event,
   ) async* {
     if (await InternetConnectionChecker().hasConnection) {
-      yield state.copyWith(status: FormzStatus.submissionInProgress,
-      firstLoading: true);
+      yield state.copyWith(
+          status: FormzStatus.submissionInProgress, firstLoading: true);
       try {
         await _propertyRepository.findRealProperty(state.filter.copyWith(
             pageNumber: 0,
@@ -84,8 +110,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       } catch (_) {
         MyLogger.instance.log.e(_.toString());
-        yield state.copyWith(status: FormzStatus.submissionFailure,
-          firstLoading: false,);
+        yield state.copyWith(
+          status: FormzStatus.submissionFailure,
+          firstLoading: false,
+        );
       }
     } else
       yield state.copyWith(
@@ -122,13 +150,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeState _mapPropertiesLoadedToState(PropertiesLoaded event) {
     return state.copyWith(
-        status: FormzStatus.submissionSuccess,
-        apiResponse: event.apiResponse,
-        filter: state.filter.copyWith(
-            pageNumber: event.apiResponse?.data.pageNumber,
-            flagId: state.filter.flagId,
-            objectTypeId: state.filter.objectTypeId),
-        properties: event.items,
-    firstLoading: false);
+      status: FormzStatus.submissionSuccess,
+      apiResponse: event.apiResponse,
+      filter: state.filter.copyWith(
+          pageNumber: event.apiResponse?.data.pageNumber,
+          flagId: state.filter.flagId,
+          objectTypeId: state.filter.objectTypeId),
+      properties: event.items,
+      firstLoading: false,
+    );
   }
 }

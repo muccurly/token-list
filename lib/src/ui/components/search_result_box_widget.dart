@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-
-import '../flutter_flow/flutter_flow_theme.dart';
-
-class SearchResultBoxWidget extends StatefulWidget {
-  SearchResultBoxWidget({Key? key}) : super(key: key);
-=======
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +15,6 @@ class SearchResultBoxWidget extends StatefulWidget {
   }) : super(key: key);
 
   final RealProperty property;
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
   @override
   _SearchResultBoxWidgetState createState() => _SearchResultBoxWidgetState();
@@ -32,23 +23,16 @@ class SearchResultBoxWidget extends StatefulWidget {
 class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-=======
     var name = widget.property.address.nameRu;
     name = name
         .substring(name.indexOf(',') + 2)
         .replaceAll(', astanaError 502', '');
 
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Container(
         width: 170,
-<<<<<<< HEAD
-        height: 280,
-=======
         height: 300,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
         decoration: BoxDecoration(),
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -56,14 +40,6 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-<<<<<<< HEAD
-              child: Image.network(
-                'https://picsum.photos/seed/464/600',
-                width: MediaQuery.of(context).size.width,
-                height: 210,
-                fit: BoxFit.cover,
-              ),
-=======
               child: widget.property.photoIdList.isNotEmpty
                   ? Container(
                       width: 170,
@@ -84,7 +60,7 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
-                                      '/download/$e',
+                                      '/download/$e/preview',
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
                                     decoration: BoxDecoration(
@@ -111,39 +87,26 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
                       height: 210,
                       fit: BoxFit.cover,
                     ),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
-<<<<<<< HEAD
-                'ЖК Ботанический',
-=======
                 name,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 style: FlutterFlowTheme.subtitleTextDark.copyWith(),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
-<<<<<<< HEAD
-                '3 комнатная  •  78 м',
-=======
                 '${widget.property.numberOfRooms} ${widget.property.realPropertyId == 1 ? AppLocalizations.of(context)!.roomM : AppLocalizations.of(context)!.roomF}'
                 ' • ${widget.property.totalArea.toInt()} м²',
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
-<<<<<<< HEAD
-                '34 000 000 ₸',
-=======
                 '${widget.property.objectPrice} \u{3012}',
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                 style: FlutterFlowTheme.subtitleTextDark.copyWith(
                   color: FlutterFlowTheme.primaryColor,
                 ),

@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:jurta_app/src/business_logic/sort/cubit/sort_cubit.dart';
+import 'package:jurta_app/src/business_logic/sort/models/models.dart';
+import 'package:jurta_app/src/business_logic/sort/sort.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
@@ -19,12 +24,29 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
   SearchMiniBloc({
     required IDictionaryRepository dictionaryRepository,
     required IPropertyRepository propertyRepository,
+    required SortCubit sortCubit,
   })  : _dictionaryRepository = dictionaryRepository,
         _propertyRepository = propertyRepository,
-        super(SearchMiniState());
+        _sortCubit = sortCubit,
+        super(SearchMiniState()) {
+    _sortStreamSubscription =
+        _sortCubit.stream.listen((event) => add(SortChanged(
+              direction: event.direction,
+              sortField: event.sortField,
+            )));
+  }
 
   final IDictionaryRepository _dictionaryRepository;
   final IPropertyRepository _propertyRepository;
+  final SortCubit _sortCubit;
+
+  late StreamSubscription<SortState> _sortStreamSubscription;
+
+  @override
+  Future<void> close() {
+    _sortStreamSubscription.cancel();
+    return super.close();
+  }
 
   @override
   Stream<SearchMiniState> mapEventToState(SearchMiniEvent event) async* {
@@ -32,26 +54,30 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
       yield await _mapSearchMiniGetObjectTypesToState();
     else if (event is SearchMiniObjectTypeChoose)
       yield state.copyWith(
-          filter: state.filter.copyWith(
-              objectTypeId: event.type.id,
-              atelier: null,
-              exchange: null,
-              probabilityOfBidding: null,
-              encumbrance: null));
+        filter: state.filter.copyWith(
+            objectTypeId: event.type.id,
+            atelier: null,
+            exchange: null,
+            probabilityOfBidding: null,
+            encumbrance: null),
+      );
     else if (event is SearchMiniRoomsPressed)
       yield _mapRoomsPressedToState(event);
     else if (event is SearchMiniMoreThan5Pressed)
       yield state.copyWith(
-          filter: state.filter
-              .copyWith(moreThanFiveRooms: !state.filter.moreThanFiveRooms));
+        filter: state.filter
+            .copyWith(moreThanFiveRooms: !state.filter.moreThanFiveRooms),
+      );
     else if (event is SearchMiniPriceRangeChanged)
       yield state.copyWith(
-          filter: state.filter
-              .copyWith(priceRange: Range(from: event.from, to: event.to)));
+        filter: state.filter
+            .copyWith(priceRange: Range(from: event.from, to: event.to)),
+      );
     else if (event is SearchMiniAreaRangeChanged)
       yield state.copyWith(
-          filter: state.filter
-              .copyWith(areaRange: Range(from: event.from, to: event.to)));
+        filter: state.filter
+            .copyWith(areaRange: Range(from: event.from, to: event.to)),
+      );
     else if (event is SearchMiniReset)
       yield state.copyWith(
           filter: state.filter.copyWith(
@@ -61,7 +87,9 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
               moreThanFiveRooms: false));
     else if (event is SearchMiniProperties)
       yield* _mapSearchPropertiesToState();
-    else if (event is SearchMiniMore) yield* _mapSearchMiniMoreToState();
+    else if (event is SearchMiniMore)
+      yield* _mapSearchMiniMoreToState();
+    else if (event is SortChanged) yield* _mapSortChangedToState(event);
   }
 
   Future<SearchMiniState> _mapSearchMiniGetObjectTypesToState() async {
@@ -126,6 +154,27 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
           }
         }
       }
+    }
+  }
+
+  Stream<SearchMiniState> _mapSortChangedToState(SortChanged event) async* {
+    var filter = state.filter.copyWith(
+        sortBy: event.sortField.name, direction: event.direction.name);
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        yield state.copyWith(updateStatus: FormzStatus.submissionInProgress);
+        List<RealProperty> list =
+            await _propertyRepository.searchRealProperty(filter);
+        yield state.copyWith(
+            updateStatus: FormzStatus.submissionSuccess,
+            properties: list,
+            filter: filter.copyWith(
+                pageNumber: _propertyRepository.searchPagination!.pageNumber));
+        return;
+      } on DioError catch (e) {
+        //TODO:
+      } catch (e) {}
+      yield state.copyWith(updateStatus: FormzStatus.submissionFailure);
     }
   }
 }

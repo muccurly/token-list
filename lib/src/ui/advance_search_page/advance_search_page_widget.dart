@@ -1,31 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:formz/formz.dart';
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/ui/advance_search_page/drop_down.dart';
-<<<<<<< HEAD
-import 'package:jurta_app/src/ui/components/range_widget.dart';
-import 'package:jurta_app/src/utils/custom_input_formatter.dart';
-
-import '../flutter_flow/flutter_flow_drop_down_template.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../home_page/home_page_widget.dart';
-import '../search_result_page/search_result_page_widget.dart';
-import 'package:formz/formz.dart';
-import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:formz/formz.dart';
-import 'package:jurta_app/src/utils/extensions.dart';
-=======
 import 'package:jurta_app/src/ui/advance_search_page/drop_down_complex.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
@@ -35,7 +15,6 @@ import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
 class AdvanceSearchPageWidget extends StatefulWidget {
   AdvanceSearchPageWidget({Key? key}) : super(key: key);
@@ -51,13 +30,8 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   TextEditingController priceToController = TextEditingController();
   TextEditingController areaFromController = TextEditingController();
   TextEditingController areaToController = TextEditingController();
-<<<<<<< HEAD
-  TextEditingController textController5 = TextEditingController();
-  TextEditingController textController6 = TextEditingController();
-=======
   TextEditingController yearFromController = TextEditingController();
   TextEditingController yearToController = TextEditingController();
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   TextEditingController textController7 = TextEditingController();
   String? dropDownValue2;
   TextEditingController textController8 = TextEditingController();
@@ -76,13 +50,10 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   int studio = 1;
   int isolatedRooms = 1;
 
-<<<<<<< HEAD
-=======
   static const _PRICE = 'price';
   static const _AREA = 'area';
   static const _YEAR = 'year';
 
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   @override
   void initState() {
     _setFields();
@@ -119,11 +90,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
     required TextEditingController toC,
     required String value,
     required bool priceFrom,
-<<<<<<< HEAD
-    required bool price,
-=======
     required String type,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   }) {
     int from = 0, to = 0;
     if (value.isNotEmpty)
@@ -153,10 +120,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
     int? f, t;
     if (fromC.text.isNotEmpty) f = int.parse(fromC.text.replaceAll(' ', ''));
     if (toC.text.isNotEmpty) t = int.parse(toC.text.replaceAll(' ', ''));
-<<<<<<< HEAD
-    context.read<SearchBloc>().add(
-        price ? SearchPriceRangeChanged(f, t) : SearchAreaRangeChanged(f, t));
-=======
     switch (type) {
       case _PRICE:
         {
@@ -176,7 +139,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
       default:
         break;
     }
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   }
 
   @override
@@ -252,11 +214,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-<<<<<<< HEAD
-                    child:RangeWidget(
-=======
                     child: RangeWidget(
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                       fromController: priceFromController,
                       toController: priceToController,
                       onChanged: (String value, bool from) => _onChanged(
@@ -264,14 +222,9 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                           toC: priceToController,
                           value: value,
                           priceFrom: from,
-<<<<<<< HEAD
-                          price: true),
-                    ), ),
-=======
                           type: _PRICE),
                     ),
                   ),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
@@ -289,11 +242,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                           toC: areaToController,
                           value: value,
                           priceFrom: from,
-<<<<<<< HEAD
-                          price: false),
-=======
                           type: _AREA),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                     ),
                   ),
                   Padding(
@@ -313,10 +262,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                           return placeholders.objectTypesDropDownPlaceholder;
                         return FlutterFlowDropDownAddress(
                           options: state.cities,
-<<<<<<< HEAD
-=======
                           hintText: 'Город',
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                           onChanged: (val) {
                             setState(() {});
                             context.read<SearchBloc>().add(
@@ -337,17 +283,11 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                           return placeholders.objectTypesDropDownPlaceholder;
                         return FlutterFlowDropDownAddress(
                           options: state.districts,
-<<<<<<< HEAD
-                          onChanged: (val) {
-                            setState(() {});
-                            //choose
-=======
                           hintText: 'Район',
                           onChanged: (val) {
                             setState(() {});
                             context.read<SearchBloc>().add(DistrictChanged(
                                 val.address.addressObject.code));
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                           },
                         );
                       },
@@ -356,42 +296,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Row(
-<<<<<<< HEAD
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            child: TextFormField(
-                              controller: textController6,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'Улица',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-=======
                       children: [
                         Expanded(
                           child: Padding(
@@ -417,47 +321,11 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                   },
                                 );
                               },
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                             ),
                           ),
                         ),
                         Expanded(
                           child: Padding(
-<<<<<<< HEAD
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                            child: TextFormField(
-                              controller: textController7,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'Жилой комплекс',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        )
-=======
                             padding: const EdgeInsets.only(left: 5),
                             child: BlocBuilder<SearchBloc, SearchState>(
                               buildWhen: (previous, current) =>
@@ -480,7 +348,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                             ),
                           ),
                         ),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                       ],
                     ),
                   ),
@@ -498,72 +365,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-<<<<<<< HEAD
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: FlutterFlowTheme.primaryColor,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
-                              child: Text(
-                                'Любая',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: FlutterFlowTheme.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: FlutterFlowTheme.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              child: Text(
-                                'Изолированные\nкомнаты',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  color: FlutterFlowTheme.dark,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: FlutterFlowTheme.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 19, 0, 19),
-                              child: Text(
-                                'Студия',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.getFont(
-                                  'Roboto',
-                                  color: FlutterFlowTheme.dark,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-=======
                           child: BlocBuilder<SearchBloc, SearchState>(
                               builder: (context, state) {
                             return Card(
@@ -667,7 +468,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                               ),
                             );
                           }),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                         )
                       ],
                     ),
@@ -675,40 +475,12 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: Text(
-<<<<<<< HEAD
-                      'ПЛАНИРОВКА',
-=======
                       'СОСТОЯНИЕ НЕДВИЖИМОСТИ',
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                       style: FlutterFlowTheme.searchPageTitle.copyWith(),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-<<<<<<< HEAD
-                    child: FlutterFlowDropDown(
-                      options: ['Дизайнерский ремонт'].toList(),
-                      onChanged: (value) {
-                        setState(() => dropDownValue2 = value);
-                      },
-                      width: 130,
-                      height: 48,
-                      textStyle: TextStyle(
-                        color: Color(0xFF333333),
-                        fontSize: 16,
-                      ),
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 15,
-                      ),
-                      fillColor: Colors.white,
-                      elevation: 1,
-                      borderColor: FlutterFlowTheme.tertiaryColor,
-                      borderWidth: 1,
-                      borderRadius: 8,
-                      margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
-                      hidesUnderline: true,
-=======
                     child: BlocBuilder<SearchBloc, SearchState>(
                       buildWhen: (previous, current) =>
                           previous.conditions != current.conditions,
@@ -725,7 +497,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                           },
                         );
                       },
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                     ),
                   ),
                   Padding(
@@ -737,82 +508,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
-<<<<<<< HEAD
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            child: TextFormField(
-                              controller: textController8,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'от',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                            child: TextFormField(
-                              controller: textController9,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                hintText: 'до',
-                                hintStyle:
-                                    FlutterFlowTheme.hintStyle.copyWith(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                filled: true,
-                                fillColor: FlutterFlowTheme.white,
-                              ),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.secondaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-=======
                     child: RangeWidget(
                       fromController: yearFromController,
                       toController: yearToController,
@@ -823,7 +518,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                           value: value,
                           priceFrom: from,
                           type: _YEAR),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                     ),
                   ),
                   Padding(
@@ -835,21 +529,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-<<<<<<< HEAD
-                    child: SwitchListTile(
-                      value: switchListTileValue1 ??= true,
-                      onChanged: (newValue) =>
-                          setState(() => switchListTileValue1 = newValue),
-                      title: Text(
-                        'Есть торг',
-                        style: FlutterFlowTheme.darkNormal16.copyWith(),
-                      ),
-                      tileColor: FlutterFlowTheme.white,
-                      activeColor: FlutterFlowTheme.primaryColor,
-                      dense: true,
-                      controlAffinity: ListTileControlAffinity.trailing,
-                    ),
-=======
                     child: BlocBuilder<SearchBloc, SearchState>(
                         buildWhen: (p, c) =>
                             p.filter.probabilityOfBidding !=
@@ -870,27 +549,11 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                             controlAffinity: ListTileControlAffinity.trailing,
                           );
                         }),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-<<<<<<< HEAD
-                      child: SwitchListTile(
-                        value: switchListTileValue2 ??= true,
-                        onChanged: (newValue) =>
-                            setState(() => switchListTileValue2 = newValue),
-                        title: Text(
-                          'Есть обременение',
-                          style: FlutterFlowTheme.darkNormal16.copyWith(),
-                        ),
-                        tileColor: FlutterFlowTheme.white,
-                        activeColor: FlutterFlowTheme.primaryColor,
-                        dense: true,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                      ),
-=======
                       child: BlocBuilder<SearchBloc, SearchState>(
                           buildWhen: (p, c) =>
                               p.filter.encumbrance != c.filter.encumbrance,
@@ -910,61 +573,12 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                               controlAffinity: ListTileControlAffinity.trailing,
                             );
                           }),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-<<<<<<< HEAD
-                      child: SwitchListTile(
-                        value: switchListTileValue3 ??= true,
-                        onChanged: (newValue) =>
-                            setState(() => switchListTileValue3 = newValue),
-                        title: Text(
-                          'Обмен',
-                          style: FlutterFlowTheme.darkNormal16.copyWith(),
-                        ),
-                        tileColor: FlutterFlowTheme.white,
-                        activeColor: FlutterFlowTheme.primaryColor,
-                        dense: true,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 50),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 300),
-                                    reverseDuration:
-                                        Duration(milliseconds: 300),
-                                    child: HomePageWidget(),
-                                  ),
-                                );
-                              },
-                              text: 'Сбросить',
-                              options: FFButtonOptions(
-                                width: 130,
-                                height: 48,
-                                color: FlutterFlowTheme.secondaryColor,
-                                textStyle:
-                                    FlutterFlowTheme.btnTextWhite.copyWith(
-                                  color: Colors.white,
-                                ),
-                                borderSide: BorderSide(
-=======
                       child: BlocBuilder<SearchBloc, SearchState>(
                           buildWhen: (p, c) =>
                               p.filter.exchange != c.filter.exchange,
@@ -1014,7 +628,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                 textStyle:
                                     FlutterFlowTheme.btnTextWhite.copyWith(),
                                 borderSide: const BorderSide(
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
@@ -1025,31 +638,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                         ),
                         Expanded(
                           child: Padding(
-<<<<<<< HEAD
-                            padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 300),
-                                    reverseDuration:
-                                        Duration(milliseconds: 300),
-                                    child: SearchResultPageWidget(),
-                                  ),
-                                );
-                              },
-                              text: 'ПОИСК',
-                              options: FFButtonOptions(
-                                width: 130,
-                                height: 48,
-                                color: FlutterFlowTheme.primaryColor,
-                                textStyle:
-                                    FlutterFlowTheme.btnTextWhite.copyWith(
-                                  color: Colors.white,
-                                ),
-=======
                             padding: const EdgeInsets.only(left: 5),
                             child: FFButtonWidget(
                               onPressed: () async {
@@ -1064,7 +652,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                 color: FlutterFlowTheme.primaryColor,
                                 textStyle:
                                     FlutterFlowTheme.btnTextWhite.copyWith(),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1,
@@ -1076,12 +663,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                         )
                       ],
                     ),
-<<<<<<< HEAD
-                  )
-                ],
-              ),
-            )
-=======
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
@@ -1111,7 +692,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
               ),
             ),
             const SizedBox(height: 15),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
           ],
         ),
       ),

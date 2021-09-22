@@ -36,11 +36,7 @@ class ResidentialComplex extends Equatable {
   final double? safetyRating;
   final double? parkingRating;
   final double? entranceRating;
-<<<<<<< HEAD
-  final AddressStreet street;
-=======
   final AddressStreet addressBuilding;
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
   ResidentialComplex({
     required this.id,
@@ -77,11 +73,7 @@ class ResidentialComplex extends Equatable {
     this.safetyRating,
     this.parkingRating,
     this.entranceRating,
-<<<<<<< HEAD
-    required this.street,
-=======
     required this.addressBuilding,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   });
 
   factory ResidentialComplex.fromJson(Map<String, dynamic> json) {
@@ -120,11 +112,7 @@ class ResidentialComplex extends Equatable {
       safetyRating: json['safetyRating'],
       parkingRating: json['parkingRating'],
       entranceRating: json['entranceRating'],
-<<<<<<< HEAD
-      street: json['street'],
-=======
       addressBuilding: json['addressBuilding'],
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     );
   }
 
@@ -167,10 +155,6 @@ class ResidentialComplex extends Equatable {
         safetyRating,
         parkingRating,
         entranceRating,
-<<<<<<< HEAD
-        street,
-=======
     addressBuilding,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
       ];
 }

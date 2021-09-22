@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
-=======
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
@@ -9,30 +6,18 @@ import 'package:jurta_app/src/business_logic/search_mini/bloc/search_mini_bloc.d
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
 import '../components/search_result_box_widget.dart';
 import '../components/sort_filter_box_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 
-<<<<<<< HEAD
-class SearchResultPageWidget extends StatefulWidget {
-  SearchResultPageWidget({Key? key}) : super(key: key);
-
-  @override
-  _SearchResultPageWidgetState createState() => _SearchResultPageWidgetState();
-}
-
-class _SearchResultPageWidgetState extends State<SearchResultPageWidget> {
-=======
 class SearchResultPageWidget extends StatelessWidget {
   SearchResultPageWidget({
     Key? key,
     required this.isSearchMini,
   }) : super(key: key);
   final bool isSearchMini;
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -60,15 +45,13 @@ class SearchResultPageWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: () async {
-                        Navigator.pop(context);
-                      },
+                      onTap: () async => Navigator.pop(context),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.arrow_back_outlined,
                             color: Colors.black,
                             size: 20,
@@ -76,16 +59,10 @@ class SearchResultPageWidget extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                             child: Text(
-<<<<<<< HEAD
-                              'Назад',
-                              style:
-                                  FlutterFlowTheme.subtitleTextDark.copyWith(),
-=======
                               'РЕЗУЛЬТАТ ПОИСКА',
                               style: FlutterFlowTheme.subtitleTextDark.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
                             ),
                           )
                         ],
@@ -146,36 +123,7 @@ class SearchResultPageWidget extends StatelessWidget {
               color: FlutterFlowTheme.primaryColor,
             ),
             Expanded(
-<<<<<<< HEAD
-              child: GridView(
-                padding: EdgeInsets.zero,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 120,
-                  childAspectRatio: 1,
-                ),
-                scrollDirection: Axis.vertical,
-                children: [
-                  InkWell(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          duration: Duration(milliseconds: 300),
-                          reverseDuration: Duration(milliseconds: 300),
-                          child: ObjectInfoPageWidgetSample(),
-                        ),
-                      );
-                    },
-                    child: SearchResultBoxWidget(),
-                  )
-                ],
-              ),
-=======
               child: FromBloc(isMini: isSearchMini),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
             )
           ],
         ),
@@ -183,8 +131,6 @@ class SearchResultPageWidget extends StatelessWidget {
     );
   }
 }
-<<<<<<< HEAD
-=======
 
 class FromBloc extends StatelessWidget {
   const FromBloc({Key? key, required this.isMini}) : super(key: key);
@@ -196,13 +142,19 @@ class FromBloc extends StatelessWidget {
     return isMini
         ? BlocBuilder<SearchMiniBloc, SearchMiniState>(
             buildWhen: (p, c) =>
-                p.moreStatus != c.moreStatus || p.properties != c.properties,
-            builder: (context, state) => ContentWidget(
-                  items: state.properties,
-                  status: state.moreStatus,
-                  load: () =>
-                      context.read<SearchMiniBloc>().add(SearchMiniMore()),
-                ))
+                p.moreStatus != c.moreStatus ||
+                p.properties != c.properties ||
+                p.updateStatus != c.updateStatus,
+            builder: (context, state) {
+              if(state.updateStatus.isSubmissionInProgress)
+                return placeholders.gridShimmer;
+              return ContentWidget(
+                items: state.properties,
+                status: state.moreStatus,
+                load: () =>
+                    context.read<SearchMiniBloc>().add(SearchMiniMore()),
+              );
+            })
         : BlocBuilder<SearchBloc, SearchState>(
             buildWhen: (p, c) =>
                 p.moreStatus != c.moreStatus || p.properties != c.properties,
@@ -242,10 +194,7 @@ class ContentWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         if (index == items.length - 4) load.call();
         if (index == items.length || index == items.length + 1)
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: placeholders.gridShimmer,
-          );
+          return placeholders.gridItemShimmer;
         return InkWell(
           onTap: () async {
             await Navigator.push(
@@ -268,4 +217,3 @@ class ContentWidget extends StatelessWidget {
     );
   }
 }
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94

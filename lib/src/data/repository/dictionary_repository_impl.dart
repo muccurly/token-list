@@ -8,10 +8,7 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   DictionaryRepositoryImpl(this.remote);
 
   static const _OBJECT_TYPE = 'ObjectType';
-<<<<<<< HEAD
-=======
   static const _HOUSE_CONDITION = 'HouseCondition';
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   final IDictionaryRemoteDataSource remote;
 
   final _objectTypesController =
@@ -33,8 +30,6 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   }
 
   @override
-<<<<<<< HEAD
-=======
   Future<List<DictionaryMultiLangItem>> findAllHouseConditions() async {
     List<DictionaryMultiLangItem> list =
         await remote.getDictionaryListByName(_HOUSE_CONDITION);
@@ -42,7 +37,6 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   }
 
   @override
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   List<DictionaryMultiLangItem> get types => _objectTypesSet.toList();
 
   @override

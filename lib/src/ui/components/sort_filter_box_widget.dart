@@ -1,3 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jurta_app/src/business_logic/sort/models/models.dart';
+import 'package:jurta_app/src/business_logic/sort/sort.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +27,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 1,
       decoration: BoxDecoration(
-        color: Color(0x00FFFFFF),
+        color: const Color(0x00FFFFFF),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -70,10 +74,8 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                             child: InkWell(
-                              onTap: () async {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
+                              onTap: () async => Navigator.pop(context),
+                              child: const Icon(
                                 Icons.close_outlined,
                                 color: FlutterFlowTheme.dark,
                                 size: 26,
@@ -84,260 +86,72 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 0;
-                            priceDown = 1;
-                            priceUp = 1;
-                            roomDown = 1;
-                            roomUp = 1;
-                            meterDown = 1;
-                            meterUp = 1;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: newUp == 0
-                                  ? FlutterFlowTheme.primaryColor
-                                  : FlutterFlowTheme.white),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'По новизне',
-                                  style: newUp == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                )
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        buildWhen: (p, c) => p.sortField != c.sortField,
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byDate(),
+                          text: 'По новизне',
+                          isActive: state.sortField == SortField.DATE,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 1;
-                            priceDown = 0;
-                            priceUp = 1;
-                            roomDown = 1;
-                            roomUp = 1;
-                            meterDown = 1;
-                            meterUp = 1;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: priceDown == 0
-                                ? FlutterFlowTheme.primaryColor
-                                : FlutterFlowTheme.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'Цена (по убыванию)',
-                                  style: priceDown == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                )
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byPriceDown(),
+                          text: 'Цена (по убыванию)',
+                          isActive: state.sortField == SortField.PRICE &&
+                              state.direction == Direction.DESC,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 1;
-                            priceDown = 1;
-                            priceUp = 0;
-                            roomDown = 1;
-                            roomUp = 1;
-                            meterDown = 1;
-                            meterUp = 1;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: priceUp == 0
-                                ? FlutterFlowTheme.primaryColor
-                                : FlutterFlowTheme.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'Цена (по возрастанию)',
-                                  style: priceUp == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                )
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byPriceUp(),
+                          text: 'Цена (по возрастанию)',
+                          isActive: state.sortField == SortField.PRICE &&
+                              state.direction == Direction.ASC,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 1;
-                            priceDown = 1;
-                            priceUp = 1;
-                            roomDown = 0;
-                            roomUp = 1;
-                            meterDown = 1;
-                            meterUp = 1;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: roomDown == 0
-                                ? FlutterFlowTheme.primaryColor
-                                : FlutterFlowTheme.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'По комнатам (по убыванию)',
-                                  style: roomDown == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                )
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byRoomsDown(),
+                          text: 'По комнатам (по убыванию)',
+                          isActive: state.sortField == SortField.ROOMS &&
+                              state.direction == Direction.DESC,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 1;
-                            priceDown = 1;
-                            priceUp = 1;
-                            roomDown = 1;
-                            roomUp = 0;
-                            meterDown = 1;
-                            meterUp = 1;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: roomUp == 0
-                                ? FlutterFlowTheme.primaryColor
-                                : FlutterFlowTheme.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'По комнатам (по возрастанию)',
-                                  style: roomUp == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                )
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byRoomsUp(),
+                          text: 'По комнатам (по возрастанию)',
+                          isActive: state.sortField == SortField.ROOMS &&
+                              state.direction == Direction.ASC,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 1;
-                            priceDown = 1;
-                            priceUp = 1;
-                            roomDown = 1;
-                            roomUp = 1;
-                            meterDown = 0;
-                            meterUp = 1;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: meterDown == 0
-                                ? FlutterFlowTheme.primaryColor
-                                : FlutterFlowTheme.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'По площади (по убыванию)',
-                                  style: meterDown == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                )
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byAreaDown(),
+                          text: 'По площади (по убыванию)',
+                          isActive: state.sortField == SortField.AREA &&
+                              state.direction == Direction.DESC,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            newUp = 1;
-                            priceDown = 1;
-                            priceUp = 1;
-                            roomDown = 1;
-                            roomUp = 1;
-                            meterDown = 1;
-                            meterUp = 0;
-                          });
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: meterUp == 0
-                                ? FlutterFlowTheme.primaryColor
-                                : FlutterFlowTheme.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'По площади (по возрастанию)',
-                                  style: meterUp == 0
-                                      ? FlutterFlowTheme.bodyTextDark.copyWith()
-                                      : FlutterFlowTheme.bodyTextWhite,
-                                ),
-                              ],
-                            ),
-                          ),
+                      child: BlocBuilder<SortCubit, SortState>(
+                        builder: (context, state) => SortChoice(
+                          onTap: () => context.read<SortCubit>().byAreaUp(),
+                          text: 'По площади (по возрастанию)',
+                          isActive: state.sortField == SortField.AREA &&
+                              state.direction == Direction.ASC,
                         ),
                       ),
                     )
@@ -347,6 +161,50 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class SortChoice extends StatelessWidget {
+  SortChoice({
+    Key? key,
+    required this.onTap,
+    required this.text,
+    required this.isActive,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+  final String text;
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        onTap.call();
+        Navigator.pop(context);
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: isActive
+                ? FlutterFlowTheme.primaryColor
+                : FlutterFlowTheme.white),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                text,
+                style: isActive
+                    ? FlutterFlowTheme.bodyTextWhite
+                    : FlutterFlowTheme.bodyTextDark,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

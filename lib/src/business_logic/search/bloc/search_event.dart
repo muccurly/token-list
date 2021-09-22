@@ -57,11 +57,7 @@ class SearchObjectTypeChoose extends SearchEvent {
   List<Object?> get props => [type];
 }
 
-<<<<<<< HEAD
-class SearchRoomsPressed extends SearchEvent{
-=======
 class SearchRoomsPressed extends SearchEvent {
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   final int number;
 
   const SearchRoomsPressed(this.number);
@@ -70,10 +66,6 @@ class SearchRoomsPressed extends SearchEvent {
   List<Object?> get props => [number];
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 class SearchMoreThan5Pressed extends SearchEvent {}
 
 class SearchPriceRangeChanged extends SearchEvent {
@@ -96,11 +88,6 @@ class SearchAreaRangeChanged extends SearchEvent {
   List<Object?> get props => [from, to];
 }
 
-<<<<<<< HEAD
-class SearchReset extends SearchEvent{}
-
-class SearchProperties extends SearchEvent{}
-=======
 class SearchReset extends SearchEvent {}
 
 class SearchProperties extends SearchEvent {}
@@ -169,4 +156,3 @@ class EncumbranceChanged extends SearchEvent {}
 class BiddingChanged extends SearchEvent {}
 
 class SearchMore extends SearchEvent{}
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94

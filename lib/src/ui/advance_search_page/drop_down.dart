@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-<<<<<<< HEAD
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jurta_app/src/business_logic/search/search.dart';
-import 'package:jurta_app/src/data/entity/address.dart';
-import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-=======
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
 class FlutterFlowDropDownAddress extends StatefulWidget {
@@ -18,21 +10,15 @@ class FlutterFlowDropDownAddress extends StatefulWidget {
     this.initialOption,
     required this.options,
     required this.onChanged,
-<<<<<<< HEAD
-=======
     this.width,
     required this.hintText,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
   });
 
   final Address? initialOption;
   final List<Address> options;
   final Function(Address) onChanged;
-<<<<<<< HEAD
-=======
   final double? width;
   final String hintText;
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 
   @override
   State<FlutterFlowDropDownAddress> createState() =>
@@ -67,13 +53,8 @@ class _FlutterFlowDropDownAddressState
   void initState() {
     super.initState();
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-<<<<<<< HEAD
-      dropDownValue = widget.initialOption ?? widget.options.first;
-      widget.onChanged(dropDownValue!);
-=======
       // dropDownValue = widget.initialOption ?? widget.options.first;
       // widget.onChanged(dropDownValue!);
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
     });
   }
 
@@ -81,13 +62,10 @@ class _FlutterFlowDropDownAddressState
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
     final dropdownWidget = DropdownButton<Address>(
-<<<<<<< HEAD
-=======
       hint: Text(
         widget.hintText,
         style: const TextStyle(color: const Color(0xFFADADAD)),
       ),
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
       value: effectiveOptions.contains(dropDownValue) ? dropDownValue : null,
       items: effectiveOptions
           .map((e) => DropdownMenuItem(
@@ -133,11 +111,7 @@ class _FlutterFlowDropDownAddressState
       ),
     );
     return Container(
-<<<<<<< HEAD
-        width: MediaQuery.of(context).size.width,
-=======
         width: widget.width ?? MediaQuery.of(context).size.width,
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
         height: 40,
         child: childWidget);
   }

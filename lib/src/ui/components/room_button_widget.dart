@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jurta_app/src/business_logic/filter/filter.dart';
-=======
->>>>>>> 0136df3e30614d21f574fbda491cfd2c2b697e94
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
 class RoomButton extends StatelessWidget {

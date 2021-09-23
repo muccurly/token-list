@@ -29,11 +29,14 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
         _propertyRepository = propertyRepository,
         _sortCubit = sortCubit,
         super(SearchMiniState()) {
-    _sortStreamSubscription =
-        _sortCubit.stream.listen((event) => add(SortChanged(
-              direction: event.direction,
-              sortField: event.sortField,
-            )));
+    _sortStreamSubscription = _sortCubit.stream.listen(
+      (event) => add(
+        SortMiniChanged(
+            direction: event.direction,
+            sortField: event.sortField,
+            toSearch: event.toSearch),
+      ),
+    );
   }
 
   final IDictionaryRepository _dictionaryRepository;
@@ -89,7 +92,7 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
       yield* _mapSearchPropertiesToState();
     else if (event is SearchMiniMore)
       yield* _mapSearchMiniMoreToState();
-    else if (event is SortChanged) yield* _mapSortChangedToState(event);
+    else if (event is SortMiniChanged) yield* _mapSortChangedToState(event);
   }
 
   Future<SearchMiniState> _mapSearchMiniGetObjectTypesToState() async {
@@ -157,10 +160,10 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
     }
   }
 
-  Stream<SearchMiniState> _mapSortChangedToState(SortChanged event) async* {
+  Stream<SearchMiniState> _mapSortChangedToState(SortMiniChanged event) async* {
     var filter = state.filter.copyWith(
         sortBy: event.sortField.name, direction: event.direction.name);
-    if (await InternetConnectionChecker().hasConnection) {
+    if (await InternetConnectionChecker().hasConnection && event.toSearch) {
       try {
         yield state.copyWith(updateStatus: FormzStatus.submissionInProgress);
         List<RealProperty> list =

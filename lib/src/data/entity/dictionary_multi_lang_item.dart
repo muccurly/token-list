@@ -6,7 +6,7 @@ class DictionaryMultiLangItem extends Equatable {
   final String? code;
   final MultiLangText name;
 
-  DictionaryMultiLangItem({
+  const DictionaryMultiLangItem({
     required this.id,
     this.code,
     required this.name,
@@ -22,6 +22,14 @@ class DictionaryMultiLangItem extends Equatable {
 
   @override
   List<Object?> get props => [id, code, name];
+
+  static const empty = DictionaryMultiLangItem(
+      id: 0,
+      name: const MultiLangText(
+        nameRu: 'Все',
+        nameKz: 'Все',
+        nameEn: 'All',
+      ));
 
   @override
   String toString() {

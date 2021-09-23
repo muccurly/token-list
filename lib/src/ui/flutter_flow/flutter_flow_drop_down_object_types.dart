@@ -44,6 +44,42 @@ class _FlutterFlowDropDownObjectTypesState
     });
   }
 
+  /*Widget _buildSearchList() => Container(
+       height: 150.0,
+       decoration: BoxDecoration(
+         border: Border.all(color: Colors.grey[400], width: 1),
+         borderRadius: BorderRadius.all(Radius.circular(5)),
+         color: Colors.white,
+       ),
+       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+       margin: EdgeInsets.only(top: 5.0),
+       child: ListView.builder(
+           padding: const EdgeInsets.all(0),
+           shrinkWrap: true,
+           scrollDirection: Axis.vertical,
+           physics:
+               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+           itemCount: _testList.length,
+           itemBuilder: (context, position) {
+             return InkWell(
+               onTap: () {
+                 _onChanged(position);
+               },
+               child: Container(
+                   // padding: widget.padding,
+                   padding:
+                       EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                   decoration: BoxDecoration(
+                       color: position == _selectedIndex
+                           ? Colors.grey[100]
+                           : Colors.white,
+                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                   child: Text(_testList[position]['keyword'],style: TextStyle(color: Colors.black),)),
+             );
+           }),
+     );
+  * */
+
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
@@ -65,7 +101,6 @@ class _FlutterFlowDropDownObjectTypesState
       elevation: 2,
       onChanged: (value) {
         if (value != null) {
-          print('me changed');
           dropDownValue = value;
           widget.onChanged(value);
         }
@@ -88,12 +123,9 @@ class _FlutterFlowDropDownObjectTypesState
         ),
         color: Colors.white,
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-        child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButtonHideUnderline(child: dropdownWidget)),
-      ),
+      child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButtonHideUnderline(child: dropdownWidget)),
     );
     return Container(
         width: MediaQuery.of(context).size.width,

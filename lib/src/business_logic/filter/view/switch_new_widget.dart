@@ -23,11 +23,14 @@ class NewWidget extends StatelessWidget {
           ),
           child: SwitchListTile(
             value: state.filter.showNew,
+            contentPadding: EdgeInsets.symmetric(horizontal:3),
             onChanged: (newValue) =>
                 context.read<FilterBloc>().add(NewPressed(newValue)),
             title: Text(
               AppLocalizations.of(context)!.newAdds.capitalize(),
-              style: FlutterFlowTheme.dark50016.copyWith(),
+              style: FlutterFlowTheme.dark50016.copyWith(
+                  fontSize: 15
+              ),
             ),
             tileColor: FlutterFlowTheme.white,
             activeColor: FlutterFlowTheme.primaryColor,

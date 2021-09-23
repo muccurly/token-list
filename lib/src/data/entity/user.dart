@@ -4,7 +4,7 @@ class User extends Equatable {
   final int id;
   final String login;
   final String? email;
-  final String fullName;
+  final String? fullName;
   final String name;
   final int organizationId;
   final String organizationName;
@@ -31,8 +31,8 @@ class User extends Equatable {
     return User(
       email: json['email'],
       fullName: json['fullname'],
-      id: json['id'],
-      login: json['login'],
+      id: json['id'] ?? json['userId'],
+      login: json['login'] ?? json['userLogin'],
       name: json['name'],
       organizationId: json['organizationId'],
       organizationName: json['organizationName'],

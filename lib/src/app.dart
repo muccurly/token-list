@@ -71,6 +71,7 @@ class App extends StatelessWidget {
               addressRepository: addressRepository,
               dictionaryRepository: dictionaryRepository,
               propertyRepository: propertyRepository,
+              sortCubit: BlocProvider.of<SortCubit>(context),
             )
               ..add(GetOrLoadObjectTypes())
               ..add(LoadCities())

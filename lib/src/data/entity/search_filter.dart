@@ -85,7 +85,11 @@ class SearchFilter extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        "addressCode": this.addressCode,
+        "addressCode": this.addressCode == null
+            ? null
+            : this.addressCode!.isNotEmpty
+                ? this.addressCode
+                : null,
         "atelier": this.atelier,
         "direction": this.direction,
         "encumbrance": this.encumbrance,
@@ -95,16 +99,15 @@ class SearchFilter extends Equatable {
         "housingConditionId": this.housingConditionId,
         "moreThanFiveRooms": this.moreThanFiveRooms,
         "numberOfRooms": this.numberOfRooms,
-        "objectTypeId": this.objectTypeId,
+        "objectTypeId": this.objectTypeId != 0 ? this.objectTypeId : null,
         "pageNumber": this.pageNumber,
         "pageSize": this.pageSize,
-        "price": this.priceRange?.toJson(),
+        "priceRange": this.priceRange?.toJson(),
         "residentialComplexId": this.residentialComplexId,
         "sortBy": this.sortBy,
-        "totalArea": this.areaRange?.toJson(),
+        "areaRange": this.areaRange?.toJson(),
         "yearOfConstruction": this.yearOfConstruction?.toJson()
       };
-
 
   @override
   String toString() {

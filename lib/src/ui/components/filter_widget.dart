@@ -254,7 +254,8 @@ class _FilterWidgetState extends State<FilterWidget> {
             child: FFButtonWidget(
               onPressed: () {
                 BlocProvider.of<HomeBloc>(context).add(LoadProperties());
-                widget.onCancel();
+                Navigator.pop(context);
+                /*widget.onCancel();*/
               },
               text: AppLocalizations.of(context)!.show.toUpperCase(),
               options: FFButtonOptions(

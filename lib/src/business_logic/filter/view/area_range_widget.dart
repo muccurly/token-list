@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
+import 'package:jurta_app/src/utils/extensions.dart';
 
 class AreaWidget extends StatefulWidget {
   const AreaWidget({Key? key}) : super(key: key);
@@ -72,7 +73,7 @@ class _AreaWidgetState extends State<AreaWidget> {
               onChanged: (value) => _onChanged(value, true),
               decoration: InputDecoration(
                 isDense: true,
-                hintText: AppLocalizations.of(context)!.from,
+                hintText: AppLocalizations.of(context)!.from.capitalize(),
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
                 enabledBorder: _border,
                 focusedBorder: _border,
@@ -93,7 +94,7 @@ class _AreaWidgetState extends State<AreaWidget> {
               onChanged: (value) => _onChanged(value, false),
               decoration: InputDecoration(
                 isDense: true,
-                hintText: AppLocalizations.of(context)!.to,
+                hintText: AppLocalizations.of(context)!.to.capitalize(),
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
                 enabledBorder: _border,
                 focusedBorder: _border,

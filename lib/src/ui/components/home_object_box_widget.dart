@@ -32,9 +32,83 @@ class HomeObjectBoxWidget extends StatefulWidget {
 }
 
 class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
+  String adress = "";
+  String adress_main = "";
+  String price = "";
+  int count = 0;
+  int count2 = 0;
+  String part1 = '';
+  String part2 = "";
+  bool used = false;
+  bool used2 = false;
+
+  noState() {
+    if (used == false && widget.realProperty.address!=null) {
+      for (int i = 0; i < widget.realProperty.address!.nameRu.length; i++) {
+        if (widget.realProperty.address!.nameRu[i] == ",") {
+          count++;
+        }
+
+        if (count != 2 && count <= 3) {
+          adress = adress + widget.realProperty.address!.nameRu[i];
+        }
+      }
+      if (count == 2) {
+        adress = widget.realProperty.address!.nameRu;
+      }
+      used = true;
+    }
+  }
+
+  void addRegion() {
+    if (used2 == false) {
+      for (int i = 0; i < adress.length; i++) {
+        if (adress[i] != "," && count2 == 0) {
+          part1 = part1 + adress[i];
+        }
+        if (count2 == 1) {
+          part2 = part2 + adress[i];
+        }
+        if (adress[i] == "," && count2 == 0) {
+          count2++;
+        }
+      }
+      adress_main = part1 + ", Район" + part2;
+      used2 = true;
+    }
+  }
+
+  int counter = 0;
+  bool used3 = false;
+
+  void Space() {
+    String v = widget.realProperty.objectPrice.toString();
+    String number = "";
+    if (used3 == false) {
+      for (int i = 0;
+          i < widget.realProperty.objectPrice.toString().length;
+          i++) {
+        counter++;
+        if (counter == 3) {
+          counter = 0;
+          price = price + v[v.length - 1 - i] + " ";
+        } else {
+          price = price + v[v.length - 1 - i];
+        }
+      }
+      for (int i = 0; i < price.length; i++) {
+        number = number + price[price.length - 1 - i];
+      }
+      price = number;
+      used3 = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    noState();
+    addRegion();
+    Space();
     final _size = MediaQuery.of(context).size;
     return Container(
       width: _size.width,
@@ -102,14 +176,14 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                                 padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                                 child: Text(
                                   '${widget.realProperty.residentialComplex != null ? '${widget.realProperty.residentialComplex}  ' : ''}'
-                                  '${widget.realProperty.objectPrice} \u{3012}',
+                                  '$price \u{3012}',
                                   style: FlutterFlowTheme.titleText.copyWith(),
                                 ),
                               ),
                               PropertyDetailsWidget(
                                   property: widget.realProperty),
                               Text(
-                                widget.realProperty.address.nameRu,
+                                adress_main,
                                 style:
                                     FlutterFlowTheme.subtitle2Text.copyWith(),
                               )
@@ -125,7 +199,7 @@ class _HomeObjectBoxWidgetState extends State<HomeObjectBoxWidget> {
                           Padding(
                               padding: const EdgeInsets.fromLTRB(0, 16, 0, 12),
                               child: CallButton()),
-                          ShareButton(),
+                          ShareButton(property: widget.realProperty),
                         ],
                       )
                     ],
@@ -170,7 +244,7 @@ class SeeMoreButton extends StatelessWidget {
             duration: Duration(milliseconds: 300),
             reverseDuration: Duration(milliseconds: 300),
             child: ObjectInfoPageWidget(
-              realProperty: realProperty,
+              property: realProperty,
             ),
           ),
         );
@@ -230,7 +304,9 @@ class CallButton extends StatelessWidget {
 }
 
 class ShareButton extends StatelessWidget {
-  const ShareButton({Key? key}) : super(key: key);
+  const ShareButton({Key? key, required this.property}) : super(key: key);
+
+  final RealProperty property;
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +314,7 @@ class ShareButton extends StatelessWidget {
       message: AppLocalizations.of(context)!.share.capitalize(),
       child: InkWell(
         onTap: () async {
-          await Share.share('https://www.jurta.kz/');
+          await Share.share('https://jurta.kz/object/${property.applicationId}');
         },
         child: FaIcon(
           FontAwesomeIcons.shareSquare,
@@ -260,7 +336,7 @@ class PropertyDetailsWidget extends StatelessWidget {
 
   String _getRoom(BuildContext context, HomeState state) {
     final locale = AppLocalizations.of(context)!.localeName;
-    String? name;
+    String? name = property.objectTypeId.toString();
     if (state.objectTypes != null) {
       for (DictionaryMultiLangItem item in state.objectTypes!) {
         if (item.id == property.objectTypeId) {
@@ -278,18 +354,18 @@ class PropertyDetailsWidget extends StatelessWidget {
         {
           if (name != null) {
             if (name.endsWith('м'))
-              return '${AppLocalizations.of(context)!.roomM.toLowerCase()} дом';
+              return '${AppLocalizations.of(context)!.roomM.toLowerCase()}';
             else if (name.endsWith('е'))
-              return '${AppLocalizations.of(context)!.roomI.toLowerCase()} $name';
+              return '${AppLocalizations.of(context)!.roomI.toLowerCase()}';
             else
-              return '${AppLocalizations.of(context)!.roomF.toLowerCase()} $name';
+              return '${AppLocalizations.of(context)!.roomF.toLowerCase()}';
           }
-          return '${AppLocalizations.of(context)!.roomM.toLowerCase()} $name';
+          return '${AppLocalizations.of(context)!.roomM.toLowerCase()}';
         }
       case 'kk':
-        return '${AppLocalizations.of(context)!.roomM.toLowerCase()} $name';
+        return '${AppLocalizations.of(context)!.roomM.toLowerCase()}';
       default:
-        return '${AppLocalizations.of(context)!.roomM.toLowerCase()} $name';
+        return '${AppLocalizations.of(context)!.roomM.toLowerCase()}';
     }
   }
 
@@ -303,7 +379,7 @@ class PropertyDetailsWidget extends StatelessWidget {
             '${property.numberOfRooms}-'
             '${_getRoom(context, state)}  '
             '${property.floor != null ? '•  ${property.floor} этаж  ' : ''}'
-            '•  ${property.totalArea} м²',
+            '•  ${property.totalArea.toInt()} м²',
             style: FlutterFlowTheme.subtitleText.copyWith(),
           );
         });

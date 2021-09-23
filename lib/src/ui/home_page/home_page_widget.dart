@@ -29,6 +29,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     final _size = MediaQuery.of(context).size;
 
     return Scaffold(
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(
+          backgroundColor: Color(0xCD131E34),
+          canvasColor: Color(0xCD131E34),
+        ),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width *
+              0.78, // 75% of screen will be occupied
+          child: Drawer(
+            child: FilterWidget(
+              onCancel: () => setState(() => showFilter = !showFilter),
+            ),
+          ),
+        ),
+      ),
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.tertiaryColor,
       body: SingleChildScrollView(
@@ -50,7 +65,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       previous.properties != current.properties ||
                       previous.status != current.status,
                   builder: (context, state) {
-                    if(state.status.isSubmissionInProgress && state.firstLoading){
+                    if (state.status.isSubmissionInProgress &&
+                        state.firstLoading) {
                       return placeholders.shimmer;
                     }
                     if (state.properties.isEmpty) {
@@ -79,7 +95,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           controller: pageViewController,
                           scrollDirection: Axis.vertical,
                           onPageChanged: (page) {
-                            print('current page: $page');
                             if (page == state.properties.length - 3)
                               context
                                   .read<HomeBloc>()
@@ -149,7 +164,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 PageTransition(
                                   type: PageTransitionType.fade,
                                   duration: const Duration(milliseconds: 300),
-                                  reverseDuration: const Duration(milliseconds: 300),
+                                  reverseDuration:
+                                      const Duration(milliseconds: 300),
                                   child: SearchPageWidget(),
                                 ),
                               );
@@ -158,7 +174,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context)!.search.capitalize(),
+                                  AppLocalizations.of(context)!
+                                      .search
+                                      .capitalize(),
                                   style:
                                       FlutterFlowTheme.subtitleText.copyWith(),
                                 ),
@@ -172,13 +190,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () =>
-                            setState(() => showFilter = !showFilter),
+                          onTap: () => setState(
+                              () => scaffoldKey.currentState!.openEndDrawer()),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                AppLocalizations.of(context)!.filter.capitalize(),
+                                AppLocalizations.of(context)!
+                                    .filter
+                                    .capitalize(),
                                 style: FlutterFlowTheme.subtitleText.copyWith(),
                               ),
                               Icon(
@@ -193,15 +213,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   )
                 ],
-              ),
-              AnimatedPositioned(
-                left: showFilter ? _size.width * .3 : _size.width,
-                curve: Curves.easeInOut,
-                duration: const Duration(milliseconds: 300),
-                child: FilterWidget(
-                  onCancel: () =>
-                    setState(() => showFilter = !showFilter),
-                ),
               ),
             ],
           ),

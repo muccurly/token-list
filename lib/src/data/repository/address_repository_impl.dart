@@ -8,28 +8,29 @@ class AddressRepositoryImpl implements IAddressRepository {
   AddressRepositoryImpl(this.remote);
 
   final IAddressRemoteDataSource remote;
-  final cities = Set<Address>();
-  final districtsMap = Map<String, Set<Address>>();
-  final streetsMap = Map<String, Set<Address>>();
+
+  final _cities = Set<Address>()..add(Address.empty);
+  final _districtsMap = Map<String, Set<Address>>();
+  final _streetsMap = Map<String, Set<Address>>();
+  final _complexMap = Map<String, Set<ResidentialComplex>>();
   Pagination<Address>? _streetsPag;
-  final complexMap = Map<String, Set<ResidentialComplex>>();
   ApiResponse<ResidentialComplex>? _complexPag;
 
   @override
   Future<List<Address>> findAllCities() async {
     Data<Address> data = await remote.getCities();
-    cities.addAll(data.data);
-    return cities.toList();
+    _cities.addAll(data.data);
+    return _cities.toList();
   }
 
   @override
   Future<List<Address>> findDistricts(String code) async {
     Data<Address> data = await remote.getDistricts(code);
-    if (districtsMap.containsKey(code))
-      districtsMap[code]!.addAll(data.data);
+    if (_districtsMap.containsKey(code))
+      _districtsMap[code]!.addAll(data.data);
     else
-      districtsMap[code] = data.data.toSet();
-    return districtsMap[code]!.toList();
+      _districtsMap[code] = data.data.toSet();
+    return _districtsMap[code]!.toList();
   }
 
   @override
@@ -40,12 +41,12 @@ class AddressRepositoryImpl implements IAddressRepository {
   Future<List<Address>> findStreetsByParent(String code, {String? text}) async {
     Pagination<Address> data =
         await remote.getStreetsByParent(code, text: text);
-    if (streetsMap.containsKey(code))
-      streetsMap[code]!.addAll(data.data.data);
+    if (_streetsMap.containsKey(code))
+      _streetsMap[code]!.addAll(data.data.data);
     else
-      streetsMap[code] = data.data.data.toSet();
+      _streetsMap[code] = data.data.data.toSet();
     _streetsPag = data;
-    return streetsMap[code]!.toList();
+    return _streetsMap[code]!.toList();
   }
 
   @override
@@ -53,12 +54,12 @@ class AddressRepositoryImpl implements IAddressRepository {
       {String? val}) async {
     ApiResponse<ResidentialComplex> response =
         await remote.residentialComplexList(code, val: val);
-    if(complexMap.containsKey(code))
-      complexMap[code]!.addAll(response.data.data.data);
+    if (_complexMap.containsKey(code))
+      _complexMap[code]!.addAll(response.data.data.data);
     else
-      complexMap[code] = response.data.data.data.toSet();
+      _complexMap[code] = response.data.data.data.toSet();
     _complexPag = response;
-    return complexMap[code]!.toList();
+    return _complexMap[code]!.toList();
   }
 
   @override

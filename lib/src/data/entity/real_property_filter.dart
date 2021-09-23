@@ -62,7 +62,8 @@ class RealPropertyFilter extends Equatable {
         "flagId": this.flagId,
         "moreThanFiveRooms": this.moreThanFiveRooms,
         "numberOfRooms": this.numberOfRooms,
-        "objectTypeId": this.objectTypeId,
+        "objectTypeId": this.objectTypeId == 0 ? null
+            : this.objectTypeId,
         "pageNumber": this.pageNumber,
         "pageSize": this.pageSize,
         "priceRange": this.priceRange?.toJson(),

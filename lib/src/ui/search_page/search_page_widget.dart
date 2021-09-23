@@ -8,12 +8,10 @@ import 'package:jurta_app/src/business_logic/search_mini/search_mini.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/components/room_button_widget.dart';
-import 'package:jurta_app/src/ui/components/small_info_box_widget_sample.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
-import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget_sample.dart';
+import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
-import 'package:jurta_app/src/utils/my_logger.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 import '../advance_search_page/advance_search_page_widget.dart';
@@ -53,6 +51,27 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
         }
       },
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: FlutterFlowTheme.tertiaryColor,
+            leading: InkWell(
+              onTap: () async {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_outlined,
+                color: Colors.black,
+                size: 22,
+              ),
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.back.capitalize(),
+              style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+            ),
+          ),
+        ),
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.tertiaryColor,
         body: SingleChildScrollView(
@@ -60,7 +79,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Header(),
+              /*Header(),*/
               SearchWidget(),
               Padding(
                   padding: EdgeInsets.fromLTRB(8, 20, 0, 8),
@@ -145,46 +164,6 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                   )),
               NewsWidget(),
               const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Header extends StatelessWidget {
-  const Header({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        color: FlutterFlowTheme.tertiaryColor,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 50, 0, 0),
-        child: InkWell(
-          onTap: () async => Navigator.pop(context),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.arrow_back_outlined,
-                color: Colors.black,
-                size: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                child: Text(
-                  AppLocalizations.of(context)!.back.capitalize(),
-                  style: FlutterFlowTheme.subtitleTextDark.copyWith(),
-                ),
-              )
             ],
           ),
         ),
@@ -292,6 +271,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               style: FlutterFlowTheme.titleTextWDark,
             ),
           ),
+          // CustomDropdown(text: "Text"),
           BlocBuilder<SearchMiniBloc, SearchMiniState>(
             buildWhen: (previous, current) =>
                 previous.objectTypes != current.objectTypes,
@@ -503,7 +483,6 @@ class _SearchWidgetState extends State<SearchWidget> {
                         builder: (context, state) {
                       if (state.searchStatus.isSubmissionInProgress)
                         return Center(child: CircularProgressIndicator());
-
                       return FFButtonWidget(
                         onPressed: () => context
                             .read<SearchMiniBloc>()
@@ -513,7 +492,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                           width: double.infinity,
                           height: 48,
                           color: FlutterFlowTheme.primaryColor,
-                          textStyle: FlutterFlowTheme.btnTextWhite,
+                          textStyle: FlutterFlowTheme.btnTextWhite.copyWith(),
                           borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1,
@@ -523,7 +502,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       );
                     }),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -543,33 +522,41 @@ class HotWidget extends StatelessWidget {
       builder: (context, state) {
         return Container(
           width: 170,
-          height: 380,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.status.isSubmissionInProgress
-                  ? state.properties.length + 1
-                  : state.properties.length,
-              itemBuilder: (context, index) {
-                if (index == state.properties.length &&
-                    state.status.isSubmissionInProgress)
-                  return placeholders.gridItemShimmer;
-                if (index == state.properties.length - 3)
-                  context.read<HotsBloc>().add(LoadHotsMore());
-                return InkWell(
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.fade,
-                        duration: Duration(milliseconds: 300),
-                        reverseDuration: Duration(milliseconds: 300),
-                        child: ObjectInfoPageWidgetSample(),
-                      ),
+          height: 310,
+          child: state.firstLoad
+              ? Row(
+                  children: [
+                    placeholders.gridItemShimmer,
+                    placeholders.gridItemShimmer,
+                  ],
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.status.isSubmissionInProgress
+                      ? state.properties.length + 1
+                      : state.properties.length,
+                  itemBuilder: (context, index) {
+                    if (index == state.properties.length &&
+                        state.status.isSubmissionInProgress)
+                      return placeholders.gridItemShimmer;
+                    if (index == state.properties.length - 4)
+                      context.read<HotsBloc>().add(LoadHotsMore());
+                    return InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 300),
+                            reverseDuration: Duration(milliseconds: 300),
+                            child: ObjectInfoPageWidget(property: state.properties[index],),
+                          ),
+                        );
+                      },
+                      child:
+                          SmallInfoBoxWidget(property: state.properties[index]),
                     );
-                  },
-                  child: SmallInfoBoxWidget(property: state.properties[index]),
-                );
-              }),
+                  }),
         );
       },
     );
@@ -586,33 +573,41 @@ class NewsWidget extends StatelessWidget {
       builder: (context, state) {
         return Container(
           width: 170,
-          height: 380,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.status.isSubmissionInProgress
-                  ? state.properties.length + 1
-                  : state.properties.length,
-              itemBuilder: (context, index) {
-                if (index == state.properties.length &&
-                    state.status.isSubmissionInProgress)
-                  return placeholders.gridItemShimmer;
-                if (index == state.properties.length - 3)
-                  context.read<NewsBloc>().add(LoadNewsMore());
-                return InkWell(
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.fade,
-                        duration: Duration(milliseconds: 300),
-                        reverseDuration: Duration(milliseconds: 300),
-                        child: ObjectInfoPageWidgetSample(),
-                      ),
+          height: 310,
+          child: state.firstLoad
+              ? Row(
+                  children: [
+                    placeholders.gridItemShimmer,
+                    placeholders.gridItemShimmer,
+                  ],
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.status.isSubmissionInProgress
+                      ? state.properties.length + 1
+                      : state.properties.length,
+                  itemBuilder: (context, index) {
+                    if (index == state.properties.length &&
+                        state.status.isSubmissionInProgress)
+                      return placeholders.gridItemShimmer;
+                    if (index == state.properties.length - 3)
+                      context.read<NewsBloc>().add(LoadNewsMore());
+                    return InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 300),
+                            reverseDuration: Duration(milliseconds: 300),
+                            child: ObjectInfoPageWidget(property: state.properties[index],),
+                          ),
+                        );
+                      },
+                      child:
+                          SmallInfoBoxWidget(property: state.properties[index]),
                     );
-                  },
-                  child: SmallInfoBoxWidget(property: state.properties[index]),
-                );
-              }),
+                  }),
         );
       },
     );

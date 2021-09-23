@@ -44,6 +44,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             await _propertyRepository.findNews(state.filter);
         yield state.copyWith(
             status: FormzStatus.submissionSuccess,
+            firstLoad: false,
             properties: list,
             pagination: _propertyRepository.newsPagination,
             filter: state.filter.copyWith(

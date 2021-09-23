@@ -23,11 +23,14 @@ class HotWidget extends StatelessWidget {
           ),
           child: SwitchListTile(
             value: state.filter.flagId == null ? false : true,
+            contentPadding: EdgeInsets.symmetric(horizontal:2),
             onChanged: (newValue) =>
                 context.read<FilterBloc>().add(HotPressed(newValue)),
             title: Text(
               AppLocalizations.of(context)!.hotAdds.capitalize(),
-              style: FlutterFlowTheme.dark50016.copyWith(),
+              style: FlutterFlowTheme.dark50016.copyWith(
+                fontSize: 15
+              ),
             ),
             tileColor: FlutterFlowTheme.white,
             activeColor: FlutterFlowTheme.primaryColor,

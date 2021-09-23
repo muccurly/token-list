@@ -23,7 +23,7 @@ class SearchResultBoxWidget extends StatefulWidget {
 class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
   @override
   Widget build(BuildContext context) {
-    var name = widget.property.address.nameRu;
+    var name = widget.property.address!.nameRu;
     name = name
         .substring(name.indexOf(',') + 2)
         .replaceAll(', astanaError 502', '');
@@ -60,7 +60,7 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
-                                      '/download/$e/preview',
+                                      '/download/$e',
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
                                     decoration: BoxDecoration(
@@ -98,7 +98,7 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
-                '${widget.property.numberOfRooms} ${widget.property.realPropertyId == 1 ? AppLocalizations.of(context)!.roomM : AppLocalizations.of(context)!.roomF}'
+                '${widget.property.numberOfRooms} ${widget.property.objectTypeId == 1 ? AppLocalizations.of(context)!.roomF : AppLocalizations.of(context)!.roomM}'
                 ' • ${widget.property.totalArea.toInt()} м²',
                 style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
               ),

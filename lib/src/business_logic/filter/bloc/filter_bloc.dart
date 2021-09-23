@@ -19,15 +19,9 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   FilterBloc({
     required IDictionaryRepository dictionaryRepository,
   })  : _dictionaryRepository = dictionaryRepository,
-        super(FilterState()) {
-    _objectTypesStreamSubscription = dictionaryRepository.objectTypes
-        .listen((items) => add(ObjectTypesLoaded(items)));
-  }
+        super(FilterState());
 
   final IDictionaryRepository _dictionaryRepository;
-
-  late StreamSubscription<List<DictionaryMultiLangItem>>
-      _objectTypesStreamSubscription;
 
   @override
   Stream<FilterState> mapEventToState(FilterEvent event) async* {
@@ -81,7 +75,9 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     if (await InternetConnectionChecker().hasConnection) {
       try {
         yield state.copyWith(status: FormzStatus.submissionInProgress);
-        await _dictionaryRepository.findAllObjectTypes();
+        var list = await _dictionaryRepository.findAllObjectTypes();
+        yield state.copyWith(
+            status: FormzStatus.submissionSuccess, objectTypes: list);
       } on DioError catch (e) {
         yield state.copyWith(
             message: e.message, status: FormzStatus.submissionFailure);
@@ -111,12 +107,5 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
             flagId: state.filter.flagId,
             numberOfRooms: list,
             objectTypeId: state.filter.objectTypeId));
-  }
-
-  @override
-  Future<void> close() {
-    _objectTypesStreamSubscription.cancel();
-    _dictionaryRepository.dispose();
-    return super.close();
   }
 }

@@ -4,15 +4,13 @@ import 'package:jurta_app/src/business_logic/sort/models/direction.dart';
 import 'package:jurta_app/src/business_logic/sort/models/models.dart';
 import 'package:jurta_app/src/business_logic/sort/sort.dart';
 
-// part 'sort_event.dart';
-
 part 'sort_state.dart';
 
 class SortCubit extends Cubit<SortState> {
   SortCubit() : super(SortState());
 
-  void byDate() => emit(
-      state.copyWith(sortField: SortField.DATE, direction: Direction.DESC));
+  void byDate() =>
+      emit(SortState(sortField: SortField.DATE, direction: Direction.DESC));
 
   void byPriceDown() =>
       emit(SortState(sortField: SortField.PRICE, direction: Direction.DESC));
@@ -31,4 +29,6 @@ class SortCubit extends Cubit<SortState> {
 
   void byAreaUp() =>
       emit(SortState(sortField: SortField.AREA, direction: Direction.ASC));
+
+  void reset() => emit(SortState(toSearch: false));
 }

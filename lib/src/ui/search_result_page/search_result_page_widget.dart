@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
 import 'package:jurta_app/src/business_logic/search_mini/bloc/search_mini_bloc.dart';
+import 'package:jurta_app/src/business_logic/sort/sort.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
@@ -45,7 +46,10 @@ class SearchResultPageWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: () async => Navigator.pop(context),
+                      onTap: () async {
+                        BlocProvider.of<SortCubit>(context).reset();
+                        Navigator.pop(context);
+                      },
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -146,7 +150,7 @@ class FromBloc extends StatelessWidget {
                 p.properties != c.properties ||
                 p.updateStatus != c.updateStatus,
             builder: (context, state) {
-              if(state.updateStatus.isSubmissionInProgress)
+              if (state.updateStatus.isSubmissionInProgress)
                 return placeholders.gridShimmer;
               return ContentWidget(
                 items: state.properties,
@@ -157,12 +161,18 @@ class FromBloc extends StatelessWidget {
             })
         : BlocBuilder<SearchBloc, SearchState>(
             buildWhen: (p, c) =>
-                p.moreStatus != c.moreStatus || p.properties != c.properties,
-            builder: (context, state) => ContentWidget(
-                  items: state.properties,
-                  status: state.moreStatus,
-                  load: () => context.read<SearchBloc>().add(SearchMore()),
-                ));
+                p.moreStatus != c.moreStatus ||
+                p.properties != c.properties ||
+                p.updateStatus != c.updateStatus,
+            builder: (context, state) {
+              if (state.updateStatus.isSubmissionInProgress)
+                return placeholders.gridShimmer;
+              return ContentWidget(
+                items: state.properties,
+                status: state.moreStatus,
+                load: () => context.read<SearchBloc>().add(SearchMore()),
+              );
+            });
   }
 }
 
@@ -204,7 +214,7 @@ class ContentWidget extends StatelessWidget {
                 duration: Duration(milliseconds: 300),
                 reverseDuration: Duration(milliseconds: 300),
                 child: ObjectInfoPageWidget(
-                  realProperty: items[index],
+                  property: items[index],
                 ),
               ),
             );

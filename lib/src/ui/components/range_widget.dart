@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/utils/custom_input_formatter.dart';
+import 'package:jurta_app/src/utils/extensions.dart';
+
 
 class RangeWidget extends StatefulWidget {
   const RangeWidget({
@@ -50,7 +52,7 @@ class _RangeWidgetState extends State<RangeWidget> {
               onChanged: (value) => widget.onChanged(value, true),
               decoration: InputDecoration(
                 isDense: true,
-                hintText: AppLocalizations.of(context)!.from,
+                hintText: AppLocalizations.of(context)!.from.capitalize(),
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
                 counterText: "",
                 enabledBorder: _border,
@@ -74,7 +76,7 @@ class _RangeWidgetState extends State<RangeWidget> {
               onChanged: (value) => widget.onChanged(value, false),
               decoration: InputDecoration(
                 isDense: true,
-                hintText: AppLocalizations.of(context)!.to,
+                hintText: AppLocalizations.of(context)!.to.capitalize(),
                 hintStyle: FlutterFlowTheme.hintStyle.copyWith(),
                 counterText: "",
                 enabledBorder: _border,

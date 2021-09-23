@@ -155,4 +155,19 @@ class EncumbranceChanged extends SearchEvent {}
 
 class BiddingChanged extends SearchEvent {}
 
-class SearchMore extends SearchEvent{}
+class SearchMore extends SearchEvent {}
+
+class SortChanged extends SearchEvent {
+  final Direction direction;
+  final SortField sortField;
+  final bool toSearch;
+
+  const SortChanged({
+    required this.direction,
+    required this.sortField,
+    required this.toSearch,
+  });
+
+  @override
+  List<Object?> get props => [direction, sortField, toSearch];
+}

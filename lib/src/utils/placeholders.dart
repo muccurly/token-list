@@ -44,7 +44,7 @@ final gridItemShimmer = Padding(
       children: [
         ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: _buildBaseShimmer(height: 214)),
+            child: _buildBaseShimmer(height: 212)),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
           child: ClipRRect(

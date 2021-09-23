@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jurta_app/src/ui/components/gallery_photo_widget.dart';
+import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 class ImagesBoxWidget extends StatefulWidget {
@@ -47,18 +48,37 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                                           Colors.black.withOpacity(.8),
                                       context: context,
                                       builder: (context) {
-                                        return Container(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          child: GalleryPhotoViewWrapper(
-                                            itemsUuid:
-                                                widget.list,
-                                            backgroundDecoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                            ),
-                                            initialIndex: 0,
-                                            scrollDirection: Axis.horizontal,
+                                        return SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(0, 15,15, 0),
+                                                  child: Align(
+                                                    alignment: Alignment.topRight,
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      color: Colors.white,
+                                                      size: 25,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: MediaQuery.of(context).size.height,
+                                                child: GalleryPhotoViewWrapper(
+                                                  itemsUuid: widget.list,
+                                                  backgroundDecoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                  ),
+                                                  initialIndex: 0,
+                                                  scrollDirection: Axis.horizontal,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         );
                                       }),
@@ -84,22 +104,44 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                                                     .withOpacity(.8),
                                                 context: context,
                                                 builder: (context) {
-                                                  return Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .height,
-                                                    child:
-                                                        GalleryPhotoViewWrapper(
-                                                      itemsUuid: widget.list,
-                                                      backgroundDecoration:
-                                                          BoxDecoration(
-                                                        color:
-                                                            Colors.transparent,
-                                                      ),
-                                                      initialIndex: 1,
-                                                      scrollDirection:
-                                                          Axis.horizontal,
+                                                  return SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.fromLTRB(0, 15,15, 0),
+                                                            child: Align(
+                                                              alignment: Alignment.topRight,
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                color: Colors.white,
+                                                                size: 25,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height:
+                                                              MediaQuery.of(context)
+                                                                  .size
+                                                                  .height,
+                                                          child:
+                                                              GalleryPhotoViewWrapper(
+                                                            itemsUuid: widget.list,
+                                                            backgroundDecoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.transparent,
+                                                            ),
+                                                            initialIndex: 1,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   );
                                                 }),
@@ -121,22 +163,44 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                                                         .withOpacity(.8),
                                                     context: context,
                                                     builder: (context) {
-                                                      return Container(
-                                                        height: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .height,
-                                                        child:
-                                                            GalleryPhotoViewWrapper(
-                                                          itemsUuid: widget.list,
-                                                          backgroundDecoration:
-                                                              BoxDecoration(
-                                                            color: Colors
-                                                                .transparent,
-                                                          ),
-                                                          initialIndex: 2,
-                                                          scrollDirection:
-                                                              Axis.horizontal,
+                                                      return SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () async {
+                                                                Navigator.pop(context);
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.fromLTRB(0, 15,15, 0),
+                                                                child: Align(
+                                                                  alignment: Alignment.topRight,
+                                                                  child: Icon(
+                                                                    Icons.close,
+                                                                    color: Colors.white,
+                                                                    size: 25,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height,
+                                                              child:
+                                                                  GalleryPhotoViewWrapper(
+                                                                itemsUuid: widget.list,
+                                                                backgroundDecoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .transparent,
+                                                                ),
+                                                                initialIndex: 2,
+                                                                scrollDirection:
+                                                                    Axis.horizontal,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       );
                                                     }),

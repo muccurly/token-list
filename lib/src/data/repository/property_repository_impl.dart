@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:jurta_app/generated/l10n.dart';
+import 'package:jurta_app/src/business_logic/details/models/same_app_filter.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
+import 'package:jurta_app/src/data/entity/application_client_view.dart';
 import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
+import 'package:jurta_app/src/data/entity/same_property.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/data/remote/i_property_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
@@ -21,10 +25,24 @@ class PropertyRepositoryImpl implements IPropertyRepository {
   var _searchProps = Set<RealProperty>();
   var _hots = Set<RealProperty>();
   var _news = Set<RealProperty>();
+  var _same = Set<SameProperty>();
 
   Pagination<RealProperty>? _searchPag;
   Pagination<RealProperty>? _hotsPag;
   Pagination<RealProperty>? _newsPag;
+  Pagination<SameProperty>? _samePag;
+
+  @override
+  Pagination<RealProperty>? get searchPagination => _searchPag;
+
+  @override
+  Pagination<RealProperty>? get hotsPagination => _hotsPag;
+
+  @override
+  Pagination<RealProperty>? get newsPagination => _newsPag;
+
+  @override
+  Pagination<SameProperty>? get samePagination => _samePag;
 
   @override
   Stream<ApiResponse<RealProperty>> get apiResponseStream async* {
@@ -61,18 +79,30 @@ class PropertyRepositoryImpl implements IPropertyRepository {
         await remote.getRealPropertyForMobileMainPage(filter);
     _hots.addAll(result.data.data.data);
     _hotsPag = result.data;
-    MyLogger.instance.log.d(_hotsPag!.pageNumber);
     return _hots.toList();
   }
 
   @override
   Future<List<RealProperty>> findNews(RealPropertyFilter filter) async {
     ApiResponse<RealProperty> result =
-    await remote.getRealPropertyForMobileMainPage(filter);
+        await remote.getRealPropertyForMobileMainPage(filter);
     _news.addAll(result.data.data.data);
     _newsPag = result.data;
-    MyLogger.instance.log.d(_newsPag!.pageNumber);
     return _news.toList();
+  }
+
+  @override
+  Future<ApplicationClientView> findAppClientView(int id) async =>
+      remote.getApplicationClientViewById(id);
+
+  @override
+  Future<List<SameProperty>> findSameApps(SameAppFilter filter) async {
+    ApiResponse<SameProperty> result =
+        await remote.getSameApplicationList(filter);
+    if (filter.pageNumber == 0) _same.clear();
+    _samePag = result.data;
+    _same.addAll(result.data.data.data);
+    return _same.toList();
   }
 
   @override
@@ -80,13 +110,4 @@ class PropertyRepositoryImpl implements IPropertyRepository {
     _apiResponseStreamController.close();
     _propertiesStreamController.close();
   }
-
-  @override
-  Pagination<RealProperty>? get searchPagination => _searchPag;
-
-  @override
-  Pagination<RealProperty>? get hotsPagination => _hotsPag;
-
-  @override
-  Pagination<RealProperty>? get newsPagination => _newsPag;
 }

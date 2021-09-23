@@ -1,17 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 
+const emptyMultiLangText =
+    MultiLangText(nameRu: 'Все', nameKz: 'Все', nameEn: 'All');
+
 class Address extends Equatable {
   final AddressObjectWithType address;
   final AddressObjectWithType? parent;
   final AddressObjectWithType? parentByType;
-  final int total;
+  final int? total;
 
   const Address({
     required this.address,
     this.parent,
     this.parentByType,
-    required this.total,
+    this.total,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
@@ -30,6 +33,8 @@ class Address extends Equatable {
 
   static Address fromJsonModel(Map<String, dynamic> json) =>
       Address.fromJson(json);
+
+  static const empty = Address(address: AddressObjectWithType.empty, total: 0);
 
   @override
   List<Object?> get props => [address, parent, parentByType, total];
@@ -50,6 +55,9 @@ class AddressObjectWithType extends Equatable {
       addressType: AddressType.fromJson(json['addressType']),
     );
   }
+
+  static const empty = AddressObjectWithType(
+      addressObject: AddressObject.empty, addressType: AddressType.empty);
 
   @override
   List<Object?> get props => [addressObject, addressType];
@@ -77,6 +85,8 @@ class AddressObject extends Equatable {
     );
   }
 
+  static const empty = AddressObject(id: 0, code: '', name: emptyMultiLangText);
+
   @override
   List<Object?> get props => [id, code, name, idKazPost];
 }
@@ -99,6 +109,8 @@ class AddressType extends Equatable {
       name: MultiLangText.fromJson(json['name']),
     );
   }
+
+  static const empty = AddressType(id: 0, code: '', name: emptyMultiLangText);
 
   @override
   List<Object?> get props => [id, code, name];

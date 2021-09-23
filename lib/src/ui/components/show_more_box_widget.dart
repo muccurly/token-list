@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:jurta_app/src/data/entity/application_client_view.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 
 class ShowMoreBoxWidget extends StatefulWidget {
-  ShowMoreBoxWidget({Key? key}) : super(key: key);
+  ShowMoreBoxWidget({Key? key, required this.apv}) : super(key: key);
+
+  final ApplicationClientView apv;
 
   @override
   _ShowMoreBoxWidgetState createState() => _ShowMoreBoxWidgetState();
 }
 
 class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
+  int _index = 0;
+
   @override
   Widget build(BuildContext context) {
+    var description = widget.apv.sellDataDto.description;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
       child: Column(
@@ -22,43 +29,89 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
             'Описание',
             style: FlutterFlowTheme.subtitleTextDark.copyWith(),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            child: Text(
-              'Расположен ЖК в престижном развивающемся районе. Рядом находится прекрасное место для отдыха и прогулок — Президентский парк, набережная реки Есиль. В шаговой доступности школа Haileybury Astana. В 10 минутах пешком Национальный музей, Дворец мира и согласия (Пирамида), Дворец независимости, казахский национальный университет',
-              style: FlutterFlowTheme.bodyTextDark.copyWith(),
-            ),
-          ),
+          description != null
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  child: Text(
+                    description,
+                    style: FlutterFlowTheme.bodyTextDark.copyWith(),
+                  ),
+                )
+              : const SizedBox.shrink(),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                child: Text(
-                  'Школа',
-                  style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _index = 0;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  child: Text(
+                    'Школа',
+                    style: FlutterFlowTheme.subtitleTextDark.copyWith(
+                      color: _index == 0
+                          ? Colors.deepOrangeAccent
+                          : Color(0xFF333333),
+                    ),
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                child: Text(
-                  'Больница',
-                  style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _index = 1;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  child: Text(
+                    'Больница',
+                    style: FlutterFlowTheme.subtitleTextDark.copyWith(
+                      color: _index == 1
+                          ? Colors.deepOrangeAccent
+                          : Color(0xFF333333),
+                    ),
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                child: Text(
-                  'Детский сад',
-                  style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _index = 2;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  child: Text(
+                    'Детский сад',
+                    style: FlutterFlowTheme.subtitleTextDark.copyWith(
+                      color: _index == 2
+                          ? Colors.deepOrangeAccent
+                          : Color(0xFF333333),
+                    ),
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                child: Text(
-                  'ТРЦ',
-                  style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _index = 3;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  child: Text(
+                    'ТРЦ',
+                    style: FlutterFlowTheme.subtitleTextDark.copyWith(
+                      color: _index == 3
+                          ? Colors.deepOrangeAccent
+                          : Color(0xFF333333),
+                    ),
+                  ),
                 ),
               )
             ],

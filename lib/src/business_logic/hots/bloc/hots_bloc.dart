@@ -43,6 +43,7 @@ class HotsBloc extends Bloc<HotsEvent, HotsState> {
             await _propertyRepository.findHots(state.filter);
         yield state.copyWith(
             status: FormzStatus.submissionSuccess,
+            firstLoad: false,
             properties: list,
             pagination: _propertyRepository.hotsPagination,
             filter: state.filter.copyWith(

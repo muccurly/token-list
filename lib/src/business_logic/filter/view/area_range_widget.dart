@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
+import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
 
@@ -29,32 +30,44 @@ class _AreaWidgetState extends State<AreaWidget> {
     super.dispose();
   }
 
-  void _onChanged(String value, bool priceFrom) {
-    int from = 0, to = 0;
-    if (value.isNotEmpty)
-      priceFrom
-          ? from = int.parse(value.replaceAll(' ', ''))
-          : to = int.parse(value.replaceAll(' ', ''));
-    if (priceFrom) {
-      if (_toController.text.isNotEmpty)
-        to = int.parse(_toController.text.replaceAll(' ', ''));
-      if (to < from)
-        _toController.text = from.toString();
-    } else {
-      if (_fromController.text.isNotEmpty)
-        from = int.parse(_fromController.text.replaceAll(' ', ''));
-      if (to < from) {
-        if (to == 0)
-          _fromController.clear();
-        else
-          _fromController.text = to.toString();
-      }
+  @override
+  void initState() {
+    RealPropertyFilter filter = BlocProvider.of<FilterBloc>(context).state.filter;
+    if(filter.areaRange!=null){
+      if(filter.areaRange!.from!=null)
+        _fromController.text = filter.areaRange!.from!.toString();
+      if(filter.areaRange!.to != null)
+        _toController.text = filter.areaRange!.to!.toString();
     }
+    super.initState();
+  }
+
+  void _onChanged(String value,/* bool priceFrom*/) {
+    // int from = 0, to = 0;
+    // if (value.isNotEmpty)
+    //   priceFrom
+    //       ? from = int.parse(value.replaceAll(' ', ''))
+    //       : to = int.parse(value.replaceAll(' ', ''));
+    // if (priceFrom) {
+    //   if (_toController.text.isNotEmpty)
+    //     to = int.parse(_toController.text.replaceAll(' ', ''));
+    //   if (to < from)
+    //     _toController.text = from.toString();
+    // } else {
+    //   if (_fromController.text.isNotEmpty)
+    //     from = int.parse(_fromController.text.replaceAll(' ', ''));
+    //   if (to < from) {
+    //     if (to == 0)
+    //       _fromController.clear();
+    //     else
+    //       _fromController.text = to.toString();
+    //   }
+    // }
     int? f, t;
     if (_fromController.text.isNotEmpty)
-      f = int.parse(_fromController.text.replaceAll(' ', ''));
+      f = int.parse(_fromController.text.noWhiteSpaces());
     if (_toController.text.isNotEmpty)
-      t = int.parse(_toController.text.replaceAll(' ', ''));
+      t = int.parse(_toController.text.noWhiteSpaces());
     context.read<FilterBloc>().add(AreaRangeChanged(f, t));
   }
 
@@ -70,7 +83,7 @@ class _AreaWidgetState extends State<AreaWidget> {
               controller: _fromController,
               obscureText: false,
               keyboardType: TextInputType.number,
-              onChanged: (value) => _onChanged(value, true),
+              onChanged: (value) => _onChanged(value, /*true*/),
               decoration: InputDecoration(
                 isDense: true,
                 hintText: AppLocalizations.of(context)!.from.capitalize(),
@@ -91,7 +104,7 @@ class _AreaWidgetState extends State<AreaWidget> {
               controller: _toController,
               obscureText: false,
               keyboardType: TextInputType.number,
-              onChanged: (value) => _onChanged(value, false),
+              onChanged: (value) => _onChanged(value, /*false*/),
               decoration: InputDecoration(
                 isDense: true,
                 hintText: AppLocalizations.of(context)!.to.capitalize(),

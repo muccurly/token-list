@@ -11,13 +11,16 @@ class MultiLangText extends Equatable {
     required this.nameEn,
   });
 
-  factory MultiLangText.fromJson(Map<String, dynamic> json){
+  factory MultiLangText.fromJson(Map<String, dynamic> json) {
     return MultiLangText(
       nameRu: json['nameRu'],
       nameKz: json['nameKz'],
       nameEn: json['nameEn'],
     );
   }
+
+  static const empty =
+      MultiLangText(nameRu: 'Все', nameKz: 'Все', nameEn: 'All');
 
   @override
   List<Object?> get props => [nameRu, nameKz, nameEn];

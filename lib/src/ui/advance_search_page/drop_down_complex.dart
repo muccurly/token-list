@@ -25,9 +25,8 @@ class _FlutterFlowDropDownComplexState
     extends State<FlutterFlowDropDownComplex> {
   ResidentialComplex? dropDownValue;
 
-  List<ResidentialComplex> get effectiveOptions => widget.options.isEmpty
-      ? [ ]
-      : widget.options;
+  List<ResidentialComplex> get effectiveOptions =>
+      widget.options.isEmpty ? [ResidentialComplex.empty] : widget.options;
 
   @override
   void initState() {
@@ -45,7 +44,8 @@ class _FlutterFlowDropDownComplexState
       items: effectiveOptions
           .map((e) => DropdownMenuItem(
                 value: e,
-                child: Text(e.houseName,
+                child: Text(
+                  e.name ?? ResidentialComplex.empty.name!,
                   style: FlutterFlowTheme.darkNormal16,
                 ),
               ))

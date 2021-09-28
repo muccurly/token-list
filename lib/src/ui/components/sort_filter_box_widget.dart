@@ -1,24 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jurta_app/src/business_logic/sort/models/models.dart';
 import 'package:jurta_app/src/business_logic/sort/sort.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter/material.dart';
 
 class SortFilterBoxWidget extends StatefulWidget {
-  SortFilterBoxWidget({Key? key}) : super(key: key);
-
+  SortFilterBoxWidget({Key? key, required this.mini}) : super(key: key);
+  final bool mini;
   @override
   _SortFilterBoxWidgetState createState() => _SortFilterBoxWidgetState();
 }
-
-int newUp = 1;
-int priceDown = 1;
-int priceUp = 1;
-int roomDown = 1;
-int roomUp = 1;
-int meterDown = 1;
-int meterUp = 1;
 
 class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
   @override
@@ -89,7 +81,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                       child: BlocBuilder<SortCubit, SortState>(
                         buildWhen: (p, c) => p.sortField != c.sortField,
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byDate(),
+                          onTap: () => context.read<SortCubit>().byDate(mini: widget.mini),
                           text: 'По новизне',
                           isActive: state.sortField == SortField.DATE,
                         ),
@@ -98,7 +90,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                     Expanded(
                       child: BlocBuilder<SortCubit, SortState>(
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byPriceDown(),
+                          onTap: () => context.read<SortCubit>().byPriceDown(mini: widget.mini),
                           text: 'Цена (по убыванию)',
                           isActive: state.sortField == SortField.PRICE &&
                               state.direction == Direction.DESC,
@@ -108,7 +100,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                     Expanded(
                       child: BlocBuilder<SortCubit, SortState>(
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byPriceUp(),
+                          onTap: () => context.read<SortCubit>().byPriceUp(mini: widget.mini),
                           text: 'Цена (по возрастанию)',
                           isActive: state.sortField == SortField.PRICE &&
                               state.direction == Direction.ASC,
@@ -118,7 +110,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                     Expanded(
                       child: BlocBuilder<SortCubit, SortState>(
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byRoomsDown(),
+                          onTap: () => context.read<SortCubit>().byRoomsDown(mini: widget.mini),
                           text: 'По комнатам (по убыванию)',
                           isActive: state.sortField == SortField.ROOMS &&
                               state.direction == Direction.DESC,
@@ -128,7 +120,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                     Expanded(
                       child: BlocBuilder<SortCubit, SortState>(
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byRoomsUp(),
+                          onTap: () => context.read<SortCubit>().byRoomsUp(mini: widget.mini),
                           text: 'По комнатам (по возрастанию)',
                           isActive: state.sortField == SortField.ROOMS &&
                               state.direction == Direction.ASC,
@@ -138,7 +130,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                     Expanded(
                       child: BlocBuilder<SortCubit, SortState>(
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byAreaDown(),
+                          onTap: () => context.read<SortCubit>().byAreaDown(mini: widget.mini),
                           text: 'По площади (по убыванию)',
                           isActive: state.sortField == SortField.AREA &&
                               state.direction == Direction.DESC,
@@ -148,7 +140,7 @@ class _SortFilterBoxWidgetState extends State<SortFilterBoxWidget> {
                     Expanded(
                       child: BlocBuilder<SortCubit, SortState>(
                         builder: (context, state) => SortChoice(
-                          onTap: () => context.read<SortCubit>().byAreaUp(),
+                          onTap: () => context.read<SortCubit>().byAreaUp(mini: widget.mini),
                           text: 'По площади (по возрастанию)',
                           isActive: state.sortField == SortField.AREA &&
                               state.direction == Direction.ASC,

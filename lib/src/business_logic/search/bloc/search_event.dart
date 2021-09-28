@@ -38,12 +38,13 @@ class LoadResidentialComplex extends SearchEvent {
 }
 
 class CityChanged extends SearchEvent {
-  final String cityCode;
+  // final String cityCode;
+  final Address city;
 
-  const CityChanged(this.cityCode);
+  const CityChanged(this.city);
 
   @override
-  List<Object?> get props => [cityCode];
+  List<Object?> get props => [city];
 }
 
 class GetOrLoadObjectTypes extends SearchEvent {}
@@ -93,30 +94,34 @@ class SearchReset extends SearchEvent {}
 class SearchProperties extends SearchEvent {}
 
 class DistrictChanged extends SearchEvent {
-  final String districtCode;
+  // final String districtCode;
+  final Address district;
 
-  const DistrictChanged(this.districtCode);
+  const DistrictChanged(this.district);
 
   @override
-  List<Object?> get props => [districtCode];
+  List<Object?> get props => [district];
 }
 
 class StreetChanged extends SearchEvent {
-  final String streetCode;
+  // final String streetCode;
 
-  const StreetChanged(this.streetCode);
+  final Address street;
+
+  const StreetChanged(this.street);
 
   @override
-  List<Object?> get props => [streetCode];
+  List<Object?> get props => [street];
 }
 
 class ComplexChanged extends SearchEvent {
-  final int complexId;
+  // final int complexId;
+  final ResidentialComplex complex;
 
-  const ComplexChanged(this.complexId);
+  const ComplexChanged(this.complex);
 
   @override
-  List<Object?> get props => [complexId];
+  List<Object?> get props => [complex];
 }
 
 class AtelierChanged extends SearchEvent {
@@ -161,13 +166,15 @@ class SortChanged extends SearchEvent {
   final Direction direction;
   final SortField sortField;
   final bool toSearch;
+  final bool mini;
 
   const SortChanged({
     required this.direction,
     required this.sortField,
     required this.toSearch,
+    required this.mini,
   });
 
   @override
-  List<Object?> get props => [direction, sortField, toSearch];
+  List<Object?> get props => [direction, sortField, toSearch, mini];
 }

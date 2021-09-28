@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/home.dart';
+import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_widgets.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/components/room_button_widget.dart';
-import 'package:jurta_app/src/utils/custom_input_formatter.dart';
+import 'package:jurta_app/src/utils/extensions.dart';
 
 class FilterWidget extends StatefulWidget {
   FilterWidget({
@@ -23,44 +24,66 @@ class FilterWidget extends StatefulWidget {
 
 class _FilterWidgetState extends State<FilterWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController textController1 = TextEditingController();
-  TextEditingController textController2 = TextEditingController();
-  TextEditingController textController3 = TextEditingController();
-  TextEditingController textController4 = TextEditingController();
+  TextEditingController priceFromController = TextEditingController();
+  TextEditingController priceToController = TextEditingController();
 
-  void _onChanged(String value, bool priceFrom) {
-    int from = 0, to = 0;
-    if (value.isNotEmpty)
-      priceFrom
-          ? from = int.parse(value.replaceAll(' ', ''))
-          : to = int.parse(value.replaceAll(' ', ''));
-    if (priceFrom) {
-      if (textController2.text.isNotEmpty)
-        to = int.parse(textController2.text.replaceAll(' ', ''));
-      if (to < from)
-        textController2.text = NumericTextFormatter()
-            .formatEditUpdate(const TextEditingValue(),
-            TextEditingValue(text: from.toString()))
-            .text;
-    } else {
-      if (textController1.text.isNotEmpty)
-        from = int.parse(textController1.text.replaceAll(' ', ''));
-      if (to < from) {
-        if (to == 0)
-          textController1.clear();
-        else
-          textController1.text = NumericTextFormatter()
-              .formatEditUpdate(const TextEditingValue(),
-              TextEditingValue(text: to.toString()))
-              .text;
-      }
-    }
+  void _onChanged(/*String value, bool valFrom*/) {
+    // int from = 0, to = 0;
+    // if (value.isNotEmpty)
+    //   valFrom
+    //       ? from = int.parse(value.noWhiteSpaces())
+    //       : to = int.parse(value.noWhiteSpaces());
+    // if (valFrom) {
+    //   if (textController2.text.isNotEmpty)
+    //     to = int.parse(textController2.text.noWhiteSpaces());
+    //   if (to < from)
+    //     textController2.text = NumericTextFormatter()
+    //         .formatEditUpdate(const TextEditingValue(),
+    //         TextEditingValue(text: from.toString()))
+    //         .text;
+    // } else {
+    //   if (textController1.text.isNotEmpty)
+    //     from = int.parse(textController1.text.noWhiteSpaces());
+    //   if (to < from) {
+    //     if (to == 0)
+    //       textController1.clear();
+    //     else
+    //       textController1.text = NumericTextFormatter()
+    //           .formatEditUpdate(const TextEditingValue(),
+    //           TextEditingValue(text: to.toString()))
+    //           .text;
+    //   }
+    // }
     int? f, t;
-    if (textController1.text.isNotEmpty)
-      f = int.parse(textController1.text.replaceAll(' ', ''));
-    if (textController2.text.isNotEmpty)
-      t = int.parse(textController2.text.replaceAll(' ', ''));
+    if (priceFromController.text.isNotEmpty)
+      f = int.parse(priceFromController.text.noWhiteSpaces());
+    if (priceToController.text.isNotEmpty)
+      t = int.parse(priceToController.text.noWhiteSpaces());
     context.read<FilterBloc>().add(PriceRangeChanged(f, t));
+  }
+
+  @override
+  void initState() {
+    _initFields();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    priceFromController.dispose();
+    priceToController.dispose();
+    super.dispose();
+  }
+
+  _initFields(){
+    RealPropertyFilter filter = BlocProvider.of<FilterBloc>(context).state.filter;
+    if(filter.priceRange!=null){
+      if(filter.priceRange!.from!=null)
+        priceFromController.text = filter.priceRange!.from!.toString();
+      if(filter.priceRange!.to!=null)
+        priceToController.text = filter.priceRange!.to!.toString();
+    }
+
   }
 
   @override
@@ -210,10 +233,10 @@ class _FilterWidgetState extends State<FilterWidget> {
           ),
           Padding(
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-              child: RangeWidget(
-                fromController: textController1,
-                toController: textController2,
-                onChanged: (String value, bool from) => _onChanged(value, from),
+              child: RangeWidget2(
+                fromController: priceFromController,
+                toController: priceToController,
+                onChanged: (String value, /*bool from*/) => _onChanged(/*value, from*/),
               )),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
@@ -233,13 +256,15 @@ class _FilterWidgetState extends State<FilterWidget> {
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
             child: FFButtonWidget(
-              onPressed: widget.onCancel,
+              onPressed: () => Navigator.pop(context),
               text: AppLocalizations.of(context)!.cancel.toUpperCase(),
               options: FFButtonOptions(
                 width: 130,
                 height: 48,
-                color: FlutterFlowTheme.secondaryColor,
-                textStyle: FlutterFlowTheme.btnTextWhite.copyWith(),
+                color: Colors.white,
+                textStyle: FlutterFlowTheme.btnTextWhite.copyWith(
+                  color: const Color(0xFF131E34)
+                ),
                 elevation: 0,
                 borderSide: BorderSide(
                   color: Colors.transparent,

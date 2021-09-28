@@ -8,16 +8,15 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/business_logic/sort/cubit/sort_cubit.dart';
 import 'package:jurta_app/src/business_logic/sort/models/models.dart';
 import 'package:jurta_app/src/business_logic/sort/sort.dart';
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'search_mini_event.dart';
-
 part 'search_mini_state.dart';
 
 class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
@@ -32,9 +31,11 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
     _sortStreamSubscription = _sortCubit.stream.listen(
       (event) => add(
         SortMiniChanged(
-            direction: event.direction,
-            sortField: event.sortField,
-            toSearch: event.toSearch),
+          direction: event.direction,
+          sortField: event.sortField,
+          toSearch: event.toSearch,
+          mini: event.mini,
+        ),
       ),
     );
   }
@@ -58,7 +59,9 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
     else if (event is SearchMiniObjectTypeChoose)
       yield state.copyWith(
         filter: state.filter.copyWith(
-            objectTypeId: event.type.id,
+            // objectTypeId: event.type.id,
+            objectType: event.type,
+            addressCode: null,
             atelier: null,
             exchange: null,
             probabilityOfBidding: null,
@@ -68,27 +71,50 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
       yield _mapRoomsPressedToState(event);
     else if (event is SearchMiniMoreThan5Pressed)
       yield state.copyWith(
-        filter: state.filter
-            .copyWith(moreThanFiveRooms: !state.filter.moreThanFiveRooms),
+        filter: state.filter.copyWith(
+            moreThanFiveRooms: !state.filter.moreThanFiveRooms,
+            addressCode: null,
+            atelier: null,
+            exchange: null,
+            probabilityOfBidding: null,
+            encumbrance: null),
       );
     else if (event is SearchMiniPriceRangeChanged)
       yield state.copyWith(
-        filter: state.filter
-            .copyWith(priceRange: Range(from: event.from, to: event.to)),
+        filter: state.filter.copyWith(
+            priceRange: Range(from: event.from, to: event.to),
+            addressCode: null,
+            atelier: null,
+            exchange: null,
+            probabilityOfBidding: null,
+            encumbrance: null),
       );
     else if (event is SearchMiniAreaRangeChanged)
       yield state.copyWith(
-        filter: state.filter
-            .copyWith(areaRange: Range(from: event.from, to: event.to)),
+        filter: state.filter.copyWith(
+            areaRange: Range(from: event.from, to: event.to),
+            addressCode: null,
+            atelier: null,
+            exchange: null,
+            probabilityOfBidding: null,
+            encumbrance: null),
       );
-    else if (event is SearchMiniReset)
+    else if (event is SearchMiniReset) {
       yield state.copyWith(
-          filter: state.filter.copyWith(
-              areaRange: const Range(),
-              priceRange: const Range(),
-              numberOfRooms: <int>[],
-              moreThanFiveRooms: false));
-    else if (event is SearchMiniProperties)
+        filter: state.filter.copyWith(
+          objectType: DictionaryMultiLangItem.empty,
+          areaRange: const Range(),
+          priceRange: const Range(),
+          numberOfRooms: <int>[],
+          moreThanFiveRooms: false,
+          addressCode: null,
+          atelier: null,
+          exchange: null,
+          probabilityOfBidding: null,
+          encumbrance: null,
+        ),
+      );
+    } else if (event is SearchMiniProperties)
       yield* _mapSearchPropertiesToState();
     else if (event is SearchMiniMore)
       yield* _mapSearchMiniMoreToState();
@@ -108,20 +134,38 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
       list.removeWhere((it) => it == event.number);
     else
       list.add(event.number);
-    return state.copyWith(filter: state.filter.copyWith(numberOfRooms: list));
+    return state.copyWith(
+        filter: state.filter.copyWith(
+            numberOfRooms: list,
+            addressCode: null,
+            atelier: null,
+            exchange: null,
+            probabilityOfBidding: null,
+            encumbrance: null));
   }
 
   Stream<SearchMiniState> _mapSearchPropertiesToState() async* {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(searchStatus: FormzStatus.submissionInProgress);
       try {
-        List<RealProperty> props = await _propertyRepository
-            .searchRealProperty(state.filter.copyWith(pageNumber: 0));
+        List<Property> props = await _propertyRepository.searchRealProperty(
+            state.filter.copyWith(
+                pageNumber: 0,
+                addressCode: null,
+                atelier: null,
+                exchange: null,
+                probabilityOfBidding: null,
+                encumbrance: null));
         yield state.copyWith(
             properties: props,
             searchStatus: FormzStatus.submissionSuccess,
             filter: state.filter.copyWith(
-                pageNumber: _propertyRepository.searchPagination!.pageNumber));
+                pageNumber: _propertyRepository.searchPagination!.pageNumber,
+                addressCode: null,
+                atelier: null,
+                exchange: null,
+                probabilityOfBidding: null,
+                encumbrance: null));
         return;
       } on DioError catch (e) {
         MyLogger.instance.log.e(e.message);
@@ -139,13 +183,23 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
         if (await InternetConnectionChecker().hasConnection) {
           yield state.copyWith(moreStatus: FormzStatus.submissionInProgress);
           try {
-            List<RealProperty> list =
-                await _propertyRepository.searchRealProperty(state.filter
-                    .copyWith(pageNumber: state.filter.pageNumber + 1));
+            List<Property> list = await _propertyRepository.searchRealProperty(
+                state.filter.copyWith(
+                    pageNumber: state.filter.pageNumber + 1,
+                    addressCode: null,
+                    atelier: null,
+                    exchange: null,
+                    probabilityOfBidding: null,
+                    encumbrance: null));
             yield state.copyWith(
                 moreStatus: FormzStatus.submissionSuccess,
                 properties: list,
                 filter: state.filter.copyWith(
+                  addressCode: null,
+                  atelier: null,
+                  exchange: null,
+                  probabilityOfBidding: null,
+                  encumbrance: null,
                   pageNumber: _propertyRepository.searchPagination!.pageNumber,
                 ));
           } on DioError catch (e) {
@@ -162,16 +216,29 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
 
   Stream<SearchMiniState> _mapSortChangedToState(SortMiniChanged event) async* {
     var filter = state.filter.copyWith(
-        sortBy: event.sortField.name, direction: event.direction.name);
-    if (await InternetConnectionChecker().hasConnection && event.toSearch) {
+        addressCode: null,
+        atelier: null,
+        exchange: null,
+        probabilityOfBidding: null,
+        encumbrance: null,
+        sortBy: event.sortField.name,
+        direction: event.direction.name);
+    if (await InternetConnectionChecker().hasConnection &&
+        event.toSearch &&
+        event.mini) {
       try {
         yield state.copyWith(updateStatus: FormzStatus.submissionInProgress);
-        List<RealProperty> list =
+        List<Property> list =
             await _propertyRepository.searchRealProperty(filter);
         yield state.copyWith(
             updateStatus: FormzStatus.submissionSuccess,
             properties: list,
             filter: filter.copyWith(
+                addressCode: null,
+                atelier: null,
+                exchange: null,
+                probabilityOfBidding: null,
+                encumbrance: null,
                 pageNumber: _propertyRepository.searchPagination!.pageNumber));
         return;
       } on DioError catch (e) {

@@ -7,19 +7,18 @@ import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/business_logic/sort/models/models.dart';
 import 'package:jurta_app/src/business_logic/sort/sort.dart';
+import 'package:jurta_app/src/data/entity/range.dart';
+import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
-import 'package:jurta_app/src/data/entity/range.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
 import 'package:jurta_app/src/data/entity/residential_complex.dart';
-import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/data/repository/i_address_repository.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'search_event.dart';
-
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
@@ -32,13 +31,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         _dictionaryRepository = dictionaryRepository,
         _propertyRepository = propertyRepository,
         _sortCubit = sortCubit,
-        super(SearchState()){
+        super(SearchState()) {
     _sortStreamSubscription =
         _sortCubit.stream.listen((event) => add(SortChanged(
-          direction: event.direction,
-          sortField: event.sortField,
-          toSearch: event.toSearch,
-        )));
+              direction: event.direction,
+              sortField: event.sortField,
+              toSearch: event.toSearch,
+              mini: event.mini,
+            )));
   }
 
   final IAddressRepository _addressRepository;
@@ -63,35 +63,49 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     else if (event is GetOrLoadObjectTypes)
       yield await _mapGetOrLoadObjectTypesToState();
     else if (event is SearchObjectTypeChoose)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(objectTypeId: event.type.id),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          objectType: event.type,
         ),
       );
     else if (event is SearchRoomsPressed)
       yield _mapRoomsPressedToState(event);
     else if (event is SearchMoreThan5Pressed)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(
-            moreThanFiveRooms: !state.filter.moreThanFiveRooms,
-          ),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          moreThanFiveRooms: !state.filter.moreThanFiveRooms,
         ),
       );
     else if (event is SearchPriceRangeChanged)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(
-            priceRange: Range(from: event.from, to: event.to),
-          ),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          priceRange: Range(from: event.from, to: event.to),
         ),
       );
     else if (event is SearchAreaRangeChanged)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(
-            areaRange: Range(from: event.from, to: event.to),
-          ),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          areaRange: Range(from: event.from, to: event.to),
         ),
       );
     else if (event is SearchReset)
@@ -100,14 +114,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           areaRange: const Range(),
           priceRange: const Range(),
           yearOfConstruction: const Range(),
-          atelier: false,
+          atelier: null,
           numberOfRooms: <int>[],
           moreThanFiveRooms: false,
           probabilityOfBidding: null,
           encumbrance: null,
           exchange: null,
-          housingConditionId: null,
+          // housingConditionId: null,
+          housingCondition: DictionaryMultiLangItem.emptyE,
           houseClassId: null,
+          objectType: DictionaryMultiLangItem.empty,
+          addressCode: null,
+          complex: ResidentialComplex.empty,
         ),
       );
     else if (event is SearchProperties)
@@ -117,82 +135,111 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     else if (event is StreetChanged)
       yield* _mapStreetChangedToState(event);
     else if (event is ComplexChanged)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(
-            residentialComplexId: event.complexId,
-          ),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          complex: event.complex,
         ),
       );
     else if (event is AtelierChanged)
       yield state.copyWith(
-          filter: state.filter.copyWith(
-        atelier: event.atelier,
-        encumbrance: state.filter.encumbrance,
-        exchange: state.filter.exchange,
-        probabilityOfBidding: state.filter.probabilityOfBidding,
-      ));
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: event.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+        ),
+      );
     else if (event is LoadConditions)
       yield* _mapLoadHousingConditionsToState();
     else if (event is ConditionChoose)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(
-            housingConditionId: event.type.id,
-          ),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          housingCondition: event.type,
         ),
       );
     else if (event is YearsRangeChanged)
-      yield _requiredValues(
-        state.copyWith(
-          filter: state.filter.copyWith(
-            yearOfConstruction: Range(from: event.from, to: event.to),
-          ),
+      yield state.copyWith(
+        filter: state.filter.copyWith(
+          addressCode: state.filter.addressCode,
+          atelier: state.filter.atelier,
+          encumbrance: state.filter.encumbrance,
+          exchange: state.filter.exchange,
+          probabilityOfBidding: state.filter.probabilityOfBidding,
+          yearOfConstruction: Range(from: event.from, to: event.to),
         ),
       );
     else if (event is BiddingChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
+              addressCode: state.filter.addressCode,
               atelier: state.filter.atelier,
               encumbrance: state.filter.encumbrance,
               exchange: state.filter.exchange,
               probabilityOfBidding: state.filter.probabilityOfBidding != null
                   ? !state.filter.probabilityOfBidding!
-                  : null));
+                  : true));
     else if (event is EncumbranceChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
+              addressCode: state.filter.addressCode,
               atelier: state.filter.atelier,
               exchange: state.filter.exchange,
               probabilityOfBidding: state.filter.probabilityOfBidding,
               encumbrance: state.filter.encumbrance != null
                   ? !state.filter.encumbrance!
-                  : null));
+                  : true));
     else if (event is ExchangeChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
+              addressCode: state.filter.addressCode,
               atelier: state.filter.atelier,
               encumbrance: state.filter.encumbrance,
               probabilityOfBidding: state.filter.probabilityOfBidding,
               exchange: state.filter.exchange != null
                   ? !state.filter.exchange!
-                  : null));
-    else if (event is SearchMore) yield* _mapSearchMoreToState();
+                  : true));
+    else if (event is SearchMore)
+      yield* _mapSearchMoreToState();
     else if (event is SortChanged) yield* _mapSortChangedToState(event);
   }
 
   Stream<SearchState> _mapSortChangedToState(SortChanged event) async* {
     var filter = state.filter.copyWith(
-        sortBy: event.sortField.name, direction: event.direction.name);
-    if (await InternetConnectionChecker().hasConnection && event.toSearch) {
+      addressCode: state.filter.addressCode,
+      atelier: state.filter.atelier,
+      encumbrance: state.filter.encumbrance,
+      exchange: state.filter.exchange,
+      probabilityOfBidding: state.filter.probabilityOfBidding,
+      sortBy: event.sortField.name,
+      direction: event.direction.name,
+    );
+    if (await InternetConnectionChecker().hasConnection &&
+        event.toSearch &&
+        !event.mini) {
       try {
         yield state.copyWith(updateStatus: FormzStatus.submissionInProgress);
-        List<RealProperty> list =
-        await _propertyRepository.searchRealProperty(filter);
+        List<Property> list =
+            await _propertyRepository.searchRealProperty(filter);
         yield state.copyWith(
             updateStatus: FormzStatus.submissionSuccess,
             properties: list,
             filter: filter.copyWith(
+                addressCode: state.filter.addressCode,
+                atelier: state.filter.atelier,
+                encumbrance: state.filter.encumbrance,
+                exchange: state.filter.exchange,
+                probabilityOfBidding: state.filter.probabilityOfBidding,
                 pageNumber: _propertyRepository.searchPagination!.pageNumber));
         return;
       } on DioError catch (e) {
@@ -233,11 +280,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     else
       list.add(event.number);
 
-    return _requiredValues(
-      state.copyWith(
-        filter: state.filter.copyWith(
-          numberOfRooms: list,
-        ),
+    return state.copyWith(
+      filter: state.filter.copyWith(
+        addressCode: state.filter.addressCode,
+        atelier: state.filter.atelier,
+        encumbrance: state.filter.encumbrance,
+        exchange: state.filter.exchange,
+        probabilityOfBidding: state.filter.probabilityOfBidding,
+        numberOfRooms: list,
       ),
     );
   }
@@ -246,19 +296,25 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(searchStatus: FormzStatus.submissionInProgress);
       try {
-        List<RealProperty> props = await _propertyRepository.searchRealProperty(
+        List<Property> props = await _propertyRepository.searchRealProperty(
             state.filter.copyWith(
+                addressCode: state.filter.addressCode,
                 atelier: state.filter.atelier,
                 encumbrance: state.filter.encumbrance,
                 exchange: state.filter.exchange,
                 probabilityOfBidding: state.filter.probabilityOfBidding,
                 pageNumber: 0));
-        yield _requiredValues(
-          state.copyWith(
-            properties: props,
-            searchStatus: FormzStatus.submissionSuccess,
-            filter: state.filter.copyWith(
-                pageNumber: _propertyRepository.searchPagination!.pageNumber),
+
+        yield state.copyWith(
+          properties: props,
+          searchStatus: FormzStatus.submissionSuccess,
+          filter: state.filter.copyWith(
+            addressCode: state.filter.addressCode,
+            atelier: state.filter.atelier,
+            encumbrance: state.filter.encumbrance,
+            exchange: state.filter.exchange,
+            probabilityOfBidding: state.filter.probabilityOfBidding,
+            pageNumber: _propertyRepository.searchPagination!.pageNumber,
           ),
         );
         return;
@@ -272,82 +328,97 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   Stream<SearchState> _mapCityChangedToState(CityChanged event) async* {
-    yield _requiredValues(
-      state.copyWith(
-        cityCode: event.cityCode,
-        filter: state.filter.copyWith(addressCode: event.cityCode),
+    yield state.copyWith(
+      city: event.city,
+      filter: state.filter.copyWith(
+        addressCode: event.city.address?.addressObject.code,
+        atelier: state.filter.atelier,
+        encumbrance: state.filter.encumbrance,
+        exchange: state.filter.exchange,
+        probabilityOfBidding: state.filter.probabilityOfBidding,
       ),
     );
-    if (event.cityCode.isNotEmpty) {
+    if (event.city.address?.addressObject.code != null) {
       if (await InternetConnectionChecker().hasConnection) {
         try {
-          yield state.copyWith(citiesStatus: FormzStatus.submissionInProgress);
-          List<Address> list =
-              await _addressRepository.findDistricts(event.cityCode);
           yield state.copyWith(
-              citiesStatus: FormzStatus.submissionSuccess, districts: list);
+              districtsStatus: FormzStatus.submissionInProgress);
+          List<Address> list = await _addressRepository
+              .findDistricts(event.city.address!.addressObject.code!);
+          yield state.copyWith(
+              districtsStatus: FormzStatus.submissionSuccess, districts: list);
         } on DioError catch (e) {
           MyLogger.instance.log.e(e.message);
-          yield state.copyWith(citiesStatus: FormzStatus.submissionFailure);
+          yield state.copyWith(districtsStatus: FormzStatus.submissionFailure);
         } catch (_) {
           MyLogger.instance.log.e(_.toString());
-          yield state.copyWith(citiesStatus: FormzStatus.submissionFailure);
+          yield state.copyWith(districtsStatus: FormzStatus.submissionFailure);
         }
       }
     }
   }
 
-  SearchState _requiredValues(SearchState s) {
-    return s.copyWith(
-        filter: s.filter.copyWith(
-      atelier: state.filter.atelier,
-      encumbrance: state.filter.encumbrance,
-      exchange: state.filter.exchange,
-      probabilityOfBidding: state.filter.probabilityOfBidding,
-    ));
-  }
-
   Stream<SearchState> _mapDistrictChangedToState(DistrictChanged event) async* {
-    yield _requiredValues(
-      state.copyWith(
-        districtCode: event.districtCode,
-        filter: state.filter.copyWith(addressCode: event.districtCode),
+    yield state.copyWith(
+      district: event.district,
+      filter: state.filter.copyWith(
+        addressCode: event.district.address?.addressObject.code,
+        atelier: state.filter.atelier,
+        encumbrance: state.filter.encumbrance,
+        exchange: state.filter.exchange,
+        probabilityOfBidding: state.filter.probabilityOfBidding,
       ),
     );
-    if (await InternetConnectionChecker().hasConnection) {
+    var code = event.district.address?.addressObject.code;
+    if (code != null && await InternetConnectionChecker().hasConnection) {
       try {
-        yield state.copyWith(streetsStatus: FormzStatus.submissionInProgress);
-        List<Address> list =
-            await _addressRepository.findStreetsByParent(event.districtCode);
         yield state.copyWith(
-            streetsStatus: FormzStatus.submissionSuccess, streets: list);
+          streetsStatus: FormzStatus.submissionInProgress,
+          complexStatus: FormzStatus.submissionInProgress,
+        );
+        List<Address> list =
+            await _addressRepository.findStreetsByParent(code);
+        List<ResidentialComplex> lr =
+            await _addressRepository.findResidentialComplex(code);
+        yield state.copyWith(
+          streetsStatus: FormzStatus.submissionSuccess,
+          complexStatus: FormzStatus.submissionSuccess,
+          streets: list,
+          complexes: lr,
+        );
       } on DioError catch (e) {
         MyLogger.instance.log.e(e.message);
-        yield state.copyWith(streetsStatus: FormzStatus.submissionFailure);
+        yield state.copyWith(
+          streetsStatus: FormzStatus.submissionFailure,
+          complexStatus: FormzStatus.submissionFailure,
+        );
       } catch (_) {
         MyLogger.instance.log.e(_.toString());
-        yield state.copyWith(streetsStatus: FormzStatus.submissionFailure);
+        yield state.copyWith(
+          streetsStatus: FormzStatus.submissionFailure,
+          complexStatus: FormzStatus.submissionFailure,
+        );
       }
     }
   }
 
   Stream<SearchState> _mapStreetChangedToState(StreetChanged event) async* {
-    yield state.copyWith(streetCode: event.streetCode);
-    if (await InternetConnectionChecker().hasConnection) {
-      try {
-        yield state.copyWith(complexStatus: FormzStatus.submissionInProgress);
-        List<ResidentialComplex> list =
-            await _addressRepository.findResidentialComplex(event.streetCode);
-        yield state.copyWith(
-            complexStatus: FormzStatus.submissionSuccess, complexes: list);
-      } on DioError catch (e) {
-        MyLogger.instance.log.e(e.message);
-        yield state.copyWith(complexStatus: FormzStatus.submissionFailure);
-      } catch (_) {
-        MyLogger.instance.log.e(_.toString());
-        yield state.copyWith(complexStatus: FormzStatus.submissionFailure);
-      }
-    }
+    // yield state.copyWith(street: event.street);
+    // if (event.street.address?.addressObject.code != null &&
+    //     await InternetConnectionChecker().hasConnection) {
+    //   try {
+    //     yield state.copyWith(complexStatus: FormzStatus.submissionInProgress);
+    //
+    //     // yield state.copyWith(
+    //     //     complexStatus: FormzStatus.submissionSuccess, complexes: list);
+    //   } on DioError catch (e) {
+    //     MyLogger.instance.log.e(e.message);
+    //     yield state.copyWith(complexStatus: FormzStatus.submissionFailure);
+    //   } catch (_) {
+    //     MyLogger.instance.log.e(_.toString());
+    //     yield state.copyWith(complexStatus: FormzStatus.submissionFailure);
+    //   }
+    // }
   }
 
   Stream<SearchState> _mapLoadHousingConditionsToState() async* {
@@ -375,20 +446,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         if (await InternetConnectionChecker().hasConnection) {
           yield state.copyWith(moreStatus: FormzStatus.submissionInProgress);
           try {
-            List<RealProperty> list = await _propertyRepository
-                .searchRealProperty(state.filter.copyWith(
+            List<Property> list = await _propertyRepository.searchRealProperty(
+                state.filter.copyWith(
+                    addressCode: state.filter.addressCode,
                     atelier: state.filter.atelier,
                     encumbrance: state.filter.encumbrance,
                     exchange: state.filter.exchange,
                     probabilityOfBidding: state.filter.probabilityOfBidding,
                     pageNumber: state.filter.pageNumber + 1));
-            yield _requiredValues(
-              state.copyWith(
-                moreStatus: FormzStatus.submissionSuccess,
-                properties: list,
-                filter: state.filter.copyWith(
-                  pageNumber: _propertyRepository.searchPagination!.pageNumber,
-                ),
+            yield state.copyWith(
+              moreStatus: FormzStatus.submissionSuccess,
+              properties: list,
+              filter: state.filter.copyWith(
+                addressCode: state.filter.addressCode,
+                atelier: state.filter.atelier,
+                encumbrance: state.filter.encumbrance,
+                exchange: state.filter.exchange,
+                probabilityOfBidding: state.filter.probabilityOfBidding,
+                pageNumber: _propertyRepository.searchPagination!.pageNumber,
               ),
             );
           } on DioError catch (e) {

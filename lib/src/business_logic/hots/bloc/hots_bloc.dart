@@ -4,13 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'hots_event.dart';
-
 part 'hots_state.dart';
 
 class HotsBloc extends Bloc<HotsEvent, HotsState> {
@@ -21,7 +20,7 @@ class HotsBloc extends Bloc<HotsEvent, HotsState> {
           HotsState(
             filter: RealPropertyFilter().copyWith(
               flagId: 3,
-              objectTypeId: null,
+              // objectTypeId: null,
             ),
           ),
         );
@@ -39,7 +38,7 @@ class HotsBloc extends Bloc<HotsEvent, HotsState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        List<RealProperty> list =
+        List<Property> list =
             await _propertyRepository.findHots(state.filter);
         yield state.copyWith(
             status: FormzStatus.submissionSuccess,
@@ -48,7 +47,7 @@ class HotsBloc extends Bloc<HotsEvent, HotsState> {
             pagination: _propertyRepository.hotsPagination,
             filter: state.filter.copyWith(
               flagId: state.filter.flagId,
-              objectTypeId: null,
+              // objectTypeId: null,
               pageNumber: _propertyRepository.hotsPagination!.pageNumber,
             ));
         return;
@@ -71,10 +70,10 @@ class HotsBloc extends Bloc<HotsEvent, HotsState> {
         if (await InternetConnectionChecker().hasConnection) {
           yield state.copyWith(status: FormzStatus.submissionInProgress);
           try {
-            List<RealProperty> list =
+            List<Property> list =
                 await _propertyRepository.findHots(state.filter.copyWith(
               flagId: state.filter.flagId,
-              objectTypeId: null,
+              // objectTypeId: null,
               pageNumber: state.filter.pageNumber + 1,
             ));
             yield state.copyWith(
@@ -83,7 +82,7 @@ class HotsBloc extends Bloc<HotsEvent, HotsState> {
               pagination: _propertyRepository.hotsPagination,
               filter: state.filter.copyWith(
                 flagId: state.filter.flagId,
-                objectTypeId: null,
+                // objectTypeId: null,
                 pageNumber: _propertyRepository.hotsPagination!.pageNumber,
               ),
             );

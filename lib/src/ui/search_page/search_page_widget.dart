@@ -6,11 +6,10 @@ import 'package:jurta_app/src/business_logic/hots/bloc/hots_bloc.dart';
 import 'package:jurta_app/src/business_logic/news/news.dart';
 import 'package:jurta_app/src/business_logic/search_mini/search_mini.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/components/room_button_widget.dart';
-import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
-import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
@@ -185,6 +184,8 @@ class _SearchWidgetState extends State<SearchWidget> {
   TextEditingController areaFromController = TextEditingController();
   TextEditingController areaToController = TextEditingController();
 
+  DictionaryMultiLangItem? dropDownValue;
+
   @override
   void initState() {
     _setFields();
@@ -201,10 +202,13 @@ class _SearchWidgetState extends State<SearchWidget> {
     }
     if (filter.areaRange != null) {
       if (filter.areaRange!.from != null)
-        priceFromController.text = filter.areaRange!.from.toString();
+        areaFromController.text = filter.areaRange!.from.toString();
       if (filter.areaRange!.to != null)
-        priceToController.text = filter.areaRange!.to.toString();
+        areaToController.text = filter.areaRange!.to.toString();
     }
+
+    if (filter.objectType != null) dropDownValue = filter.objectType;
+    else dropDownValue = DictionaryMultiLangItem.empty;
   }
 
   @override
@@ -223,34 +227,34 @@ class _SearchWidgetState extends State<SearchWidget> {
     required bool priceFrom,
     required bool price,
   }) {
-    int from = 0, to = 0;
-    if (value.isNotEmpty)
-      priceFrom
-          ? from = int.parse(value.replaceAll(' ', ''))
-          : to = int.parse(value.replaceAll(' ', ''));
-    if (priceFrom) {
-      if (toC.text.isNotEmpty) to = int.parse(toC.text.replaceAll(' ', ''));
-      if (to < from)
-        toC.text = NumericTextFormatter()
-            .formatEditUpdate(const TextEditingValue(),
-                TextEditingValue(text: from.toString()))
-            .text;
-    } else {
-      if (fromC.text.isNotEmpty)
-        from = int.parse(fromC.text.replaceAll(' ', ''));
-      if (to < from) {
-        if (to == 0)
-          fromC.clear();
-        else
-          fromC.text = NumericTextFormatter()
-              .formatEditUpdate(const TextEditingValue(),
-                  TextEditingValue(text: to.toString()))
-              .text;
-      }
-    }
+    // int from = 0, to = 0;
+    // if (value.isNotEmpty)
+    //   priceFrom
+    //       ? from = int.parse(value.replaceAll(' ', ''))
+    //       : to = int.parse(value.replaceAll(' ', ''));
+    // if (priceFrom) {
+    //   if (toC.text.isNotEmpty) to = int.parse(toC.text.replaceAll(' ', ''));
+    //   if (to < from)
+    //     toC.text = NumericTextFormatter()
+    //         .formatEditUpdate(const TextEditingValue(),
+    //             TextEditingValue(text: from.toString()))
+    //         .text;
+    // } else {
+    //   if (fromC.text.isNotEmpty)
+    //     from = int.parse(fromC.text.replaceAll(' ', ''));
+    //   if (to < from) {
+    //     if (to == 0)
+    //       fromC.clear();
+    //     else
+    //       fromC.text = NumericTextFormatter()
+    //           .formatEditUpdate(const TextEditingValue(),
+    //               TextEditingValue(text: to.toString()))
+    //           .text;
+    //   }
+    // }
     int? f, t;
-    if (fromC.text.isNotEmpty) f = int.parse(fromC.text.replaceAll(' ', ''));
-    if (toC.text.isNotEmpty) t = int.parse(toC.text.replaceAll(' ', ''));
+    if (fromC.text.isNotEmpty) f = int.parse(fromC.text.noWhiteSpaces());
+    if (toC.text.isNotEmpty) t = int.parse(toC.text.noWhiteSpaces());
     context.read<SearchMiniBloc>().add(price
         ? SearchMiniPriceRangeChanged(f, t)
         : SearchMiniAreaRangeChanged(f, t));
@@ -258,6 +262,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!.localeName;
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Column(
@@ -271,21 +276,58 @@ class _SearchWidgetState extends State<SearchWidget> {
               style: FlutterFlowTheme.titleTextWDark,
             ),
           ),
-          // CustomDropdown(text: "Text"),
           BlocBuilder<SearchMiniBloc, SearchMiniState>(
             buildWhen: (previous, current) =>
-                previous.objectTypes != current.objectTypes,
+                previous.objectTypes != current.objectTypes ||
+                previous.filter.objectType != current.filter.objectType,
             builder: (context, state) {
               if (state.objectTypes.isEmpty)
                 return placeholders.objectTypesDropDownPlaceholder;
-              return FlutterFlowDropDownObjectTypes(
-                options: state.objectTypes,
-                onChanged: (value) {
-                  setState(() {});
-                  context
-                      .read<SearchMiniBloc>()
-                      .add(SearchMiniObjectTypeChoose(value));
-                },
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.transparent,
+                      width: 0,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: ButtonTheme(
+                    alignedDropdown: true,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<DictionaryMultiLangItem>(
+                        value: dropDownValue,
+                        items: state.objectTypes
+                            .map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text( e.name.nameRu,
+                                    style: FlutterFlowTheme.darkNormal16,
+                                  ),
+                                ))
+                            .toList(),
+                        elevation: 2,
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() => dropDownValue = value);
+                            context
+                                .read<SearchMiniBloc>()
+                                .add(SearchMiniObjectTypeChoose(value));
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: FlutterFlowTheme.secondaryColor,
+                          size: 24,
+                        ),
+                        isExpanded: true,
+                        dropdownColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               );
             },
           ),
@@ -454,12 +496,16 @@ class _SearchWidgetState extends State<SearchWidget> {
                     padding: const EdgeInsets.only(right: 5),
                     child: FFButtonWidget(
                       onPressed: () {
+                        // print('${BlocProvider.of<SearchMiniBloc>(context).state.filter.objectType}');
                         BlocProvider.of<SearchMiniBloc>(context)
                             .add(SearchMiniReset());
                         priceFromController.clear();
                         priceToController.clear();
                         areaFromController.clear();
                         areaToController.clear();
+                        setState(() {
+                          dropDownValue = DictionaryMultiLangItem.empty;
+                        });
                       },
                       text: AppLocalizations.of(context)!.reset.capitalize(),
                       options: FFButtonOptions(
@@ -549,7 +595,9 @@ class HotWidget extends StatelessWidget {
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 300),
-                            child: ObjectInfoPageWidget(property: state.properties[index],),
+                            child: ObjectInfoPageWidget(
+                              property: state.properties[index],
+                            ),
                           ),
                         );
                       },
@@ -573,7 +621,7 @@ class NewsWidget extends StatelessWidget {
       builder: (context, state) {
         return Container(
           width: 170,
-          height: 310,
+          height: 325,
           child: state.firstLoad
               ? Row(
                   children: [
@@ -600,7 +648,9 @@ class NewsWidget extends StatelessWidget {
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 300),
-                            child: ObjectInfoPageWidget(property: state.properties[index],),
+                            child: ObjectInfoPageWidget(
+                              property: state.properties[index],
+                            ),
                           ),
                         );
                       },

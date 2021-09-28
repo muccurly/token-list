@@ -13,54 +13,81 @@ class DictionaryMultiLangItem extends Equatable {
   });
 
   factory DictionaryMultiLangItem.fromJson(Map<String, dynamic> json) {
+    var m = json['multiLang'];
+    var n = json['name'];
     return DictionaryMultiLangItem(
       id: json['id'],
       code: json['code'],
-      name: MultiLangText.fromJson(json['multiLang']),
+      name: MultiLangText.fromJson(m ?? n),
     );
   }
-
-  @override
-  List<Object?> get props => [id, code, name];
 
   static const empty = DictionaryMultiLangItem(
       id: 0,
       name: const MultiLangText(
-        nameRu: 'Все',
-        nameKz: 'Все',
-        nameEn: 'All',
+        nameRu: 'Любой',
+        nameKz: 'Любой',
+        nameEn: 'Any',
+      ));
+
+  static const emptyE = DictionaryMultiLangItem(
+      id: 0,
+      name: const MultiLangText(
+        nameRu: 'Любое',
+        nameKz: 'Любое',
+        nameEn: 'Any',
       ));
 
   @override
-  String toString() {
-    return 'DictionaryMultiLangItem{id: $id, code: $code, name: $name}';
-  }
+  List<Object?> get props => [id, code, name];
 }
 
-class ObjectTypeMultiLangItem extends Equatable {
+class CondMultiLangItem extends Equatable {
   final int id;
   final String? code;
-  final MultiLangText name;
+  final String nameRu;
+  final String nameKz;
+  final String nameEn;
+  final String? operationCode;
+  final double? rating;
 
-  ObjectTypeMultiLangItem({
+  const CondMultiLangItem({
     required this.id,
     this.code,
-    required this.name,
+    required this.nameRu,
+    required this.nameEn,
+    required this.nameKz,
+    this.operationCode,
+    this.rating,
   });
 
-  factory ObjectTypeMultiLangItem.fromJson(Map<String, dynamic> json) {
-    return ObjectTypeMultiLangItem(
+  factory CondMultiLangItem.fromJson(Map<String, dynamic> json) {
+    return CondMultiLangItem(
       id: json['id'],
       code: json['code'],
-      name: MultiLangText.fromJson(json['name']),
+      operationCode: json['operationCode'],
+      rating: json['rating'],
+      nameRu: json['nameRu'],
+      nameEn: json['nameEn'],
+      nameKz: json['nameKz'],
     );
   }
 
-  @override
-  List<Object?> get props => [id, code, name];
+  static const empty = CondMultiLangItem(
+    id: 0,
+    nameRu: 'Все',
+    nameKz: 'Все',
+    nameEn: 'All',
+  );
 
   @override
-  String toString() {
-    return 'ObjectTypeMultiLangItem{id: $id, code: $code, name: $name}';
-  }
+  List<Object?> get props => [
+        id,
+        code,
+        operationCode,
+        rating,
+        nameRu,
+        nameEn,
+        nameKz,
+      ];
 }

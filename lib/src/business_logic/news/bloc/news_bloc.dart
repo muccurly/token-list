@@ -4,13 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'news_event.dart';
-
 part 'news_state.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
@@ -21,7 +20,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           NewsState(
             filter: RealPropertyFilter().copyWith(
               flagId: null,
-              objectTypeId: null,
+              // objectTypeId: null,
               showNew: true,
             ),
           ),
@@ -40,7 +39,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     if (await InternetConnectionChecker().hasConnection) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        List<RealProperty> list =
+        List<Property> list =
             await _propertyRepository.findNews(state.filter);
         yield state.copyWith(
             status: FormzStatus.submissionSuccess,
@@ -49,7 +48,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
             pagination: _propertyRepository.newsPagination,
             filter: state.filter.copyWith(
               flagId: state.filter.flagId,
-              objectTypeId: null,
+              // objectTypeId: null,
               pageNumber: _propertyRepository.newsPagination!.pageNumber,
             ));
         return;
@@ -72,10 +71,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         if (await InternetConnectionChecker().hasConnection) {
           yield state.copyWith(status: FormzStatus.submissionInProgress);
           try {
-            List<RealProperty> list =
+            List<Property> list =
                 await _propertyRepository.findNews(state.filter.copyWith(
               flagId: state.filter.flagId,
-              objectTypeId: null,
+              // objectTypeId: null,
               pageNumber: state.filter.pageNumber + 1,
             ));
             yield state.copyWith(
@@ -84,7 +83,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
               pagination: _propertyRepository.newsPagination,
               filter: state.filter.copyWith(
                 flagId: state.filter.flagId,
-                objectTypeId: null,
+                // objectTypeId: null,
                 pageNumber: _propertyRepository.newsPagination!.pageNumber,
               ),
             );

@@ -4,22 +4,22 @@ class SameAppFilter extends Equatable {
   final String direction;
   final String? districtCode;
   final int? houseRank;
-  final int numberOfRooms;
-  final int objectPrice;
-  final int objectTypeId;
+  final int? numberOfRooms;
+  final int? objectPrice;
+  final int? objectTypeId;
   final int pageNumber;
   final int pageSize;
   final String? sortBy;
-  final int sourceApplicationId;
+  final int? sourceApplicationId;
 
   const SameAppFilter({
-    required this.sourceApplicationId,
+    this.sourceApplicationId,
     this.direction = 'DESC',
     this.districtCode,
     this.houseRank,
-    required this.numberOfRooms,
-    required this.objectPrice,
-    required this.objectTypeId,
+    this.numberOfRooms,
+    this.objectPrice,
+    this.objectTypeId,
     this.pageNumber = 0,
     this.pageSize = 15,
     this.sortBy = "id",

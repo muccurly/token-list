@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
-import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
 class FlutterFlowDropDownAddress extends StatefulWidget {
@@ -29,25 +28,8 @@ class _FlutterFlowDropDownAddressState
     extends State<FlutterFlowDropDownAddress> {
   Address? dropDownValue;
 
-  List<Address> get effectiveOptions => widget.options.isEmpty
-      ? [
-          Address(
-              address: AddressObjectWithType(
-                  addressObject: AddressObject(
-                      id: -1,
-                      code: 'Option',
-                      name: MultiLangText(
-                          nameEn: 'Option', nameKz: 'Option', nameRu: 'Option'),
-                      idKazPost: 'Option'),
-                  addressType: AddressType(
-                      id: -1,
-                      name: MultiLangText(
-                          nameEn: 'Option',
-                          nameKz: 'Option',
-                          nameRu: 'Option'))),
-              total: 0)
-        ]
-      : widget.options;
+  List<Address> get effectiveOptions =>
+      widget.options.isEmpty ? [Address.empty] : widget.options;
 
   @override
   void initState() {
@@ -58,9 +40,18 @@ class _FlutterFlowDropDownAddressState
     });
   }
 
+  _text(Address item) {
+    final locale = AppLocalizations.of(context)!.localeName;
+    var t = locale == 'ru'
+        ? item.address?.addressObject.name.nameRu
+        : locale == 'kk'
+            ? item.address?.addressObject.name.nameKz
+            : item.address?.addressObject.name.nameEn;
+    return t ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!.localeName;
     final dropdownWidget = DropdownButton<Address>(
       hint: Text(
         widget.hintText,
@@ -71,11 +62,7 @@ class _FlutterFlowDropDownAddressState
           .map((e) => DropdownMenuItem(
                 value: e,
                 child: Text(
-                  locale == 'ru'
-                      ? e.address.addressObject.name.nameRu
-                      : locale == 'kk'
-                          ? e.address.addressObject.name.nameKz
-                          : e.address.addressObject.name.nameEn,
+                  _text(e),
                   style: FlutterFlowTheme.darkNormal16,
                 ),
               ))

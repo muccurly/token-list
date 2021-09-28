@@ -1,27 +1,26 @@
 import 'package:equatable/equatable.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
 
 class SellDataDTO extends Equatable {
-  final int applicationId;
+  final int appId;
+  final double objectPrice;
   final List<int>? applicationFlagIdList;
   final bool? mortgage;
   final bool? probabilityOfBidding;
   final int? theSizeOfTrades;
   final List<int>? possibleReasonForBiddingIdList;
   final String? note;
-  final double objectPrice;
   final bool? encumbrance;
   final bool? sharedOwnershipProperty;
   final bool? exchange;
   final String? description;
 
   const SellDataDTO({
-    required this.applicationId,
+    required this.appId,
     this.applicationFlagIdList,
     this.mortgage,
     this.probabilityOfBidding,
     this.theSizeOfTrades,
-    required this.possibleReasonForBiddingIdList,
+    this.possibleReasonForBiddingIdList,
     this.note,
     required this.objectPrice,
     this.encumbrance,
@@ -31,7 +30,7 @@ class SellDataDTO extends Equatable {
   });
 
   SellDataDTO copyWith({
-    int? applicationId,
+    int? appId,
     List<int>? applicationFlagIdList,
     bool? mortgage,
     bool? probabilityOfBidding,
@@ -45,7 +44,7 @@ class SellDataDTO extends Equatable {
     String? description,
   }) {
     return SellDataDTO(
-      applicationId: applicationId ?? this.applicationId,
+      appId: appId ?? this.appId,
       applicationFlagIdList:
           applicationFlagIdList ?? this.applicationFlagIdList,
       mortgage: mortgage ?? this.mortgage,
@@ -63,15 +62,29 @@ class SellDataDTO extends Equatable {
     );
   }
 
-  factory SellDataDTO.fromJson(Map<String, dynamic> json) {
+  factory SellDataDTO.fromJsonMainPageAndSearch(Map<String, dynamic> json) {
     return SellDataDTO(
-      applicationId: json['applicationId'],
-      applicationFlagIdList: json['applicationFlagIdList'] != null
-          ? List<int>.from((json['applicationFlagIdList'] as List))
-          : null,
-      possibleReasonForBiddingIdList: json['possibleReasonForBiddingIdList']!= null
-          ? List<int>.from((json['possibleReasonForBiddingIdList'] as List))
-          : null,
+      appId: json['applicationId'],
+      objectPrice: (json['objectPrice'] as int).toDouble(),
+    );
+  }
+
+  factory SellDataDTO.fromJsonSameApp(Map<String, dynamic> json) {
+    return SellDataDTO(
+      appId: json['id'],
+      objectPrice: json['price'],
+    );
+  }
+
+  factory SellDataDTO.fromJsonClientView(Map<String, dynamic> json) {
+    var bidding = json['possibleReasonForBiddingIdList'];
+    var flags = json['applicationFlagIdList'];
+    return SellDataDTO(
+      appId: json['applicationId'],
+      applicationFlagIdList:
+          flags != null ? List<int>.from((flags as List)) : null,
+      possibleReasonForBiddingIdList:
+          bidding != null ? List<int>.from((bidding as List)) : null,
       objectPrice: json['objectPrice'],
       mortgage: json['mortgage'],
       probabilityOfBidding: json['probabilityOfBidding'],
@@ -84,32 +97,9 @@ class SellDataDTO extends Equatable {
     );
   }
 
-  factory SellDataDTO.fromRealProperty(RealProperty p) {
-    return SellDataDTO(
-      applicationId: p.applicationId,
-      applicationFlagIdList: <int>[],
-      possibleReasonForBiddingIdList: <int>[],
-      objectPrice: p.objectPrice.toDouble(),
-      mortgage: null,
-      probabilityOfBidding: null,
-      theSizeOfTrades: null,
-      note: null,
-      encumbrance: null,
-      exchange: null,
-      description: null,
-      sharedOwnershipProperty: null,
-    );
-  }
-
-
-  @override
-  String toString() {
-    return 'SellDataDTO{applicationId: $applicationId, applicationFlagIdList: $applicationFlagIdList, mortgage: $mortgage, probabilityOfBidding: $probabilityOfBidding, theSizeOfTrades: $theSizeOfTrades, possibleReasonForBiddingIdList: $possibleReasonForBiddingIdList, note: $note, objectPrice: $objectPrice, encumbrance: $encumbrance, sharedOwnershipProperty: $sharedOwnershipProperty, exchange: $exchange, description: $description}';
-  }
-
   @override
   List<Object?> get props => [
-        applicationId,
+        appId,
         applicationFlagIdList,
         mortgage,
         probabilityOfBidding,

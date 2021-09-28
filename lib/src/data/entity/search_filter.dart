@@ -1,8 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/residential_complex.dart';
 
 class SearchFilter extends Equatable {
-  final int? objectTypeId;
+  // final int? objectTypeId;
+  final DictionaryMultiLangItem? objectType;
   final Range? areaRange;
   final Range? priceRange;
   final String? addressCode;
@@ -12,17 +15,23 @@ class SearchFilter extends Equatable {
   final bool? exchange;
   final bool? probabilityOfBidding;
   final int? houseClassId;
-  final int? housingConditionId;
+
+  // final int? housingConditionId;
+  final DictionaryMultiLangItem? housingCondition;
   final bool moreThanFiveRooms;
   final List<int> numberOfRooms;
   final int pageNumber;
   final int pageSize;
-  final int? residentialComplexId;
+
+  // final int? residentialComplexId;
+  final ResidentialComplex? complex;
   final String sortBy;
   final Range? yearOfConstruction;
 
   const SearchFilter({
-    this.objectTypeId,
+    // this.objectTypeId,
+    this.objectType,
+    this.housingCondition,
     this.areaRange,
     this.priceRange,
     this.addressCode,
@@ -32,78 +41,80 @@ class SearchFilter extends Equatable {
     this.exchange,
     this.probabilityOfBidding,
     this.houseClassId,
-    this.housingConditionId,
+    // this.housingConditionId,
     this.moreThanFiveRooms = false,
     this.numberOfRooms = const <int>[],
     this.pageNumber = 0,
     this.pageSize = 20,
-    this.residentialComplexId,
+    this.complex,
     this.sortBy = 'id',
     this.yearOfConstruction,
   });
 
   SearchFilter copyWith({
-    int? objectTypeId,
+    // int? objectTypeId,
+    DictionaryMultiLangItem? objectType,
+    DictionaryMultiLangItem? housingCondition,
     Range? areaRange,
     Range? priceRange,
-    String? addressCode,
-    bool? atelier,
+    required String? addressCode,
+    required bool? atelier,
     String? direction,
-    bool? encumbrance,
-    bool? exchange,
-    bool? probabilityOfBidding,
+    required bool? encumbrance,
+    required bool? exchange,
+    required bool? probabilityOfBidding,
     int? houseClassId,
-    int? housingConditionId,
+    // int? housingConditionId,
     bool? moreThanFiveRooms,
     List<int>? numberOfRooms,
     int? pageNumber,
     int? pageSize,
-    int? residentialComplexId,
+    ResidentialComplex? complex,
     String? sortBy,
     Range? yearOfConstruction,
   }) {
     return SearchFilter(
-      objectTypeId: objectTypeId ?? this.objectTypeId,
+      // objectTypeId: objectTypeId ?? this.objectTypeId,
+      objectType: objectType ?? this.objectType,
+      housingCondition: housingCondition ?? this.housingCondition,
       areaRange: areaRange ?? this.areaRange,
       priceRange: priceRange ?? this.priceRange,
-      addressCode: addressCode ?? this.addressCode,
+      addressCode: addressCode,
       atelier: atelier,
       direction: direction ?? this.direction,
       encumbrance: encumbrance,
       exchange: exchange,
       probabilityOfBidding: probabilityOfBidding,
       houseClassId: houseClassId ?? this.houseClassId,
-      housingConditionId: housingConditionId ?? this.housingConditionId,
+      // housingConditionId: housingConditionId ?? this.housingConditionId,
       moreThanFiveRooms: moreThanFiveRooms ?? this.moreThanFiveRooms,
       numberOfRooms: numberOfRooms ?? this.numberOfRooms,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
-      residentialComplexId: residentialComplexId ?? this.residentialComplexId,
+      complex: complex ?? this.complex,
       sortBy: sortBy ?? this.sortBy,
       yearOfConstruction: yearOfConstruction ?? this.yearOfConstruction,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "addressCode": this.addressCode == null
-            ? null
-            : this.addressCode!.isNotEmpty
-                ? this.addressCode
-                : null,
+        "addressCode": this.addressCode,
         "atelier": this.atelier,
         "direction": this.direction,
         "encumbrance": this.encumbrance,
         "exchange": this.exchange,
         "probabilityOfBidding": this.probabilityOfBidding,
         "houseClassId": this.houseClassId,
-        "housingConditionId": this.housingConditionId,
+        "housingConditionId":
+            this.housingCondition?.id == 0 ? null : this.housingCondition?.id,
         "moreThanFiveRooms": this.moreThanFiveRooms,
         "numberOfRooms": this.numberOfRooms,
-        "objectTypeId": this.objectTypeId != 0 ? this.objectTypeId : null,
+        // "objectTypeId": this.objectTypeId != 0 ? this.objectTypeId : null,
+        "objectTypeId": this.objectType?.id != 0 ? this.objectType?.id : null,
         "pageNumber": this.pageNumber,
         "pageSize": this.pageSize,
         "priceRange": this.priceRange?.toJson(),
-        "residentialComplexId": this.residentialComplexId,
+        "residentialComplexId": this.complex?.id == 0 ? null : this.complex?.id,
         "sortBy": this.sortBy,
         "areaRange": this.areaRange?.toJson(),
         "yearOfConstruction": this.yearOfConstruction?.toJson()
@@ -111,12 +122,14 @@ class SearchFilter extends Equatable {
 
   @override
   String toString() {
-    return 'SearchFilter{objectTypeId: $objectTypeId, areaRange: $areaRange, priceRange: $priceRange, addressCode: $addressCode, atelier: $atelier, direction: $direction, encumbrance: $encumbrance, exchange: $exchange, probabilityOfBidding: $probabilityOfBidding, houseClassId: $houseClassId, housingConditionId: $housingConditionId, moreThanFiveRooms: $moreThanFiveRooms, numberOfRooms: $numberOfRooms, pageNumber: $pageNumber, pageSize: $pageSize, residentialComplexId: $residentialComplexId, sortBy: $sortBy, yearOfConstruction: $yearOfConstruction}';
+    return 'SearchFilter{objectTypeId: ${objectType?.id}, areaRange: $areaRange, priceRange: $priceRange, addressCode: $addressCode, atelier: $atelier, direction: $direction, encumbrance: $encumbrance, exchange: $exchange, probabilityOfBidding: $probabilityOfBidding, houseClassId: $houseClassId, housingConditionId: ${housingCondition?.id}, moreThanFiveRooms: $moreThanFiveRooms, numberOfRooms: $numberOfRooms, pageNumber: $pageNumber, pageSize: $pageSize, residentialComplexId: ${complex?.id}, sortBy: $sortBy, yearOfConstruction: $yearOfConstruction}';
   }
 
   @override
   List<Object?> get props => [
-        objectTypeId,
+        // objectTypeId,
+        objectType,
+        housingCondition,
         areaRange,
         priceRange,
         addressCode,
@@ -126,12 +139,12 @@ class SearchFilter extends Equatable {
         exchange,
         probabilityOfBidding,
         houseClassId,
-        housingConditionId,
+        // housingConditionId,
         moreThanFiveRooms,
         numberOfRooms,
         pageNumber,
         pageSize,
-        residentialComplexId,
+        complex,
         sortBy,
         yearOfConstruction,
       ];

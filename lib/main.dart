@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:jurta_app/src/app.dart';
 import 'package:jurta_app/src/data/remote/address_remote_data_source_impl.dart';
 import 'package:jurta_app/src/data/remote/dictionary_remote_data_source_impl.dart';
+import 'package:jurta_app/src/data/remote/ohter_structures_remote_data_source_impl.dart';
 import 'package:jurta_app/src/data/remote/property_remote_data_source_impl.dart';
 import 'package:jurta_app/src/data/remote/settings_remote_data_source_impl.dart';
 import 'package:jurta_app/src/data/repository/address_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/dictionary_repository_impl.dart';
+import 'package:jurta_app/src/data/repository/other_structures_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/property_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/settings_repository_impl.dart';
 
@@ -24,6 +26,9 @@ void main() async {
   final addressRemoteDataSource = AddressRemoteDataSourceImpl();
   final addressRepository = AddressRepositoryImpl(addressRemoteDataSource);
 
+  final otherRemote = OtherStructuresRemoteDataSourceImpl();
+  final otherRepository = OtherStructuresRepositoryImpl(otherRemote);
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) => runApp(
@@ -32,6 +37,7 @@ void main() async {
         dictionaryRepository: dictionaryRepository,
         settingsRepository: settingsRepository,
         addressRepository: addressRepository,
+        otherRepository: otherRepository,
       ),
     ),
   );

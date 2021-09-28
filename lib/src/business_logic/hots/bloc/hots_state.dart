@@ -1,14 +1,14 @@
 part of 'hots_bloc.dart';
 
 class HotsState extends Equatable {
-  final List<RealProperty> properties;
+  final List<Property> properties;
   final RealPropertyFilter filter;
   final FormzStatus status;
-  final Pagination<RealProperty>? pagination;
+  final Pagination<Property>? pagination;
   final bool firstLoad;
 
   const HotsState({
-    this.properties = const <RealProperty>[],
+    this.properties = const <Property>[],
     required this.filter,
     this.status = FormzStatus.pure,
     this.pagination,
@@ -16,10 +16,10 @@ class HotsState extends Equatable {
   });
 
   HotsState copyWith({
-    List<RealProperty>? properties,
+    List<Property>? properties,
     RealPropertyFilter? filter,
     FormzStatus? status,
-    Pagination<RealProperty>? pagination,
+    Pagination<Property>? pagination,
     bool? firstLoad,
   }) {
     return HotsState(

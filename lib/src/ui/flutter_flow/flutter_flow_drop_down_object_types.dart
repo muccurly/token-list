@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
-import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 
 class FlutterFlowDropDownObjectTypes extends StatefulWidget {
@@ -26,13 +25,7 @@ class _FlutterFlowDropDownObjectTypesState
   DictionaryMultiLangItem? dropDownValue;
 
   List<DictionaryMultiLangItem> get effectiveOptions => widget.options.isEmpty
-      ? [
-          DictionaryMultiLangItem(
-              code: 'code',
-              id: 0,
-              name: MultiLangText(
-                  nameEn: 'Option', nameRu: 'Option', nameKz: 'Option'))
-        ]
+      ? [DictionaryMultiLangItem.empty]
       : widget.options;
 
   @override

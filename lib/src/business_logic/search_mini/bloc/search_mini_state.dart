@@ -6,7 +6,7 @@ class SearchMiniState extends Equatable {
   final FormzStatus updateStatus;
   final List<DictionaryMultiLangItem> objectTypes;
   final SearchFilter filter;
-  final List<RealProperty> properties;
+  final List<Property> properties;
 
   SearchMiniState({
     this.searchStatus = FormzStatus.pure,
@@ -14,7 +14,7 @@ class SearchMiniState extends Equatable {
     this.updateStatus = FormzStatus.pure,
     this.objectTypes = const <DictionaryMultiLangItem>[],
     this.filter = const SearchFilter(),
-    this.properties = const <RealProperty>[],
+    this.properties = const <Property>[],
   });
 
   SearchMiniState copyWith({
@@ -23,7 +23,7 @@ class SearchMiniState extends Equatable {
     FormzStatus? updateStatus,
     List<DictionaryMultiLangItem>? objectTypes,
     SearchFilter? filter,
-    List<RealProperty>? properties,
+    List<Property>? properties,
   }) {
     return SearchMiniState(
       searchStatus: searchStatus ?? this.searchStatus,

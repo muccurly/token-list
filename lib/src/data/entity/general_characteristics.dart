@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
 
 class GeneralCharacteristics extends Equatable {
   final int? materialOfConstructionId;
@@ -10,18 +9,18 @@ class GeneralCharacteristics extends Equatable {
   final bool? playground;
   final List<int>? typeOfElevatorList;
   final List<int>? parkingTypeIds;
-  final List<InfoType>? parkingTypeList;
+  final List<InfoTypeXpm>? parkingTypeList;
   final int? propertyDeveloperId;
-  final String? housingClass;
+  final CondMultiLangItem? housingClass;
   final int? houseClassId;
   final int? yearOfConstruction;
   final int? numberOfFloors;
   final int? numberOfApartments;
   final int? apartmentsOnTheSite;
   final double? ceilingHeight;
-  final DictionaryMultiLangItem? houseCondition;
-  final InfoType? materialOfConstruction;
-  final InfoType? yardType;
+  final CondMultiLangItem? houseCondition;
+  final InfoTypeXpm? materialOfConstruction;
+  final InfoTypeXpm? yardType;
 
   const GeneralCharacteristics({
     this.materialOfConstructionId,
@@ -53,22 +52,22 @@ class GeneralCharacteristics extends Equatable {
     bool? playground,
     List<int>? typeOfElevatorList,
     List<int>? parkingTypeIds,
-    List<InfoType>? parkingTypeList,
+    List<InfoTypeXpm>? parkingTypeList,
     int? propertyDeveloperId,
-    String? housingClass,
+    CondMultiLangItem? housingClass,
     int? houseClassId,
     int? yearOfConstruction,
     int? numberOfFloors,
     int? numberOfApartments,
     int? apartmentsOnTheSite,
     double? ceilingHeight,
-    DictionaryMultiLangItem? houseCondition,
-    InfoType? materialOfConstruction,
-    InfoType? yardType,
+    CondMultiLangItem? houseCondition,
+    InfoTypeXpm? materialOfConstruction,
+    InfoTypeXpm? yardType,
   }) {
     return GeneralCharacteristics(
       materialOfConstructionId:
-      materialOfConstructionId ?? this.materialOfConstructionId,
+          materialOfConstructionId ?? this.materialOfConstructionId,
       concierge: concierge ?? this.concierge,
       wheelchair: wheelchair ?? this.wheelchair,
       yardTypeId: yardTypeId ?? this.yardTypeId,
@@ -86,30 +85,31 @@ class GeneralCharacteristics extends Equatable {
       ceilingHeight: ceilingHeight ?? this.ceilingHeight,
       houseCondition: houseCondition ?? this.houseCondition,
       materialOfConstruction:
-      materialOfConstruction ?? this.materialOfConstruction,
+          materialOfConstruction ?? this.materialOfConstruction,
       yardType: yardType ?? this.yardType,
     );
   }
 
   factory GeneralCharacteristics.fromJson(Map<String, dynamic> json) {
+    var e = json['typeOfElevatorList'];
+    var p = json['parkingTypeIds'];
+    var pp = json['parkingTypeList'];
     return GeneralCharacteristics(
       materialOfConstructionId: json['materialOfConstructionId'],
       concierge: json['concierge'],
       wheelchair: json['wheelchair'],
       yardTypeId: json['yardTypeId'],
       playground: json['playground'],
-      typeOfElevatorList: json['typeOfElevatorList']!=null
-          ? List<int>.from((json['typeOfElevatorList'] as List))
-          : null,
-      parkingTypeIds: json['parkingTypeIds']!=null
-          ? List<int>.from((json['parkingTypeIds'] as List))
-          : null,
-      parkingTypeList: json['parkingTypeList'] != null
-          ? List<InfoType>.from((json['parkingTypeList'] as List)
-          .map((e) => InfoType.fromJson(e)))
+      typeOfElevatorList: e != null ? List<int>.from((e as List)) : null,
+      parkingTypeIds: p != null ? List<int>.from((p as List)) : null,
+      parkingTypeList: pp != null
+          ? List<InfoTypeXpm>.from(
+              (pp as List).map((it) => InfoTypeXpm.fromJson(it)))
           : null,
       propertyDeveloperId: json['propertyDeveloperId'],
-      housingClass: json['housingClass'],
+      housingClass: json['housingClass'] != null
+          ? CondMultiLangItem.fromJson(json['housingClass'])
+          : null,
       houseClassId: json['houseClassId'],
       yearOfConstruction: json['yearOfConstruction'],
       numberOfFloors: json['numberOfFloors'],
@@ -117,49 +117,19 @@ class GeneralCharacteristics extends Equatable {
       apartmentsOnTheSite: json['apartmentsOnTheSite'],
       ceilingHeight: json['ceilingHeight'],
       houseCondition: json['houseCondition'] != null
-          ? DictionaryMultiLangItem.fromJson(json['houseCondition'])
+          ? CondMultiLangItem.fromJson(json['houseCondition'])
           : null,
       materialOfConstruction: json['materialOfConstruction'] != null
-          ? InfoType.fromJson(json['materialOfConstruction'])
+          ? InfoTypeXpm.fromJson(json['materialOfConstruction'])
           : null,
-      yardType:
-      json['yardType'] != null ? InfoType.fromJson(json['yardType']) : null,
+      yardType: json['yardType'] != null
+          ? InfoTypeXpm.fromJson(json['yardType'])
+          : null,
     );
   }
 
-  factory GeneralCharacteristics.fromRealProperty(RealProperty p) {
-    return GeneralCharacteristics(
-      materialOfConstructionId: null,
-      concierge: null,
-      wheelchair: null,
-      yardTypeId: null,
-      playground: null,
-      typeOfElevatorList: null,
-      parkingTypeIds: null,
-      parkingTypeList: null,
-      propertyDeveloperId: null,
-      housingClass: null,
-      houseClassId: p.houseClassId,
-      yearOfConstruction: null,
-      numberOfFloors: null,
-      numberOfApartments: null,
-      apartmentsOnTheSite: null,
-      ceilingHeight: null,
-      houseCondition: null,
-      materialOfConstruction: null,
-      yardType: null,
-    );
-  }
-
-
   @override
-  String toString() {
-    return 'GeneralCharacteristics{materialOfConstructionId: $materialOfConstructionId, concierge: $concierge, wheelchair: $wheelchair, yardTypeId: $yardTypeId, playground: $playground, typeOfElevatorList: $typeOfElevatorList, parkingTypeIds: $parkingTypeIds, parkingTypeList: $parkingTypeList, propertyDeveloperId: $propertyDeveloperId, housingClass: $housingClass, houseClassId: $houseClassId, yearOfConstruction: $yearOfConstruction, numberOfFloors: $numberOfFloors, numberOfApartments: $numberOfApartments, apartmentsOnTheSite: $apartmentsOnTheSite, ceilingHeight: $ceilingHeight, houseCondition: $houseCondition, materialOfConstruction: $materialOfConstruction, yardType: $yardType}';
-  }
-
-  @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         materialOfConstructionId,
         concierge,
         wheelchair,
@@ -182,7 +152,7 @@ class GeneralCharacteristics extends Equatable {
       ];
 }
 
-class InfoType extends Equatable {
+class InfoTypeXpm extends Equatable {
   final int id;
   final String nameKz;
   final String nameEn;
@@ -191,7 +161,7 @@ class InfoType extends Equatable {
   final String? operationCode;
   final double? rating;
 
-  const InfoType({
+  const InfoTypeXpm({
     required this.id,
     required this.nameKz,
     required this.nameEn,
@@ -201,7 +171,7 @@ class InfoType extends Equatable {
     this.rating,
   });
 
-  InfoType copyWith({
+  InfoTypeXpm copyWith({
     int? id,
     String? nameKz,
     String? nameEn,
@@ -210,7 +180,7 @@ class InfoType extends Equatable {
     String? operationCode,
     double? rating,
   }) {
-    return InfoType(
+    return InfoTypeXpm(
       id: id ?? this.id,
       nameKz: nameKz ?? this.nameKz,
       nameEn: nameEn ?? this.nameEn,
@@ -221,8 +191,8 @@ class InfoType extends Equatable {
     );
   }
 
-  factory InfoType.fromJson(Map<String, dynamic> json) {
-    return InfoType(
+  factory InfoTypeXpm.fromJson(Map<String, dynamic> json) {
+    return InfoTypeXpm(
       id: json['id'],
       nameKz: json['nameKz'],
       nameEn: json['nameEn'],
@@ -234,8 +204,7 @@ class InfoType extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         id,
         nameKz,
         nameEn,

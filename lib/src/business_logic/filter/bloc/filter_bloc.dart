@@ -5,14 +5,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'filter_event.dart';
-
 part 'filter_state.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
@@ -34,14 +33,16 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       yield state.copyWith(
         filter: state.filter.copyWith(
             flagId: event.value == true ? 3 : null,
-            objectTypeId: state.filter.objectTypeId),
+            // objectTypeId: state.filter.objectTypeId
+        ),
       );
     else if (event is NewPressed)
       yield state.copyWith(
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
             showNew: event.value,
-            objectTypeId: state.filter.objectTypeId),
+            // objectTypeId: state.filter.objectTypeId
+        ),
       );
     else if (event is RoomsPressed)
       yield _mapRoomsPressedToState(event);
@@ -50,25 +51,28 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
             moreThanFiveRooms: !state.filter.moreThanFiveRooms,
-            objectTypeId: state.filter.objectTypeId),
+            // objectTypeId: state.filter.objectTypeId
+        ),
       );
-    else if (event is PriceRangeChanged)
+    else if (event is PriceRangeChanged) {
+      print('${event.from} | ${event.to}');
       yield state.copyWith(
           filter: state.filter.copyWith(
               flagId: state.filter.flagId,
-              objectTypeId: state.filter.objectTypeId,
+              // objectTypeId: state.filter.objectTypeId,
               priceRange: Range(from: event.from, to: event.to)));
-    else if (event is AreaRangeChanged)
+    } else if (event is AreaRangeChanged)
       yield state.copyWith(
           filter: state.filter.copyWith(
               flagId: state.filter.flagId,
-              objectTypeId: state.filter.objectTypeId,
+              // objectTypeId: state.filter.objectTypeId,
               areaRange: Range(from: event.from, to: event.to)));
-    else if (event is ObjectTypeChose) {
+    else if (event is ObjectTypeChose)
       yield state.copyWith(
           filter: state.filter.copyWith(
-              flagId: state.filter.flagId, objectTypeId: event.item.id));
-    }
+              flagId: state.filter.flagId,
+              objectType: event.item
+          ));
   }
 
   Stream<FilterState> _mapLoadObjectTypesEventToState() async* {
@@ -106,6 +110,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         filter: state.filter.copyWith(
             flagId: state.filter.flagId,
             numberOfRooms: list,
-            objectTypeId: state.filter.objectTypeId));
+            // objectTypeId: state.filter.objectTypeId
+        ));
   }
 }

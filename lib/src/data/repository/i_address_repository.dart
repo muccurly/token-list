@@ -1,5 +1,5 @@
-import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
+import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/residential_complex.dart';
 
 abstract class IAddressRepository{

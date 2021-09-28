@@ -11,16 +11,6 @@ class LoadProperties extends HomeEvent {
   const LoadProperties();
 }
 
-class PropertiesLoaded extends HomeEvent {
-  final ApiResponse<RealProperty>? apiResponse;
-  final List<RealProperty>? items;
-
-  const PropertiesLoaded(this.apiResponse, this.items);
-
-  @override
-  List<Object?> get props => [apiResponse, items];
-}
-
 class LoadMoreProperties extends HomeEvent {
   const LoadMoreProperties();
 }
@@ -36,12 +26,3 @@ class FilterChanged extends HomeEvent {
 }
 
 class CallPressed extends HomeEvent {}
-
-class ObjectTypesLoaded extends HomeEvent {
-  final List<DictionaryMultiLangItem> objectTypes;
-
-  const ObjectTypesLoaded(this.objectTypes);
-
-  @override
-  List<Object?> get props => [objectTypes];
-}

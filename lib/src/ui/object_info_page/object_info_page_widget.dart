@@ -4,7 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/business_logic/details/details.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
+import 'package:jurta_app/src/data/repository/i_other_structures_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/ui/components/images_box_widget.dart';
@@ -21,7 +22,7 @@ class ObjectInfoPageWidget extends StatelessWidget {
     required this.property,
   }) : super(key: key);
 
-  final RealProperty property;
+  final Property property;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,9 @@ class ObjectInfoPageWidget extends StatelessWidget {
         property: property,
         settingsRepository: RepositoryProvider.of<ISettingsRepository>(context),
         propertyRepository: RepositoryProvider.of<IPropertyRepository>(context),
-      )..add(DetailsLoad(property.applicationId)),
+        otherStructuresRepository:
+            RepositoryProvider.of<IOtherStructuresRepository>(context),
+      )..add(DetailsLoad(property.sellDataDTOXpm.appId)),
       child: ObjectInfoPage(),
     );
   }
@@ -48,6 +51,9 @@ class _ObjectInfoPageState extends State<ObjectInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _size = MediaQuery.of(context).size;
+    final _pad = MediaQuery.of(context).padding;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
@@ -73,109 +79,130 @@ class _ObjectInfoPageState extends State<ObjectInfoPage> {
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.tertiaryColor,
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            BlocBuilder<DetailsBloc, DetailsState>(
-                buildWhen: (p, c) =>
-                    p.apv.realPropertyDTO.photoIdList !=
-                    c.apv.realPropertyDTO.photoIdList,
-                builder: (context, state) {
-                  return ImagesBoxWidget(
-                    list: state.apv.realPropertyDTO.photoIdList ?? [],
-                    id: state.apv.realPropertyDTO.id,
-                  );
-                }),
-            BlocBuilder<DetailsBloc, DetailsState>(builder: (context, state) {
-              return MainObjectBoxWidget(apv: state.apv);
-            }),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 12, 0, 0),
-              child: Text(
-                'ПОХОЖИЕ ОБЪЕКТЫ',
-                style: GoogleFonts.getFont(
-                  'Roboto',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-              child: BlocBuilder<DetailsBloc, DetailsState>(
-                  buildWhen: (p, c) => p.sameLoadStatus != c.sameLoadStatus,
-                  builder: (context, state) {
-                    if (state.sameLoadStatus.isSubmissionInProgress &&
-                        state.sameProps.isEmpty)
-                      return Container(
-                          width: 170,
-                          height: 310,
-                        child: Row(children: [
-                          placeholders.gridItemShimmer,
-                          placeholders.gridItemShimmer,
-                        ]),
-                      );
-                    return Container(
-                      width: 170,
-                      height: 310,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.sameLoadStatus.isSubmissionInProgress
-                            ? state.sameProps.length+1
-                            : state.sameProps.length,
-                        itemBuilder: (context, index){
-                          if(index == state.sameProps.length
-                          && state.sameLoadStatus.isSubmissionInProgress)
-                            return placeholders.gridItemShimmer;
-                          if(index == state.sameProps.length-4)
-                            context.read<DetailsBloc>().add(DetailsLoadSameMore());
-                          return InkWell(
-                              onTap: () async {
-                            await Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 300),
-                                reverseDuration: Duration(milliseconds: 300),
-                                child: ObjectInfoPageWidget(property: RealProperty.fromSameProperty(state.sameProps[index]),),
-                              ),
-                            );
-                          },
-                          child:
-                          SmallInfoBoxWidget(property: RealProperty.fromSameProperty(state.sameProps[index])),);
-                          },
-                      ),
-                    );
+        child: BlocBuilder<DetailsBloc, DetailsState>(
+            buildWhen: (p, c) => p.property != c.property,
+            builder: (context, state) {
+              if (state.property == null)
+                return Container(
+                  height: _size.height - 50 - _pad.top,
+                  width: _size.width,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              return Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  BlocBuilder<DetailsBloc, DetailsState>(
+                      buildWhen: (p, c) => p.property != c.property,
+                      builder: (context, state) {
+                        return ImagesBoxWidget(
+                          list: state.property?.photoIdList ?? [],
+                        );
+                      }),
+                  BlocBuilder<DetailsBloc, DetailsState>(
+                      builder: (context, state) {
+                    return MainObjectBoxWidget(property: state.property!);
+                    // return Container(child: Center(child: CircularProgressIndicator(),),);
                   }),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     mainAxisSize: MainAxisSize.max,
-              //     children: [
-              //       Padding(
-              //         padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              //         child: InkWell(
-              //           onTap: () async {
-              //             await Navigator.push(
-              //               context,
-              //               PageTransition(
-              //                 type: PageTransitionType.fade,
-              //                 duration: Duration(milliseconds: 300),
-              //                 reverseDuration: Duration(milliseconds: 300),
-              //                 child: ObjectInfoPageWidgetSample(),
-              //               ),
-              //             );
-              //           },
-              //           child: SmallInfoBoxWidgetSample(),
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-            )
-          ],
-        ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 12, 0, 0),
+                    child: Text(
+                      'ПОХОЖИЕ ОБЪЕКТЫ',
+                      style: FlutterFlowTheme.subtitle2TextDark.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                    child: BlocBuilder<DetailsBloc, DetailsState>(
+                        buildWhen: (p, c) =>
+                            p.sameLoadStatus != c.sameLoadStatus,
+                        builder: (context, state) {
+                          if (state.sameLoadStatus.isSubmissionInProgress &&
+                              state.sameProps.isEmpty)
+                            return Container(
+                              width: 170,
+                              height: 310,
+                              child: Row(children: [
+                                placeholders.gridItemShimmer,
+                                placeholders.gridItemShimmer,
+                              ]),
+                            );
+                          if (state.sameProps.isEmpty)
+                            return Container(
+                                width: _size.width,
+                                height: 150,
+                                child: Center(
+                                  child: Text('Похожих объектов не найдено'),
+                                ));
+                          return Container(
+                            width: 170,
+                            height: 325,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  state.sameLoadStatus.isSubmissionInProgress
+                                      ? state.sameProps.length + 1
+                                      : state.sameProps.length,
+                              itemBuilder: (context, index) {
+                                if (index == state.sameProps.length &&
+                                    state.sameLoadStatus.isSubmissionInProgress)
+                                  return placeholders.gridItemShimmer;
+                                if (index == state.sameProps.length - 4)
+                                  context
+                                      .read<DetailsBloc>()
+                                      .add(DetailsLoadSameMore());
+                                return InkWell(
+                                    onTap: () async {
+                                      await Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 300),
+                                          reverseDuration:
+                                              Duration(milliseconds: 300),
+                                          child: ObjectInfoPageWidget(
+                                              property: state.sameProps[index]),
+                                        ),
+                                      );
+                                    },
+                                    child: SmallInfoBoxWidget(
+                                        property: state.sameProps[index]));
+                              },
+                            ),
+                          );
+                        }),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     mainAxisSize: MainAxisSize.max,
+                    //     children: [
+                    //       Padding(
+                    //         padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    //         child: InkWell(
+                    //           onTap: () async {
+                    //             await Navigator.push(
+                    //               context,
+                    //               PageTransition(
+                    //                 type: PageTransitionType.fade,
+                    //                 duration: Duration(milliseconds: 300),
+                    //                 reverseDuration: Duration(milliseconds: 300),
+                    //                 child: ObjectInfoPageWidgetSample(),
+                    //               ),
+                    //             );
+                    //           },
+                    //           child: SmallInfoBoxWidgetSample(),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                  )
+                ],
+              );
+            }),
       ),
     );
   }

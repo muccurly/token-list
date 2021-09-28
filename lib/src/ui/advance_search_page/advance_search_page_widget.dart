@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -5,15 +7,13 @@ import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
 import 'package:jurta_app/src/data/entity/search_filter.dart';
-import 'package:jurta_app/src/ui/advance_search_page/drop_down.dart';
-import 'package:jurta_app/src/ui/advance_search_page/drop_down_complex.dart';
+import 'package:jurta_app/src/data/entity/address.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/residential_complex.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
-import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_drop_down_object_types.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_util.dart';
 import 'package:jurta_app/src/ui/search_result_page/search_result_page_widget.dart';
-import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
-import 'package:jurta_app/src/utils/my_logger.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -29,18 +29,21 @@ class AdvanceSearchPageWidget extends StatefulWidget {
 
 class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   // String? dropDownValue1;
-  TextEditingController priceFromController = TextEditingController();
-  TextEditingController priceToController = TextEditingController();
-  TextEditingController areaFromController = TextEditingController();
-  TextEditingController areaToController = TextEditingController();
-  TextEditingController yearFromController = TextEditingController();
-  TextEditingController yearToController = TextEditingController();
-
-  // TextEditingController textController7 = TextEditingController();
-  // String? dropDownValue2;
-  // TextEditingController textController8 = TextEditingController();
-  // TextEditingController textController9 = TextEditingController();
+  final TextEditingController _priceFromController = TextEditingController();
+  final TextEditingController _priceToController = TextEditingController();
+  final TextEditingController _areaFromController = TextEditingController();
+  final TextEditingController _areaToController = TextEditingController();
+  final TextEditingController _yearFromController = TextEditingController();
+  final TextEditingController _yearToController = TextEditingController();
+  final TextEditingController _complexController = TextEditingController();
+  final TextEditingController _streetController = new TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  DictionaryMultiLangItem? dropDownValue;
+  DictionaryMultiLangItem? condDrop;
+  Address? cityDrop;
+  Address? distDrop;
+  Address? streetDrop;
+  ResidentialComplex? complexDrop;
 
   static const _PRICE = 'price';
   static const _AREA = 'area';
@@ -53,27 +56,53 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   }
 
   _setFields() {
+    SearchState state = BlocProvider.of<SearchBloc>(context).state;
     SearchFilter filter = BlocProvider.of<SearchBloc>(context).state.filter;
     if (filter.priceRange != null) {
       if (filter.priceRange!.from != null)
-        priceFromController.text = filter.priceRange!.from.toString();
+        _priceFromController.text = filter.priceRange!.from.toString();
       if (filter.priceRange!.to != null)
-        priceToController.text = filter.priceRange!.to.toString();
+        _priceToController.text = filter.priceRange!.to.toString();
     }
     if (filter.areaRange != null) {
       if (filter.areaRange!.from != null)
-        areaFromController.text = filter.areaRange!.from.toString();
+        _areaFromController.text = filter.areaRange!.from.toString();
       if (filter.areaRange!.to != null)
-        areaToController.text = filter.areaRange!.to.toString();
+        _areaToController.text = filter.areaRange!.to.toString();
     }
+    if (filter.objectType != null)
+      dropDownValue = filter.objectType;
+    else
+      dropDownValue = DictionaryMultiLangItem.empty;
+    if (state.city != null) cityDrop = state.city!;
+    if (state.district != null)
+      distDrop = state.district!;
+    else
+      distDrop = Address.empty;
+    if (state.street != null)
+      streetDrop = state.street!;
+    else
+      streetDrop = Address.empty;
+    if (state.complex != null)
+      complexDrop = state.complex!;
+    else
+      complexDrop = ResidentialComplex.empty;
+    if (state.filter.housingCondition != null)
+      condDrop = state.filter.housingCondition;
+    else
+      condDrop = DictionaryMultiLangItem.emptyE;
   }
 
   @override
   void dispose() {
-    priceFromController.dispose();
-    priceToController.dispose();
-    areaFromController.dispose();
-    areaToController.dispose();
+    _priceFromController.dispose();
+    _priceToController.dispose();
+    _areaFromController.dispose();
+    _areaToController.dispose();
+    _yearFromController.dispose();
+    _yearToController.dispose();
+    _streetController.dispose();
+    _complexController.dispose();
     super.dispose();
   }
 
@@ -84,50 +113,19 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
     required bool priceFrom,
     required String type,
   }) {
-    int from = 0, to = 0;
-    if (value.isNotEmpty)
-      priceFrom
-          ? from = int.parse(value.replaceAll(' ', ''))
-          : to = int.parse(value.replaceAll(' ', ''));
-    if (priceFrom) {
-      if (toC.text.isNotEmpty) to = int.parse(toC.text.replaceAll(' ', ''));
-      if (to < from)
-        toC.text = NumericTextFormatter()
-            .formatEditUpdate(const TextEditingValue(),
-                TextEditingValue(text: from.toString()))
-            .text;
-    } else {
-      if (fromC.text.isNotEmpty)
-        from = int.parse(fromC.text.replaceAll(' ', ''));
-      if (to < from) {
-        if (to == 0)
-          fromC.clear();
-        else
-          fromC.text = NumericTextFormatter()
-              .formatEditUpdate(const TextEditingValue(),
-                  TextEditingValue(text: to.toString()))
-              .text;
-      }
-    }
     int? f, t;
-    if (fromC.text.isNotEmpty) f = int.parse(fromC.text.replaceAll(' ', ''));
-    if (toC.text.isNotEmpty) t = int.parse(toC.text.replaceAll(' ', ''));
+    if (fromC.text.isNotEmpty) f = int.parse(fromC.text.noWhiteSpaces());
+    if (toC.text.isNotEmpty) t = int.parse(toC.text.noWhiteSpaces());
     switch (type) {
       case _PRICE:
-        {
-          context.read<SearchBloc>().add(SearchPriceRangeChanged(f, t));
-          break;
-        }
+        context.read<SearchBloc>().add(SearchPriceRangeChanged(f, t));
+        break;
       case _AREA:
-        {
-          context.read<SearchBloc>().add(SearchAreaRangeChanged(f, t));
-          break;
-        }
+        context.read<SearchBloc>().add(SearchAreaRangeChanged(f, t));
+        break;
       case _YEAR:
-        {
-          context.read<SearchBloc>().add(YearsRangeChanged(f, t));
-          break;
-        }
+        context.read<SearchBloc>().add(YearsRangeChanged(f, t));
+        break;
       default:
         break;
     }
@@ -135,6 +133,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!.localeName;
     return BlocListener<SearchBloc, SearchState>(
       listenWhen: (p, c) => p.searchStatus != c.searchStatus,
       listener: (context, state) async {
@@ -159,10 +158,6 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
             );
         }
       },
-
-      // listener: (context, state){
-      // MyLogger.instance.log.d('${state.cityCode} | ${state.filter}');
-      // },
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.tertiaryColor,
@@ -207,7 +202,68 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                         style: FlutterFlowTheme.titleTextWDark,
                       ),
                     ),
-                    SearchObjTypesDropDown(),
+                    BlocBuilder<SearchBloc, SearchState>(
+                      buildWhen: (previous, current) =>
+                          previous.objectTypes != current.objectTypes ||
+                          previous.filter.objectType !=
+                              current.filter.objectType,
+                      builder: (context, state) {
+                        if (state.objectTypes.isEmpty)
+                          return placeholders.objectTypesDropDownPlaceholder;
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Colors.transparent,
+                                width: 0,
+                              ),
+                              color: Colors.white,
+                            ),
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<DictionaryMultiLangItem>(
+                                  value: dropDownValue,
+                                  items: state.objectTypes
+                                      .map((e) => DropdownMenuItem(
+                                            value: e,
+                                            child: Text(
+                                              locale == 'ru'
+                                                  ? e.name.nameRu
+                                                  : locale == 'kk'
+                                                      ? e.name.nameKz
+                                                      : e.name.nameEn,
+                                              style:
+                                                  FlutterFlowTheme.darkNormal16,
+                                            ),
+                                          ))
+                                      .toList(),
+                                  elevation: 2,
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      setState(() => dropDownValue = value);
+                                      context
+                                          .read<SearchBloc>()
+                                          .add(SearchObjectTypeChoose(value));
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                    color: FlutterFlowTheme.secondaryColor,
+                                    size: 24,
+                                  ),
+                                  isExpanded: true,
+                                  dropdownColor: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 12, 0, 8),
                       child: Text(
@@ -228,11 +284,11 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       child: RangeWidget(
-                        fromController: priceFromController,
-                        toController: priceToController,
+                        fromController: _priceFromController,
+                        toController: _priceToController,
                         onChanged: (String value, bool from) => _onChanged(
-                            fromC: priceFromController,
-                            toC: priceToController,
+                            fromC: _priceFromController,
+                            toC: _priceToController,
                             value: value,
                             priceFrom: from,
                             type: _PRICE),
@@ -248,11 +304,11 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       child: RangeWidget(
-                        fromController: areaFromController,
-                        toController: areaToController,
+                        fromController: _areaFromController,
+                        toController: _areaToController,
                         onChanged: (String value, bool from) => _onChanged(
-                            fromC: areaFromController,
-                            toC: areaToController,
+                            fromC: _areaFromController,
+                            toC: _areaToController,
                             value: value,
                             priceFrom: from,
                             type: _AREA),
@@ -273,13 +329,14 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                         builder: (context, state) {
                           if (state.cities.isEmpty)
                             return placeholders.objectTypesDropDownPlaceholder;
-                          return FlutterFlowDropDownAddress(
-                            options: state.cities,
+                          return DropDownAddress(
+                            dropValue: cityDrop,
+                            items: state.cities,
                             hintText: 'Город',
-                            onChanged: (val) {
-                              setState(() {});
-                              context.read<SearchBloc>().add(
-                                  CityChanged(val.address.addressObject.code));
+                            onChanged: (v) {
+                              setState(() => cityDrop = v);
+                              context.read<SearchBloc>().add(CityChanged(v));
+                              distDrop = Address.empty;
                             },
                           );
                         },
@@ -294,13 +351,16 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                         builder: (context, state) {
                           if (state.districtsStatus.isSubmissionInProgress)
                             return placeholders.objectTypesDropDownPlaceholder;
-                          return FlutterFlowDropDownAddress(
-                            options: state.districts,
+                          return DropDownAddress(
+                            dropValue: distDrop,
+                            items: state.districts,
                             hintText: 'Район',
-                            onChanged: (val) {
-                              setState(() {});
-                              context.read<SearchBloc>().add(DistrictChanged(
-                                  val.address.addressObject.code));
+                            onChanged: (v) {
+                              setState(() => distDrop = v);
+                              context
+                                  .read<SearchBloc>()
+                                  .add(DistrictChanged(v));
+                              streetDrop = Address.empty;
                             },
                           );
                         },
@@ -323,16 +383,94 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                       .streetsStatus.isSubmissionInProgress)
                                     return placeholders
                                         .objectTypesDropDownPlaceholder;
-                                  return FlutterFlowDropDownAddress(
-                                    width: double.infinity,
-                                    hintText: 'Улица',
-                                    options: state.streets,
-                                    onChanged: (val) {
-                                      setState(() {});
-                                      context.read<SearchBloc>().add(
-                                          StreetChanged(
-                                              val.address.addressObject.code));
-                                    },
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: Colors.transparent,
+                                        width: 0,
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: Row(
+                                        children: <Widget>[
+                                          new Expanded(
+                                            child: new TextField(
+                                              controller: _streetController,
+                                              decoration: InputDecoration(
+                                                hintText: 'Улица',
+                                                hintStyle: const TextStyle(
+                                                    color: const Color(
+                                                        0xFFADADAD)),
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                                enabledBorder: InputBorder.none,
+                                                errorBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
+                                              ),
+                                              onChanged: (v) {
+                                                if (v.isEmpty)
+                                                  setState(() => streetDrop =
+                                                      Address.empty);
+                                              },
+                                            ),
+                                          ),
+                                          PopupMenuButton<Address>(
+                                            icon: const Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              color: FlutterFlowTheme
+                                                  .secondaryColor,
+                                              size: 24,
+                                            ),
+                                            onSelected: (Address value) {
+                                              _streetController.text = value
+                                                  .address!
+                                                  .addressObject
+                                                  .name
+                                                  .nameRu;
+                                            },
+                                            itemBuilder:
+                                                (BuildContext context) {
+                                              var l = state.streets;
+                                              if (_streetController
+                                                      .text.isNotEmpty &&
+                                                  streetDrop != Address.empty) {
+                                                l = l
+                                                    .where((it) => it
+                                                        .address!
+                                                        .addressObject
+                                                        .name
+                                                        .nameRu
+                                                        .toLowerCase()
+                                                        .contains(
+                                                            _streetController
+                                                                .text
+                                                                .toLowerCase()))
+                                                    .toList();
+                                              }
+                                              return l
+                                                  .map<PopupMenuItem<Address>>(
+                                                      (Address value) {
+                                                return PopupMenuItem(
+                                                  child: Text(value
+                                                      .address!
+                                                      .addressObject
+                                                      .name
+                                                      .nameRu),
+                                                  value: value,
+                                                );
+                                              }).toList();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
@@ -351,13 +489,90 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                       .complexStatus.isSubmissionInProgress)
                                     return placeholders
                                         .objectTypesDropDownPlaceholder;
-                                  return FlutterFlowDropDownComplex(
-                                    width: double.infinity,
-                                    options: state.complexes,
-                                    onChanged: (val) {
-                                      setState(() {});
-                                      //choose
-                                    },
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: Colors.transparent,
+                                        width: 0,
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 16),
+                                      child: Row(
+                                        children: <Widget>[
+                                          new Expanded(
+                                            child: new TextField(
+                                              controller: _complexController,
+                                              decoration: InputDecoration(
+                                                hintText: 'ЖК',
+                                                hintStyle: const TextStyle(
+                                                    color: const Color(
+                                                        0xFFADADAD)),
+                                                border: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
+                                                enabledBorder: InputBorder.none,
+                                                errorBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
+                                              ),
+                                              onChanged: (v) {
+                                                if (v.isEmpty)
+                                                  setState(() => complexDrop =
+                                                      ResidentialComplex.empty);
+                                              },
+                                            ),
+                                          ),
+                                          PopupMenuButton<ResidentialComplex>(
+                                            icon: const Icon(
+                                              Icons
+                                                  .keyboard_arrow_down_outlined,
+                                              color: FlutterFlowTheme
+                                                  .secondaryColor,
+                                              size: 24,
+                                            ),
+                                            onSelected:
+                                                (ResidentialComplex value) {
+                                              _complexController.text =
+                                                  value.name!;
+                                              context
+                                                  .read<SearchBloc>()
+                                                  .add(ComplexChanged(value));
+                                            },
+                                            itemBuilder:
+                                                (BuildContext context) {
+                                              var l = state.complexes;
+                                              if (_complexController
+                                                      .text.isNotEmpty ||
+                                                  complexDrop !=
+                                                      ResidentialComplex
+                                                          .empty) {
+                                                l = l
+                                                    .where((it) => it.name!
+                                                        .toLowerCase()
+                                                        .contains(
+                                                            _complexController
+                                                                .text
+                                                                .toLowerCase()))
+                                                    .toList();
+                                              }
+                                              return l.map<
+                                                      PopupMenuItem<
+                                                          ResidentialComplex>>(
+                                                  (ResidentialComplex value) {
+                                                return PopupMenuItem(
+                                                  child: Text(value.name!),
+                                                  value: value,
+                                                );
+                                              }).toList();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
@@ -435,8 +650,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                     child: Text(
                                       'Изолированные\nкомнаты',
                                       textAlign: TextAlign.center,
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
+                                      style: TextStyle(
                                         color: state.filter.atelier == false
                                             ? FlutterFlowTheme.white
                                             : FlutterFlowTheme.dark,
@@ -471,8 +685,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                     child: Text(
                                       'Студия',
                                       textAlign: TextAlign.center,
-                                      style: GoogleFonts.getFont(
-                                        'Roboto',
+                                      style: TextStyle(
                                         color: state.filter.atelier == true
                                             ? FlutterFlowTheme.white
                                             : FlutterFlowTheme.dark,
@@ -502,14 +715,52 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                         builder: (context, state) {
                           if (state.conditions.isEmpty)
                             return placeholders.objectTypesDropDownPlaceholder;
-                          return FlutterFlowDropDownObjectTypes(
-                            options: state.conditions,
-                            onChanged: (value) {
-                              setState(() {});
-                              context
-                                  .read<SearchBloc>()
-                                  .add(ConditionChoose(value));
-                            },
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 40,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Colors.transparent,
+                                  width: 0,
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: ButtonTheme(
+                                alignedDropdown: true,
+                                child: DropdownButtonHideUnderline(
+                                  child:
+                                      DropdownButton<DictionaryMultiLangItem>(
+                                    value: condDrop,
+                                    items: state.conditions
+                                        .map((e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(
+                                                e.name.nameRu,
+                                                style: FlutterFlowTheme
+                                                    .darkNormal16,
+                                              ),
+                                            ))
+                                        .toList(),
+                                    elevation: 2,
+                                    onChanged: (value) {
+                                      setState(() => condDrop = value);
+                                      context
+                                          .read<SearchBloc>()
+                                          .add(ConditionChoose(value!));
+                                    },
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down_outlined,
+                                      color: FlutterFlowTheme.secondaryColor,
+                                      size: 24,
+                                    ),
+                                    isExpanded: true,
+                                    dropdownColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -524,12 +775,12 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                       child: RangeWidget(
-                        fromController: yearFromController,
-                        toController: yearToController,
+                        fromController: _yearFromController,
+                        toController: _yearToController,
                         maxLength: 5,
                         onChanged: (String value, bool from) => _onChanged(
-                            fromC: yearFromController,
-                            toC: yearToController,
+                            fromC: _yearFromController,
+                            toC: _yearToController,
                             value: value,
                             priceFrom: from,
                             type: _YEAR),
@@ -632,11 +883,22 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                 onPressed: () {
                                   BlocProvider.of<SearchBloc>(context)
                                       .add(SearchReset());
-                                  //TODO
-                                  priceFromController.clear();
-                                  priceToController.clear();
-                                  areaFromController.clear();
-                                  areaToController.clear();
+
+                                  _priceFromController.clear();
+                                  _priceToController.clear();
+                                  _areaFromController.clear();
+                                  _areaToController.clear();
+                                  _yearFromController.clear();
+                                  _yearToController.clear();
+                                  _complexController.clear();
+                                  _streetController.clear();
+                                  dropDownValue = DictionaryMultiLangItem.empty;
+                                  condDrop = DictionaryMultiLangItem.emptyE;
+                                  cityDrop = Address.empty;
+                                  distDrop = Address.empty;
+                                  streetDrop = Address.empty;
+                                  complexDrop = ResidentialComplex.empty;
+                                  setState(() {});
                                 },
                                 text: AppLocalizations.of(context)!
                                     .reset
@@ -665,9 +927,12 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                   return Center(
                                       child: CircularProgressIndicator());
                                 return FFButtonWidget(
-                                  onPressed: () => context
-                                      .read<SearchBloc>()
-                                      .add(SearchProperties()),
+                                  onPressed: () {
+                                    print(json.encode(state.filter.toJson()));
+                                    context
+                                        .read<SearchBloc>()
+                                        .add(SearchProperties());
+                                  },
                                   text: AppLocalizations.of(context)!
                                       .search
                                       .capitalize(),
@@ -695,6 +960,73 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
               ),
               const SizedBox(height: 15),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DropDownAddress extends StatefulWidget {
+  const DropDownAddress({
+    Key? key,
+    required this.dropValue,
+    required this.items,
+    required this.hintText,
+    required this.onChanged,
+  }) : super(key: key);
+  final Address? dropValue;
+  final List<Address> items;
+  final String hintText;
+  final Function(Address a) onChanged;
+
+  @override
+  _DropDownAddressState createState() => _DropDownAddressState();
+}
+
+class _DropDownAddressState extends State<DropDownAddress> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: Colors.transparent,
+            width: 0,
+          ),
+          color: Colors.white,
+        ),
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<Address>(
+              hint: Text(
+                widget.hintText,
+                style: const TextStyle(color: const Color(0xFFADADAD)),
+              ),
+              value: widget.dropValue,
+              items: widget.items
+                  .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e.address!.addressObject.name.nameRu,
+                          style: FlutterFlowTheme.darkNormal16,
+                        ),
+                      ))
+                  .toList(),
+              elevation: 2,
+              onChanged: (value) => widget.onChanged(value!),
+              icon: const Icon(
+                Icons.keyboard_arrow_down_outlined,
+                color: FlutterFlowTheme.secondaryColor,
+                size: 24,
+              ),
+              isExpanded: true,
+              dropdownColor: Colors.white,
+            ),
           ),
         ),
       ),

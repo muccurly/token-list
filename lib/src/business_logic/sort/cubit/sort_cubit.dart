@@ -9,26 +9,33 @@ part 'sort_state.dart';
 class SortCubit extends Cubit<SortState> {
   SortCubit() : super(SortState());
 
-  void byDate() =>
-      emit(SortState(sortField: SortField.DATE, direction: Direction.DESC));
+  void byDate({bool mini = false}) =>
+      emit(SortState(sortField: SortField.DATE, direction: Direction.DESC,
+          mini: mini));
 
-  void byPriceDown() =>
-      emit(SortState(sortField: SortField.PRICE, direction: Direction.DESC));
+  void byPriceDown({bool mini = false}) =>
+      emit(SortState(sortField: SortField.PRICE, direction: Direction.DESC,
+          mini: mini));
 
-  void byPriceUp() =>
-      emit(SortState(sortField: SortField.PRICE, direction: Direction.ASC));
+  void byPriceUp({bool mini = false}) =>
+      emit(SortState(sortField: SortField.PRICE, direction: Direction.ASC,
+      mini: mini));
 
-  void byRoomsDown() =>
-      emit(SortState(sortField: SortField.ROOMS, direction: Direction.DESC));
+  void byRoomsDown({bool mini = false}) =>
+      emit(SortState(sortField: SortField.ROOMS, direction: Direction.DESC,
+          mini: mini));
 
-  void byRoomsUp() =>
-      emit(SortState(sortField: SortField.ROOMS, direction: Direction.ASC));
+  void byRoomsUp({bool mini = false}) =>
+      emit(SortState(sortField: SortField.ROOMS, direction: Direction.ASC,
+          mini: mini));
 
-  void byAreaDown() =>
-      emit(SortState(sortField: SortField.AREA, direction: Direction.DESC));
+  void byAreaDown({bool mini = false}) =>
+      emit(SortState(sortField: SortField.AREA, direction: Direction.DESC,
+          mini: mini));
 
-  void byAreaUp() =>
-      emit(SortState(sortField: SortField.AREA, direction: Direction.ASC));
+  void byAreaUp({bool mini = false}) =>
+      emit(SortState(sortField: SortField.AREA, direction: Direction.ASC,
+          mini: mini));
 
-  void reset() => emit(SortState(toSearch: false));
+  void reset() => emit(SortState(toSearch: false, mini: false));
 }

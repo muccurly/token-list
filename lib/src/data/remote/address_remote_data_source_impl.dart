@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
+import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/residential_complex.dart';
 import 'package:jurta_app/src/data/remote/api_client.dart';
 import 'package:jurta_app/src/data/remote/i_address_remote_data_source.dart';

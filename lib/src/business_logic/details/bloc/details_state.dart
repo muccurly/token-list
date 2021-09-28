@@ -1,41 +1,45 @@
 part of 'details_bloc.dart';
 
 class DetailsState extends Equatable {
-  final ApplicationClientView apv;
+  final Property? property;
   final FormzStatus status;
   final FormzStatus callStatus;
   final FormzStatus sameLoadStatus;
+  final FormzStatus detailsStatus;
   final String? message;
   final SameAppFilter? filter;
-  final List<SameProperty> sameProps;
+  final List<Property> sameProps;
   final String? phoneNumber;
 
   const DetailsState({
-    required this.apv,
+    this.property,
     this.status = FormzStatus.pure,
     this.callStatus = FormzStatus.pure,
     this.sameLoadStatus = FormzStatus.pure,
+    this.detailsStatus = FormzStatus.pure,
     this.message,
     this.filter,
     this.phoneNumber,
-    this.sameProps = const <SameProperty>[],
+    this.sameProps = const <Property>[],
   });
 
   DetailsState copyWith({
-    ApplicationClientView? apv,
+    Property? property,
     FormzStatus? status,
     FormzStatus? callStatus,
     FormzStatus? sameLoadStatus,
+    FormzStatus? detailsStatus,
     String? message,
     SameAppFilter? filter,
-    List<SameProperty>? sameProps,
+    List<Property>? sameProps,
     String? phoneNumber,
   }) {
     return DetailsState(
-      apv: apv ?? this.apv,
+      property: property ?? this.property,
       status: status ?? this.status,
       callStatus: callStatus ?? this.callStatus,
       sameLoadStatus: sameLoadStatus ?? this.sameLoadStatus,
+      detailsStatus: detailsStatus ?? this.detailsStatus,
       message: message ?? this.message,
       filter: filter ?? this.filter,
       sameProps: sameProps ?? this.sameProps,
@@ -45,10 +49,11 @@ class DetailsState extends Equatable {
 
   @override
   List<Object?> get props => [
-        apv,
+        property,
         status,
         callStatus,
         sameLoadStatus,
+        detailsStatus,
         message,
         filter,
         sameProps,

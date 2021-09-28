@@ -16,11 +16,17 @@ class SearchState extends Equatable {
   final List<DictionaryMultiLangItem> objectTypes;
   final List<DictionaryMultiLangItem> conditions;
   final SearchFilter filter;
-  final String? cityCode;
-  final String? districtCode;
-  final String? streetCode;
-  final String? complexCode;
-  final List<RealProperty> properties;
+  // final String? cityCode;
+  // final String? districtCode;
+  // final String? streetCode;
+  // final String? complexCode;
+
+  final Address? city;
+  final Address? district;
+  final Address? street;
+  final ResidentialComplex? complex;
+
+  final List<Property> properties;
 
   SearchState({
     this.citiesStatus = FormzStatus.pure,
@@ -38,11 +44,15 @@ class SearchState extends Equatable {
     this.objectTypes = const <DictionaryMultiLangItem>[],
     this.conditions = const <DictionaryMultiLangItem>[],
     this.filter = const SearchFilter(),
-    this.cityCode,
-    this.districtCode,
-    this.streetCode,
-    this.complexCode,
-    this.properties = const <RealProperty>[],
+    // this.cityCode,
+    // this.districtCode,
+    // this.streetCode,
+    // this.complexCode,
+    this.properties = const <Property>[],
+    this.city,
+    this.district,
+    this.street,
+    this.complex,
   });
 
   SearchState copyWith({
@@ -61,11 +71,15 @@ class SearchState extends Equatable {
     List<DictionaryMultiLangItem>? objectTypes,
     List<DictionaryMultiLangItem>? conditions,
     SearchFilter? filter,
-    String? cityCode,
-    String? districtCode,
-    String? streetCode,
-    String? complexCode,
-    List<RealProperty>? properties,
+    // String? cityCode,
+    // String? districtCode,
+    // String? streetCode,
+    // String? complexCode,
+    List<Property>? properties,
+    Address? city,
+    Address? district,
+    Address? street,
+    ResidentialComplex? complex,
   }) {
     return SearchState(
       citiesStatus: citiesStatus ?? this.citiesStatus,
@@ -83,11 +97,15 @@ class SearchState extends Equatable {
       objectTypes: objectTypes ?? this.objectTypes,
       conditions: conditions ?? this.conditions,
       filter: filter ?? this.filter,
-      cityCode: cityCode ?? this.cityCode,
-      streetCode: streetCode ?? this.streetCode,
-      complexCode: complexCode ?? this.complexCode,
-      districtCode: districtCode ?? this.districtCode,
+      // cityCode: cityCode ?? this.cityCode,
+      // streetCode: streetCode ?? this.streetCode,
+      // complexCode: complexCode ?? this.complexCode,
+      // districtCode: districtCode ?? this.districtCode,
       properties: properties ?? this.properties,
+      city: city ?? this.city,
+      district: district ?? this.district,
+      street: street ?? this.street,
+      complex: complex ?? this.complex,
     );
   }
 
@@ -108,10 +126,14 @@ class SearchState extends Equatable {
         objectTypes,
         conditions,
         filter,
-        cityCode,
-        streetCode,
-        complexCode,
-        districtCode,
+        // cityCode,
+        // streetCode,
+        // complexCode,
+        // districtCode,
         properties,
+        city,
+        district,
+        street,
+        complex,
       ];
 }

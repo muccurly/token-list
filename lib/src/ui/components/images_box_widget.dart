@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jurta_app/src/ui/components/gallery_photo_widget.dart';
-import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 class ImagesBoxWidget extends StatefulWidget {
   ImagesBoxWidget({
     Key? key,
     required this.list,
-    required this.id,
   }) : super(key: key);
 
   final List<String> list;
-  final int id;
 
   @override
   _ImagesBoxWidgetState createState() => _ImagesBoxWidgetState();

@@ -1,5 +1,5 @@
-import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/api_response.dart';
+import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/residential_complex.dart';
 import 'package:jurta_app/src/data/remote/i_address_remote_data_source.dart';
 import 'package:jurta_app/src/data/repository/i_address_repository.dart';
@@ -28,8 +28,10 @@ class AddressRepositoryImpl implements IAddressRepository {
     Data<Address> data = await remote.getDistricts(code);
     if (_districtsMap.containsKey(code))
       _districtsMap[code]!.addAll(data.data);
-    else
-      _districtsMap[code] = data.data.toSet();
+    else {
+      _districtsMap[code] = Set<Address>()..add(Address.empty);
+      _districtsMap[code]!.addAll(data.data);
+    }
     return _districtsMap[code]!.toList();
   }
 
@@ -38,13 +40,16 @@ class AddressRepositoryImpl implements IAddressRepository {
       remote.getBuildingsByStreet(id);
 
   @override
-  Future<List<Address>> findStreetsByParent(String code, {String? text}) async {
+  Future<List<Address>> findStreetsByParent(String code,
+      {String? text}) async {
     Pagination<Address> data =
         await remote.getStreetsByParent(code, text: text);
     if (_streetsMap.containsKey(code))
       _streetsMap[code]!.addAll(data.data.data);
-    else
-      _streetsMap[code] = data.data.data.toSet();
+    else {
+      _streetsMap[code] = Set<Address>()..add(Address.empty);
+      _streetsMap[code]!.addAll(data.data.data);
+    }
     _streetsPag = data;
     return _streetsMap[code]!.toList();
   }
@@ -56,8 +61,11 @@ class AddressRepositoryImpl implements IAddressRepository {
         await remote.residentialComplexList(code, val: val);
     if (_complexMap.containsKey(code))
       _complexMap[code]!.addAll(response.data.data.data);
-    else
-      _complexMap[code] = response.data.data.data.toSet();
+    else {
+      _complexMap[code] = Set<ResidentialComplex>()
+        ..add(ResidentialComplex.empty);
+      _complexMap[code]!.addAll(response.data.data.data);
+    }
     _complexPag = response;
     return _complexMap[code]!.toList();
   }

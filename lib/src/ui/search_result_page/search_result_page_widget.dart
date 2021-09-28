@@ -4,7 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/search/search.dart';
 import 'package:jurta_app/src/business_logic/search_mini/bloc/search_mini_bloc.dart';
 import 'package:jurta_app/src/business_logic/sort/sort.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
@@ -82,7 +82,7 @@ class SearchResultPageWidget extends StatelessWidget {
                           builder: (context) {
                             return Container(
                               height: MediaQuery.of(context).size.height,
-                              child: SortFilterBoxWidget(),
+                              child: SortFilterBoxWidget(mini: isSearchMini),
                             );
                           },
                         );
@@ -184,7 +184,7 @@ class ContentWidget extends StatelessWidget {
     required this.load,
   }) : super(key: key);
 
-  final List<RealProperty> items;
+  final List<Property> items;
   final FormzStatus status;
   final VoidCallback load;
 
@@ -196,7 +196,7 @@ class ContentWidget extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 8,
         mainAxisSpacing: 0,
-        childAspectRatio: .55,
+        childAspectRatio: .56,
       ),
       scrollDirection: Axis.vertical,
       itemCount:

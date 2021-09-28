@@ -59,13 +59,15 @@ class SortMiniChanged extends SearchMiniEvent {
   final Direction direction;
   final SortField sortField;
   final bool toSearch;
+  final bool mini;
 
   const SortMiniChanged({
     required this.direction,
     required this.sortField,
     required this.toSearch,
+    required this.mini,
   });
 
   @override
-  List<Object?> get props => [direction, sortField, toSearch];
+  List<Object?> get props => [direction, sortField, toSearch, mini];
 }

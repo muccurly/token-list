@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_theme.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
 
 class HotWidget extends StatelessWidget {

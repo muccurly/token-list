@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jurta_app/src/data/entity/application_client_view.dart';
+import 'package:jurta_app/src/data/entity/property.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 
 class ShowMoreBoxWidget extends StatefulWidget {
-  ShowMoreBoxWidget({Key? key, required this.apv}) : super(key: key);
+  ShowMoreBoxWidget({Key? key, required this.property}) : super(key: key);
 
-  final ApplicationClientView apv;
+  final Property property;
 
   @override
   _ShowMoreBoxWidgetState createState() => _ShowMoreBoxWidgetState();
@@ -17,18 +17,20 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var description = widget.apv.sellDataDto.description;
+    var description = widget.property.sellDataDTOXpm.description;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Описание',
-            style: FlutterFlowTheme.subtitleTextDark.copyWith(),
-          ),
+          description != null
+              ? Text(
+                  'Описание',
+                  style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+                )
+              : const SizedBox.shrink(),
           description != null
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
@@ -49,12 +51,12 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 8,8,8),
                   child: Text(
                     'Школа',
                     style: FlutterFlowTheme.subtitleTextDark.copyWith(
                       color: _index == 0
-                          ? Colors.deepOrangeAccent
+                          ? FlutterFlowTheme.primaryColor
                           : Color(0xFF333333),
                     ),
                   ),
@@ -67,12 +69,12 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  padding: const EdgeInsets.all(8),
                   child: Text(
                     'Больница',
                     style: FlutterFlowTheme.subtitleTextDark.copyWith(
                       color: _index == 1
-                          ? Colors.deepOrangeAccent
+                          ? FlutterFlowTheme.primaryColor
                           : Color(0xFF333333),
                     ),
                   ),
@@ -85,12 +87,12 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  padding: const EdgeInsets.all(8),
                   child: Text(
                     'Детский сад',
                     style: FlutterFlowTheme.subtitleTextDark.copyWith(
                       color: _index == 2
-                          ? Colors.deepOrangeAccent
+                          ? FlutterFlowTheme.primaryColor
                           : Color(0xFF333333),
                     ),
                   ),
@@ -103,12 +105,12 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  padding: const EdgeInsets.all(8),
                   child: Text(
                     'ТРЦ',
                     style: FlutterFlowTheme.subtitleTextDark.copyWith(
                       color: _index == 3
-                          ? Colors.deepOrangeAccent
+                          ? FlutterFlowTheme.primaryColor
                           : Color(0xFF333333),
                     ),
                   ),
@@ -124,7 +126,7 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Школа-гимназия №75',
+                  'Нет доступа к эндпоинтам!',
                   style: FlutterFlowTheme.bodyTextGrey.copyWith(),
                 ),
                 Text(
@@ -152,7 +154,7 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                   style: FlutterFlowTheme.bodyTextDark.copyWith(),
                 ),
                 Text(
-                  '95%',
+                  '${widget.property.buildingDTOXpm?.complex?.districtRating?? 'рейтинг не указан'}',
                   style: FlutterFlowTheme.bodyTextDark.copyWith(),
                 )
               ],
@@ -172,7 +174,7 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                 style: FlutterFlowTheme.bodyTextDark.copyWith(),
               ),
               Text(
-                '95%',
+                '${widget.property.buildingDTOXpm?.complex?.rating?? 'рейтинг не указан'}',
                 style: FlutterFlowTheme.bodyTextDark.copyWith(),
               )
             ],

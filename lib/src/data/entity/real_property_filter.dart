@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/range.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 
 class RealPropertyFilter extends Equatable {
   final Range? areaRange;
@@ -7,7 +8,9 @@ class RealPropertyFilter extends Equatable {
   final int? flagId;
   final bool moreThanFiveRooms;
   final List<int>? numberOfRooms;
-  final int? objectTypeId;
+
+  // final int? objectTypeId;
+  final DictionaryMultiLangItem? objectType;
   final int pageNumber;
   final int pageSize;
   final Range? priceRange;
@@ -20,7 +23,8 @@ class RealPropertyFilter extends Equatable {
     this.flagId,
     this.moreThanFiveRooms = false,
     this.numberOfRooms,
-    this.objectTypeId,
+    // this.objectTypeId,
+    this.objectType,
     this.pageNumber = 0,
     this.pageSize = 10,
     this.priceRange,
@@ -34,7 +38,8 @@ class RealPropertyFilter extends Equatable {
     required int? flagId,
     bool? moreThanFiveRooms,
     List<int>? numberOfRooms,
-    required int? objectTypeId,
+    // required int? objectTypeId,
+    DictionaryMultiLangItem? objectType,
     int? pageNumber,
     int? pageSize,
     Range? priceRange,
@@ -47,7 +52,8 @@ class RealPropertyFilter extends Equatable {
       flagId: flagId,
       moreThanFiveRooms: moreThanFiveRooms ?? this.moreThanFiveRooms,
       numberOfRooms: numberOfRooms ?? this.numberOfRooms,
-      objectTypeId: objectTypeId,
+      // objectTypeId: objectTypeId,
+      objectType: objectType ?? this.objectType,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
       priceRange: priceRange ?? this.priceRange,
@@ -62,8 +68,9 @@ class RealPropertyFilter extends Equatable {
         "flagId": this.flagId,
         "moreThanFiveRooms": this.moreThanFiveRooms,
         "numberOfRooms": this.numberOfRooms,
-        "objectTypeId": this.objectTypeId == 0 ? null
-            : this.objectTypeId,
+        // "objectTypeId": this.objectTypeId == 0 ? null
+        //     : this.objectTypeId,
+        "objectTypeId": this.objectType?.id == 0 ? null : this.objectType?.id,
         "pageNumber": this.pageNumber,
         "pageSize": this.pageSize,
         "priceRange": this.priceRange?.toJson(),
@@ -78,7 +85,8 @@ class RealPropertyFilter extends Equatable {
         flagId,
         moreThanFiveRooms,
         numberOfRooms,
-        objectTypeId,
+        // objectTypeId,
+        objectType,
         pageNumber,
         pageSize,
         priceRange,
@@ -90,7 +98,7 @@ class RealPropertyFilter extends Equatable {
   String toString() {
     return 'RealPropertyFilter{areaRange: $areaRange, direction: $direction, flagId: $flagId,'
         '\nmoreThanFiveRooms: $moreThanFiveRooms, numberOfRooms: $numberOfRooms, '
-        '\nobjectTypeId: $objectTypeId, pageNumber: $pageNumber, pageSize: $pageSize, '
+        '\nobjectTypeId: ${objectType?.id}, pageNumber: $pageNumber, pageSize: $pageSize, '
         '\npriceRange: $priceRange, showNew: $showNew, sortBy: $sortBy}';
   }
 }

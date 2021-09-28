@@ -2,15 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
 
 class ResidentialComplex extends Equatable {
-  final int id;
-  final String houseName;
+  final int? id;
+  final String? name;
   final int? yearOfConstruction;
   final int? propertyDeveloperId;
   final int? numberOfFloors;
   final int? numberOfEntrances;
-  final int numberOfApartment;
+  final int? numberOfApartments;
   final int? apartmentsOnTheSite;
-  final double ceilingHeight;
+  final double? ceilingHeight;
   final int? materialOfConstructionId;
   final String? housingClass;
   final int? houseClassId;
@@ -27,7 +27,7 @@ class ResidentialComplex extends Equatable {
   final List<int>? kindergartenIdList;
   final List<int>? shoppingCenterIdList;
   final double? rating;
-  final bool newBuilding;
+  final bool? newBuilding;
   final double? districtRating;
   final double? roadInfrastructureRating;
   final double? districtStatusRating;
@@ -36,18 +36,18 @@ class ResidentialComplex extends Equatable {
   final double? safetyRating;
   final double? parkingRating;
   final double? entranceRating;
-  final AddressStreet addressBuilding;
+  final Building? addressBuilding;
 
-  ResidentialComplex({
-    required this.id,
-    required this.houseName,
+  const ResidentialComplex({
+    this.id,
+    this.name,
     this.yearOfConstruction,
     this.propertyDeveloperId,
     this.numberOfFloors,
     this.numberOfEntrances,
-    required this.numberOfApartment,
+    this.numberOfApartments,
     this.apartmentsOnTheSite,
-    required this.ceilingHeight,
+    this.ceilingHeight,
     this.materialOfConstructionId,
     this.housingClass,
     this.houseClassId,
@@ -64,7 +64,7 @@ class ResidentialComplex extends Equatable {
     this.kindergartenIdList,
     this.shoppingCenterIdList,
     this.rating,
-    required this.newBuilding,
+    this.newBuilding,
     this.districtRating,
     this.roadInfrastructureRating,
     this.districtStatusRating,
@@ -73,35 +73,57 @@ class ResidentialComplex extends Equatable {
     this.safetyRating,
     this.parkingRating,
     this.entranceRating,
-    required this.addressBuilding,
+    this.addressBuilding,
   });
 
+  factory ResidentialComplex.fromJsonMainPage(Map<String, dynamic> json) {
+    return ResidentialComplex(
+      name: json['residentialComplex'],
+    );
+  }
+
+  factory ResidentialComplex.fromJsonSameApp(Map<String, dynamic> json) {
+    var rc = json['residentialComplex'];
+    return ResidentialComplex(
+      numberOfFloors: json['numberOfFloors'],
+      yearOfConstruction: json['yearOfConstruction'],
+      name: rc!=null? rc['nameRu'] : null,
+    );
+  }
+
   factory ResidentialComplex.fromJson(Map<String, dynamic> json) {
+    var h = json['hospitalIdList'];
+    var sc = json['schoolIdList'];
+    var k = json['kindergartenIdList'];
+    var sh = json['shoppingCenterIdList'];
+    var e = json['typeOfElevatorIdList'];
+    var p = json['parkingTypeIds'];
+    var a = json['addressBuilding'];
     return ResidentialComplex(
       id: json['id'],
-      houseName: json['houseName'],
+      name: json['houseName'],
       yearOfConstruction: json['yearOfConstruction'],
       propertyDeveloperId: json['propertyDeveloperId'],
       numberOfFloors: json['numberOfFloors'],
       numberOfEntrances: json['numberOfEntrances'],
-      numberOfApartment: json['numberOfApartment'],
+      numberOfApartments: json['numberOfApartments'],
       apartmentsOnTheSite: json['apartmentsOnTheSite'],
       ceilingHeight: json['ceilingHeight'],
       materialOfConstructionId: json['materialOfConstructionId'],
       housingClass: json['housingClass'],
       houseClassId: json['houseClassId'],
       housingConditionId: json['housingConditionId'],
-      typeOfElevatorIdList: json['typeOfElevatorIdList'],
+      typeOfElevatorIdList: e != null ? List<int>.from((e as List)) : null,
       concierge: json['concierge'],
       wheelchair: json['wheelchair'],
-      parkingTypeIds: json['parkingTypeIds'],
+      parkingTypeIds: p != null ? List<int>.from((p as List)) : null,
       yardTypeId: json['yardTypeId'],
       playground: json['playground'],
       photo: json['photo'],
-      hospitalIdList: json['hospitalIdList'],
-      schoolIdList: json['schoolIdList'],
-      kindergartenIdList: json['kindergartenIdList'],
-      shoppingCenterIdList: json['shoppingCenterIdList'],
+      hospitalIdList: h != null ? List<int>.from((h as List)) : null,
+      schoolIdList: sc != null ? List<int>.from((sc as List)) : null,
+      kindergartenIdList: k != null ? List<int>.from((k as List)) : null,
+      shoppingCenterIdList: sh != null ? List<int>.from((sh as List)) : null,
       rating: json['rating'],
       newBuilding: json['newBuilding'],
       districtRating: json['districtRating'],
@@ -112,22 +134,24 @@ class ResidentialComplex extends Equatable {
       safetyRating: json['safetyRating'],
       parkingRating: json['parkingRating'],
       entranceRating: json['entranceRating'],
-      addressBuilding: json['addressBuilding'],
+      addressBuilding: a!=null?Building.fromJson(a):null,
     );
   }
 
   static ResidentialComplex fromJsonModel(Map<String, dynamic> json) =>
       ResidentialComplex.fromJson(json);
 
+  static const empty = ResidentialComplex(id: 0, name: 'Любой');
+
   @override
   List<Object?> get props => [
         id,
-        houseName,
+        name,
         yearOfConstruction,
         propertyDeveloperId,
         numberOfFloors,
         numberOfEntrances,
-        numberOfApartment,
+        numberOfApartments,
         apartmentsOnTheSite,
         ceilingHeight,
         materialOfConstructionId,
@@ -155,6 +179,6 @@ class ResidentialComplex extends Equatable {
         safetyRating,
         parkingRating,
         entranceRating,
-    addressBuilding,
+        addressBuilding,
       ];
 }

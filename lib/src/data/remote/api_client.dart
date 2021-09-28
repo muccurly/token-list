@@ -63,4 +63,12 @@ class ApiClient {
       headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
     )
     ..interceptors.add(_baseInterceptors);
+
+  Dio dDio = Dio()
+    ..options = _options.copyWith(
+      baseUrl:
+      '${EnvironmentConfig.API_URL_DM}/api',
+      headers: Map.from(_options.headers)..remove(Headers.contentTypeHeader),
+    )
+    ..interceptors.add(_baseInterceptors);
 }

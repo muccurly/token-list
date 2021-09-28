@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
-import 'package:jurta_app/src/data/entity/real_property.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
+import 'package:jurta_app/src/data/entity/residential_complex.dart';
 
 class BuildingDTO extends Equatable {
   final int? addressStreetId;
@@ -11,7 +12,12 @@ class BuildingDTO extends Equatable {
   final Address? addressStreet;
   final AddressObjectWithType? city;
   final AddressObjectWithType? district;
-  final int? residentialComplexId;
+  final int? complexId;
+  final String? complexName;
+  final ResidentialComplex? complex;
+  final DictionaryMultiLangItem? cityD;
+  final DictionaryMultiLangItem? districtD;
+  final DictionaryMultiLangItem? streetD;
 
   const BuildingDTO({
     this.addressStreetId,
@@ -22,7 +28,12 @@ class BuildingDTO extends Equatable {
     this.addressStreet,
     this.city,
     this.district,
-    this.residentialComplexId,
+    this.complexId,
+    this.complexName,
+    this.complex,
+    this.cityD,
+    this.districtD,
+    this.streetD,
   });
 
   BuildingDTO copyWith({
@@ -34,7 +45,12 @@ class BuildingDTO extends Equatable {
     Address? addressStreet,
     AddressObjectWithType? city,
     AddressObjectWithType? district,
-    int? residentialComplexId,
+    int? complexId,
+    String? complexName,
+    ResidentialComplex? complex,
+    DictionaryMultiLangItem? cityD,
+    DictionaryMultiLangItem? districtD,
+    DictionaryMultiLangItem? streetD,
   }) {
     return BuildingDTO(
       addressStreetId: addressStreetId ?? this.addressStreetId,
@@ -45,11 +61,35 @@ class BuildingDTO extends Equatable {
       addressStreet: addressStreet ?? this.addressStreet,
       city: city ?? this.city,
       district: district ?? this.district,
-      residentialComplexId: residentialComplexId ?? this.residentialComplexId,
+      complexId: complexId ?? this.complexId,
+      complexName: complexName ?? this.complexName,
+      complex: complex ?? this.complex,
+      cityD: cityD ?? this.cityD,
+      districtD: districtD ?? this.districtD,
+      streetD: streetD ?? this.streetD,
+    );
+  }
+
+  factory BuildingDTO.fromJsonMainPage(Map<String, dynamic> json) {
+    return BuildingDTO(
+      complexName: json['residentialComplex'],
+    );
+  }
+
+  factory BuildingDTO.fromJsonSameApp(Map<String, dynamic> json) {
+    var rc = json['residentialComplex'];
+    return BuildingDTO(
+      houseNumber: json['houseNumber'],
+      complexName: rc!=null? rc['nameRu'] : null,
+      cityD: DictionaryMultiLangItem.fromJson(json['city']),
+      districtD: DictionaryMultiLangItem.fromJson(json['district']),
+      streetD: DictionaryMultiLangItem.fromJson(json['street']),
+      complex: ResidentialComplex.fromJsonSameApp(json),
     );
   }
 
   factory BuildingDTO.fromJson(Map<String, dynamic> json) {
+    var r = json['residentialComplex'];
     return BuildingDTO(
       addressStreetId: json['addressStreetId'],
       addressBuildingId: json['addressBuildingId'],
@@ -59,28 +99,10 @@ class BuildingDTO extends Equatable {
       addressStreet: Address.fromJson(json['addressStreetDto']),
       city: AddressObjectWithType.fromJson(json['city']),
       district: AddressObjectWithType.fromJson(json['district']),
-      residentialComplexId: json['residentialComplexId'],
+      complexId: json['residentialComplexId'],
+      complexName: json['residentialComplexName'],
+      complex: r!= null?ResidentialComplex.fromJson(r):null,
     );
-  }
-
-  factory BuildingDTO.fromRealProperty(RealProperty p) {
-    return BuildingDTO(
-      addressStreetId: null,
-      addressBuildingId: null,
-      houseNumber: null,
-      longitude: null,
-      latitude: null,
-      addressStreet: null,
-      city: null,
-      district: null,
-      residentialComplexId: null,
-    );
-  }
-
-
-  @override
-  String toString() {
-    return 'BuildingDTO{addressStreetId: $addressStreetId, addressBuildingId: $addressBuildingId, houseNumber: $houseNumber, longitude: $longitude, latitude: $latitude, addressStreet: $addressStreet, city: $city, district: $district, residentialComplexId: $residentialComplexId}';
   }
 
   @override
@@ -93,6 +115,9 @@ class BuildingDTO extends Equatable {
         addressStreet,
         city,
         district,
-        residentialComplexId,
+        complexId,
+        cityD,
+        districtD,
+        streetD,
       ];
 }

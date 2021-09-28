@@ -1,77 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:jurta_app/src/data/entity/multi_lang_text.dart';
 
-const emptyMultiLangText =
-    MultiLangText(nameRu: 'Все', nameKz: 'Все', nameEn: 'All');
-
-class Address extends Equatable {
-  final AddressObjectWithType address;
-  final AddressObjectWithType? parent;
-  final AddressObjectWithType? parentByType;
-  final int? total;
-
-  const Address({
-    required this.address,
-    this.parent,
-    this.parentByType,
-    this.total,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) {
-    var parent = json['parent'];
-    var parentByType = json['parentByType'];
-
-    return Address(
-      address: AddressObjectWithType.fromJson(json['addressObject']),
-      parent: parent != null ? AddressObjectWithType.fromJson(parent) : null,
-      parentByType: parentByType != null
-          ? AddressObjectWithType.fromJson(parentByType)
-          : null,
-      total: json['total'],
-    );
-  }
-
-  static Address fromJsonModel(Map<String, dynamic> json) =>
-      Address.fromJson(json);
-
-  static const empty = Address(address: AddressObjectWithType.empty, total: 0);
-
-  @override
-  List<Object?> get props => [address, parent, parentByType, total];
-}
-
-class AddressObjectWithType extends Equatable {
-  final AddressObject addressObject;
-  final AddressType addressType;
-
-  const AddressObjectWithType({
-    required this.addressObject,
-    required this.addressType,
-  });
-
-  factory AddressObjectWithType.fromJson(Map<String, dynamic> json) {
-    return AddressObjectWithType(
-      addressObject: AddressObject.fromJson(json['addressObject']),
-      addressType: AddressType.fromJson(json['addressType']),
-    );
-  }
-
-  static const empty = AddressObjectWithType(
-      addressObject: AddressObject.empty, addressType: AddressType.empty);
-
-  @override
-  List<Object?> get props => [addressObject, addressType];
-}
-
 class AddressObject extends Equatable {
   final int id;
-  final String code;
+  final String? code;
   final MultiLangText name;
   final String? idKazPost;
 
   const AddressObject({
     required this.id,
-    required this.code,
+    this.code,
     required this.name,
     this.idKazPost,
   });
@@ -85,52 +23,89 @@ class AddressObject extends Equatable {
     );
   }
 
-  static const empty = AddressObject(id: 0, code: '', name: emptyMultiLangText);
+  static const empty = AddressObject(id: 0, name: MultiLangText.empty);
 
   @override
   List<Object?> get props => [id, code, name, idKazPost];
 }
 
-class AddressType extends Equatable {
-  final int id;
-  final String? code;
-  final MultiLangText name;
+class AddressObjectWithType extends Equatable {
+  final AddressObject addressObject;
+  final AddressObject addressType;
 
-  const AddressType({
-    required this.id,
-    this.code,
-    required this.name,
+  const AddressObjectWithType({
+    required this.addressObject,
+    required this.addressType,
   });
 
-  factory AddressType.fromJson(Map<String, dynamic> json) {
-    return AddressType(
-      id: json['id'],
-      code: json['code'],
-      name: MultiLangText.fromJson(json['name']),
+  factory AddressObjectWithType.fromJson(Map<String, dynamic> json) {
+    return AddressObjectWithType(
+      addressObject: AddressObject.fromJson(json['addressObject']),
+      addressType: AddressObject.fromJson(json['addressType']),
     );
   }
 
-  static const empty = AddressType(id: 0, code: '', name: emptyMultiLangText);
+  static const empty = AddressObjectWithType(
+      addressObject: AddressObject.empty,
+      addressType: AddressObject.empty);
 
   @override
-  List<Object?> get props => [id, code, name];
+  List<Object?> get props => [AddressObject, addressType];
+}
+
+class Address extends Equatable {
+  final AddressObjectWithType? address;
+  final AddressObjectWithType? parent;
+  final AddressObjectWithType? parentByType;
+  final int? total;
+
+  const Address({
+    this.address,
+    this.parent,
+    this.parentByType,
+    this.total,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      address: AddressObjectWithType.fromJson(json['addressObject']),
+      parent: json['parent'] == null
+          ? null
+          : AddressObjectWithType.fromJson(json['parent']),
+      parentByType: json['parentByType'] == null
+          ? null
+          : AddressObjectWithType.fromJson(json['parentByType']),
+      total: json['total'],
+    );
+  }
+
+  static Address fromJsonModel(Map<String, dynamic> json) =>
+      Address.fromJson(json);
+
+  static const empty = Address(
+      address: AddressObjectWithType.empty,
+      parent: AddressObjectWithType.empty,
+      parentByType: AddressObjectWithType.empty);
+
+  @override
+  List<Object?> get props => [address, parent, parentByType, total];
 }
 
 class Building extends Equatable {
   final int id;
   final String number;
   final String? postcode;
-  final String latitude;
-  final String longitude;
+  final String? latitude;
+  final String? longitude;
   final String? houseNumber;
-  final Address? street;
+  final AddressStreet? street;
 
   Building({
     required this.id,
     required this.number,
     this.postcode,
-    required this.latitude,
-    required this.longitude,
+    this.latitude,
+    this.longitude,
     this.houseNumber,
     this.street,
   });
@@ -143,7 +118,9 @@ class Building extends Equatable {
       latitude: json['latitude'],
       longitude: json['longitude'],
       houseNumber: json['houseNumber'],
-      street: Address.fromJson(json['street']),
+      street: json['street'] == null
+          ? null
+          : AddressStreet.fromJson(json['street']),
     );
   }
 
@@ -186,8 +163,9 @@ class AddressStreet extends Equatable {
       parent: AddressObjectWithType.fromJson(json['parent']),
       parentByType: AddressObjectWithType.fromJson(json['parentByType']),
       total: json['total'],
-      parentObject:
-          (json['parent'] as List).map((e) => Address.fromJson(e)).toList(),
+      parentObject: (json['parentObject'] as List)
+          .map((e) => Address.fromJson(e))
+          .toList(),
     );
   }
 

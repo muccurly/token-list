@@ -7,7 +7,6 @@ abstract class DetailsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-
 class DetailsLoad extends DetailsEvent {
   final int appId;
 
@@ -21,5 +20,13 @@ class DetailsCall extends DetailsEvent {}
 
 class DetailsLoadSame extends DetailsEvent {}
 
-class DetailsLoadSameMore extends DetailsEvent{}
+class DetailsLoadSameMore extends DetailsEvent {}
 
+class DetailsLoadResidential extends DetailsEvent {
+  final int id;
+
+  const DetailsLoadResidential(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}

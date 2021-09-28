@@ -1,8 +1,7 @@
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  final ApiResponse<RealProperty>? apiResponse;
-  final List<RealProperty> properties;
+  final List<Property> properties;
   final RealPropertyFilter filter;
   final FormzStatus status;
   final FormzStatus callStatus;
@@ -12,8 +11,7 @@ class HomeState extends Equatable {
   final List<DictionaryMultiLangItem>? objectTypes;
 
   const HomeState({
-    this.apiResponse,
-    this.properties = const <RealProperty>[],
+    this.properties = const <Property>[],
     required this.filter,
     this.status = FormzStatus.pure,
     this.callStatus = FormzStatus.pure,
@@ -23,18 +21,17 @@ class HomeState extends Equatable {
     this.objectTypes,
   });
 
-  HomeState copyWith(
-      {ApiResponse<RealProperty>? apiResponse,
-      List<RealProperty>? properties,
-      RealPropertyFilter? filter,
-      FormzStatus? status,
-      FormzStatus? callStatus,
-      bool? firstLoading,
-      String? message,
-      String? phoneNumber,
-      List<DictionaryMultiLangItem>? objectTypes}) {
+  HomeState copyWith({
+    List<Property>? properties,
+    RealPropertyFilter? filter,
+    FormzStatus? status,
+    FormzStatus? callStatus,
+    bool? firstLoading,
+    String? message,
+    String? phoneNumber,
+    List<DictionaryMultiLangItem>? objectTypes,
+  }) {
     return HomeState(
-      apiResponse: apiResponse ?? this.apiResponse,
       properties: properties ?? this.properties,
       filter: filter ?? this.filter,
       status: status ?? this.status,
@@ -48,7 +45,6 @@ class HomeState extends Equatable {
 
   @override
   List<Object?> get props => [
-        apiResponse,
         properties,
         filter,
         status,

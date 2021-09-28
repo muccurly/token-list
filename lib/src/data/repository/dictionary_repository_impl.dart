@@ -29,8 +29,8 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
 
   @override
   Future<List<DictionaryMultiLangItem>> findAllHouseConditions() async {
-    List<DictionaryMultiLangItem> list =
-        await remote.getDictionaryListByName(_HOUSE_CONDITION);
+    List<DictionaryMultiLangItem> list = [DictionaryMultiLangItem.emptyE];
+    list.addAll(await remote.getDictionaryListByName(_HOUSE_CONDITION));
     return list;
   }
 
@@ -45,7 +45,8 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   @override
   List<DictionaryMultiLangItem> get types => _objectTypesSet.toList();
 
-  Future<List<DictionaryMultiLangItem>> findAllMaterialOfConstructions() async {
+  Future<List<DictionaryMultiLangItem>>
+      findAllMaterialOfConstructions() async {
     if (_materialOfConstructionSet.isNotEmpty)
       return _materialOfConstructionSet.toList();
     List<DictionaryMultiLangItem> list =

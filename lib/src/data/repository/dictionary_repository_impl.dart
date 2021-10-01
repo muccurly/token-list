@@ -11,13 +11,25 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   static const _HOUSE_CONDITION = 'HouseCondition';
   static const _HOUSE_CLASS = 'HouseClass';
   static const _MATERIAL_OF_CONSTRUCTION = 'MaterialOfConstruction';
+  static const _TypeOfElevator = 'TypeOfElevator';
 
   final IDictionaryRemoteDataSource remote;
   final _houseClasses = Map<int, DictionaryMultiLangItem>();
+  final _elevators = Map<int, DictionaryMultiLangItem>();
 
   final _objectTypesSet = Set<DictionaryMultiLangItem>()
     ..add(DictionaryMultiLangItem.empty);
-  final _materialOfConstructionSet = Set<DictionaryMultiLangItem>();
+  final _materialOfConstruction = Map<int, DictionaryMultiLangItem>();
+
+  @override
+  Map<int, DictionaryMultiLangItem> get houseClassesMap => _houseClasses;
+
+  @override
+  Map<int, DictionaryMultiLangItem> get elevators => _elevators;
+
+  @override
+  Map<int, DictionaryMultiLangItem> get materialOfConstruction =>
+      _materialOfConstruction;
 
   @override
   Future<List<DictionaryMultiLangItem>> findAllObjectTypes() async {
@@ -35,6 +47,24 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   }
 
   @override
+  Future<void> findAllElevators() async {
+    List<DictionaryMultiLangItem> list =
+        await remote.getDictionaryListByName(_TypeOfElevator);
+    list.forEach((element) {
+      _elevators[element.id] = element;
+    });
+  }
+
+  @override
+  Future<void> findAllHouseClasses() async {
+    List<DictionaryMultiLangItem> list =
+        await remote.getDictionaryListByName(_HOUSE_CLASS);
+    list.forEach((element) {
+      _houseClasses[element.id] = element;
+    });
+  }
+
+  @override
   Future<DictionaryMultiLangItem> findHouseClass(int id) async {
     if (_houseClasses.containsKey(id)) return _houseClasses[id]!;
     var hClass = await remote.getDictionaryByNameAndId(_HOUSE_CLASS, id);
@@ -45,13 +75,12 @@ class DictionaryRepositoryImpl implements IDictionaryRepository {
   @override
   List<DictionaryMultiLangItem> get types => _objectTypesSet.toList();
 
-  Future<List<DictionaryMultiLangItem>>
-      findAllMaterialOfConstructions() async {
-    if (_materialOfConstructionSet.isNotEmpty)
-      return _materialOfConstructionSet.toList();
+  @override
+  Future<void> findAllMaterialOfConstructions() async {
     List<DictionaryMultiLangItem> list =
         await remote.getDictionaryListByName(_MATERIAL_OF_CONSTRUCTION);
-    _materialOfConstructionSet.addAll(list);
-    return _materialOfConstructionSet.toList();
+    list.forEach((element) {
+      _materialOfConstruction[element.id] = element;
+    });
   }
 }

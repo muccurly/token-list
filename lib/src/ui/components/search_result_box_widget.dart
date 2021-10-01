@@ -22,6 +22,53 @@ class SearchResultBoxWidget extends StatefulWidget {
 }
 
 class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
+  _buildImages(List<String> items) {
+    return Container(
+      width: 170,
+      height: 214,
+      child: CarouselSlider(
+        options: CarouselOptions(
+            height: double.infinity,
+            initialPage: 0,
+            enableInfiniteScroll: false,
+            enlargeCenterPage: false,
+            viewportFraction: 1.0),
+        items: items.map((e) {
+          return Builder(
+            builder: (context) {
+              return Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: CachedNetworkImage(
+                  imageUrl:
+                      '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
+                      '/download/$e',
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => placeholders.shimmer,
+                  errorWidget: (context, url, error) =>
+                      placeholders.errorPlaceholder,
+                ),
+              );
+            },
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  final _noImg = Container(
+    height: 210,
+    width: double.infinity,
+    child: placeholders.noImagePlaceholder,
+  );
+
   @override
   Widget build(BuildContext context) {
     var floor = widget.property.floor;
@@ -41,81 +88,41 @@ class _SearchResultBoxWidgetState extends State<SearchResultBoxWidget> {
               borderRadius: BorderRadius.circular(8),
               child: widget.property.photoIdList != null
                   ? widget.property.photoIdList!.isNotEmpty
-                      ? Container(
-                          width: 170,
-                          height: 214,
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                                height: double.infinity,
-                                initialPage: 0,
-                                enableInfiniteScroll: false,
-                                enlargeCenterPage: false,
-                                viewportFraction: 1.0),
-                            items: widget.property.photoIdList!.map((e) {
-                              return Builder(
-                                builder: (context) {
-                                  return Container(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
-                                          '/download/$e',
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      placeholder: (context, url) =>
-                                          placeholders.shimmer,
-                                      errorWidget: (context, url, error) =>
-                                          placeholders.errorPlaceholder,
-                                    ),
-                                  );
-                                },
-                              );
-                            }).toList(),
-                          ),
-                        )
-                      : Image.network(
-                          'https://picsum.photos/seed/464/600',
-                          width: MediaQuery.of(context).size.width,
-                          height: 210,
-                          fit: BoxFit.cover,
-                        )
-                  : Image.network(
-                      'https://picsum.photos/seed/464/600',
-                      width: MediaQuery.of(context).size.width,
-                      height: 210,
-                      fit: BoxFit.cover,
-                    ),
+                      ? _buildImages(widget.property.photoIdList!)
+                      : widget.property.housingPlanImageIdList != null
+                          ? widget.property.housingPlanImageIdList!.isNotEmpty
+                              ? _buildImages(
+                                  widget.property.housingPlanImageIdList!)
+                              : _noImg
+                          : _noImg
+                  : _noImg,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+              padding: const EdgeInsets.only(top:4),
               child: Text(
                 widget.property.addressMultiText?.nameRu
                         .splitComplexOrStreet() ??
                     '',
+                  maxLines: 2, overflow: TextOverflow.ellipsis,
                 style: FlutterFlowTheme.subtitleTextDark
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
+
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              padding: const EdgeInsets.only(top:1),
               child: Text(
-                '${widget.property.numberOfRooms}-${AppLocalizations.of(context)!.roomI}'
-                ' • '
+                '${widget.property.numberOfRooms}-${AppLocalizations.of(context)!.roomI} • '
                 '${floor != null ? '$floor ${fLimit != null ? '${AppLocalizations.of(context)!.ofFloors} $fLimit' : '${AppLocalizations.of(context)!.floor} • '}' : ''}'
                 '${widget.property.totalArea.toInt()} м²',
-                style: FlutterFlowTheme.subtitle2TextDark.copyWith(),
+                style: FlutterFlowTheme.subtitle2TextDark.copyWith(
+                  fontSize: 14
+                ),
               ),
             ),
+
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              padding: const EdgeInsets.only(top:1),
               child: Text(
                 '${widget.property.sellDataDTOXpm.objectPrice.toInt().toString().priceSpace()} \u{3012}',
                 style: FlutterFlowTheme.subtitleTextDark.copyWith(

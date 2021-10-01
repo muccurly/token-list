@@ -53,8 +53,8 @@ class SameAppFilter extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "direction": "DESC",
-        "districtCode": this.districtCode,
-        "houseRank": this.houseRank,
+        // "districtCode": this.districtCode,
+        // "houseRank": this.houseRank,
         "numberOfRooms": this.numberOfRooms,
         "objectPrice": this.objectPrice,
         "objectTypeId": this.objectTypeId,

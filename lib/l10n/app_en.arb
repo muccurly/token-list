@@ -43,6 +43,8 @@
     "@advanced_search" : {"description": "advanced search"},
     "reset":"reset",
     "@reset" : {"description": "reset"},
+    "clear":"clear",
+    "@clear" : {"description": "clear"},
     "apply":"apply",
     "@apply" : {"description": "apply" },
     "save":"save",

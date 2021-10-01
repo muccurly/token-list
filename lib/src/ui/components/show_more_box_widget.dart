@@ -154,7 +154,9 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                   style: FlutterFlowTheme.bodyTextDark.copyWith(),
                 ),
                 Text(
-                  '${widget.property.buildingDTOXpm?.complex?.districtRating?? 'рейтинг не указан'}',
+                  '${widget.property.buildingDTOXpm?.complex?.districtRating!=null?
+                      '${(widget.property.buildingDTOXpm!.complex!.districtRating!.toInt()*100)/10} %'
+                      : 'рейтинг не указан'}',
                   style: FlutterFlowTheme.bodyTextDark.copyWith(),
                 )
               ],
@@ -174,7 +176,9 @@ class _ShowMoreBoxWidgetState extends State<ShowMoreBoxWidget> {
                 style: FlutterFlowTheme.bodyTextDark.copyWith(),
               ),
               Text(
-                '${widget.property.buildingDTOXpm?.complex?.rating?? 'рейтинг не указан'}',
+                '${widget.property.buildingDTOXpm?.complex?.rating!=null?
+                '${(widget.property.buildingDTOXpm!.complex!.rating!.toInt()*100)/10} %'
+                    :'рейтинг не указан'}',
                 style: FlutterFlowTheme.bodyTextDark.copyWith(),
               )
             ],

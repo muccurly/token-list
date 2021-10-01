@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "335609924219",
+    "project_id": "jurta-cb4a5",
+    "storage_bucket": "jurta-cb4a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335609924219:android:0ca6f4ac31c7db6fc1b0de",
+        "android_client_info": {
+          "package_name": "com.example.jurta_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335609924219-kpef5cbp07ve1bcb7grsgs7uufuadhtr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jurta_app",
+            "certificate_hash": "7cc5461e6c4789f207fec4bdfc0de2b93abd6e25"
+          }
+        },
+        {
+          "client_id": "335609924219-hkn42idfq194df2uqvungqb8mik6mb7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHDrtTDuo6KPSIue7PixGQfTHdLmWYmE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335609924219-hkn42idfq194df2uqvungqb8mik6mb7b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "335609924219-5fnhm5a4fn1ejskas4ep7bd940q74hkr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.iqratech.jurta"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

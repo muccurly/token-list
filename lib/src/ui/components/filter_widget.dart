@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/home.dart';
+import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_theme.dart';
 import 'package:jurta_app/src/ui//flutter_flow/flutter_flow_widgets.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/components/room_button_widget.dart';
+import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
+import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
 class FilterWidget extends StatefulWidget {
   FilterWidget({
@@ -26,6 +29,9 @@ class _FilterWidgetState extends State<FilterWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController priceFromController = TextEditingController();
   TextEditingController priceToController = TextEditingController();
+  TextEditingController areaFromController = TextEditingController();
+  TextEditingController areaToController = TextEditingController();
+  DictionaryMultiLangItem? dropDownValue;
 
   void _onChanged(/*String value, bool valFrom*/) {
     // int from = 0, to = 0;
@@ -48,10 +54,10 @@ class _FilterWidgetState extends State<FilterWidget> {
     //     if (to == 0)
     //       textController1.clear();
     //     else
-    //       textController1.text = NumericTextFormatter()
+    //       textController1.text = `NumericTextFormatter()
     //           .formatEditUpdate(const TextEditingValue(),
     //           TextEditingValue(text: to.toString()))
-    //           .text;
+    //           .text;`
     //   }
     // }
     int? f, t;
@@ -72,24 +78,54 @@ class _FilterWidgetState extends State<FilterWidget> {
   void dispose() {
     priceFromController.dispose();
     priceToController.dispose();
+    areaFromController.dispose();
+    areaToController.dispose();
     super.dispose();
   }
 
-  _initFields(){
-    RealPropertyFilter filter = BlocProvider.of<FilterBloc>(context).state.filter;
-    if(filter.priceRange!=null){
-      if(filter.priceRange!.from!=null)
-        priceFromController.text = filter.priceRange!.from!.toString();
-      if(filter.priceRange!.to!=null)
-        priceToController.text = filter.priceRange!.to!.toString();
+  _initFields() {
+    RealPropertyFilter filter =
+        BlocProvider.of<FilterBloc>(context).state.filter;
+    if(filter.objectType!=null){
+      dropDownValue = filter.objectType;
+    }else{
+      dropDownValue = DictionaryMultiLangItem.empty;
+    }
+    if (filter.priceRange != null) {
+      if (filter.priceRange!.from != null)
+        priceFromController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+                TextEditingValue(text: filter.priceRange!.from!.toString()))
+            .text;
+      if (filter.priceRange!.to != null)
+        priceToController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+                TextEditingValue(text: filter.priceRange!.to!.toString()))
+            .text;
     }
 
+    if (filter.areaRange != null) {
+      if (filter.areaRange!.from != null)
+        areaFromController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+            TextEditingValue(text: filter.areaRange!.from.toString()))
+            .text;
+      if (filter.areaRange!.to != null)
+        areaToController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+            TextEditingValue(text: filter.areaRange!.to.toString()))
+            .text;
+    }
+    // NumericTextFormatter()
+    //           .formatEditUpdate(const TextEditingValue(),
+    //           TextEditingValue(text: to.toString()))
+    //           .text;
   }
 
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-
+    final locale = AppLocalizations.of(context)!.localeName;
     return Container(
       width: _size.width * .7,
       height: _size.height,
@@ -124,7 +160,59 @@ class _FilterWidgetState extends State<FilterWidget> {
           ),
           Padding(
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-              child: ObjectTypesDropDown()),
+              // child: ObjectTypesDropDown()),
+              child: BlocBuilder<FilterBloc, FilterState>(builder: (context, state) {
+                if (state.objectTypes == null) {
+                  return placeholders.objectTypesDropDownPlaceholder;
+                }
+                return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 40,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.transparent,
+                          width: 0,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButtonHideUnderline(child: DropdownButton<DictionaryMultiLangItem>(
+                            value: dropDownValue,
+                            items: state.objectTypes!
+                                .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(
+                                locale == 'ru'
+                                    ? e.name.nameRu
+                                    : locale == 'kk'
+                                    ? e.name.nameKz
+                                    : e.name.nameEn,
+                                style: FlutterFlowTheme.darkNormal16,
+                              ),
+                            ))
+                                .toList(),
+                            elevation: 2,
+                            onChanged: (value) {
+                              if (value != null) {
+                                dropDownValue = value;
+                                setState(() => dropDownValue = value);
+                                context.read<FilterBloc>().add(ObjectTypeChose(value));
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: FlutterFlowTheme.secondaryColor,
+                              size: 24,
+                            ),
+                            isExpanded: true,
+                            dropdownColor: Colors.white,
+                          ))),
+                    ),);
+              }),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
             child: Text(
@@ -173,17 +261,20 @@ class _FilterWidgetState extends State<FilterWidget> {
                                     : false,
                           ),
                         ),
-                        Expanded(child: RoomButton(
-                          text: '2',
-                          onPressed: () =>
-                              context.read<FilterBloc>().add(RoomsPressed(2)),
-                          isActive: state.filter.numberOfRooms == null
-                              ? false
-                              : state.filter.numberOfRooms!.contains(2)
-                              ? true
-                              : false,
-                        ),),
-                        Expanded(child: RoomButton(
+                        Expanded(
+                          child: RoomButton(
+                            text: '2',
+                            onPressed: () =>
+                                context.read<FilterBloc>().add(RoomsPressed(2)),
+                            isActive: state.filter.numberOfRooms == null
+                                ? false
+                                : state.filter.numberOfRooms!.contains(2)
+                                    ? true
+                                    : false,
+                          ),
+                        ),
+                        Expanded(
+                          child: RoomButton(
                             text: '3',
                             onPressed: () =>
                                 context.read<FilterBloc>().add(RoomsPressed(3)),
@@ -192,8 +283,10 @@ class _FilterWidgetState extends State<FilterWidget> {
                                 : state.filter.numberOfRooms!.contains(3)
                                     ? true
                                     : false,
-                          ),),
-                        Expanded(child: RoomButton(
+                          ),
+                        ),
+                        Expanded(
+                          child: RoomButton(
                             text: '4',
                             onPressed: () =>
                                 context.read<FilterBloc>().add(RoomsPressed(4)),
@@ -202,19 +295,23 @@ class _FilterWidgetState extends State<FilterWidget> {
                                 : state.filter.numberOfRooms!.contains(4)
                                     ? true
                                     : false,
-                          ),),
-                        Expanded(child: RoomButton(
-                          text: '5+',
-                          onPressed: () =>
-                              context.read<FilterBloc>().add(MoreThan5Pressed()),
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: const Radius.circular(0),
-                            bottomRight: const Radius.circular(8),
-                            topLeft: const Radius.circular(0),
-                            topRight: const Radius.circular(8),
                           ),
-                          isActive: state.filter.moreThanFiveRooms,
-                        ),),
+                        ),
+                        Expanded(
+                          child: RoomButton(
+                            text: '5+',
+                            onPressed: () => context
+                                .read<FilterBloc>()
+                                .add(MoreThan5Pressed()),
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: const Radius.circular(0),
+                              bottomRight: const Radius.circular(8),
+                              topLeft: const Radius.circular(0),
+                              topRight: const Radius.circular(8),
+                            ),
+                            isActive: state.filter.moreThanFiveRooms,
+                          ),
+                        ),
                       ],
                     );
                   }),
@@ -236,7 +333,11 @@ class _FilterWidgetState extends State<FilterWidget> {
               child: RangeWidget2(
                 fromController: priceFromController,
                 toController: priceToController,
-                onChanged: (String value, /*bool from*/) => _onChanged(/*value, from*/),
+                onChanged: (
+                  String value,
+                  /*bool from*/
+                ) =>
+                    _onChanged(/*value, from*/),
               )),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 24, 0, 0),
@@ -251,20 +352,37 @@ class _FilterWidgetState extends State<FilterWidget> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: AreaWidget(),
+            child: AreaWidget2(
+              fromController: areaFromController,
+              toController: areaToController,
+              onChanged: (val){
+                int? f, t;
+                if (areaFromController.text.isNotEmpty)
+                  f = int.parse(areaFromController.text.noWhiteSpaces());
+                if (areaToController.text.isNotEmpty)
+                  t = int.parse(areaToController.text.noWhiteSpaces());
+                context.read<FilterBloc>().add(AreaRangeChanged(f, t));
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
             child: FFButtonWidget(
-              onPressed: () => Navigator.pop(context),
-              text: AppLocalizations.of(context)!.cancel.toUpperCase(),
+              onPressed: () {
+                context.read<FilterBloc>().add(FilterReset());
+                priceFromController.clear();
+                priceToController.clear();
+                areaFromController.clear();
+                areaToController.clear();
+                dropDownValue = DictionaryMultiLangItem.empty;
+              },
+              text: 'ОЧИСТИТЬ',
               options: FFButtonOptions(
                 width: 130,
                 height: 48,
                 color: Colors.white,
-                textStyle: FlutterFlowTheme.btnTextWhite.copyWith(
-                  color: const Color(0xFF131E34)
-                ),
+                textStyle: FlutterFlowTheme.btnTextWhite
+                    .copyWith(color: const Color(0xFF131E34)),
                 elevation: 0,
                 borderSide: BorderSide(
                   color: Colors.transparent,

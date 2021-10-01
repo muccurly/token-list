@@ -37,21 +37,92 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                           child: widget.list.isEmpty
                               ? placeholders.noImagePlaceholder
                               : GalleryExampleItemThumbnail(
-                                  galleryExampleItem:
-                                      widget.list.first,
+                                  galleryExampleItem: widget.list.first,
                                   onTap: () async => await showModalBottomSheet(
                                       isScrollControlled: true,
                                       backgroundColor:
                                           Colors.black.withOpacity(.8),
                                       context: context,
                                       builder: (context) {
-                                        return SingleChildScrollView(
-                                          child: Column(
-                                            children: [
-                                              InkWell(
+                                        return Stack(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 15, 15, 0),
+                                                child: Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    color: Colors.white,
+                                                    size: 25,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            GalleryPhotoViewWrapper(
+                                              itemsUuid: widget.list,
+                                              backgroundDecoration:
+                                                  BoxDecoration(
+                                                color: Colors.transparent,
+                                              ),
+                                              initialIndex: 0,
+                                              scrollDirection: Axis.horizontal,
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 0),
+                                                child: SizedBox(
+                                                  height: 170,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 0,
+                                              right: 0,
+                                              child: InkWell(
                                                 onTap: () async {
                                                   Navigator.pop(context);
                                                 },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 0, 0, 0),
+                                                  child: SizedBox(
+                                                    height: 170,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                        /*return ListView(
+                                          physics: NeverScrollableScrollPhysics(), // <-- this will disable scroll
+                                          shrinkWrap: true,
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                Navigator.pop(context);
+                                              },
+                                              child: SizedBox(
+                                                height: 100,
+                                                width: MediaQuery.of(context).size.width,
                                                 child: Padding(
                                                   padding: const EdgeInsets.fromLTRB(0, 15,15, 0),
                                                   child: Align(
@@ -61,23 +132,37 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                                                       color: Colors.white,
                                                       size: 25,
                                                     ),
+>>>>>>> main
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                height: MediaQuery.of(context).size.height,
-                                                child: GalleryPhotoViewWrapper(
-                                                  itemsUuid: widget.list,
-                                                  backgroundDecoration: BoxDecoration(
-                                                    color: Colors.transparent,
-                                                  ),
-                                                  initialIndex: 0,
-                                                  scrollDirection: Axis.horizontal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+<<<<<<< HEAD
+                                          ],
                                         );
+=======
+                                            GalleryPhotoViewWrapper(
+                                              itemsUuid: widget.list,
+                                              backgroundDecoration:
+                                              BoxDecoration(
+                                                color:
+                                                Colors.transparent,
+                                              ),
+                                              initialIndex: 0,
+                                              scrollDirection:
+                                              Axis.horizontal,
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                Navigator.pop(context);
+                                              },
+                                              child: SizedBox(
+                                                height: 100,
+                                                width: MediaQuery.of(context).size.width,
+                                              ),
+                                            ),
+                                          ],
+                                        );*/
                                       }),
                                 ))
                     ],
@@ -89,11 +174,9 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Expanded(
-                                child: widget.list.length >
-                                        1
+                                child: widget.list.length > 1
                                     ? GalleryExampleItemThumbnail(
-                                        galleryExampleItem:
-                                            widget.list[1],
+                                        galleryExampleItem: widget.list[1],
                                         onTap: () async =>
                                             await showModalBottomSheet(
                                                 isScrollControlled: true,
@@ -101,57 +184,95 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                                                     .withOpacity(.8),
                                                 context: context,
                                                 builder: (context) {
-                                                  return SingleChildScrollView(
-                                                    child: Column(
-                                                      children: [
-                                                        InkWell(
+                                                  return Stack(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  0, 15, 15, 0),
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            child: Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 25,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      GalleryPhotoViewWrapper(
+                                                        itemsUuid: widget.list,
+                                                        backgroundDecoration:
+                                                            BoxDecoration(
+                                                          color: Colors
+                                                              .transparent,
+                                                        ),
+                                                        initialIndex: 1,
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  0, 0, 0, 0),
+                                                          child: SizedBox(
+                                                            height: 170,
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        bottom: 0,
+                                                        right: 0,
+                                                        child: InkWell(
                                                           onTap: () async {
-                                                            Navigator.pop(context);
+                                                            Navigator.pop(
+                                                                context);
                                                           },
                                                           child: Padding(
-                                                            padding: const EdgeInsets.fromLTRB(0, 15,15, 0),
-                                                            child: Align(
-                                                              alignment: Alignment.topRight,
-                                                              child: Icon(
-                                                                Icons.close,
-                                                                color: Colors.white,
-                                                                size: 25,
-                                                              ),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    0, 0, 0, 0),
+                                                            child: SizedBox(
+                                                              height: 170,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
                                                             ),
                                                           ),
                                                         ),
-                                                        Container(
-                                                          height:
-                                                              MediaQuery.of(context)
-                                                                  .size
-                                                                  .height,
-                                                          child:
-                                                              GalleryPhotoViewWrapper(
-                                                            itemsUuid: widget.list,
-                                                            backgroundDecoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  Colors.transparent,
-                                                            ),
-                                                            initialIndex: 1,
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   );
                                                 }),
                                       )
                                     : placeholders.noImagePlaceholder),
                             widget.list.length > 2
                                 ? Expanded(
-                                    child: widget.list
-                                                .length >
-                                            2
+                                    child: widget.list.length > 2
                                         ? GalleryExampleItemThumbnail(
-                                            galleryExampleItem: widget.
-                                                list[2],
+                                            galleryExampleItem: widget.list[2],
                                             onTap: () async =>
                                                 await showModalBottomSheet(
                                                     isScrollControlled: true,
@@ -160,45 +281,95 @@ class _ImagesBoxWidgetState extends State<ImagesBoxWidget> {
                                                         .withOpacity(.8),
                                                     context: context,
                                                     builder: (context) {
-                                                      return SingleChildScrollView(
-                                                        child: Column(
-                                                          children: [
-                                                            InkWell(
+                                                      return Stack(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .fromLTRB(
+                                                                      0,
+                                                                      15,
+                                                                      15,
+                                                                      0),
+                                                              child: Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topRight,
+                                                                child: Icon(
+                                                                  Icons.close,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 25,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          GalleryPhotoViewWrapper(
+                                                            itemsUuid:
+                                                                widget.list,
+                                                            backgroundDecoration:
+                                                                BoxDecoration(
+                                                              color: Colors
+                                                                  .transparent,
+                                                            ),
+                                                            initialIndex: 2,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      0),
+                                                              child: SizedBox(
+                                                                height: 170,
+                                                                width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Positioned(
+                                                            bottom: 0,
+                                                            right: 0,
+                                                            child: InkWell(
                                                               onTap: () async {
-                                                                Navigator.pop(context);
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets.fromLTRB(0, 15,15, 0),
-                                                                child: Align(
-                                                                  alignment: Alignment.topRight,
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    color: Colors.white,
-                                                                    size: 25,
-                                                                  ),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .fromLTRB(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                child: SizedBox(
+                                                                  height: 170,
+                                                                  width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
                                                                 ),
                                                               ),
                                                             ),
-                                                            Container(
-                                                              height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height,
-                                                              child:
-                                                                  GalleryPhotoViewWrapper(
-                                                                itemsUuid: widget.list,
-                                                                backgroundDecoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .transparent,
-                                                                ),
-                                                                initialIndex: 2,
-                                                                scrollDirection:
-                                                                    Axis.horizontal,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       );
                                                     }),
                                           )

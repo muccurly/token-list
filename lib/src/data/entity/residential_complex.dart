@@ -76,6 +76,84 @@ class ResidentialComplex extends Equatable {
     this.addressBuilding,
   });
 
+  ResidentialComplex copyWith({
+    int? id,
+    String? name,
+    int? yearOfConstruction,
+    int? propertyDeveloperId,
+    int? numberOfFloors,
+    int? numberOfEntrances,
+    int? numberOfApartments,
+    int? apartmentsOnTheSite,
+    double? ceilingHeight,
+    int? materialOfConstructionId,
+    String? housingClass,
+    int? houseClassId,
+    int? housingConditionId,
+    List<int>? typeOfElevatorIdList,
+    bool? concierge,
+    bool? wheelchair,
+    List<int>? parkingTypeIds,
+    int? yardTypeId,
+    bool? playground,
+    List<String>? photo,
+    List<int>? hospitalIdList,
+    List<int>? schoolIdList,
+    List<int>? kindergartenIdList,
+    List<int>? shoppingCenterIdList,
+    double? rating,
+    bool? newBuilding,
+    double? districtRating,
+    double? roadInfrastructureRating,
+    double? districtStatusRating,
+    double? yardRating,
+    double? externalFacadeRating,
+    double? safetyRating,
+    double? parkingRating,
+    double? entranceRating,
+    Building? addressBuilding,
+  }) {
+    return ResidentialComplex(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      yearOfConstruction: yearOfConstruction ?? this.yearOfConstruction,
+      propertyDeveloperId: propertyDeveloperId ?? this.propertyDeveloperId,
+      numberOfFloors: numberOfFloors ?? this.numberOfFloors,
+      numberOfEntrances: numberOfEntrances ?? this.numberOfEntrances,
+      numberOfApartments: numberOfApartments ?? this.numberOfApartments,
+      apartmentsOnTheSite: apartmentsOnTheSite ?? this.apartmentsOnTheSite,
+      ceilingHeight: ceilingHeight ?? this.ceilingHeight,
+      materialOfConstructionId:
+          materialOfConstructionId ?? this.materialOfConstructionId,
+      housingClass: housingClass ?? this.housingClass,
+      houseClassId: houseClassId ?? this.houseClassId,
+      housingConditionId: housingConditionId ?? this.housingConditionId,
+      typeOfElevatorIdList: typeOfElevatorIdList ?? this.typeOfElevatorIdList,
+      concierge: concierge ?? this.concierge,
+      wheelchair: wheelchair ?? this.wheelchair,
+      parkingTypeIds: parkingTypeIds ?? this.parkingTypeIds,
+      yardTypeId: yardTypeId ?? this.yardTypeId,
+      playground: playground ?? this.playground,
+      photo: photo ?? this.photo,
+      hospitalIdList: hospitalIdList ?? this.hospitalIdList,
+      schoolIdList: schoolIdList ?? this.schoolIdList,
+      kindergartenIdList: kindergartenIdList ?? this.kindergartenIdList,
+      shoppingCenterIdList: shoppingCenterIdList ?? this.shoppingCenterIdList,
+      rating: rating ?? this.rating,
+      newBuilding: newBuilding ?? this.newBuilding,
+      districtRating: districtRating ?? this.districtRating,
+      roadInfrastructureRating:
+          roadInfrastructureRating ?? this.roadInfrastructureRating,
+      districtStatusRating: districtStatusRating ?? this.districtStatusRating,
+      yardRating: yardRating ?? this.yardRating,
+      externalFacadeRating: externalFacadeRating ?? this.externalFacadeRating,
+      safetyRating: safetyRating ?? this.safetyRating,
+      parkingRating: parkingRating ?? this.parkingRating,
+      entranceRating: entranceRating ?? this.entranceRating,
+      addressBuilding: addressBuilding ?? this.addressBuilding,
+    );
+  }
+
   factory ResidentialComplex.fromJsonMainPage(Map<String, dynamic> json) {
     return ResidentialComplex(
       name: json['residentialComplex'],
@@ -87,7 +165,7 @@ class ResidentialComplex extends Equatable {
     return ResidentialComplex(
       numberOfFloors: json['numberOfFloors'],
       yearOfConstruction: json['yearOfConstruction'],
-      name: rc!=null? rc['nameRu'] : null,
+      name: rc != null ? rc['nameRu'] : null,
     );
   }
 
@@ -134,7 +212,7 @@ class ResidentialComplex extends Equatable {
       safetyRating: json['safetyRating'],
       parkingRating: json['parkingRating'],
       entranceRating: json['entranceRating'],
-      addressBuilding: a!=null?Building.fromJson(a):null,
+      addressBuilding: a != null ? Building.fromJson(a) : null,
     );
   }
 

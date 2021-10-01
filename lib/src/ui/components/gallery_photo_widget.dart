@@ -45,7 +45,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
     return Container(
       decoration: widget.backgroundDecoration,
       constraints: BoxConstraints.expand(
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - kToolbarHeight,
       ),
       child: PhotoViewGallery.builder(
         scrollPhysics: const BouncingScrollPhysics(),

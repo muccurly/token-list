@@ -32,6 +32,7 @@ class Property extends Equatable {
   final BuildingDTO? buildingDTOXpm;
   final GeneralCharacteristics? generalCharacteristicsXpm;
   final SellDataDTO sellDataDTOXpm;
+  final String? houseClass;
 
   Property({
     this.id,
@@ -61,7 +62,73 @@ class Property extends Equatable {
     this.buildingDTOXpm,
     this.generalCharacteristicsXpm,
     required this.sellDataDTOXpm,
+    this.houseClass,
   });
+
+  Property copyWith({
+    int? id,
+    bool? atelier,
+    bool? separateBathroom,
+    int? notesCount,
+    String? apartmentNumber,
+    int? complexId,
+    int? floor,
+    int? numberOfRooms,
+    int? numberOfBedrooms,
+    double? totalArea,
+    double? livingArea,
+    double? kitchenArea,
+    double? balconyArea,
+    double? landArea,
+    int? sewerageId,
+    int? heatingSystemId,
+    List<String>? photoIdList,
+    List<String>? housingPlanImageIdList,
+    List<String>? virtualTourImageIdList,
+    MultiLangText? addressMultiText,
+    String? date,
+    int? viewCount,
+    int? objectTypeId,
+    bool? sold,
+    BuildingDTO? buildingDTOXpm,
+    GeneralCharacteristics? generalCharacteristicsXpm,
+    SellDataDTO? sellDataDTOXpm,
+    String? houseClass,
+  }) {
+    return Property(
+      id: id ?? this.id,
+      atelier: atelier ?? this.atelier,
+      separateBathroom: separateBathroom ?? this.separateBathroom,
+      notesCount: notesCount ?? this.notesCount,
+      apartmentNumber: apartmentNumber ?? this.apartmentNumber,
+      complexId: complexId ?? this.complexId,
+      floor: floor ?? this.floor,
+      numberOfRooms: numberOfRooms ?? this.numberOfRooms,
+      numberOfBedrooms: numberOfBedrooms ?? this.numberOfBedrooms,
+      totalArea: totalArea ?? this.totalArea,
+      livingArea: livingArea ?? this.livingArea,
+      kitchenArea: kitchenArea ?? this.kitchenArea,
+      balconyArea: balconyArea ?? this.balconyArea,
+      landArea: landArea ?? this.landArea,
+      sewerageId: sewerageId ?? this.sewerageId,
+      heatingSystemId: heatingSystemId ?? this.heatingSystemId,
+      photoIdList: photoIdList ?? this.photoIdList,
+      housingPlanImageIdList:
+          housingPlanImageIdList ?? this.housingPlanImageIdList,
+      virtualTourImageIdList:
+          virtualTourImageIdList ?? this.virtualTourImageIdList,
+      addressMultiText: addressMultiText ?? this.addressMultiText,
+      date: date ?? this.date,
+      viewCount: viewCount ?? this.viewCount,
+      objectTypeId: objectTypeId ?? this.objectTypeId,
+      sold: sold ?? this.sold,
+      buildingDTOXpm: buildingDTOXpm ?? this.buildingDTOXpm,
+      generalCharacteristicsXpm:
+          generalCharacteristicsXpm ?? this.generalCharacteristicsXpm,
+      sellDataDTOXpm: sellDataDTOXpm ?? this.sellDataDTOXpm,
+      houseClass: houseClass ?? this.houseClass,
+    );
+  }
 
   factory Property.fromJsonMainPage(Map<String, dynamic> json) {
     var p = json['photoIdList'];
@@ -133,10 +200,12 @@ class Property extends Equatable {
       housingPlanImageIdList: h != null ? List<String>.from((h as List)) : null,
       virtualTourImageIdList: v != null ? List<String>.from((v as List)) : null,
       sellDataDTOXpm: SellDataDTO.fromJsonClientView(json['sellDataDto']),
-      buildingDTOXpm: BuildingDTO.fromJson(json['realPropertyDto']['buildingDto']),
-      addressMultiText: MultiLangText.fromJson(json['realPropertyDto']['address']),
-      generalCharacteristicsXpm:
-          GeneralCharacteristics.fromJson(json['realPropertyDto']['generalCharacteristicsDto']),
+      buildingDTOXpm:
+          BuildingDTO.fromJson(json['realPropertyDto']['buildingDto']),
+      addressMultiText:
+          MultiLangText.fromJson(json['realPropertyDto']['address']),
+      generalCharacteristicsXpm: GeneralCharacteristics.fromJson(
+          json['realPropertyDto']['generalCharacteristicsDto']),
     );
   }
 

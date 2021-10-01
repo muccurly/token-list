@@ -80,7 +80,7 @@ class BuildingDTO extends Equatable {
     var rc = json['residentialComplex'];
     return BuildingDTO(
       houseNumber: json['houseNumber'],
-      complexName: rc!=null? rc['nameRu'] : null,
+      complexName: rc != null ? rc['nameRu'] : null,
       cityD: DictionaryMultiLangItem.fromJson(json['city']),
       districtD: DictionaryMultiLangItem.fromJson(json['district']),
       streetD: DictionaryMultiLangItem.fromJson(json['street']),
@@ -101,7 +101,7 @@ class BuildingDTO extends Equatable {
       district: AddressObjectWithType.fromJson(json['district']),
       complexId: json['residentialComplexId'],
       complexName: json['residentialComplexName'],
-      complex: r!= null?ResidentialComplex.fromJson(r):null,
+      complex: r != null ? ResidentialComplex.fromJson(r) : null,
     );
   }
 
@@ -116,6 +116,8 @@ class BuildingDTO extends Equatable {
         city,
         district,
         complexId,
+        complexName,
+        complex,
         cityD,
         districtD,
         streetD,

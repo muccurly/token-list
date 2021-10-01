@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:jurta_app/src/business_logic/details/details.dart';
 import 'package:jurta_app/src/data/entity/property.dart';
+import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/ui/components/images_box_widget.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
 import 'package:share_plus/share_plus.dart';
@@ -26,6 +27,7 @@ class MainObjectBoxWidget extends StatefulWidget {
 class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
   bool isExpanded = false;
   bool isExpandedMore = false;
+
   Widget _buildTextWidget(String text, String val) {
     return RichText(
       text: TextSpan(
@@ -99,13 +101,10 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                   await Share.share(
                       'https://jurta.kz/object/${widget.property.sellDataDTOXpm.appId}');
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: FaIcon(
-                    FontAwesomeIcons.solidShareSquare,
-                    color: FlutterFlowTheme.grey,
-                    size: 18,
-                  ),
+                child: FaIcon(
+                  FontAwesomeIcons.solidShareSquare,
+                  color: FlutterFlowTheme.grey,
+                  size: 18,
                 ),
               )
             ],
@@ -139,7 +138,10 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                 ),
                 Expanded(
                   child: Text(
-                    '${widget.property.generalCharacteristicsXpm?.housingClass ?? ''}',
+                    widget.property.generalCharacteristicsXpm?.housingClass !=
+                            null
+                        ? '${widget.property.generalCharacteristicsXpm!.housingClass!.nameRu}'
+                        : '${widget.property.houseClass ?? ''}',
                     textAlign: TextAlign.end,
                     style: FlutterFlowTheme.subtitle2TextDark.copyWith(
                       color: FlutterFlowTheme.primaryColor,
@@ -151,23 +153,23 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
           ),
           widget.property.numberOfRooms != null
               ? Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: _buildTextWidget(
-                      'Количество комнат ................................. ',
+                      'Количество комнат ................... ',
                       widget.property.numberOfRooms.toString()),
                 )
               : SizedBox.shrink(),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
             child: _buildTextWidget(
-                'Площадь .................................................. ',
+                'Площадь .................................... ',
                 '${widget.property.totalArea} м²'),
           ),
           fl != null
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                   child: _buildTextWidget(
-                      'Этаж ......................................................... ',
+                      'Этаж ........................................... ',
                       '${'$fl ${floorLimit != null ? '${AppLocalizations.of(context)!.ofFloors} $floorLimit' : ''}'}'),
                 )
               : const SizedBox.shrink(),
@@ -175,7 +177,7 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                   child: _buildTextWidget(
-                      'Состояние ................................................ ',
+                      'Состояние .................................. ',
                       houseCond),
                 )
               : const SizedBox.shrink(),
@@ -183,15 +185,15 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                   child: _buildTextWidget(
-                      'Потолки ................................................... ',
-                      ceilingHeight.toString()),
+                      'Потолки ...................................... ',
+                      ceilingHeight.toString() + " м"),
                 )
               : const SizedBox.shrink(),
           bathroom != null
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                   child: _buildTextWidget(
-                      'Санузел ................................................... ',
+                      'Санузел ...................................... ',
                       bathroom ? 'Раздельний' : 'Не раздельный'),
                 )
               : const SizedBox.shrink(),
@@ -200,9 +202,12 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                       child: _buildTextWidget(
-                          'Паркинг ................................................... ',
-                          parkingList.first.nameRu.toLowerCase()
-                            ..replaceAll('паркинг', '').capitalize()),
+                          'Паркинг ...................................... ',
+                          parkingList.first.nameRu
+                              .toLowerCase()
+                              .replaceAll('паркинг', '')
+                              .replaceAll('парковка ', '')
+                              .capitalize()),
                     )
                   : const SizedBox.shrink()
               : const SizedBox.shrink(),
@@ -210,11 +215,66 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
               ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                   child: _buildTextWidget(
-                      'Год постройки .......................................... ',
-                      year.toString()),
+                      'Год постройки ............................ ',
+                      '${year.toString()} г'),
                 )
               : const SizedBox.shrink(),
-
+          AnimatedContainer(
+            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 300),
+            child: isExpandedMore
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      widget.property.generalCharacteristicsXpm
+                                  ?.materialOfConstruction !=
+                              null
+                          ? Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                              child: _buildTextWidget(
+                                  'Материал постройки ................. ',
+                                  '${widget.property.generalCharacteristicsXpm!.materialOfConstruction!.nameRu.capitalize()}'),
+                            )
+                          : SizedBox.shrink(),
+                      widget.property.generalCharacteristicsXpm?.yardType !=
+                              null
+                          ? Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                              child: _buildTextWidget(
+                                  'Двор ........................................... ',
+                                  '${widget.property.generalCharacteristicsXpm!.yardType!.nameRu.capitalize()}'),
+                            )
+                          : SizedBox.shrink(),
+                      widget.property.generalCharacteristicsXpm
+                                  ?.typeOfElevatorList !=
+                              null
+                          ? widget.property.generalCharacteristicsXpm!
+                                  .typeOfElevatorList!.isNotEmpty
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                                  child: _buildTextWidget(
+                                      'Лифт ........................................... ',
+                                      '${RepositoryProvider.of<IDictionaryRepository>(context).elevators[widget.property.generalCharacteristicsXpm?.typeOfElevatorList?.first]?.name.nameRu.capitalize()}'),
+                                )
+                              : SizedBox.shrink()
+                          : SizedBox.shrink(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                        child: _buildTextWidget(
+                            'Торг ............................................. ',
+                            '${widget.property.sellDataDTOXpm.probabilityOfBidding == true ? 'есть' : 'нет'}'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                        child: _buildTextWidget(
+                            'Обременение ............................. ',
+                            '${widget.property.sellDataDTOXpm.encumbrance == true ? 'есть' : 'нет'}'),
+                      )
+                    ],
+                  )
+                : SizedBox.shrink(),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
             child: InkWell(
@@ -244,6 +304,36 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
               ),
             ),
           ),
+
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+          //   child: InkWell(
+          //     onTap: () => setState(() => isExpandedMore = !isExpandedMore),
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.max,
+          //         children: [
+          //           Text(
+          //             'Показать больше2',
+          //             textAlign: TextAlign.start,
+          //             style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+          //           ),
+          //           Padding(
+          //             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+          //             child: Icon(
+          //               isExpandedMore
+          //                   ? Icons.keyboard_arrow_up_outlined
+          //                   : Icons.keyboard_arrow_down_outlined,
+          //               color: FlutterFlowTheme.dark,
+          //               size: 18,
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
             child: InkWell(
@@ -328,14 +418,18 @@ class _MainObjectBoxWidgetState extends State<MainObjectBoxWidget> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: AnimatedContainer(
-              curve: Curves.easeInOut,
-              duration: const Duration(milliseconds: 300),
-              child: isExpandedMore
-                  ? ShowMoreBoxWidget(property: widget.property)
-                  : SizedBox.shrink(),
-            ),
+            child: ShowMoreBoxWidget(property: widget.property),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          //   child: AnimatedContainer(
+          //     curve: Curves.easeInOut,
+          //     duration: const Duration(milliseconds: 300),
+          //     child: isExpandedMore
+          //         ?
+          //         : SizedBox.shrink(),
+          //   ),
+          // ),
           // Padding(
           //   padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
           //   child: InkWell(

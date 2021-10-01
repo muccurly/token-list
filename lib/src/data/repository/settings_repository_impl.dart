@@ -8,4 +8,8 @@ class SettingsRepositoryImpl implements ISettingsRepository {
 
   @override
   Future<String> getCallNumber() async => remote.callCenter();
+
+  @override
+  Future<void> addDevice(String uuid, String platform, String version) =>
+      remote.addDevice(uuid, platform, version);
 }

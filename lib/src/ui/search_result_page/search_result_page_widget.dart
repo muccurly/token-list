@@ -196,7 +196,7 @@ class ContentWidget extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 8,
         mainAxisSpacing: 0,
-        childAspectRatio: .56,
+        childAspectRatio: .62,
       ),
       scrollDirection: Axis.vertical,
       itemCount:

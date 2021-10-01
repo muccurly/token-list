@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jurta_app/src/app.dart';
@@ -11,8 +12,12 @@ import 'package:jurta_app/src/data/repository/dictionary_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/other_structures_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/property_repository_impl.dart';
 import 'package:jurta_app/src/data/repository/settings_repository_impl.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   final propertyRemoteDataSource = PropertyRemoteDataSourceImpl();
   final propertyRepository = PropertyRepositoryImpl(propertyRemoteDataSource);
 

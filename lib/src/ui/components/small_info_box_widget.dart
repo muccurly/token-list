@@ -13,11 +13,23 @@ class SmallInfoBoxWidget extends StatelessWidget {
 
   final Property property;
 
+  _buildImages(String item) {
+    return CachedNetworkImage(
+      imageUrl:
+          '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
+          '/download/$item',
+      imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
+      placeholder: (context, url) => plc.shimmer,
+      errorWidget: (context, url, error) => plc.errorPlaceholder,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var complex = property.buildingDTOXpm?.complexName;
-    if(complex!=null)
-      print(complex);
+    if (complex != null) print(complex);
     var address = property.addressMultiText?.nameRu.splitStreet();
     var st = property.buildingDTOXpm?.streetD?.name.nameRu;
     var hn = property.buildingDTOXpm?.houseNumber;
@@ -40,33 +52,29 @@ class SmallInfoBoxWidget extends StatelessWidget {
                     height: 210,
                     child: property.photoIdList != null
                         ? property.photoIdList!.isNotEmpty
-                            ? CachedNetworkImage(
-                                imageUrl:
-                                    '${EnvironmentConfig.API_URL_FM}/${EnvironmentConfig.API_VERSION}'
-                                    '/download/${property.photoIdList!.first}',
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.cover))),
-                                placeholder: (context, url) => plc.shimmer,
-                                errorWidget: (context, url, error) =>
-                                    plc.errorPlaceholder,
-                              )
-                            : plc.noImagePlc
+                            ? _buildImages(property.photoIdList!.first)
+                            : property.housingPlanImageIdList != null
+                                ? property.housingPlanImageIdList!.isNotEmpty
+                                    ? _buildImages(
+                                        property.housingPlanImageIdList!.first)
+                                    : plc.noImagePlc
+                                : plc.noImagePlc
                         : plc.noImagePlc)),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                child: Text(
-                  // complex ?? address,
-                  complex != null
-                      ? complex
-                      : address != null
-                          ? address
-                          : '$st, $hn',
-                  style: FlutterFlowTheme.titleTextWDark.copyWith(),
+                padding: const EdgeInsets.only(top:5),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    // complex ?? address,
+                    complex != null
+                        ? complex
+                        : address != null
+                            ? address
+                            : '$st, $hn',
+                    maxLines: 2, overflow: TextOverflow.ellipsis,
+                    style: FlutterFlowTheme.subtitleTextDark.copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
@@ -82,7 +90,9 @@ class SmallInfoBoxWidget extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
               child: Text(
                 '${property.sellDataDTOXpm.objectPrice.toInt().toString().priceSpace()} \u{3012}',
-                style: FlutterFlowTheme.subtitleTextDark.copyWith(),
+                style: FlutterFlowTheme.subtitleTextDark.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           ],

@@ -73,6 +73,10 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
               flagId: state.filter.flagId,
               objectType: event.item
           ));
+    else if(event is FilterReset)
+      yield state.copyWith(
+        filter: const RealPropertyFilter(),
+      );
   }
 
   Stream<FilterState> _mapLoadObjectTypesEventToState() async* {

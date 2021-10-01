@@ -53,7 +53,7 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
   }
 
   @override
-  Stream<SearchMiniState> mapEventToState(SearchMiniEvent event) async* {
+  Stream<SearchMiniState?> mapEventToState(SearchMiniEvent event) async* {
     if (event is SearchMiniGetObjectTypes)
       yield await _mapSearchMiniGetObjectTypesToState();
     else if (event is SearchMiniObjectTypeChoose)
@@ -118,7 +118,9 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
       yield* _mapSearchPropertiesToState();
     else if (event is SearchMiniMore)
       yield* _mapSearchMiniMoreToState();
-    else if (event is SortMiniChanged) yield* _mapSortChangedToState(event);
+    else if (event is SortMiniChanged)
+      yield* _mapSortChangedToState(event);
+    else if (event is SearchMiniSave) yield* _mapSaveSearchParams(event);
   }
 
   Future<SearchMiniState> _mapSearchMiniGetObjectTypesToState() async {
@@ -244,6 +246,14 @@ class SearchMiniBloc extends Bloc<SearchMiniEvent, SearchMiniState> {
       } on DioError catch (e) {
         //TODO:
       } catch (e) {}
+      yield state.copyWith(updateStatus: FormzStatus.submissionFailure);
+    }
+  }
+
+  Stream<SearchMiniState> _mapSaveSearchParams(SearchMiniSave event) async* {
+    try {
+      await 
+    } catch (e) {
       yield state.copyWith(updateStatus: FormzStatus.submissionFailure);
     }
   }

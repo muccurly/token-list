@@ -51,6 +51,8 @@ class SearchMiniAreaRangeChanged extends SearchMiniEvent {
 
 class SearchMiniReset extends SearchMiniEvent {}
 
+class SearchMiniSave extends SearchMiniEvent {}
+
 class SearchMiniProperties extends SearchMiniEvent {}
 
 class SearchMiniMore extends SearchMiniEvent {}

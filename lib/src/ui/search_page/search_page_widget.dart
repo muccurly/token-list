@@ -207,8 +207,106 @@ class _SearchWidgetState extends State<SearchWidget> {
         areaToController.text = filter.areaRange!.to.toString();
     }
 
-    if (filter.objectType != null) dropDownValue = filter.objectType;
-    else dropDownValue = DictionaryMultiLangItem.empty;
+    if (filter.objectType != null)
+      dropDownValue = filter.objectType;
+    else
+      dropDownValue = DictionaryMultiLangItem.empty;
+  }
+
+  _showSaveDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        builder: (s) {
+          return AlertDialog(
+            content: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Укажите наименование поиска',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: FlutterFlowTheme.secondaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    style: TextStyle(fontSize: 12),
+                    decoration: InputDecoration(
+                      hintText: "Наименование",
+                      fillColor: Color(0x333333),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 0.5,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 0.5,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 0.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: FFButtonWidget(
+                      text: AppLocalizations.of(context)!.cancel.capitalize(),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      options: FFButtonOptions(
+                        textStyle: FlutterFlowTheme.btnTextWhite,
+                        height: 48,
+                        width: MediaQuery.of(context).size.width,
+                        color: FlutterFlowTheme.secondaryColor,
+                        borderRadius: 10,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: FFButtonWidget(
+                      text: AppLocalizations.of(context)!.save.capitalize(),
+                      onPressed: () {},
+                      options: FFButtonOptions(
+                        textStyle: FlutterFlowTheme.btnTextWhite,
+                        height: 48,
+                        width: MediaQuery.of(context).size.width,
+                        color: FlutterFlowTheme.primaryColor,
+                        borderRadius: 10,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -303,7 +401,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                         items: state.objectTypes
                             .map((e) => DropdownMenuItem(
                                   value: e,
-                                  child: Text( e.name.nameRu,
+                                  child: Text(
+                                    e.name.nameRu,
                                     style: FlutterFlowTheme.darkNormal16,
                                   ),
                                 ))
@@ -525,32 +624,49 @@ class _SearchWidgetState extends State<SearchWidget> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 5),
-                    child: BlocBuilder<SearchMiniBloc, SearchMiniState>(
-                        builder: (context, state) {
-                      if (state.searchStatus.isSubmissionInProgress)
-                        return Center(child: CircularProgressIndicator());
-                      return FFButtonWidget(
-                        onPressed: () => context
-                            .read<SearchMiniBloc>()
-                            .add(SearchMiniProperties()),
-                        text: AppLocalizations.of(context)!.search.capitalize(),
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 48,
-                          color: FlutterFlowTheme.primaryColor,
-                          textStyle: FlutterFlowTheme.btnTextWhite.copyWith(),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: 8,
+                    child: FFButtonWidget(
+                      onPressed: () => _showSaveDialog(context),
+                      text: AppLocalizations.of(context)!.save.capitalize(),
+                      options: FFButtonOptions(
+                        width: double.infinity,
+                        height: 48,
+                        color: FlutterFlowTheme.tertiaryColor,
+                        textStyle: FlutterFlowTheme.btnTextDarkBlue,
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.secondaryColor,
+                          width: 2,
                         ),
-                      );
-                    }),
+                        borderRadius: 8,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+            child: BlocBuilder<SearchMiniBloc, SearchMiniState>(
+                builder: (context, state) {
+              if (state.searchStatus.isSubmissionInProgress)
+                return Center(child: CircularProgressIndicator());
+              return FFButtonWidget(
+                onPressed: () =>
+                    context.read<SearchMiniBloc>().add(SearchMiniProperties()),
+                text: AppLocalizations.of(context)!.search.capitalize(),
+                options: FFButtonOptions(
+                  width: double.infinity,
+                  height: 48,
+                  color: FlutterFlowTheme.primaryColor,
+                  textStyle: FlutterFlowTheme.btnTextWhite.copyWith(),
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: 8,
+                ),
+              );
+            }),
           ),
         ],
       ),

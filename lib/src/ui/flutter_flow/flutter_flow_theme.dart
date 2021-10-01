@@ -26,7 +26,7 @@ class FlutterFlowTheme {
         fontFamily: primaryFontFamily,
         color: white,
         fontWeight: FontWeight.w500,
-        fontSize: 16,
+        fontSize: 13,
       );
   static TextStyle get subtitle2Text => TextStyle(
         fontFamily: primaryFontFamily,
@@ -107,6 +107,12 @@ class FlutterFlowTheme {
   static TextStyle get btnTextWhite => TextStyle(
         fontFamily: primaryFontFamily,
         color: white,
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+      );
+  static TextStyle get btnTextDarkBlue => TextStyle(
+        fontFamily: primaryFontFamily,
+        color: secondaryColor,
         fontWeight: FontWeight.w600,
         fontSize: 18,
       );

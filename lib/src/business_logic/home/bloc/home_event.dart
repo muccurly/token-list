@@ -26,3 +26,5 @@ class FilterChanged extends HomeEvent {
 }
 
 class CallPressed extends HomeEvent {}
+
+class LoadHouseClasses extends HomeEvent {}

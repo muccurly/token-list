@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:jurta_app/src/data/remote/api_client.dart';
 import 'package:jurta_app/src/data/remote/i_settings_remote_data_source.dart';
+import 'package:jurta_app/src/utils/my_logger.dart';
 
 class SettingsRemoteDataSourceImpl implements ISettingsRemoteDataSource{
   @override
@@ -12,5 +13,17 @@ class SettingsRemoteDataSourceImpl implements ISettingsRemoteDataSource{
       else throw Exception('empty phone exception');
     }
     else throw Exception('api exception');
+  }
+
+  Future<void> addDevice(String uuid, String platform, String version) async{
+    Response res = await ApiClient.instance.umDio.post('/profile-config/addDevice',
+    data: {
+      "platform": platform,
+      "uuid": uuid,
+      "version": version
+    });
+    if(res.statusCode == 200)
+      MyLogger.instance.log.d('device added: $uuid');
+    else throw Exception('invalid adding deviceuuid');
   }
 }

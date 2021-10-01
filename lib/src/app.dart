@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jurta_app/l10n/l10n.dart';
+import 'package:jurta_app/src/business_logic/app/app.dart';
 import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/business_logic/home/bloc/home_bloc.dart';
 import 'package:jurta_app/src/business_logic/search/bloc/search_bloc.dart';
@@ -56,6 +57,11 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<AppCubit>(
+            create: (context) =>
+                AppCubit(settingsRepository: settingsRepository)
+                  ..addDeviceUuid(),
+          ),
           BlocProvider<SortCubit>(create: (context) => SortCubit()),
           BlocProvider<FilterBloc>(
             create: (context) => FilterBloc(
@@ -91,12 +97,16 @@ class App extends StatelessWidget {
             )..add(SearchMiniGetObjectTypes()),
           ),
           BlocProvider<HomeBloc>(
-            create: (context) => HomeBloc(
-              propertyRepository: propertyRepository,
-              settingsRepository: settingsRepository,
-              filterBloc: BlocProvider.of<FilterBloc>(context),
-            )..add(LoadProperties()),
-          ),
+              create: (context) => HomeBloc(
+                    propertyRepository: propertyRepository,
+                    settingsRepository: settingsRepository,
+                    dictionaryRepository: dictionaryRepository,
+                    filterBloc: BlocProvider.of<FilterBloc>(context),
+                  )
+                    ..add(LoadProperties())
+                    ..add(LoadHouseClasses())
+              // ..add(RegDevice()),
+              ),
         ],
         child: AppView(),
       ),
@@ -114,18 +124,22 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: L10n.locales,
-      home: HomePageWidget(),
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        return MaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: L10n.locales,
+          home: HomePageWidget(),
+        );
+      }
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
 import 'package:jurta_app/src/ui/components/room_button_widget.dart';
 import 'package:jurta_app/src/ui/object_info_page/object_info_page_widget.dart';
+import 'package:jurta_app/src/utils/custom_input_formatter.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
 import 'package:jurta_app/src/utils/placeholders.dart' as placeholders;
 
@@ -196,15 +197,27 @@ class _SearchWidgetState extends State<SearchWidget> {
     SearchFilter filter = BlocProvider.of<SearchMiniBloc>(context).state.filter;
     if (filter.priceRange != null) {
       if (filter.priceRange!.from != null)
-        priceFromController.text = filter.priceRange!.from.toString();
+        priceFromController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+            TextEditingValue(text: filter.priceRange!.from!.toString()))
+            .text;
       if (filter.priceRange!.to != null)
-        priceToController.text = filter.priceRange!.to.toString();
+        priceToController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+            TextEditingValue(text: filter.priceRange!.to!.toString()))
+            .text;
     }
     if (filter.areaRange != null) {
       if (filter.areaRange!.from != null)
-        areaFromController.text = filter.areaRange!.from.toString();
+        areaFromController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+            TextEditingValue(text: filter.areaRange!.from.toString()))
+            .text;
       if (filter.areaRange!.to != null)
-        areaToController.text = filter.areaRange!.to.toString();
+        areaToController.text = NumericTextFormatter()
+            .formatEditUpdate(const TextEditingValue(),
+            TextEditingValue(text: filter.areaRange!.to.toString()))
+            .text;
     }
 
     if (filter.objectType != null) dropDownValue = filter.objectType;

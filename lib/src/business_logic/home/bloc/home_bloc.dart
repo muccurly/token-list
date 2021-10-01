@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -9,20 +11,24 @@ import 'package:jurta_app/src/business_logic/filter/filter.dart';
 import 'package:jurta_app/src/data/entity/real_property_filter.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/property.dart';
+import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required IPropertyRepository propertyRepository,
     required ISettingsRepository settingsRepository,
+    required IDictionaryRepository dictionaryRepository,
     required FilterBloc filterBloc,
   })  : _propertyRepository = propertyRepository,
         _settingsRepository = settingsRepository,
+        _dictionaryRepository = dictionaryRepository,
         super(HomeState(filter: filterBloc.state.filter)) {
     _filterStreamSubscription = filterBloc.stream.listen((filterState) => add(
         FilterChanged(
@@ -31,6 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final IPropertyRepository _propertyRepository;
   final ISettingsRepository _settingsRepository;
+  final IDictionaryRepository _dictionaryRepository;
 
   late StreamSubscription<FilterState> _filterStreamSubscription;
 
@@ -49,7 +56,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     else if (event is FilterChanged)
       yield state.copyWith(
           filter: event.filter, objectTypes: event.objectTypes);
-    else if (event is CallPressed) yield* _mapCallPressedToState();
+    else if (event is CallPressed)
+      yield* _mapCallPressedToState();
+    else if (event is LoadHouseClasses)
+      _loadDicts();
+  }
+
+  void _loadDicts() async {
+    _dictionaryRepository.findAllHouseClasses();
+    _dictionaryRepository.findAllElevators();
+    _dictionaryRepository.findAllMaterialOfConstructions();
   }
 
   Stream<HomeState> _mapCallPressedToState() async* {
@@ -77,19 +93,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           status: FormzStatus.submissionInProgress, firstLoading: true);
       try {
         print(state.filter.toString());
-        List<Property> list = await _propertyRepository.findRealProperty(
-            state.filter.copyWith(
-                pageNumber: 0,
-                flagId: state.filter.flagId,
-                // objectTypeId: state.filter.objectTypeId
-            ));
+        List<Property> list =
+            await _propertyRepository.findRealProperty(state.filter.copyWith(
+          pageNumber: 0,
+          flagId: state.filter.flagId,
+          // objectTypeId: state.filter.objectTypeId
+        ));
         yield state.copyWith(
           status: FormzStatus.submissionSuccess,
           properties: list,
           filter: state.filter.copyWith(
-              pageNumber: _propertyRepository.mainPagination?.pageNumber,
-              flagId: state.filter.flagId,
-              // objectTypeId: state.filter.objectTypeId
+            pageNumber: _propertyRepository.mainPagination?.pageNumber,
+            flagId: state.filter.flagId,
+            // objectTypeId: state.filter.objectTypeId
           ),
           firstLoading: false,
         );
@@ -122,12 +138,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (await InternetConnectionChecker().hasConnection) {
           yield state.copyWith(status: FormzStatus.submissionInProgress);
           try {
-            List<Property> list = await _propertyRepository.findRealProperty(
-                state.filter.copyWith(
-                    pageNumber: state.filter.pageNumber + 1,
-                    flagId: state.filter.flagId,
-                    // objectTypeId: state.filter.objectTypeId
-                ));
+            List<Property> list = await _propertyRepository
+                .findRealProperty(state.filter.copyWith(
+              pageNumber: state.filter.pageNumber + 1,
+              flagId: state.filter.flagId,
+              // objectTypeId: state.filter.objectTypeId
+            ));
             yield state.copyWith(
               properties: list,
               status: FormzStatus.submissionSuccess,

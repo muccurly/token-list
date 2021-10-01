@@ -10,7 +10,9 @@ import 'package:jurta_app/src/data/entity/search_filter.dart';
 import 'package:jurta_app/src/data/entity/address.dart';
 import 'package:jurta_app/src/data/entity/dictionary_multi_lang_item.dart';
 import 'package:jurta_app/src/data/entity/residential_complex.dart';
+import 'package:jurta_app/src/ui/components/Complex_search.dart';
 import 'package:jurta_app/src/ui/components/range_widget.dart';
+import 'package:jurta_app/src/ui/components/street_search_widget.dart';
 import 'package:jurta_app/src/ui/flutter_flow/flutter_flow_util.dart';
 import 'package:jurta_app/src/ui/search_result_page/search_result_page_widget.dart';
 import 'package:jurta_app/src/utils/extensions.dart';
@@ -79,13 +81,15 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
       distDrop = state.district!;
     else
       distDrop = Address.empty;
-    if (state.street != null)
+    if (state.street != null) {
       streetDrop = state.street!;
-    else
+      _streetController.text = state.street!.address!.addressObject.name.nameRu;
+    } else
       streetDrop = Address.empty;
-    if (state.complex != null)
+    if (state.complex != null) {
       complexDrop = state.complex!;
-    else
+      _complexController.text = state.complex!.name!;
+    } else
       complexDrop = ResidentialComplex.empty;
     if (state.filter.housingCondition != null)
       condDrop = state.filter.housingCondition;
@@ -134,6 +138,8 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!.localeName;
+    final _size = MediaQuery.of(context).size;
+
     return BlocListener<SearchBloc, SearchState>(
       listenWhen: (p, c) => p.searchStatus != c.searchStatus,
       listener: (context, state) async {
@@ -371,109 +377,113 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: BlocBuilder<SearchBloc, SearchState>(
-                                buildWhen: (previous, current) =>
-                                    previous.streets != current.streets ||
-                                    previous.streetsStatus !=
-                                        current.streetsStatus,
-                                builder: (context, state) {
-                                  if (state
-                                      .streetsStatus.isSubmissionInProgress)
-                                    return placeholders
-                                        .objectTypesDropDownPlaceholder;
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: Colors.transparent,
-                                        width: 0,
-                                      ),
-                                      color: Colors.white,
+                            child: BlocBuilder<SearchBloc, SearchState>(
+                              buildWhen: (previous, current) =>
+                                  previous.streets != current.streets ||
+                                  previous.streetsStatus !=
+                                      current.streetsStatus,
+                              builder: (context, state) {
+                                if (state.streetsStatus.isSubmissionInProgress)
+                                  return placeholders
+                                      .objectTypesDropDownPlaceholder;
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: Colors.transparent,
+                                      width: 0,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 16),
-                                      child: Row(
-                                        children: <Widget>[
-                                          new Expanded(
-                                            child: new TextField(
-                                              controller: _streetController,
-                                              decoration: InputDecoration(
-                                                hintText: 'Улица',
-                                                hintStyle: const TextStyle(
-                                                    color: const Color(
-                                                        0xFFADADAD)),
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                disabledBorder:
-                                                    InputBorder.none,
+                                    color: Colors.white,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: TextField(
+                                      enabled: distDrop!= Address.empty,
+                                      controller: _streetController,
+                                      onTap: distDrop!= Address.empty
+                                          ? () async {
+                                        await showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.vertical(
+                                                  top: Radius.circular(16))),
+                                          context: context,
+                                          backgroundColor:
+                                          FlutterFlowTheme.tertiaryColor,
+                                          builder: (context) {
+                                            return Container(
+                                              height: 500,
+                                              child: StreetSearch(
+                                                streets: state.streets,
+                                                onChoice: (a){
+                                                  context.read<SearchBloc>().add(StreetChanged(a));
+                                                  _streetController.text = a.address!.addressObject.name.nameRu;
+                                                },
                                               ),
-                                              onChanged: (v) {
-                                                if (v.isEmpty)
-                                                  setState(() => streetDrop =
-                                                      Address.empty);
-                                              },
-                                            ),
-                                          ),
-                                          PopupMenuButton<Address>(
-                                            icon: const Icon(
-                                              Icons
-                                                  .keyboard_arrow_down_outlined,
-                                              color: FlutterFlowTheme
-                                                  .secondaryColor,
-                                              size: 24,
-                                            ),
-                                            onSelected: (Address value) {
-                                              _streetController.text = value
-                                                  .address!
-                                                  .addressObject
-                                                  .name
-                                                  .nameRu;
-                                            },
-                                            itemBuilder:
-                                                (BuildContext context) {
-                                              var l = state.streets;
-                                              if (_streetController
-                                                      .text.isNotEmpty &&
-                                                  streetDrop != Address.empty) {
-                                                l = l
-                                                    .where((it) => it
-                                                        .address!
-                                                        .addressObject
-                                                        .name
-                                                        .nameRu
-                                                        .toLowerCase()
-                                                        .contains(
-                                                            _streetController
-                                                                .text
-                                                                .toLowerCase()))
-                                                    .toList();
-                                              }
-                                              return l
-                                                  .map<PopupMenuItem<Address>>(
-                                                      (Address value) {
-                                                return PopupMenuItem(
-                                                  child: Text(value
-                                                      .address!
-                                                      .addressObject
-                                                      .name
-                                                      .nameRu),
-                                                  value: value,
-                                                );
-                                              }).toList();
-                                            },
-                                          ),
-                                        ],
+                                            );
+                                          },
+                                        );
+                                      } : null,
+                                      decoration: InputDecoration(
+                                        hintText: 'Улица',
+                                        hintStyle: const TextStyle(
+                                            color: const Color(
+                                                0xFFADADAD)),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder:
+                                        InputBorder.none,
                                       ),
+                                      onChanged: (v) {
+                                        // if (v.isEmpty)
+                                        //   setState(() => complexDrop =
+                                        //       ResidentialComplex
+                                        //           .empty);
+                                      },
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                  // InkWell(
+                                  //   onTap: () async {
+                                  //     await showModalBottomSheet(
+                                  //       isScrollControlled: true,
+                                  //       shape: RoundedRectangleBorder(
+                                  //           borderRadius: BorderRadius.vertical(
+                                  //               top: Radius.circular(16))),
+                                  //       context: context,
+                                  //       backgroundColor:
+                                  //           FlutterFlowTheme.tertiaryColor,
+                                  //       builder: (context) {
+                                  //         return Container(
+                                  //           height: 500,
+                                  //           child: StreetSearch(
+                                  //             streets: state.streets,
+                                  //           ),
+                                  //         );
+                                  //       },
+                                  //     );
+                                  //   },
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.only(right: 5),
+                                  //     child: Container(
+                                  //       width: MediaQuery.of(context).size.width,
+                                  //       height: 40,
+                                  //       decoration: BoxDecoration(
+                                  //         borderRadius: BorderRadius.circular(8),
+                                  //         border: Border.all(
+                                  //           color: Colors.transparent,
+                                  //           width: 0,
+                                  //         ),
+                                  //         color: Colors.white,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                );
+                              },
                             ),
                           ),
                           Expanded(
@@ -502,75 +512,50 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 16),
-                                      child: Row(
-                                        children: <Widget>[
-                                          new Expanded(
-                                            child: new TextField(
-                                              controller: _complexController,
-                                              decoration: InputDecoration(
-                                                hintText: 'ЖК',
-                                                hintStyle: const TextStyle(
-                                                    color: const Color(
-                                                        0xFFADADAD)),
-                                                border: InputBorder.none,
-                                                focusedBorder: InputBorder.none,
-                                                enabledBorder: InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                disabledBorder:
-                                                    InputBorder.none,
-                                              ),
-                                              onChanged: (v) {
-                                                if (v.isEmpty)
-                                                  setState(() => complexDrop =
-                                                      ResidentialComplex.empty);
-                                              },
-                                            ),
-                                          ),
-                                          PopupMenuButton<ResidentialComplex>(
-                                            icon: const Icon(
-                                              Icons
-                                                  .keyboard_arrow_down_outlined,
-                                              color: FlutterFlowTheme
-                                                  .secondaryColor,
-                                              size: 24,
-                                            ),
-                                            onSelected:
-                                                (ResidentialComplex value) {
-                                              _complexController.text =
-                                                  value.name!;
-                                              context
-                                                  .read<SearchBloc>()
-                                                  .add(ComplexChanged(value));
+                                      child: new TextField(
+                                        enabled: distDrop!= Address.empty,
+                                        controller: _complexController,
+                                        onTap: () async {
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(
+                                                    top: Radius.circular(16))),
+                                            context: context,
+                                            backgroundColor:
+                                            FlutterFlowTheme.tertiaryColor,
+                                            builder: (context) {
+                                              return Container(
+                                                height: 500,
+                                                child: ComplexSearch(
+                                                  complex: state.complexes,
+                                                  onChoice: (a){
+                                                    context.read<SearchBloc>().add(ComplexChanged(a));
+                                                    _complexController.text = a.name!;
+                                                  },
+                                                ),
+                                              );
                                             },
-                                            itemBuilder:
-                                                (BuildContext context) {
-                                              var l = state.complexes;
-                                              if (_complexController
-                                                      .text.isNotEmpty ||
-                                                  complexDrop !=
-                                                      ResidentialComplex
-                                                          .empty) {
-                                                l = l
-                                                    .where((it) => it.name!
-                                                        .toLowerCase()
-                                                        .contains(
-                                                            _complexController
-                                                                .text
-                                                                .toLowerCase()))
-                                                    .toList();
-                                              }
-                                              return l.map<
-                                                      PopupMenuItem<
-                                                          ResidentialComplex>>(
-                                                  (ResidentialComplex value) {
-                                                return PopupMenuItem(
-                                                  child: Text(value.name!),
-                                                  value: value,
-                                                );
-                                              }).toList();
-                                            },
-                                          ),
-                                        ],
+                                          );
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'ЖК',
+                                          hintStyle: const TextStyle(
+                                              color: const Color(
+                                                  0xFFADADAD)),
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder:
+                                              InputBorder.none,
+                                        ),
+                                        onChanged: (v) {
+                                          // if (v.isEmpty)
+                                          //   setState(() => complexDrop =
+                                          //       ResidentialComplex
+                                          //           .empty);
+                                        },
                                       ),
                                     ),
                                   );
@@ -650,7 +635,8 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                     child: Text(
                                       'Изолированные\nкомнаты',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: GoogleFonts.getFont(
+                                        'Roboto',
                                         color: state.filter.atelier == false
                                             ? FlutterFlowTheme.white
                                             : FlutterFlowTheme.dark,
@@ -685,7 +671,8 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                                     child: Text(
                                       'Студия',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: GoogleFonts.getFont(
+                                        'Roboto',
                                         color: state.filter.atelier == true
                                             ? FlutterFlowTheme.white
                                             : FlutterFlowTheme.dark,
@@ -787,7 +774,7 @@ class _AdvanceSearchPageWidgetState extends State<AdvanceSearchPageWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                      padding: EdgeInsets.fromLTRB(0, 12, 0, 8),
                       child: Text(
                         'ПОКАЗЫВАТЬ ТОЛЬКО',
                         style: FlutterFlowTheme.searchPageTitle.copyWith(),

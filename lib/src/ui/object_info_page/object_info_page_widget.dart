@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jurta_app/src/business_logic/details/details.dart';
 import 'package:jurta_app/src/data/entity/property.dart';
+import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_other_structures_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
@@ -31,6 +32,8 @@ class ObjectInfoPageWidget extends StatelessWidget {
         property: property,
         settingsRepository: RepositoryProvider.of<ISettingsRepository>(context),
         propertyRepository: RepositoryProvider.of<IPropertyRepository>(context),
+        dictionaryRepository:
+            RepositoryProvider.of<IDictionaryRepository>(context),
         otherStructuresRepository:
             RepositoryProvider.of<IOtherStructuresRepository>(context),
       )..add(DetailsLoad(property.sellDataDTOXpm.appId)),
@@ -101,6 +104,7 @@ class _ObjectInfoPageState extends State<ObjectInfoPage> {
                       }),
                   BlocBuilder<DetailsBloc, DetailsState>(
                       builder: (context, state) {
+                    if (state.property == null) return SizedBox.shrink();
                     return MainObjectBoxWidget(property: state.property!);
                     // return Container(child: Center(child: CircularProgressIndicator(),),);
                   }),
@@ -108,8 +112,9 @@ class _ObjectInfoPageState extends State<ObjectInfoPage> {
                     padding: const EdgeInsets.fromLTRB(8, 12, 0, 0),
                     child: Text(
                       'ПОХОЖИЕ ОБЪЕКТЫ',
-                      style: FlutterFlowTheme.subtitle2TextDark.copyWith(
-                        fontWeight: FontWeight.w700,
+                      style: GoogleFonts.getFont(
+                        'Roboto',
+                        fontWeight: FontWeight.w600,
                         fontSize: 16,
                       ),
                     ),

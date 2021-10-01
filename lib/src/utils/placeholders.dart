@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 final color1 = Colors.grey[300]!;
 final color2 = Colors.grey[100]!;
 
-Widget _buildBaseShimmer({
+Widget buildBaseShimmer({
   double width = double.infinity,
   double height = double.infinity,
 }) {
@@ -20,7 +20,7 @@ Widget _buildBaseShimmer({
   );
 }
 
-final shimmer = _buildBaseShimmer();
+final shimmer = buildBaseShimmer();
 
 final gridShimmer = GridView.builder(
   padding: EdgeInsets.zero,
@@ -44,24 +44,24 @@ final gridItemShimmer = Padding(
       children: [
         ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: _buildBaseShimmer(height: 212)),
+            child: buildBaseShimmer(height: 212)),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: _buildBaseShimmer(height: 30)),
+              child: buildBaseShimmer(height: 30)),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: _buildBaseShimmer(height: 20)),
+              child: buildBaseShimmer(height: 20)),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: _buildBaseShimmer(height: 20)),
+              child: buildBaseShimmer(height: 20)),
         ),
       ],
     ),
@@ -92,4 +92,4 @@ final noImagePlc = Container(
 
 final noImagePlaceholder = Image.asset('assets/images/no_image.png');
 
-final objectTypesDropDownPlaceholder = _buildBaseShimmer(height: 40);
+final objectTypesDropDownPlaceholder = buildBaseShimmer(height: 40);

@@ -6,12 +6,14 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:jurta_app/src/business_logic/details/details.dart';
 import 'package:jurta_app/src/business_logic/details/models/same_app_filter.dart';
 import 'package:jurta_app/src/data/entity/property.dart';
+import 'package:jurta_app/src/data/repository/i_dictionary_repository.dart';
 import 'package:jurta_app/src/data/repository/i_other_structures_repository.dart';
 import 'package:jurta_app/src/data/repository/i_property_repository.dart';
 import 'package:jurta_app/src/data/repository/i_settings_repository.dart';
 import 'package:jurta_app/src/utils/my_logger.dart';
 
 part 'details_event.dart';
+
 part 'details_state.dart';
 
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
@@ -20,9 +22,11 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     required IPropertyRepository propertyRepository,
     required ISettingsRepository settingsRepository,
     required IOtherStructuresRepository otherStructuresRepository,
+    required IDictionaryRepository dictionaryRepository,
   })  : _propertyRepository = propertyRepository,
         _settingsRepository = settingsRepository,
         _otherStructuresRepository = otherStructuresRepository,
+        _dictionaryRepository = dictionaryRepository,
         super(
           DetailsState(),
         );
@@ -30,6 +34,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   final IPropertyRepository _propertyRepository;
   final ISettingsRepository _settingsRepository;
   final IOtherStructuresRepository _otherStructuresRepository;
+  final IDictionaryRepository _dictionaryRepository;
 
   @override
   Stream<DetailsState> mapEventToState(DetailsEvent event) async* {
@@ -41,7 +46,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       yield* _mapLoadMoreSameToState();
     else if (event is DetailsCall) yield* _mapCallPressedToState();
     // else if(event is DetailsLoadResidential)
-      // yield* _mapDetailsLoadResidentialToState(event);
+    // yield* _mapDetailsLoadResidentialToState(event);
   }
 
   // Stream<DetailsState> _mapDetailsLoadResidentialToState(DetailsLoadResidential event)async*{
@@ -88,8 +93,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
           filter: state.filter?.copyWith(
               pageNumber: _propertyRepository.samePagination?.pageNumber),
         );
-      } on DioError catch (e) {}
-      catch (e) {
+      } on DioError catch (e) {
+      } catch (e) {
         MyLogger.instance.log.e(e.toString());
         yield state.copyWith(sameLoadStatus: FormzStatus.submissionFailure);
       }
@@ -128,6 +133,23 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       try {
         Property property =
             await _propertyRepository.findAppClientView(event.appId);
+        if (property.buildingDTOXpm != null) {
+          if (property.buildingDTOXpm!.complex != null) {
+            if (property.buildingDTOXpm!.complex!.houseClassId != null &&
+                _dictionaryRepository.houseClassesMap.isNotEmpty) {
+              int id = property.buildingDTOXpm!.complex!.houseClassId!;
+              if (_dictionaryRepository.houseClassesMap.containsKey(id)) {
+                print(
+                    '${_dictionaryRepository.houseClassesMap[id]?.name.nameRu}');
+                print(property.buildingDTOXpm);
+                print(property.buildingDTOXpm?.complex);
+                property = property.copyWith(
+                    houseClass:
+                        _dictionaryRepository.houseClassesMap[id]?.name.nameRu);
+              }
+            }
+          }
+        }
         var filter = SameAppFilter(
           sourceApplicationId: property.sellDataDTOXpm.appId,
           districtCode: property.buildingDTOXpm?.district?.addressObject.code,
